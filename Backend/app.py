@@ -1,4 +1,4 @@
-# Backend/app.py - VERSIÓN COMPLETA PARA PYTHONANYWHERE (Usuario: Ricadjf)
+# Backend/app.py - VERSIÓN COMPLETA PARA PYTHONANYWHERE (Usuario: ricardjf)
 import os
 import sys
 import logging
@@ -28,19 +28,30 @@ from sqlalchemy import text
 # Detectar si estamos en PythonAnywhere
 IS_PYTHONANYWHERE = 'PYTHONANYWHERE_DOMAIN' in os.environ or 'PYTHONANYWHERE_SITE' in os.environ
 
-# Configurar rutas para PythonAnywhere
+# Configurar rutas para PythonAnywhere - USUARIO CORREGIDO: ricardjf
 if IS_PYTHONANYWHERE:
-    # Usuario: Ricadjf
-    BASE_DIR = '/home/Ricadjf/cano-salao-backend'
+    # Usuario correcto: ricardjf (NO ricadjf)
+    BASE_DIR = '/home/ricardjf/cano-salao-backend'
     INSTANCE_DIR = os.path.join(BASE_DIR, 'instance')
     
-    # Asegurar que el directorio instance existe
-    if not os.path.exists(INSTANCE_DIR):
-        try:
+    # IMPORTANTE: Crear directorio instance con permisos correctos
+    try:
+        if not os.path.exists(INSTANCE_DIR):
             os.makedirs(INSTANCE_DIR, exist_ok=True)
+            os.chmod(INSTANCE_DIR, 0o755)
             print(f"✅ Directorio instance creado: {INSTANCE_DIR}")
-        except Exception as e:
-            print(f"⚠️ No se pudo crear el directorio: {e}")
+        else:
+            print(f"✅ Directorio instance ya existe: {INSTANCE_DIR}")
+            os.chmod(INSTANCE_DIR, 0o755)
+            
+        # Probar permisos de escritura
+        test_file = os.path.join(INSTANCE_DIR, 'test_write.txt')
+        with open(test_file, 'w') as f:
+            f.write('test')
+        os.remove(test_file)
+        print(f"✅ Permisos de escritura OK en instance")
+    except Exception as e:
+        print(f"⚠️ Error con directorio instance: {e}")
 else:
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     INSTANCE_DIR = os.path.join(BASE_DIR, 'instance')
@@ -59,7 +70,7 @@ logger = logging.getLogger(__name__)
 print("\n" + "="*60)
 print("🚀 INICIANDO CAÑO SALAO - BACKEND API COMPLETO")
 print(f"📍 Entorno: {'PYTHONANYWHERE' if IS_PYTHONANYWHERE else 'DESARROLLO LOCAL'}")
-print(f"👤 Usuario: Ricadjf")
+print(f"👤 Usuario: ricardjf")
 print("="*60)
 
 # ========== CONFIGURACIÓN BÁSICA ==========
@@ -70,8 +81,9 @@ class Config:
     
     # ========== CONFIGURACIÓN DE BASE DE DATOS ==========
     if IS_PYTHONANYWHERE:
-        # En PythonAnywhere: SQLite con ruta absoluta
-        SQLALCHEMY_DATABASE_URI = f'sqlite:////home/Ricadjf/cano-salao-backend/instance/cano_salao.db'
+        # ✅ CORREGIDO: Ruta absoluta con usuario ricardjf
+        # Importante: usar sqlite:/// con TRES slashes + ruta absoluta
+        SQLALCHEMY_DATABASE_URI = f'sqlite:////home/ricardjf/cano-salao-backend/instance/cano_salao.db'
         print(f"🗄️  Base de datos SQLite (PythonAnywhere): {SQLALCHEMY_DATABASE_URI}")
     else:
         # En desarrollo local
@@ -92,7 +104,7 @@ class Config:
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=365)
     JWT_TOKEN_LOCATION = ['headers']
     JWT_COOKIE_CSRF_PROTECT = False
-    JWT_COOKIE_SECURE = True if IS_PYTHONANYWHERE else False  # True en producción
+    JWT_COOKIE_SECURE = True if IS_PYTHONANYWHERE else False
     JWT_COOKIE_SAMESITE = 'Lax'
     JWT_HEADER_NAME = 'Authorization'
     JWT_HEADER_TYPE = 'Bearer'
@@ -373,17 +385,33 @@ def create_app(config_class=Config):
                 'created_at': self.created_at.isoformat() if self.created_at else None
             }
     
-    # ========== INICIALIZAR BASE DE DATOS ==========
+    # ========== INICIALIZAR BASE DE DATOS CON PERMISOS CORREGIDOS ==========
     with app.app_context():
         try:
-            # En PythonAnywhere, asegurar que el directorio instance existe
-            if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
-                db_path = app.config['SQLALCHEMY_DATABASE_URI'].replace('sqlite:///', '')
-                db_dir = os.path.dirname(db_path)
-                if db_dir and not os.path.exists(db_dir):
-                    os.makedirs(db_dir, exist_ok=True)
-                    print(f"✅ Directorio creado: {db_dir}")
-            
+            # ===== CORREGIDO: Manejo correcto de permisos para PythonAnywhere =====
+            if IS_PYTHONANYWHERE:
+                # Asegurar que el directorio instance existe y tiene permisos
+                instance_dir = '/home/ricardjf/cano-salao-backend/instance'
+                
+                # Crear directorio si no existe
+                if not os.path.exists(instance_dir):
+                    os.makedirs(instance_dir, exist_ok=True)
+                    print(f"✅ Directorio instance creado: {instance_dir}")
+                
+                # Dar permisos 755 (rwxr-xr-x)
+                os.chmod(instance_dir, 0o755)
+                
+                # Probar permisos de escritura
+                test_file = os.path.join(instance_dir, 'write_test.tmp')
+                try:
+                    with open(test_file, 'w') as f:
+                        f.write('test')
+                    os.remove(test_file)
+                    print("✅ Permisos de escritura verificados en instance")
+                except Exception as e:
+                    print(f"⚠️ Error de escritura en instance: {e}")
+                    
+            # Crear todas las tablas
             db.create_all()
             print("✅ Base de datos inicializada")
             
@@ -488,7 +516,7 @@ def create_app(config_class=Config):
                 print("👑 Admin: admin@canosalao.com / admin123")
                 
         except Exception as e:
-            print(f"⚠️ Error inicializando base de datos: {str(e)[:100]}")
+            print(f"⚠️ Error inicializando base de datos: {str(e)[:200]}")
             db.session.rollback()
     
     # ========== HELPER FUNCTIONS ==========
@@ -555,6 +583,7 @@ def create_app(config_class=Config):
             'version': '2.0.0',
             'status': 'online',
             'environment': 'PythonAnywhere' if IS_PYTHONANYWHERE else 'Development',
+            'user': 'ricardjf',
             'timestamp': datetime.utcnow().isoformat(),
             'endpoints': {
                 'auth': '/api/auth/*',
@@ -1438,9 +1467,12 @@ def create_app(config_class=Config):
     # ========== IMPRIMIR RESUMEN ==========
     print("\n" + "="*60)
     print("✅ APLICACIÓN CREADA EXITOSAMENTE")
-    print(f"📍 Entorno: {'PythonAnywhere (Ricadjf)' if IS_PYTHONANYWHERE else 'Desarrollo Local'}")
-    print(f"📡 URL: https://ricadjf.pythonanywhere.com" if IS_PYTHONANYWHERE else f"📡 URL: http://{app.config['HOST']}:{app.config['PORT']}")
-    print(f"🗄️  Base de datos: {app.config['SQLALCHEMY_DATABASE_URI'][:50]}...")
+    print(f"📍 Entorno: {'PythonAnywhere (ricardjf)' if IS_PYTHONANYWHERE else 'Desarrollo Local'}")
+    if IS_PYTHONANYWHERE:
+        print(f"📡 URL: https://ricardjf.pythonanywhere.com")
+    else:
+        print(f"📡 URL: http://{app.config['HOST']}:{app.config['PORT']}")
+    print(f"🗄️  Base de datos: {app.config['SQLALCHEMY_DATABASE_URI'][:70]}...")
     print(f"🔐 Admin: admin@canosalao.com / admin123")
     print(f"🌍 CORS Origins: {len(app.config['CORS_ORIGINS'])} configurados")
     print("="*60)
