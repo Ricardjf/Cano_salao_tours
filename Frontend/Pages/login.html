@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Ruta Turística Caño Salao | Barcelona, Venezuela</title>
+    <meta name="description" content="Inicia sesión en la Ruta Turística Marítima Caño Salao. Accede a funciones especiales y gestiona tus reservas.">
+    <meta name="keywords" content="login Caño Salao, inicio sesión turismo, cuenta usuario, reservas tours, acceso sistema">
+    <meta name="author" content="Estudiantes: Alejandra Paricaguan, Luis Nucete, Ricardo Farías | Tutora: Dulce Paraguan">
+    
+    <!-- Preload de fuentes críticas -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Times+New+Roman:ital,wght@0,400;0,700;1,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Times+New+Roman:ital,wght@0,400;0,700;1,400&display=swap"></noscript>
+    
+    <!-- Estilos críticos inline -->
+    <style>
+        /* SOLO ESTILOS CRÍTICOS PARA RENDER INICIAL */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+            background: #fff;
+            opacity: 1 !important; /* IMPORTANTE: Forzar visibilidad */
+            visibility: visible !important; /* IMPORTANTE: Asegurar que sea visible */
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header mínimo para render inicial */
+        header {
+            background: linear-gradient(135deg, #1a7fb8 0%, #0d3b66 100%);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin: 0;
+        }
+        
+        .text-orange {
+            color: #FF8C42;
+        }
+        
+        /* Loader minimalista - MODIFICADO */
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        #page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0d3b66;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Prevenir scroll durante carga */
+        body.loading {
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        /* Mostrar contenido siempre - MODIFICADO */
+        body:not(.loading) {
+            opacity: 1 !important;
+            visibility: visible !important;
+            overflow: visible;
+        }
+        
+        /* Estilos para el sistema de mensajes */
+        .notification-system {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+        }
+        
+        .notification {
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 0.3s ease;
+            transform-origin: top right;
+        }
+        
+        .notification.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .notification.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .notification.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .notification.warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+    
+    <!-- Cargar CSS principal de forma no bloqueante -->
+    <link rel="stylesheet" href="../index.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="../index.css"></noscript>
+    
+    <!-- Bootstrap Icons diferido -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"></noscript>
+    
+    <style>
+        /* Estilos específicos para la página de login */
+        .page-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%);
+            opacity: 1 !important; /* Asegurar visibilidad */
+        }
+        
+        .page-hero .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            padding: 0 1rem;
+        }
+        
+        .page-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            animation: fadeInDown 0.8s ease-out;
+            opacity: 1 !important; /* Asegurar visibilidad */
+        }
+        
+        .page-hero .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+            line-height: 1.5;
+            font-weight: 400;
+            opacity: 1 !important; /* Asegurar visibilidad */
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .breadcrumb {
+            background: var(--color-light);
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            opacity: 1 !important; /* Asegurar visibilidad */
+        }
+        
+        .breadcrumb a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--color-accent);
+        }
+        
+        .breadcrumb span {
+            color: var(--color-dark);
+            font-weight: 500;
+        }
+        
+        /* Contenedor de autenticación */
+        .auth-section-full {
+            padding: 4rem 0;
+            background: #f8f9fa;
+            min-height: 60vh;
+            opacity: 1 !important; /* Asegurar visibilidad */
+        }
+        
+        .auth-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            background: var(--color-light);
+            border: none;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-dark);
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .auth-tab:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        .auth-tab.active {
+            background: white;
+            color: var(--color-primary);
+            border-bottom: 3px solid var(--color-accent);
+        }
+        
+        .auth-form-container {
+            padding: 2.5rem;
+        }
+        
+        .auth-form {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--color-primary);
+            font-size: 0.95rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition-fast);
+            background: var(--color-light);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(230, 43, 126, 0.1);
+            background: white;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--color-accent);
+        }
+        
+        .checkbox-group label {
+            margin: 0;
+            font-weight: normal;
+            color: var(--color-dark);
+        }
+        
+        .btn-block {
+            width: 100%;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+            color: #666;
+        }
+        
+        .auth-switch a {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-fast);
+        }
+        
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .terms-link {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+        
+        .terms-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Panel de información de sesión */
+        .session-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 4px solid #3498db;
+            font-size: 0.9rem;
+        }
+        
+        .session-info h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1rem;
+        }
+        
+        .session-info table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .session-info td {
+            padding: 5px 0;
+            vertical-align: top;
+        }
+        
+        .session-info .label {
+            font-weight: 600;
+            color: #555;
+            width: 120px;
+        }
+        
+        .session-info .value {
+            color: #2c3e50;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        
+        .session-info .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .session-info .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .session-info .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Botones de debug */
+        .debug-actions {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .debug-btn {
+            padding: 8px 12px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .debug-btn:hover {
+            background: #5a6268;
+        }
+        
+        .debug-btn.test {
+            background: #17a2b8;
+        }
+        
+        .debug-btn.test:hover {
+            background: #138496;
+        }
+        
+        .debug-btn.clear {
+            background: #dc3545;
+        }
+        
+        .debug-btn.clear:hover {
+            background: #c82333;
+        }
+        
+        .debug-btn.demo {
+            background: #28a745;
+        }
+        
+        .debug-btn.demo:hover {
+            background: #218838;
+        }
+        
+        /* Responsive para login */
+        @media (max-width: 768px) {
+            .page-hero {
+                min-height: 50vh;
+                padding: 3rem 0;
+            }
+            
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page-hero .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .auth-container {
+                margin: 0 1rem;
+            }
+            
+            .auth-form-container {
+                padding: 1.5rem;
+            }
+            
+            .auth-tab {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .debug-actions {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .page-hero .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .auth-tabs {
+                flex-direction: column;
+            }
+            
+            .auth-tab {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sistema de notificaciones -->
+    <div class="notification-system" id="notification-system"></div>
+    
+    <!-- Loader para experiencia inicial -->
+    <div id="page-loader" class="hidden">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1 class="times-font">Caño <span class="text-orange">Salao</span></h1>
+                </div>
+
+                <!-- Contenedor para centrar la navegación -->
+                <div class="nav-center">
+                    <nav>
+                        <ul id="main-navigation">
+                            <li><a href="../index.html"><i class="bi bi-house"></i> Inicio</a></li>
+                            <li><a href="Empresa.html"><i class="bi bi-building"></i> Empresa</a></li>
+                            <li><a href="Historia.html"><i class="bi bi-journal-text"></i> Historia</a></li>
+                            <li><a href="Servicios.html"><i class="bi bi-list-check"></i> Servicios</a></li>
+                            <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
+                            <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
+                            <li><a href="login.html" class="active"><i class="bi bi-person-circle"></i> Login</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Botón Iniciar Sesión a la derecha -->
+                <div class="auth-section">
+                    <a href="login.html" class="login-btn">
+                        <i class="bi bi-person-circle"></i> Iniciar Sesión
+                    </a>
+                </div>
+
+                <button class="menu-toggle" aria-label="Menú">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 class="times-font">Acceso al Sistema</h1>
+            <p class="times-font hero-subtitle">
+                Inicia sesión o regístrate para acceder a funciones especiales y gestionar tus reservas en Caño Salao
+            </p>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb">
+        <div class="container">
+            <a href="../index.html"><i class="bi bi-house"></i> Inicio</a> 
+            <i class="bi bi-chevron-right" style="margin: 0 0.5rem; opacity: 0.6;"></i> 
+            <span>Iniciar Sesión</span>
+        </div>
+    </section>
+
+    <!-- Sección de Autenticación -->
+    <section class="auth-section-full">
+        <div class="container">
+            <div class="auth-container">
+                <!-- Pestañas de Login/Registro -->
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">
+                        <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                    </button>
+                    <button class="auth-tab" data-tab="register">
+                        <i class="bi bi-person-plus"></i> Registrarse
+                    </button>
+                </div>
+
+                <div class="auth-form-container">
+                    <!-- Formulario de Login -->
+                    <form id="login-form" class="auth-form active">
+                        <div id="login-alert" class="alert"></div>
+                        
+                        <div class="form-group">
+                            <label for="login-email"><i class="bi bi-envelope"></i> Correo Electrónico</label>
+                            <input type="email" id="login-email" class="form-control" placeholder="ejemplo@correo.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password"><i class="bi bi-key"></i> Contraseña</label>
+                            <input type="password" id="login-password" class="form-control" placeholder="Tu contraseña" required>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="remember-me" checked>
+                            <label for="remember-me">Recordar sesión</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-block" id="login-btn">
+                            <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                        </button>
+                        
+                        <div class="auth-switch">
+                            ¿No tienes cuenta? 
+                            <a href="#" id="show-register">Regístrate aquí</a>
+                        </div>
+                    </form>
+
+                    <!-- Formulario de Registro -->
+                    <form id="register-form" class="auth-form">
+                        <div id="register-alert" class="alert"></div>
+                        
+                        <div class="form-group">
+                            <label for="register-name"><i class="bi bi-person"></i> Nombre Completo</label>
+                            <input type="text" id="register-name" class="form-control" placeholder="Tu nombre completo" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-email"><i class="bi bi-envelope"></i> Correo Electrónico</label>
+                            <input type="email" id="register-email" class="form-control" placeholder="ejemplo@correo.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password"><i class="bi bi-key"></i> Contraseña</label>
+                            <input type="password" id="register-password" class="form-control" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-confirm"><i class="bi bi-key-fill"></i> Confirmar Contraseña</label>
+                            <input type="password" id="register-confirm" class="form-control" placeholder="Repite tu contraseña" required>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="accept-terms" required>
+                            <label for="accept-terms">
+                                Acepto los <a href="#" class="terms-link">términos de servicio</a> 
+                                y la <a href="#" class="terms-link">política de privacidad</a>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-block" id="register-btn">
+                            <i class="bi bi-person-plus"></i> Crear Cuenta
+                        </button>
+                        
+                        <div class="auth-switch">
+                            ¿Ya tienes cuenta? 
+                            <a href="#" id="show-login">Inicia sesión aquí</a>
+                        </div>
+                    </form>
+                    
+                    <!-- Panel de información de sesión (visible solo cuando hay sesión) -->
+                    <div class="session-info" id="session-info" style="display: none;">
+                        <h4><i class="bi bi-info-circle"></i> Información de Sesión</h4>
+                        <table id="session-details">
+                            <tr>
+                                <td class="label">Estado:</td>
+                                <td class="value"><span class="status-badge status-active" id="session-status">Activa</span></td>
+                            </tr>
+                            <tr>
+                                <td class="label">Usuario:</td>
+                                <td class="value" id="session-user">Cargando...</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Email:</td>
+                                <td class="value" id="session-email">Cargando...</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Token:</td>
+                                <td class="value" id="session-token">Cargando...</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <!-- Acciones de debug -->
+                    <div class="debug-actions" id="debug-actions">
+                        <button class="debug-btn test" onclick="testAPIConnection()">
+                            <i class="bi bi-wifi"></i> Test API
+                        </button>
+                        <button class="debug-btn demo" onclick="loadDemoCredentials()">
+                            <i class="bi bi-person-check"></i> Cargar Demo
+                        </button>
+                        <button class="debug-btn clear" onclick="clearSession()">
+                            <i class="bi bi-trash"></i> Limpiar Sesión
+                        </button>
+                        <button class="debug-btn" onclick="showSessionInfo()">
+                            <i class="bi bi-eye"></i> Ver Sesión
+                        </button>
+                        <button class="debug-btn" onclick="testLoginDirectly()">
+                            <i class="bi bi-person-check"></i> Test Login
+                        </button>
+                        <button class="debug-btn" onclick="redirectToIndex()">
+                            <i class="bi bi-house"></i> Ir al Inicio
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="times-font"><i class="bi bi-geo-alt"></i> Ruta Turística Caño Salao</h3>
+                    <p>Empresa de producción social de transporte turístico acuático comprometida con el desarrollo sostenible de la comunidad y la protección del medio ambiente.</p>
+                </div>
+                <div class="footer-column">
+                    <h3 class="times-font"><i class="bi bi-link"></i> Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html"><i class="bi bi-house"></i> Inicio</a></li>
+                        <li><a href="Empresa.html"><i class="bi bi-building"></i> Empresa</a></li>
+                        <li><a href="Historia.html"><i class="bi bi-journal-text"></i> Historia</a></li>
+                        <li><a href="Servicios.html"><i class="bi bi-list-check"></i> Servicios</a></li>
+                        <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
+                        <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
+                        <li><a href="login.html"><i class="bi bi-person-circle"></i> Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="times-font"><i class="bi bi-people"></i> Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <p style="font-size: 0.9rem;"><i class="bi bi-telephone"></i> +58 412-205-6558</p>
+                        <p style="font-size: 0.9rem;"><i class="bi bi-envelope"></i> info@canosalaotours.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p><i class="bi bi-c-circle"></i> 2025 Ruta Turística Marítima Caño Salao. Todos los derechos reservados.</p>
+                <p><i class="bi bi-mortarboard"></i> Proyecto desarrollado por estudiantes del PNF en Informática - Universidad Politécnica Territorial "José Antonio Anzoátegui"</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts optimizados -->
+    <script>
+        (function() {
+            // ========== CONFIGURACIÓN ==========
+            const API_BASE_URL = 'https://cano-salao.onrender.com/api';
+            const STORAGE_KEYS = {
+                TOKEN: 'cano_salao_token',
+                REFRESH_TOKEN: 'cano_salao_refresh_token',
+                USER: 'cano_salao_user',
+                SESSION_EXPIRES: 'cano_salao_expires'
+            };
+            
+            // Estado global
+            let currentUser = null;
+            let isAuthenticated = false;
+            
+            // ========== SISTEMA DE NOTIFICACIONES ==========
+            class NotificationSystem {
+                constructor() {
+                    this.container = document.getElementById('notification-system');
+                    if (!this.container) {
+                        this.container = document.createElement('div');
+                        this.container.className = 'notification-system';
+                        document.body.appendChild(this.container);
+                    }
+                }
+                
+                show(message, type = 'info', duration = 5000) {
+                    const notification = document.createElement('div');
+                    notification.className = `notification ${type}`;
+                    
+                    // Icono según tipo
+                    let icon = 'bi-info-circle';
+                    if (type === 'success') icon = 'bi-check-circle';
+                    if (type === 'error') icon = 'bi-exclamation-triangle';
+                    if (type === 'warning') icon = 'bi-exclamation-circle';
+                    
+                    notification.innerHTML = `
+                        <i class="bi ${icon}" style="font-size: 1.2rem;"></i>
+                        <div style="flex: 1;">${message}</div>
+                        <button class="close-btn" style="background: none; border: none; color: inherit; cursor: pointer;">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    `;
+                    
+                    this.container.appendChild(notification);
+                    
+                    // Configurar botón de cerrar
+                    const closeBtn = notification.querySelector('.close-btn');
+                    closeBtn.addEventListener('click', () => {
+                        this.remove(notification);
+                    });
+                    
+                    // Auto-remover después de duración
+                    if (duration > 0) {
+                        setTimeout(() => {
+                            this.remove(notification);
+                        }, duration);
+                    }
+                    
+                    return notification;
+                }
+                
+                remove(notification) {
+                    notification.style.animation = 'slideInRight 0.3s ease reverse';
+                    setTimeout(() => {
+                        if (notification.parentNode === this.container) {
+                            this.container.removeChild(notification);
+                        }
+                    }, 300);
+                }
+                
+                clear() {
+                    this.container.innerHTML = '';
+                }
+            }
+            
+            const notifications = new NotificationSystem();
+            
+            // ========== FUNCIONES DE UTILIDAD ==========
+            function showAlert(alertDiv, message, type) {
+                alertDiv.textContent = message;
+                alertDiv.className = `alert alert-${type}`;
+                alertDiv.style.display = 'block';
+                
+                // También mostrar notificación
+                notifications.show(message, type);
+                
+                // Auto-ocultar después de 5 segundos
+                if (type !== 'success') {
+                    setTimeout(() => {
+                        alertDiv.style.display = 'none';
+                    }, 5000);
+                }
+            }
+            
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // ========== MANEJO DE SESIÓN ==========
+            function saveSession(token, userData, refreshToken = null) {
+                try {
+                    console.log('💾 Guardando sesión:', { 
+                        token: token ? token.substring(0, 20) + '...' : 'null',
+                        user: userData.nombre,
+                        refreshToken: refreshToken ? 'presente' : 'ausente'
+                    });
+                    
+                    localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+                    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(userData));
+                    
+                    // También guardar refresh token si está disponible
+                    if (refreshToken) {
+                        localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
+                    }
+                    
+                    // Establecer expiración a 30 días
+                    const expires = new Date();
+                    expires.setDate(expires.getDate() + 30);
+                    localStorage.setItem(STORAGE_KEYS.SESSION_EXPIRES, expires.toISOString());
+                    
+                    currentUser = userData;
+                    isAuthenticated = true;
+                    
+                    console.log('✅ Sesión guardada exitosamente');
+                    notifications.show(`Sesión guardada para ${userData.nombre}`, 'success');
+                    
+                    // Actualizar UI
+                    updateSessionUI();
+                    
+                    return true;
+                } catch (error) {
+                    console.error('❌ Error guardando sesión:', error);
+                    notifications.show('Error guardando sesión', 'error');
+                    return false;
+                }
+            }
+            
+            function clearSession() {
+                Object.values(STORAGE_KEYS).forEach(key => {
+                    localStorage.removeItem(key);
+                });
+                
+                currentUser = null;
+                isAuthenticated = false;
+                
+                console.log('✅ Sesión completamente limpiada');
+                notifications.show('Sesión limpiada correctamente', 'info');
+                
+                // Actualizar UI
+                updateSessionUI();
+                
+                // Recargar para actualizar estado
+                setTimeout(() => location.reload(), 1000);
+            }
+            
+            function loadSession() {
+                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+                const userData = localStorage.getItem(STORAGE_KEYS.USER);
+                const expires = localStorage.getItem(STORAGE_KEYS.SESSION_EXPIRES);
+                
+                // Verificar expiración
+                if (expires) {
+                    const now = new Date();
+                    const expiresDate = new Date(expires);
+                    if (now > expiresDate) {
+                        console.log('⚠️ Sesión expirada');
+                        clearSession();
+                        return { success: false, error: 'Sesión expirada' };
+                    }
+                }
+                
+                if (token && userData) {
+                    try {
+                        currentUser = JSON.parse(userData);
+                        isAuthenticated = true;
+                        
+                        console.log('✅ Sesión cargada:', currentUser.nombre);
+                        return { success: true, user: currentUser };
+                    } catch (error) {
+                        console.error('Error parseando datos de usuario:', error);
+                        clearSession();
+                        return { success: false, error: 'Datos corruptos' };
+                    }
+                }
+                
+                return { success: false, error: 'No hay sesión' };
+            }
+            
+            async function validateSession() {
+                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+                
+                if (!token) {
+                    return { valid: false, reason: 'No hay token' };
+                }
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}/auth/verify`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.valid && data.user) {
+                            // Actualizar datos de usuario
+                            saveSession(token, data.user);
+                            return { valid: true, user: data.user };
+                        }
+                    }
+                    
+                    // Token inválido
+                    clearSession();
+                    return { valid: false, reason: 'Token inválido' };
+                    
+                } catch (error) {
+                    console.error('Error validando sesión:', error);
+                    // Si hay error de red pero hay datos locales, mantener sesión
+                    const localData = loadSession();
+                    if (localData.success) {
+                        return { valid: true, user: localData.user, cached: true };
+                    }
+                    return { valid: false, reason: 'Error de red' };
+                }
+            }
+            
+            function updateSessionUI() {
+                const sessionInfo = document.getElementById('session-info');
+                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+                const userData = localStorage.getItem(STORAGE_KEYS.USER);
+                
+                if (token && userData) {
+                    // Mostrar información de sesión
+                    sessionInfo.style.display = 'block';
+                    
+                    try {
+                        const user = JSON.parse(userData);
+                        document.getElementById('session-user').textContent = user.nombre || 'N/A';
+                        document.getElementById('session-email').textContent = user.email || 'N/A';
+                        document.getElementById('session-token').textContent = 
+                            token.substring(0, 20) + '...' + token.substring(token.length - 10);
+                        
+                        // Actualizar formularios
+                        document.getElementById('login-email').value = user.email || '';
+                    } catch (error) {
+                        console.error('Error mostrando información de sesión:', error);
+                    }
+                } else {
+                    // Ocultar información de sesión
+                    sessionInfo.style.display = 'none';
+                }
+            }
+            
+            function showSessionInfo() {
+                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+                const userData = localStorage.getItem(STORAGE_KEYS.USER);
+                const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
+                const expires = localStorage.getItem(STORAGE_KEYS.SESSION_EXPIRES);
+                
+                let info = '=== INFORMACIÓN DE SESIÓN ===\n\n';
+                info += `Token: ${token ? 'PRESENTE' : 'AUSENTE'}\n`;
+                info += `Refresh Token: ${refreshToken ? 'PRESENTE' : 'AUSENTE'}\n`;
+                info += `Expira: ${expires ? new Date(expires).toLocaleString() : 'N/A'}\n`;
+                
+                if (token) {
+                    info += `Token (inicio): ${token.substring(0, 30)}...\n`;
+                    info += `Token (longitud): ${token.length} caracteres\n`;
+                }
+                
+                if (refreshToken) {
+                    info += `Refresh (inicio): ${refreshToken.substring(0, 30)}...\n`;
+                }
+                
+                if (userData) {
+                    try {
+                        const user = JSON.parse(userData);
+                        info += `\nUsuario:\n`;
+                        info += `  Nombre: ${user.nombre || 'N/A'}\n`;
+                        info += `  Email: ${user.email || 'N/A'}\n`;
+                        info += `  Rol: ${user.rol || 'user'}\n`;
+                        info += `  ID: ${user.id || 'N/A'}\n`;
+                    } catch (e) {
+                        info += `\nError parseando datos de usuario\n`;
+                    }
+                }
+                
+                console.log(info);
+                notifications.show('Información de sesión mostrada en consola', 'info');
+            }
+            
+            // ========== FUNCIONES DE API ==========
+            async function loginWithAPI(email, password) {
+                try {
+                    notifications.show('Conectando con el servidor...', 'info');
+                    
+                    console.log('📤 Enviando login a:', `${API_BASE_URL}/auth/login`);
+                    console.log('📝 Datos:', { email, password });
+                    
+                    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ email, password })
+                    });
+                    
+                    console.log('📨 Status de respuesta:', response.status);
+                    
+                    // Primero intentar obtener el texto de la respuesta
+                    const responseText = await response.text();
+                    console.log('📋 Texto de respuesta:', responseText);
+                    
+                    let data;
+                    try {
+                        data = JSON.parse(responseText);
+                        console.log('✅ JSON parseado:', data);
+                    } catch (parseError) {
+                        console.error('❌ Error parseando JSON:', parseError);
+                        console.error('Texto que no se pudo parsear:', responseText);
+                        throw new Error('Respuesta inválida del servidor');
+                    }
+                    
+                    if (!response.ok) {
+                        throw new Error(data.error || data.message || `Error ${response.status}`);
+                    }
+                    
+                    // CORRECCIÓN PRINCIPAL: El backend devuelve 'access_token' no 'token'
+                    if (!data.access_token || !data.user) {
+                        console.error('❌ Faltan datos en respuesta:', data);
+                        throw new Error('Respuesta incompleta: falta access_token o user');
+                    }
+                    
+                    console.log('🎉 Login exitoso, estructura de datos:', {
+                        hasAccessToken: !!data.access_token,
+                        hasRefreshToken: !!data.refresh_token,
+                        hasUser: !!data.user,
+                        userName: data.user?.nombre
+                    });
+                    
+                    // Retornar en el formato esperado por el frontend
+                    return {
+                        token: data.access_token,      // <-- IMPORTANTE: Convertir access_token a token
+                        refresh_token: data.refresh_token,
+                        user: data.user,
+                        message: data.message
+                    };
+                    
+                } catch (error) {
+                    console.error('❌ Error completo en loginWithAPI:', error);
+                    throw error;
+                }
+            }
+            
+            async function registerWithAPI(name, email, password) {
+                try {
+                    notifications.show('Registrando usuario...', 'info');
+                    
+                    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            nombre: name,
+                            email: email,
+                            password: password
+                        })
+                    });
+                    
+                    const responseText = await response.text();
+                    console.log('📋 Respuesta registro:', responseText);
+                    
+                    let data;
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (parseError) {
+                        console.error('❌ Error parseando JSON:', parseError);
+                        throw new Error('Respuesta inválida del servidor');
+                    }
+                    
+                    if (!response.ok) {
+                        throw new Error(data.error || data.message || 'Error en el registro');
+                    }
+                    
+                    console.log('✅ Registro exitoso:', {
+                        hasAccessToken: !!data.access_token,
+                        hasUser: !!data.user
+                    });
+                    
+                    // El backend devuelve access_token, no token
+                    return {
+                        token: data.access_token,      // <-- IMPORTANTE: Convertir access_token a token
+                        refresh_token: data.refresh_token,
+                        user: data.user,
+                        message: data.message
+                    };
+                    
+                } catch (error) {
+                    console.error('❌ Error en registerWithAPI:', error);
+                    throw error;
+                }
+            }
+            
+            async function testAPIConnection() {
+                try {
+                    notifications.show('Probando conexión con API...', 'info');
+                    
+                    const response = await fetch(`${API_BASE_URL}/health`);
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        notifications.show(`✅ API conectada. Estado: ${data.status}`, 'success');
+                        return true;
+                    } else {
+                        notifications.show(`❌ API error: ${response.status}`, 'error');
+                        return false;
+                    }
+                } catch (error) {
+                    notifications.show(`❌ Error de conexión: ${error.message}`, 'error');
+                    return false;
+                }
+            }
+            
+            async function testLoginDirectly() {
+                try {
+                    notifications.show('Probando login directo...', 'info');
+                    
+                    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: 'admin@canosalao.com',
+                            password: 'admin123'
+                        })
+                    });
+                    
+                    console.log('🔍 Respuesta directa:', {
+                        status: response.status,
+                        ok: response.ok,
+                        headers: Object.fromEntries(response.headers.entries())
+                    });
+                    
+                    const text = await response.text();
+                    console.log('📄 Texto completo:', text);
+                    
+                    try {
+                        const data = JSON.parse(text);
+                        console.log('✅ JSON parseado:', data);
+                        
+                        // Verificar estructura específica
+                        console.log('🔍 Estructura de respuesta:');
+                        console.log('- access_token:', data.access_token ? 'PRESENTE' : 'AUSENTE');
+                        console.log('- refresh_token:', data.refresh_token ? 'PRESENTE' : 'AUSENTE');
+                        console.log('- user:', data.user ? 'PRESENTE' : 'AUSENTE');
+                        console.log('- success:', data.success);
+                        
+                        notifications.show(`✅ Login test: ${data.success ? 'ÉXITO' : 'FALLO'} - Access Token: ${data.access_token ? 'SI' : 'NO'}`, 
+                            data.success ? 'success' : 'error');
+                            
+                    } catch (e) {
+                        console.error('❌ No es JSON:', text);
+                        notifications.show('❌ El servidor no devolvió JSON válido', 'error');
+                    }
+                    
+                } catch (error) {
+                    console.error('❌ Error en test directo:', error);
+                    notifications.show(`❌ Error de conexión: ${error.message}`, 'error');
+                }
+            }
+            
+            // ========== MANEJO DE FORMULARIOS ==========
+            function initAuthForms() {
+                // Cambiar entre pestañas de login/registro
+                document.querySelectorAll('.auth-tab').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        const tabId = this.getAttribute('data-tab');
+                        
+                        // Actualizar pestañas activas
+                        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Actualizar formularios activos
+                        document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+                        document.getElementById(`${tabId}-form`).classList.add('active');
+                        
+                        // Limpiar alertas
+                        document.getElementById('login-alert').style.display = 'none';
+                        document.getElementById('register-alert').style.display = 'none';
+                    });
+                });
+                
+                // Enlaces para cambiar entre formularios
+                document.getElementById('show-register').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector('[data-tab="register"]').click();
+                });
+                
+                document.getElementById('show-login').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector('[data-tab="login"]').click();
+                });
+                
+                // ========== FORMULARIO DE LOGIN ==========
+                document.getElementById('login-form').addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('login-email').value.trim().toLowerCase();
+                    const password = document.getElementById('login-password').value;
+                    const rememberMe = document.getElementById('remember-me').checked;
+                    const loginBtn = document.getElementById('login-btn');
+                    const alertDiv = document.getElementById('login-alert');
+                    
+                    // Validaciones básicas
+                    if (!email || !password) {
+                        showAlert(alertDiv, 'Por favor, completa todos los campos', 'error');
+                        return;
+                    }
+                    
+                    if (!validateEmail(email)) {
+                        showAlert(alertDiv, 'Por favor, ingresa un email válido', 'error');
+                        return;
+                    }
+                    
+                    // Deshabilitar botón y mostrar loading
+                    loginBtn.disabled = true;
+                    const originalText = loginBtn.innerHTML;
+                    loginBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Conectando...';
+                    
+                    try {
+                        // Intentar login con API
+                        const loginData = await loginWithAPI(email, password);
+                        
+                        console.log('🎉 Login exitoso, datos recibidos:', {
+                            token: loginData.token ? 'PRESENTE' : 'AUSENTE',
+                            user: loginData.user?.nombre,
+                            refreshToken: loginData.refresh_token ? 'PRESENTE' : 'AUSENTE'
+                        });
+                        
+                        // Guardar sesión (pasar todos los datos necesarios)
+                        const saved = saveSession(
+                            loginData.token, 
+                            loginData.user, 
+                            loginData.refresh_token
+                        );
+                        
+                        if (saved) {
+                            showAlert(alertDiv, `¡Inicio de sesión exitoso! Bienvenido/a, ${loginData.user.nombre}`, 'success');
+                            
+                            // Esperar 2 segundos antes de redirigir
+                            setTimeout(() => {
+                                redirectToIndex();
+                            }, 2000);
+                        } else {
+                            showAlert(alertDiv, 'Error guardando la sesión', 'error');
+                            loginBtn.disabled = false;
+                            loginBtn.innerHTML = originalText;
+                        }
+                        
+                    } catch (error) {
+                        console.error('❌ Error en login:', error);
+                        
+                        // Mostrar error específico
+                        let errorMessage = error.message || 'Error desconocido';
+                        
+                        // Mejorar mensajes de error
+                        if (errorMessage.includes('Network') || errorMessage.includes('Failed to fetch')) {
+                            errorMessage = 'No se puede conectar al servidor. Verifica tu conexión a internet.';
+                        } else if (errorMessage.includes('401') || errorMessage.includes('Credenciales')) {
+                            errorMessage = 'Credenciales incorrectas. Usa: admin@canosalao.com / admin123';
+                        } else if (errorMessage.includes('Respuesta incompleta')) {
+                            errorMessage = 'El servidor no respondió correctamente. Verifica la consola para más detalles.';
+                        }
+                        
+                        showAlert(alertDiv, `Error: ${errorMessage}`, 'error');
+                        
+                        // Reactivar botón
+                        loginBtn.disabled = false;
+                        loginBtn.innerHTML = originalText;
+                    }
+                });
+                
+                // ========== FORMULARIO DE REGISTRO ==========
+                document.getElementById('register-form').addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('register-name').value.trim();
+                    const email = document.getElementById('register-email').value.trim().toLowerCase();
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('register-confirm').value;
+                    const acceptTerms = document.getElementById('accept-terms').checked;
+                    const registerBtn = document.getElementById('register-btn');
+                    const alertDiv = document.getElementById('register-alert');
+                    
+                    // Validaciones
+                    if (!name || !email || !password || !confirmPassword) {
+                        showAlert(alertDiv, 'Por favor, completa todos los campos', 'error');
+                        return;
+                    }
+                    
+                    if (password.length < 6) {
+                        showAlert(alertDiv, 'La contraseña debe tener al menos 6 caracteres', 'error');
+                        return;
+                    }
+                    
+                    if (password !== confirmPassword) {
+                        showAlert(alertDiv, 'Las contraseñas no coinciden', 'error');
+                        return;
+                    }
+                    
+                    if (!validateEmail(email)) {
+                        showAlert(alertDiv, 'Por favor, ingresa un email válido', 'error');
+                        return;
+                    }
+                    
+                    if (!acceptTerms) {
+                        showAlert(alertDiv, 'Debes aceptar los términos de servicio', 'error');
+                        return;
+                    }
+                    
+                    // Deshabilitar botón y mostrar loading
+                    registerBtn.disabled = true;
+                    const originalText = registerBtn.innerHTML;
+                    registerBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Creando cuenta...';
+                    
+                    try {
+                        // Intentar registro con API
+                        const registerData = await registerWithAPI(name, email, password);
+                        
+                        console.log('✅ Registro exitoso:', {
+                            token: registerData.token ? 'PRESENTE' : 'AUSENTE',
+                            user: registerData.user?.nombre
+                        });
+                        
+                        // Guardar sesión automáticamente después del registro
+                        const saved = saveSession(registerData.token, registerData.user, registerData.refresh_token);
+                        
+                        if (saved) {
+                            showAlert(alertDiv, `¡Cuenta creada exitosamente! Bienvenido/a, ${name}. Te hemos logeado automáticamente.`, 'success');
+                            
+                            // Esperar 2 segundos antes de redirigir
+                            setTimeout(() => {
+                                redirectToIndex();
+                            }, 2000);
+                        } else {
+                            showAlert(alertDiv, 'Error guardando la sesión después del registro', 'error');
+                            registerBtn.disabled = false;
+                            registerBtn.innerHTML = originalText;
+                        }
+                        
+                    } catch (error) {
+                        console.error('❌ Error en registro:', error);
+                        
+                        // Mostrar error
+                        let errorMessage = error.message || 'Error desconocido';
+                        
+                        // Si es error de red, sugerir usar login con demo
+                        if (error.message.includes('Network') || error.message.includes('Failed to fetch')) {
+                            errorMessage = 'No se puede conectar al servidor. Intenta más tarde o usa credenciales demo.';
+                        }
+                        
+                        showAlert(alertDiv, `Error en el registro: ${errorMessage}`, 'error');
+                        
+                        // Reactivar botón
+                        registerBtn.disabled = false;
+                        registerBtn.innerHTML = originalText;
+                    }
+                });
+                
+                // Validación en tiempo real para confirmar contraseña
+                const passwordInput = document.getElementById('register-password');
+                const confirmInput = document.getElementById('register-confirm');
+                
+                if (passwordInput && confirmInput) {
+                    confirmInput.addEventListener('input', function() {
+                        if (passwordInput.value !== confirmInput.value && confirmInput.value.length > 0) {
+                            confirmInput.style.borderColor = 'var(--color-accent)';
+                            confirmInput.style.boxShadow = '0 0 0 3px rgba(230, 43, 126, 0.1)';
+                        } else {
+                            confirmInput.style.borderColor = '';
+                            confirmInput.style.boxShadow = '';
+                        }
+                    });
+                }
+            }
+            
+            // ========== FUNCIONES DE DEBUG/HELPERS ==========
+            function loadDemoCredentials() {
+                document.getElementById('login-email').value = 'admin@canosalao.com';
+                document.getElementById('login-password').value = 'admin123';
+                document.getElementById('register-email').value = 'demo@canosalao.com';
+                document.getElementById('register-name').value = 'Usuario Demo';
+                document.getElementById('register-password').value = 'demodemo';
+                document.getElementById('register-confirm').value = 'demodemo';
+                document.getElementById('accept-terms').checked = true;
+                
+                notifications.show('Credenciales demo cargadas en ambos formularios', 'info');
+            }
+            
+            function redirectToIndex() {
+                notifications.show('Redirigiendo al inicio...', 'info');
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 1000);
+            }
+            
+            // ========== INICIALIZACIÓN ==========
+            function hideLoader() {
+                const loader = document.getElementById('page-loader');
+                if (loader) {
+                    // Remover la clase loading del body primero
+                    document.body.classList.remove('loading');
+                    
+                    // Ocultar el loader con transición
+                    loader.classList.add('hidden');
+                    
+                    // Asegurar que el contenido sea visible
+                    document.body.style.opacity = '1';
+                    document.body.style.visibility = 'visible';
+                    document.body.style.overflow = 'visible';
+                    
+                    console.log('✅ Loader ocultado, contenido visible');
+                }
+            }
+            
+            async function initContent() {
+                console.log('🚀 Iniciando sistema de autenticación Caño Salao');
+                
+                // Cargar sesión existente
+                const session = loadSession();
+                
+                if (session.success) {
+                    console.log('✅ Sesión existente cargada:', currentUser.nombre);
+                    
+                    // Validar sesión con el servidor
+                    const validation = await validateSession();
+                    
+                    if (validation.valid) {
+                        notifications.show(`Bienvenido de nuevo, ${currentUser.nombre}`, 'success');
+                        
+                        // Si la sesión es válida, sugerir ir al inicio
+                        setTimeout(() => {
+                            if (confirm(`Ya tienes una sesión activa como ${currentUser.nombre}. ¿Quieres ir al inicio?`)) {
+                                redirectToIndex();
+                            }
+                        }, 1000);
+                    } else {
+                        notifications.show('Tu sesión ha expirado. Por favor inicia sesión nuevamente.', 'warning');
+                    }
+                } else {
+                    console.log('ℹ️ No hay sesión activa');
+                }
+                
+                // Inicializar formularios
+                initAuthForms();
+                
+                // Actualizar UI de sesión
+                updateSessionUI();
+                
+                // Cargar credenciales demo si no hay sesión
+                if (!session.success) {
+                    setTimeout(() => {
+                        loadDemoCredentials();
+                    }, 500);
+                }
+                
+                // Testear conexión con API
+                setTimeout(() => {
+                    testAPIConnection();
+                }, 1000);
+                
+                // Ocultar loader después de que todo esté listo
+                setTimeout(hideLoader, 500);
+            }
+            
+            // ========== ESTILOS ADICIONALES ==========
+            const style = document.createElement('style');
+            style.textContent = `
+                .spin {
+                    animation: spin 1s linear infinite;
+                }
+                
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                
+                /* Mejoras para móviles */
+                @media (max-width: 768px) {
+                    .notification-system {
+                        top: 60px;
+                        right: 10px;
+                        left: 10px;
+                        max-width: none;
+                    }
+                    
+                    .notification {
+                        padding: 12px 15px;
+                    }
+                }
+                
+                /* Mejoras para formularios */
+                .form-control:invalid {
+                    border-color: #dc3545;
+                }
+                
+                .form-control:valid {
+                    border-color: #28a745;
+                }
+                
+                /* Asegurar visibilidad del contenido */
+                main, section, footer, header {
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // ========== EXPORTAR FUNCIONES PARA DEBUG ==========
+            window.CanoSalaoAuth = {
+                loginWithAPI,
+                registerWithAPI,
+                saveSession,
+                clearSession,
+                loadSession,
+                validateSession,
+                testAPIConnection,
+                testLoginDirectly,
+                showSessionInfo,
+                loadDemoCredentials,
+                getCurrentUser: () => currentUser,
+                isAuthenticated: () => isAuthenticated
+            };
+            
+            // ========== INICIAR APLICACIÓN ==========
+            // Inicializar inmediatamente sin esperar DOMContentLoaded
+            console.log('📄 DOM cargado, iniciando aplicación...');
+            initContent();
+            
+            // También escuchar DOMContentLoaded por si acaso
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('✅ DOM completamente cargado');
+            });
+            
+        })();
+    </script>
+</body>
+</html>
