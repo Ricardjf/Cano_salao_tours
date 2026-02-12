@@ -25,17 +25,17 @@ class Config:
     # ========== CONFIGURACIÓN DE BASE DE DATOS ==========
     basedir = os.path.abspath(os.path.dirname(__file__))
     
-    # CONFIGURACIÓN ESPECÍFICA PARA PYTHONANYWHERE
+    # ✅ CONFIGURACIÓN CORREGIDA PARA PYTHONANYWHERE - SQLITE
     if IS_PYTHONANYWHERE:
-        # Ruta absoluta para PythonAnywhere - usuario Ricadjf
-        instance_dir = '/home/Ricadjf/cano-salao-backend/instance'
+        # Ruta absoluta para PythonAnywhere - usuario ricardjf
+        instance_dir = '/home/ricardjf/cano-salao-backend/instance'
         os.makedirs(instance_dir, exist_ok=True)
         db_path = os.path.join(instance_dir, 'cano_salao.db')
-        SQLALCHEMY_DATABASE_URI = f'sqlite:////{db_path}'
-        print(f"🗄️  PYTHONANYWHERE - SQLite: {db_path}")
+        SQLALCHEMY_DATABASE_URI = f'sqlite:///{db_path}'  # 3 slashes para ruta absoluta
+        print(f"🗄️  PYTHONANYWHERE - SQLite: {SQLALCHEMY_DATABASE_URI}")
     
     elif IS_RENDER:
-        # Configuración para Render (si aún lo necesitas)
+        # Configuración para Render (PostgreSQL o SQLite)
         DATABASE_URL = os.environ.get('DATABASE_URL')
         if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
             DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
@@ -69,7 +69,6 @@ class Config:
     JWT_HEADER_TYPE = 'Bearer'
     
     # ========== CONFIGURACIÓN CORS ==========
-    # Orígenes permitidos - GitHub Pages y localhost
     CORS_ORIGINS_STRING = os.environ.get('CORS_ORIGINS', '')
     
     if CORS_ORIGINS_STRING:
@@ -82,15 +81,14 @@ class Config:
             'http://127.0.0.1:5000',
             'http://localhost:3000',
             'http://127.0.0.1:3000',
-            'https://ricardjf.github.io',  # Específico para tu GitHub Pages
-            'https://*.github.io',
+            'https://ricardjf.github.io',
+            'https://www.ricardjf.github.io',
         ]
     
     CORS_SUPPORTS_CREDENTIALS = True
     CORS_EXPOSE_HEADERS = ['Content-Type', 'Authorization', 'X-Total-Count']
     
     # ========== CONFIGURACIÓN DEL SERVIDOR ==========
-    # PythonAnywhere NO usa HOST/PORT - lo maneja su sistema
     HOST = '0.0.0.0'
     PORT = int(os.environ.get('PORT', 5000))
     
@@ -139,13 +137,13 @@ class Config:
         print(f"  Entorno: {cls.ENV}")
         print(f"  Plataforma: {'PythonAnywhere' if IS_PYTHONANYWHERE else 'Render' if IS_RENDER else 'Local'}")
         print(f"  Debug: {cls.DEBUG}")
-        print(f"  Base de datos: {'SQLite'}")
+        print(f"  Base de datos: SQLite")
         print(f"  Orígenes CORS: {len(cls.CORS_ORIGINS)} configurados")
         print(f"  Nombre App: {cls.APP_NAME}")
         print(f"  Versión: {cls.APP_VERSION}")
         
         if IS_PYTHONANYWHERE:
-            print(f"\n🌍 URL Producción: https://ricadjf.pythonanywhere.com")
+            print(f"\n🌍 URL Producción: https://ricardjf.pythonanywhere.com")
         
         if cls.is_production() and not IS_PYTHONANYWHERE:
             print("\n⚠️  VERIFICACIONES DE PRODUCCIÓN:")
@@ -160,20 +158,17 @@ class Config:
         print("="*60)
 
 
-# Configuración de producción - PythonAnywhere
 class PythonAnywhereConfig(Config):
     """Configuración optimizada para PythonAnywhere"""
     
     ENV = 'production'
     DEBUG = False
     
-    # CORS específico para GitHub Pages
     @property
     def CORS_ORIGINS(self):
         return [
             'https://ricardjf.github.io',
             'https://www.ricardjf.github.io',
-            'https://*.github.io',
         ]
     
     @classmethod
@@ -194,23 +189,14 @@ class PythonAnywhereConfig(Config):
             print("  El sistema funcionará, pero configura las variables en PythonAnywhere > Web > Environment variables\n")
 
 
-# Configuración de desarrollo
 class DevelopmentConfig(Config):
     """Configuración para desarrollo local"""
     
     ENV = 'development'
     DEBUG = True
     SQLALCHEMY_ECHO = True
-    
-    @property
-    def CORS_ORIGINS(self):
-        return super().CORS_ORIGINS + [
-            'http://localhost:8080',
-            'http://127.0.0.1:8080',
-        ]
 
 
-# Configuración de testing
 class TestingConfig(Config):
     """Configuración para pruebas"""
     
@@ -224,9 +210,8 @@ class TestingConfig(Config):
 config_by_name = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
-    'production': PythonAnywhereConfig,  # Ahora apunta a PythonAnywhereConfig
+    'production': PythonAnywhereConfig,
     'pythonanywhere': PythonAnywhereConfig,
-    'render': DevelopmentConfig,  # Fallback a development
     'default': DevelopmentConfig,
 }
 
@@ -234,7 +219,6 @@ config_by_name = {
 def get_config():
     """Obtener configuración basada en el entorno"""
     
-    # Detectar entorno automáticamente
     if IS_PYTHONANYWHERE:
         env = 'pythonanywhere'
         print("🌍 Entorno detectado: PYTHONANYWHERE")
@@ -242,27 +226,22 @@ def get_config():
     elif IS_RENDER:
         env = 'render'
         print("🌍 Entorno detectado: RENDER")
-        config_class = DevelopmentConfig  # No recomendado, pero funciona
+        config_class = DevelopmentConfig
     else:
         env = os.environ.get('FLASK_ENV', 'development').lower()
         print(f"🌍 Entorno detectado: LOCAL ({env})")
         config_class = config_by_name.get(env, DevelopmentConfig)
     
-    # Crear instancia
     if isinstance(config_class, type):
         config_instance = config_class()
     else:
         config_instance = config_class
     
-    # Validar configuración
     if IS_PYTHONANYWHERE:
         PythonAnywhereConfig.validate_config()
     
     return config_instance
 
 
-# Configuración actual
 current_config = get_config()
-
-# Imprimir resumen
 current_config.print_config_summary()
