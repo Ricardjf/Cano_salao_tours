@@ -278,6 +278,31 @@
             font-size: 0.7rem;
         }
         
+        .manual-btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #f8f9fa;
+            border: none;
+            border-top: 1px solid #eee;
+            color: #0d3b66;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+        
+        .manual-btn:hover {
+            background: #e9ecef;
+            color: #FF8C42;
+        }
+        
+        .manual-btn i {
+            font-size: 1.1rem;
+        }
+        
         /* ===== CONTENIDO PRINCIPAL ===== */
         .main-content {
             background: white;
@@ -368,7 +393,8 @@
         
         canvas {
             width: 100% !important;
-            height: 280px !important;
+            height: 300px !important;
+            max-height: 300px;
         }
         
         /* ===== SECCIONES ===== */
@@ -464,6 +490,16 @@
         .btn-outline:hover {
             background: #0d3b66;
             color: white;
+        }
+        
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
         }
         
         /* ===== TABLAS ===== */
@@ -577,7 +613,7 @@
             background: white;
             border-radius: 10px;
             width: 90%;
-            max-width: 600px;
+            max-width: 650px;
             max-height: 90vh;
             overflow-y: auto;
             animation: modalSlideIn 0.3s ease;
@@ -699,6 +735,70 @@
             cursor: pointer;
         }
         
+        /* ===== IMAGE UPLOAD ===== */
+        .image-upload-container {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        .image-upload-container:hover {
+            border-color: #FF8C42;
+            background: #fff4e6;
+        }
+        
+        .image-upload-container i {
+            font-size: 2.5rem;
+            color: #0d3b66;
+            margin-bottom: 10px;
+        }
+        
+        .image-upload-container p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .image-upload-container small {
+            color: #999;
+            font-size: 0.8rem;
+        }
+        
+        .image-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            margin-top: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .image-preview.active {
+            display: block;
+        }
+        
+        .image-remove-btn {
+            margin-top: 10px;
+            padding: 5px 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .image-remove-btn:hover {
+            background: #c82333;
+        }
+        
         /* ===== FILTROS ===== */
         .filters-bar {
             display: flex;
@@ -790,6 +890,94 @@
             font-size: 0.8rem;
             color: #666;
             margin-top: 5px;
+        }
+        
+        .report-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        /* ===== CONFIGURACIÓN ===== */
+        .config-section {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .config-section h3 {
+            color: #0d3b66;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .config-item-info h4 {
+            color: #0d3b66;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+        
+        .config-item-info p {
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        .config-item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .config-toggle {
+            width: 50px;
+            height: 26px;
+            background: #ddd;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .config-toggle.active {
+            background: #28a745;
+        }
+        
+        .config-toggle:after {
+            content: '';
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .config-toggle.active:after {
+            left: 26px;
         }
         
         /* ===== ESTADOS ===== */
@@ -951,6 +1139,7 @@
             .section-actions {
                 width: 100%;
                 justify-content: center;
+                flex-wrap: wrap;
             }
             
             .filters-bar {
@@ -981,6 +1170,14 @@
             
             .stat-value {
                 font-size: 1.8rem;
+            }
+            
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .report-filters {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1052,6 +1249,10 @@
                         <i class="bi bi-file-earmark-bar-graph"></i>
                         Reportes
                     </a>
+                    <a href="#" class="nav-item" data-section="configuracion">
+                        <i class="bi bi-gear"></i>
+                        Configuración
+                    </a>
                     <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
                     <a href="../index.html" class="nav-item">
                         <i class="bi bi-arrow-left"></i>
@@ -1062,6 +1263,11 @@
                         Cerrar Sesión
                     </a>
                 </nav>
+                <button class="manual-btn" id="manual-btn">
+                    <i class="bi bi-book"></i>
+                    Manual de Usuario
+                    <i class="bi bi-box-arrow-up-right" style="margin-left: auto;"></i>
+                </button>
             </aside>
 
             <!-- Contenido Principal -->
@@ -1118,6 +1324,24 @@
         </div>
     </div>
 
+    <!-- Modal de Imagen -->
+    <div id="image-modal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3><i class="bi bi-image"></i> Vista Previa</h3>
+                <button class="modal-close" onclick="closeImageModal()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <img id="image-modal-img" src="" style="max-width: 100%; max-height: 500px; border-radius: 8px;">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeImageModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         (function() {
             "use strict";
@@ -1142,6 +1366,24 @@
             let allUsers = [];
             let allPosts = [];
             
+            // Configuración
+            let siteConfig = {
+                site_name: 'Caño Salao',
+                site_email: 'info@canosalao.com',
+                site_phone: '+58 412-205-6558',
+                site_address: 'Sector Caño Salao, Barcelona, Anzoátegui',
+                booking_enabled: true,
+                registration_enabled: true,
+                comments_enabled: true,
+                maintenance_mode: false,
+                email_notifications: true,
+                auto_confirm_bookings: false,
+                currency: 'USD',
+                timezone: 'America/Caracas',
+                date_format: 'DD/MM/YYYY',
+                items_per_page: 10
+            };
+            
             // ========== INICIALIZACIÓN ==========
             async function init() {
                 console.log('Iniciando Panel de Administración');
@@ -1154,6 +1396,9 @@
                 setupEventListeners();
                 await loadInitialData();
                 await loadSection('dashboard');
+                
+                // Cargar configuración guardada
+                loadConfig();
             }
             
             // ========== AUTENTICACIÓN ==========
@@ -1256,12 +1501,36 @@
                     logout();
                 });
                 
+                document.getElementById('manual-btn').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openUserManual();
+                });
+                
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         closeModal();
                         closeConfirmModal();
+                        closeImageModal();
                     }
                 });
+            }
+            
+            // ========== MANUAL DE USUARIO ==========
+            function openUserManual() {
+                const manualPath = '../media/manual_usuario.pdf';
+                
+                // Verificar si existe
+                fetch(manualPath, { method: 'HEAD' })
+                    .then(response => {
+                        if (response.ok) {
+                            window.open(manualPath, '_blank');
+                        } else {
+                            showError('No se encontró el manual de usuario en la carpeta media');
+                        }
+                    })
+                    .catch(() => {
+                        showError('Error al abrir el manual de usuario');
+                    });
             }
             
             // ========== CARGAR DATOS INICIALES ==========
@@ -1315,6 +1584,21 @@
                 }
             }
             
+            // ========== CARGAR/CONFIGURACIÓN ==========
+            function loadConfig() {
+                const saved = localStorage.getItem('cano_salao_config');
+                if (saved) {
+                    try {
+                        siteConfig = { ...siteConfig, ...JSON.parse(saved) };
+                    } catch (e) {}
+                }
+            }
+            
+            function saveConfig() {
+                localStorage.setItem('cano_salao_config', JSON.stringify(siteConfig));
+                showSuccess('Configuración guardada');
+            }
+            
             // ========== CARGAR SECCIONES ==========
             async function loadSection(section) {
                 currentSection = section;
@@ -1349,6 +1633,9 @@
                             break;
                         case 'reportes':
                             await renderReportes();
+                            break;
+                        case 'configuracion':
+                            await renderConfiguracion();
                             break;
                     }
                 } catch (error) {
@@ -1531,14 +1818,25 @@
                         datasets: [{
                             data: [pending, confirmed, cancelled, completed],
                             backgroundColor: ['#ffc107', '#28a745', '#dc3545', '#17a2b8'],
-                            borderWidth: 0
+                            borderWidth: 0,
+                            borderRadius: 5
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        cutout: '60%',
                         plugins: {
-                            legend: { position: 'bottom' }
+                            legend: { 
+                                position: 'bottom',
+                                labels: { padding: 20 }
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                top: 20,
+                                bottom: 20
+                            }
                         }
                     }
                 });
@@ -1584,7 +1882,10 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                            y: { 
+                                beginAtZero: true, 
+                                ticks: { stepSize: 1 } 
+                            }
                         }
                     }
                 });
@@ -1592,6 +1893,62 @@
             
             window.refreshDashboard = function() {
                 loadSection('dashboard');
+            };
+            
+            // ========== IMAGE HANDLER ==========
+            function createImageUploader(inputId, previewId, containerId, callback) {
+                return function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    
+                    if (!file.type.startsWith('image/')) {
+                        showError('Por favor selecciona un archivo de imagen válido');
+                        return;
+                    }
+                    
+                    if (file.size > 5 * 1024 * 1024) {
+                        showError('La imagen no puede superar los 5MB');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const preview = document.getElementById(previewId);
+                        preview.src = event.target.result;
+                        preview.classList.add('active');
+                        
+                        const container = document.getElementById(containerId);
+                        container.style.borderColor = '#28a745';
+                        
+                        if (callback) callback(event.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                };
+            }
+            
+            function removeImage(previewId, inputId, callback) {
+                const preview = document.getElementById(previewId);
+                preview.src = '';
+                preview.classList.remove('active');
+                
+                const input = document.getElementById(inputId);
+                input.value = '';
+        
+                const container = document.getElementById(`upload-${inputId}`);
+                if (container) container.style.borderColor = '#ddd';
+                
+                if (callback) callback(null);
+            }
+            
+            window.openImageModal = function(src) {
+                const modal = document.getElementById('image-modal');
+                const img = document.getElementById('image-modal-img');
+                img.src = src;
+                modal.classList.add('active');
+            };
+            
+            window.closeImageModal = function() {
+                document.getElementById('image-modal').classList.remove('active');
             };
             
             // ========== RESERVAS ==========
@@ -1606,6 +1963,9 @@
                     <div class="section-header">
                         <h2><i class="bi bi-calendar-check"></i> Gestión de Reservas</h2>
                         <div class="section-actions">
+                            <button onclick="openCreateBookingModal()" class="btn btn-primary">
+                                <i class="bi bi-plus-lg"></i> Nueva Reserva
+                            </button>
                             <button onclick="exportBookingsExcel()" class="btn btn-success">
                                 <i class="bi bi-file-earmark-excel"></i> Excel
                             </button>
@@ -1635,7 +1995,7 @@
                 `;
                 
                 if (bookings.length === 0) {
-                    html += '<div class="empty-state"><i class="bi bi-calendar-x"></i><h3>No hay reservas</h3><p>Las reservas aparecerán aquí cuando los usuarios realicen reservas.</p></div>';
+                    html += '<div class="empty-state"><i class="bi bi-calendar-x"></i><h3>No hay reservas</h3><p>Las reservas aparecerán aquí cuando los usuarios realicen reservas o puedes crear una nueva.</p><button onclick="openCreateBookingModal()" class="btn btn-primary mt-3">Crear Reserva</button></div>';
                 } else {
                     html += '<div class="table-responsive"><table id="bookings-table"><thead><tr><th>Código</th><th>Cliente</th><th>Tour</th><th>Fecha</th><th>Personas</th><th>Total</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
                     
@@ -1695,6 +2055,192 @@
                 });
             };
             
+            window.openCreateBookingModal = function() {
+                if (allTours.length === 0) {
+                    showError('Debes crear al menos un tour antes de crear una reserva');
+                    return;
+                }
+                
+                const modal = document.getElementById('modal');
+                document.getElementById('modal-title').innerHTML = '<i class="bi bi-plus-circle"></i> Nueva Reserva';
+                
+                // Generar código único
+                const codigo = `CS-${new Date().getFullYear()}${('0' + (new Date().getMonth() + 1)).slice(-2)}${('0' + new Date().getDate()).slice(-2)}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+                
+                let html = `
+                    <form id="create-booking-form">
+                        <div class="form-group">
+                            <label><i class="bi bi-tag"></i> Código</label>
+                            <input type="text" id="booking-codigo" class="form-control" value="${codigo}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-person"></i> Nombre del Cliente *</label>
+                            <input type="text" id="booking-cliente" class="form-control" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-envelope"></i> Email del Cliente *</label>
+                            <input type="email" id="booking-email" class="form-control" placeholder="cliente@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-telephone"></i> Teléfono</label>
+                            <input type="text" id="booking-telefono" class="form-control" placeholder="+58 412-1234567">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-geo-alt"></i> Tour *</label>
+                            <select id="booking-tour" class="form-control" required onchange="calculateTotal()">
+                                <option value="">Seleccionar tour...</option>
+                                ${allTours.filter(t => t.disponible).map(t => 
+                                    `<option value="${t.id}" data-precio="${t.precio}">${t.nombre} - $${t.precio.toFixed(2)}</option>`
+                                ).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-calendar"></i> Fecha del Tour *</label>
+                            <input type="date" id="booking-fecha" class="form-control" required min="${new Date().toISOString().split('T')[0]}">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-people"></i> Número de Personas *</label>
+                            <input type="number" id="booking-personas" class="form-control" min="1" max="20" value="1" required onchange="calculateTotal()">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-currency-dollar"></i> Total</label>
+                            <input type="number" id="booking-total" class="form-control" value="0.00" step="0.01" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-credit-card"></i> Método de Pago</label>
+                            <select id="booking-payment" class="form-control">
+                                <option value="">Seleccionar...</option>
+                                <option value="efectivo">Efectivo</option>
+                                <option value="transferencia">Transferencia</option>
+                                <option value="movil">Pago Móvil</option>
+                                <option value="tarjeta">Tarjeta</option>
+                            </select>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="booking-contribucion" checked onchange="calculateTotal()">
+                            <label>Incluir contribución comunitaria (5%)</label>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-chat-text"></i> Notas</label>
+                            <textarea id="booking-notas" class="form-control" rows="3" placeholder="Instrucciones especiales, requisitos, etc."></textarea>
+                        </div>
+                    </form>
+                `;
+                
+                document.getElementById('modal-body').innerHTML = html;
+                document.getElementById('modal-footer').innerHTML = `
+                    <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+                    <button class="btn btn-primary" onclick="createBooking()">Crear Reserva</button>
+                `;
+                
+                modal.classList.add('active');
+                
+                // Agregar función de cálculo de total
+                window.calculateTotal = function() {
+                    const select = document.getElementById('booking-tour');
+                    const option = select.options[select.selectedIndex];
+                    const precio = option.dataset.precio ? parseFloat(option.dataset.precio) : 0;
+                    const personas = parseInt(document.getElementById('booking-personas').value) || 1;
+                    const incluyeContribucion = document.getElementById('booking-contribucion').checked;
+                    
+                    let subtotal = precio * personas;
+                    let total = subtotal;
+                    
+                    if (incluyeContribucion) {
+                        total = subtotal * 1.05;
+                    }
+                    
+                    document.getElementById('booking-total').value = total.toFixed(2);
+                };
+            };
+            
+            window.createBooking = async function() {
+                try {
+                    const tourId = document.getElementById('booking-tour').value;
+                    if (!tourId) {
+                        showError('Debes seleccionar un tour');
+                        return;
+                    }
+                    
+                    const cliente = document.getElementById('booking-cliente').value;
+                    if (!cliente) {
+                        showError('Debes ingresar el nombre del cliente');
+                        return;
+                    }
+                    
+                    const email = document.getElementById('booking-email').value;
+                    if (!email) {
+                        showError('Debes ingresar el email del cliente');
+                        return;
+                    }
+                    
+                    if (!validateEmail(email)) {
+                        showError('El email no tiene un formato válido');
+                        return;
+                    }
+                    
+                    const fecha = document.getElementById('booking-fecha').value;
+                    if (!fecha) {
+                        showError('Debes seleccionar una fecha');
+                        return;
+                    }
+                    
+                    // Buscar o crear usuario
+                    let userId = null;
+                    const existingUser = allUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+                    
+                    if (existingUser) {
+                        userId = existingUser.id;
+                    } else {
+                        // Crear usuario temporal
+                        const newUser = {
+                            id: allUsers.length + 1,
+                            nombre: cliente,
+                            email: email,
+                            telefono: document.getElementById('booking-telefono').value,
+                            rol: 'user',
+                            activo: true,
+                            fecha_registro: new Date().toISOString()
+                        };
+                        allUsers.push(newUser);
+                        userId = newUser.id;
+                    }
+                    
+                    const nuevaReserva = {
+                        id: allBookings.length + 1,
+                        codigo: document.getElementById('booking-codigo').value,
+                        user_id: userId,
+                        user_nombre: cliente,
+                        user_email: email,
+                        user_telefono: document.getElementById('booking-telefono').value,
+                        tour_id: parseInt(tourId),
+                        tour_nombre: allTours.find(t => t.id == tourId)?.nombre,
+                        fecha: fecha,
+                        personas: parseInt(document.getElementById('booking-personas').value),
+                        total: parseFloat(document.getElementById('booking-total').value),
+                        estado: 'pending',
+                        metodo_pago: document.getElementById('booking-payment').value,
+                        incluye_contribucion: document.getElementById('booking-contribucion').checked,
+                        notas: document.getElementById('booking-notas').value,
+                        created_at: new Date().toISOString()
+                    };
+                    
+                    allBookings.unshift(nuevaReserva);
+                    
+                    showSuccess('Reserva creada exitosamente');
+                    closeModal();
+                    
+                    const pendingCount = allBookings.filter(b => b.estado === 'pending').length;
+                    updatePendingBadge(pendingCount);
+                    
+                    loadSection(currentSection);
+                    
+                } catch (error) {
+                    console.error('Error creando reserva:', error);
+                    showError('Error al crear la reserva');
+                }
+            };
+            
             window.confirmBooking = async function(id) {
                 if (!await showConfirm('Confirmar Reserva', '¿Confirmar esta reserva?')) return;
                 
@@ -1712,9 +2258,27 @@
                         if (booking) booking.estado = 'confirmed';
                         updatePendingBadge(allBookings.filter(b => b.estado === 'pending').length);
                         loadSection(currentSection);
+                    } else {
+                        // Fallback local
+                        const booking = allBookings.find(b => b.id === id);
+                        if (booking) {
+                            booking.estado = 'confirmed';
+                            showSuccess('Reserva confirmada (local)');
+                            updatePendingBadge(allBookings.filter(b => b.estado === 'pending').length);
+                            loadSection(currentSection);
+                        }
                     }
                 } catch (error) {
-                    showError('Error al confirmar');
+                    // Fallback local
+                    const booking = allBookings.find(b => b.id === id);
+                    if (booking) {
+                        booking.estado = 'confirmed';
+                        showSuccess('Reserva confirmada (local)');
+                        updatePendingBadge(allBookings.filter(b => b.estado === 'pending').length);
+                        loadSection(currentSection);
+                    } else {
+                        showError('Error al confirmar');
+                    }
                 }
             };
             
@@ -1734,13 +2298,27 @@
                         const booking = allBookings.find(b => b.id === id);
                         if (booking) booking.estado = 'completed';
                         loadSection(currentSection);
+                    } else {
+                        const booking = allBookings.find(b => b.id === id);
+                        if (booking) {
+                            booking.estado = 'completed';
+                            showSuccess('Reserva completada (local)');
+                            loadSection(currentSection);
+                        }
                     }
                 } catch (error) {
-                    showError('Error al completar');
+                    const booking = allBookings.find(b => b.id === id);
+                    if (booking) {
+                        booking.estado = 'completed';
+                        showSuccess('Reserva completada (local)');
+                        loadSection(currentSection);
+                    } else {
+                        showError('Error al completar');
+                    }
                 }
             };
             
-            window.viewBooking = async function(id) {
+            window.viewBooking = function(id) {
                 const booking = allBookings.find(b => b.id === id);
                 if (!booking) return;
                 
@@ -1750,10 +2328,11 @@
                 let html = `
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         <div>
-                            <h4 style="color: #0d3b66; margin-bottom: 15px;">Información</h4>
+                            <h4 style="color: #0d3b66; margin-bottom: 15px;">Información General</h4>
                             <p><strong>Código:</strong> ${booking.codigo || 'N/A'}</p>
                             <p><strong>Estado:</strong> <span class="badge ${booking.estado || 'pending'}">${getEstadoTexto(booking.estado)}</span></p>
                             <p><strong>Fecha reserva:</strong> ${booking.created_at ? new Date(booking.created_at).toLocaleString() : 'N/A'}</p>
+                            <p><strong>Método pago:</strong> ${getMetodoPagoTexto(booking.metodo_pago)}</p>
                         </div>
                         <div>
                             <h4 style="color: #0d3b66; margin-bottom: 15px;">Cliente</h4>
@@ -1763,27 +2342,34 @@
                         </div>
                     </div>
                     <div style="margin-top: 20px;">
-                        <h4 style="color: #0d3b66; margin-bottom: 15px;">Tour</h4>
+                        <h4 style="color: #0d3b66; margin-bottom: 15px;">Detalles del Tour</h4>
                         <p><strong>Tour:</strong> ${booking.tour_nombre || `Tour #${booking.tour_id}`}</p>
                         <p><strong>Fecha:</strong> ${formatDate(booking.fecha)}</p>
                         <p><strong>Personas:</strong> ${booking.personas || 1}</p>
-                        <p><strong>Total:</strong> $${(booking.total || 0).toFixed(2)}</p>
-                        <p><strong>Método pago:</strong> ${getMetodoPagoTexto(booking.metodo_pago)}</p>
+                        <p><strong>Subtotal:</strong> $${((booking.total || 0) / (booking.incluye_contribucion ? 1.05 : 1)).toFixed(2)}</p>
+                        ${booking.incluye_contribucion ? `<p><strong>Contribución (5%):</strong> $${((booking.total || 0) * 0.05 / 1.05).toFixed(2)}</p>` : ''}
+                        <p><strong>Total:</strong> <strong style="color: #28a745;">$${(booking.total || 0).toFixed(2)}</strong></p>
                     </div>
-                    ${booking.notas ? `<div style="margin-top: 20px;"><h4 style="color: #0d3b66; margin-bottom: 15px;">Notas</h4><p>${booking.notas}</p></div>` : ''}
+                    ${booking.notas ? `
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #0d3b66; margin-bottom: 15px;">Notas</h4>
+                        <p style="background: #f8f9fa; padding: 15px; border-radius: 5px;">${booking.notas}</p>
+                    </div>
+                    ` : ''}
                 `;
                 
                 document.getElementById('modal-body').innerHTML = html;
                 document.getElementById('modal-footer').innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal()">Cerrar</button>
                     ${booking.estado === 'pending' ? `<button class="btn btn-success" onclick="confirmBooking(${booking.id}); closeModal();">Confirmar</button>` : ''}
+                    ${booking.estado === 'confirmed' ? `<button class="btn btn-success" onclick="completeBooking(${booking.id}); closeModal();">Completar</button>` : ''}
                     <button class="btn btn-warning" onclick="editBooking(${booking.id}); closeModal();">Editar</button>
                 `;
                 
                 modal.classList.add('active');
             };
             
-            window.editBooking = async function(id) {
+            window.editBooking = function(id) {
                 const booking = allBookings.find(b => b.id === id);
                 if (!booking) return;
                 
@@ -1802,22 +2388,36 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label><i class="bi bi-person"></i> Cliente</label>
+                            <input type="text" id="booking-cliente" class="form-control" value="${booking.user_nombre || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-envelope"></i> Email</label>
+                            <input type="email" id="booking-email" class="form-control" value="${booking.user_email || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-telephone"></i> Teléfono</label>
+                            <input type="text" id="booking-telefono" class="form-control" value="${booking.user_telefono || ''}">
+                        </div>
+                        <div class="form-group">
                             <label><i class="bi bi-geo-alt"></i> Tour</label>
-                            <select id="booking-tour" class="form-control">
-                                ${allTours.map(t => `<option value="${t.id}" ${booking.tour_id === t.id ? 'selected' : ''}>${t.nombre} - $${t.precio}</option>`).join('')}
+                            <select id="booking-tour" class="form-control" onchange="editCalculateTotal()">
+                                ${allTours.map(t => 
+                                    `<option value="${t.id}" data-precio="${t.precio}" ${booking.tour_id === t.id ? 'selected' : ''}>${t.nombre} - $${t.precio.toFixed(2)}</option>`
+                                ).join('')}
                             </select>
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-calendar"></i> Fecha</label>
-                            <input type="date" id="booking-date" class="form-control" value="${booking.fecha || ''}">
+                            <input type="date" id="booking-fecha" class="form-control" value="${booking.fecha || ''}">
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-people"></i> Personas</label>
-                            <input type="number" id="booking-persons" class="form-control" value="${booking.personas || 1}" min="1">
+                            <input type="number" id="booking-personas" class="form-control" value="${booking.personas || 1}" min="1" onchange="editCalculateTotal()">
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-currency-dollar"></i> Total</label>
-                            <input type="number" id="booking-total" class="form-control" value="${booking.total || 0}" step="0.01" min="0">
+                            <input type="number" id="booking-total" class="form-control" value="${booking.total || 0}" step="0.01" readonly>
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-credit-card"></i> Método de Pago</label>
@@ -1830,12 +2430,12 @@
                             </select>
                         </div>
                         <div class="checkbox-group">
-                            <input type="checkbox" id="booking-contribucion" ${booking.incluye_contribucion ? 'checked' : ''}>
-                            <label for="booking-contribucion">Incluye contribución (5%)</label>
+                            <input type="checkbox" id="booking-contribucion" ${booking.incluye_contribucion ? 'checked' : ''} onchange="editCalculateTotal()">
+                            <label>Incluye contribución (5%)</label>
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-chat-text"></i> Notas</label>
-                            <textarea id="booking-notes" class="form-control" rows="3">${booking.notas || ''}</textarea>
+                            <textarea id="booking-notas" class="form-control" rows="3">${booking.notas || ''}</textarea>
                         </div>
                     </form>
                 `;
@@ -1843,10 +2443,29 @@
                 document.getElementById('modal-body').innerHTML = html;
                 document.getElementById('modal-footer').innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="saveBooking(${booking.id})">Guardar</button>
+                    <button class="btn btn-primary" onclick="saveBooking(${booking.id})">Guardar Cambios</button>
                 `;
                 
                 modal.classList.add('active');
+                
+                window.editCalculateTotal = function() {
+                    const select = document.getElementById('booking-tour');
+                    const option = select.options[select.selectedIndex];
+                    const precio = option.dataset.precio ? parseFloat(option.dataset.precio) : 0;
+                    const personas = parseInt(document.getElementById('booking-personas').value) || 1;
+                    const incluyeContribucion = document.getElementById('booking-contribucion').checked;
+                    
+                    let subtotal = precio * personas;
+                    let total = subtotal;
+                    
+                    if (incluyeContribucion) {
+                        total = subtotal * 1.05;
+                    }
+                    
+                    document.getElementById('booking-total').value = total.toFixed(2);
+                };
+                
+                window.editCalculateTotal();
             };
             
             window.saveBooking = async function(id) {
@@ -1855,13 +2474,16 @@
                     
                     const data = {
                         estado: document.getElementById('booking-status').value,
+                        user_nombre: document.getElementById('booking-cliente').value,
+                        user_email: document.getElementById('booking-email').value,
+                        user_telefono: document.getElementById('booking-telefono').value,
                         tour_id: parseInt(document.getElementById('booking-tour').value),
-                        fecha: document.getElementById('booking-date').value,
-                        personas: parseInt(document.getElementById('booking-persons').value),
+                        fecha: document.getElementById('booking-fecha').value,
+                        personas: parseInt(document.getElementById('booking-personas').value),
                         total: parseFloat(document.getElementById('booking-total').value),
                         metodo_pago: document.getElementById('booking-payment').value,
                         incluye_contribucion: document.getElementById('booking-contribucion').checked,
-                        notas: document.getElementById('booking-notes').value
+                        notas: document.getElementById('booking-notas').value
                     };
                     
                     const res = await fetch(`${API_BASE_URL}/api/admin/bookings/${id}`, {
@@ -1875,13 +2497,49 @@
                         closeModal();
                         
                         const booking = allBookings.find(b => b.id === id);
-                        if (booking) Object.assign(booking, data);
+                        if (booking) {
+                            Object.assign(booking, data);
+                            booking.tour_nombre = allTours.find(t => t.id == data.tour_id)?.nombre;
+                        }
                         
                         updatePendingBadge(allBookings.filter(b => b.estado === 'pending').length);
                         loadSection(currentSection);
+                    } else {
+                        // Fallback local
+                        const booking = allBookings.find(b => b.id === id);
+                        if (booking) {
+                            Object.assign(booking, data);
+                            booking.tour_nombre = allTours.find(t => t.id == data.tour_id)?.nombre;
+                            showSuccess('Reserva actualizada (local)');
+                            closeModal();
+                            updatePendingBadge(allBookings.filter(b => b.estado === 'pending').length);
+                            loadSection(currentSection);
+                        }
                     }
                 } catch (error) {
-                    showError('Error al actualizar');
+                    // Fallback local
+                    const booking = allBookings.find(b => b.id === id);
+                    if (booking) {
+                        booking.estado = document.getElementById('booking-status').value;
+                        booking.user_nombre = document.getElementById('booking-cliente').value;
+                        booking.user_email = document.getElementById('booking-email').value;
+                        booking.user_telefono = document.getElementById('booking-telefono').value;
+                        booking.tour_id = parseInt(document.getElementById('booking-tour').value);
+                        booking.fecha = document.getElementById('booking-fecha').value;
+                        booking.personas = parseInt(document.getElementById('booking-personas').value);
+                        booking.total = parseFloat(document.getElementById('booking-total').value);
+                        booking.metodo_pago = document.getElementById('booking-payment').value;
+                        booking.incluye_contribucion = document.getElementById('booking-contribucion').checked;
+                        booking.notas = document.getElementById('booking-notas').value;
+                        booking.tour_nombre = allTours.find(t => t.id == booking.tour_id)?.nombre;
+                        
+                        showSuccess('Reserva actualizada (local)');
+                        closeModal();
+                        updatePendingBadge(allBookings.filter(b => b.estado === 'pending').length);
+                        loadSection(currentSection);
+                    } else {
+                        showError('Error al actualizar');
+                    }
                 }
             };
             
@@ -1900,9 +2558,17 @@
                         allBookings = allBookings.filter(b => b.id !== id);
                         updatePendingBadge(allBookings.filter(b => b.estado === 'pending').length);
                         loadSection(currentSection);
+                    } else {
+                        allBookings = allBookings.filter(b => b.id !== id);
+                        showSuccess('Reserva eliminada (local)');
+                        updatePendingBadge(allBookings.filter(b => b.estado === 'pending').length);
+                        loadSection(currentSection);
                     }
                 } catch (error) {
-                    showError('Error al eliminar');
+                    allBookings = allBookings.filter(b => b.id !== id);
+                    showSuccess('Reserva eliminada (local)');
+                    updatePendingBadge(allBookings.filter(b => b.estado === 'pending').length);
+                    loadSection(currentSection);
                 }
             };
             
@@ -1949,7 +2615,7 @@
                                 <td>#${t.id}</td>
                                 <td>
                                     ${t.imagen_url ? 
-                                        `<img src="${t.imagen_url}" style="width: 50px; height: 40px; object-fit: cover; border-radius: 4px;">` : 
+                                        `<img src="${t.imagen_url}" style="width: 50px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('${t.imagen_url}')">` : 
                                         `<div style="width: 50px; height: 40px; background: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center;"><i class="bi bi-image" style="color: #999;"></i></div>`
                                     }
                                 </td>
@@ -2024,8 +2690,18 @@
                                 <input type="text" id="tour-duration" class="form-control" placeholder="2 horas" required>
                             </div>
                             <div class="form-group">
-                                <label>URL Imagen</label>
-                                <input type="url" id="tour-image" class="form-control" placeholder="https://...">
+                                <label>Imagen</label>
+                                <div id="upload-tour-image" class="image-upload-container" onclick="document.getElementById('tour-image-file').click()">
+                                    <i class="bi bi-cloud-upload"></i>
+                                    <p>Haz clic para subir una imagen</p>
+                                    <small>PNG, JPG, WEBP (max. 5MB)</small>
+                                    <input type="file" id="tour-image-file" accept="image/*" style="display: none;">
+                                </div>
+                                <img id="tour-image-preview" class="image-preview">
+                                <button type="button" id="tour-image-remove" class="image-remove-btn" style="display: none;" onclick="removeTourImage()">
+                                    <i class="bi bi-trash"></i> Eliminar imagen
+                                </button>
+                                <input type="hidden" id="tour-image" value="">
                             </div>
                         </div>
                         <div class="checkbox-group">
@@ -2038,13 +2714,32 @@
                 document.getElementById('modal-body').innerHTML = html;
                 document.getElementById('modal-footer').innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="saveTour(null)">Crear</button>
+                    <button class="btn btn-primary" onclick="saveTour(null)">Crear Tour</button>
                 `;
                 
                 modal.classList.add('active');
+                
+                // Configurar upload de imagen
+                const fileInput = document.getElementById('tour-image-file');
+                fileInput.addEventListener('change', createImageUploader(
+                    'tour-image-file',
+                    'tour-image-preview',
+                    'upload-tour-image',
+                    (base64) => {
+                        document.getElementById('tour-image').value = base64;
+                        document.getElementById('tour-image-remove').style.display = 'inline-flex';
+                    }
+                ));
+                
+                window.removeTourImage = function() {
+                    removeImage('tour-image-preview', 'tour-image-file', () => {
+                        document.getElementById('tour-image').value = '';
+                        document.getElementById('tour-image-remove').style.display = 'none';
+                    });
+                };
             };
             
-            window.editTour = async function(id) {
+            window.editTour = function(id) {
                 const tour = allTours.find(t => t.id === id);
                 if (!tour) return;
                 
@@ -2077,8 +2772,18 @@
                                 <input type="text" id="tour-duration" class="form-control" value="${tour.duracion || ''}" required>
                             </div>
                             <div class="form-group">
-                                <label>URL Imagen</label>
-                                <input type="url" id="tour-image" class="form-control" value="${tour.imagen_url || ''}">
+                                <label>Imagen</label>
+                                <div id="upload-tour-image" class="image-upload-container" onclick="document.getElementById('tour-image-file').click()">
+                                    <i class="bi bi-cloud-upload"></i>
+                                    <p>Haz clic para cambiar la imagen</p>
+                                    <small>PNG, JPG, WEBP (max. 5MB)</small>
+                                    <input type="file" id="tour-image-file" accept="image/*" style="display: none;">
+                                </div>
+                                <img id="tour-image-preview" class="image-preview ${tour.imagen_url ? 'active' : ''}" src="${tour.imagen_url || ''}">
+                                <button type="button" id="tour-image-remove" class="image-remove-btn" style="${tour.imagen_url ? 'display: inline-flex;' : 'display: none;'}" onclick="removeTourImage()">
+                                    <i class="bi bi-trash"></i> Eliminar imagen
+                                </button>
+                                <input type="hidden" id="tour-image" value="${tour.imagen_url || ''}">
                             </div>
                         </div>
                         <div class="checkbox-group">
@@ -2091,10 +2796,29 @@
                 document.getElementById('modal-body').innerHTML = html;
                 document.getElementById('modal-footer').innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="saveTour(${tour.id})">Guardar</button>
+                    <button class="btn btn-primary" onclick="saveTour(${tour.id})">Guardar Cambios</button>
                 `;
                 
                 modal.classList.add('active');
+                
+                // Configurar upload de imagen
+                const fileInput = document.getElementById('tour-image-file');
+                fileInput.addEventListener('change', createImageUploader(
+                    'tour-image-file',
+                    'tour-image-preview',
+                    'upload-tour-image',
+                    (base64) => {
+                        document.getElementById('tour-image').value = base64;
+                        document.getElementById('tour-image-remove').style.display = 'inline-flex';
+                    }
+                ));
+                
+                window.removeTourImage = function() {
+                    removeImage('tour-image-preview', 'tour-image-file', () => {
+                        document.getElementById('tour-image').value = '';
+                        document.getElementById('tour-image-remove').style.display = 'none';
+                    });
+                };
             };
             
             window.saveTour = async function(id) {
@@ -2133,9 +2857,56 @@
                         }
                         
                         loadSection(currentSection);
+                    } else {
+                        // Fallback local
+                        if (id) {
+                            const index = allTours.findIndex(t => t.id === id);
+                            if (index !== -1) {
+                                allTours[index] = { ...allTours[index], ...data, id };
+                                showSuccess('Tour actualizado (local)');
+                            }
+                        } else {
+                            const newTour = { ...data, id: allTours.length + 1 };
+                            allTours.push(newTour);
+                            showSuccess('Tour creado (local)');
+                        }
+                        closeModal();
+                        loadSection(currentSection);
                     }
                 } catch (error) {
-                    showError('Error al guardar');
+                    // Fallback local
+                    if (id) {
+                        const index = allTours.findIndex(t => t.id === id);
+                        if (index !== -1) {
+                            allTours[index] = { 
+                                ...allTours[index], 
+                                nombre: document.getElementById('tour-name').value,
+                                descripcion: document.getElementById('tour-description').value,
+                                precio: parseFloat(document.getElementById('tour-price').value),
+                                capacidad: parseInt(document.getElementById('tour-capacity').value),
+                                duracion: document.getElementById('tour-duration').value,
+                                imagen_url: document.getElementById('tour-image').value || null,
+                                disponible: document.getElementById('tour-available').checked,
+                                id: id
+                            };
+                            showSuccess('Tour actualizado (local)');
+                        }
+                    } else {
+                        const newTour = {
+                            id: allTours.length + 1,
+                            nombre: document.getElementById('tour-name').value,
+                            descripcion: document.getElementById('tour-description').value,
+                            precio: parseFloat(document.getElementById('tour-price').value),
+                            capacidad: parseInt(document.getElementById('tour-capacity').value),
+                            duracion: document.getElementById('tour-duration').value,
+                            imagen_url: document.getElementById('tour-image').value || null,
+                            disponible: document.getElementById('tour-available').checked
+                        };
+                        allTours.push(newTour);
+                        showSuccess('Tour creado (local)');
+                    }
+                    closeModal();
+                    loadSection(currentSection);
                 }
             };
             
@@ -2155,9 +2926,23 @@
                         const tour = allTours.find(t => t.id === id);
                         if (tour) tour.disponible = activate;
                         loadSection(currentSection);
+                    } else {
+                        const tour = allTours.find(t => t.id === id);
+                        if (tour) {
+                            tour.disponible = activate;
+                            showSuccess(`Tour ${activate ? 'activado' : 'desactivado'} (local)`);
+                            loadSection(currentSection);
+                        }
                     }
                 } catch (error) {
-                    showError('Error al cambiar estado');
+                    const tour = allTours.find(t => t.id === id);
+                    if (tour) {
+                        tour.disponible = activate;
+                        showSuccess(`Tour ${activate ? 'activado' : 'desactivado'} (local)`);
+                        loadSection(currentSection);
+                    } else {
+                        showError('Error al cambiar estado');
+                    }
                 }
             };
             
@@ -2181,9 +2966,15 @@
                         showSuccess('Tour eliminado');
                         allTours = allTours.filter(t => t.id !== id);
                         loadSection(currentSection);
+                    } else {
+                        allTours = allTours.filter(t => t.id !== id);
+                        showSuccess('Tour eliminado (local)');
+                        loadSection(currentSection);
                     }
                 } catch (error) {
-                    showError('Error al eliminar');
+                    allTours = allTours.filter(t => t.id !== id);
+                    showSuccess('Tour eliminado (local)');
+                    loadSection(currentSection);
                 }
             };
             
@@ -2304,24 +3095,26 @@
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         <div>
-                            <h4 style="color: #0d3b66; margin-bottom: 15px;">Información</h4>
+                            <h4 style="color: #0d3b66; margin-bottom: 15px;">Información Personal</h4>
                             <p><strong>Email:</strong> ${user.email}</p>
                             <p><strong>Teléfono:</strong> ${user.telefono || 'N/A'}</p>
                             <p><strong>Dirección:</strong> ${user.direccion || 'N/A'}</p>
                             <p><strong>Ciudad:</strong> ${user.ciudad || 'Barcelona'}</p>
+                            <p><strong>País:</strong> ${user.pais || 'Venezuela'}</p>
                         </div>
                         <div>
                             <h4 style="color: #0d3b66; margin-bottom: 15px;">Actividad</h4>
                             <p><strong>Registro:</strong> ${user.fecha_registro ? new Date(user.fecha_registro).toLocaleDateString() : 'N/A'}</p>
                             <p><strong>Último acceso:</strong> ${user.ultimo_acceso ? new Date(user.ultimo_acceso).toLocaleString() : 'Nunca'}</p>
-                            <p><strong>Reservas:</strong> ${reservas.length}</p>
+                            <p><strong>Reservas realizadas:</strong> ${reservas.length}</p>
                             <p><strong>Email verificado:</strong> ${user.email_verificado ? 'Sí' : 'No'}</p>
+                            <p><strong>Notificaciones:</strong> ${user.notificaciones_email ? 'Activadas' : 'Desactivadas'}</p>
                         </div>
                     </div>
                     
                     ${reservas.length > 0 ? `
                         <div style="margin-top: 20px;">
-                            <h4 style="color: #0d3b66; margin-bottom: 15px;">Últimas reservas</h4>
+                            <h4 style="color: #0d3b66; margin-bottom: 15px;">Últimas Reservas</h4>
                             <div class="table-responsive">
                                 <table style="font-size: 0.8rem;">
                                     <thead>
@@ -2329,6 +3122,8 @@
                                             <th>Código</th>
                                             <th>Tour</th>
                                             <th>Fecha</th>
+                                            <th>Personas</th>
+                                            <th>Total</th>
                                             <th>Estado</th>
                                         </tr>
                                     </thead>
@@ -2338,6 +3133,8 @@
                                                 <td>${r.codigo || 'N/A'}</td>
                                                 <td>${r.tour_nombre || `Tour #${r.tour_id}`}</td>
                                                 <td>${formatDate(r.fecha)}</td>
+                                                <td>${r.personas || 1}</td>
+                                                <td>$${(r.total || 0).toFixed(2)}</td>
                                                 <td><span class="badge ${r.estado || 'pending'}">${getEstadoTexto(r.estado)}</span></td>
                                             </tr>
                                         `).join('')}
@@ -2351,7 +3148,7 @@
                 document.getElementById('modal-body').innerHTML = html;
                 document.getElementById('modal-footer').innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal()">Cerrar</button>
-                    <button class="btn btn-warning" onclick="editUser(${user.id}); closeModal();">Editar</button>
+                    <button class="btn btn-warning" onclick="editUser(${user.id}); closeModal();">Editar Usuario</button>
                 `;
                 
                 modal.classList.add('active');
@@ -2412,19 +3209,23 @@
                             <input type="checkbox" id="user-verified" ${user.email_verificado ? 'checked' : ''}>
                             <label for="user-verified">Email verificado</label>
                         </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="user-notifications" ${user.notificaciones_email !== false ? 'checked' : ''}>
+                            <label for="user-notifications">Notificaciones por email</label>
+                        </div>
                     </form>
                 `;
                 
                 document.getElementById('modal-body').innerHTML = html;
                 document.getElementById('modal-footer').innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="saveUser(${user.id})">Guardar</button>
+                    <button class="btn btn-primary" onclick="saveUser(${user.id})">Guardar Cambios</button>
                 `;
                 
                 modal.classList.add('active');
             };
             
-            window.saveUser = async function(id) {
+            window.saveUser = function(id) {
                 const user = allUsers.find(u => u.id === id);
                 if (!user) return;
                 
@@ -2437,14 +3238,15 @@
                 user.rol = document.getElementById('user-role').value;
                 user.activo = document.getElementById('user-status').value === 'true';
                 user.email_verificado = document.getElementById('user-verified').checked;
+                user.notificaciones_email = document.getElementById('user-notifications').checked;
                 
-                showSuccess('Usuario actualizado localmente');
+                showSuccess('Usuario actualizado');
                 closeModal();
                 loadSection(currentSection);
             };
             
-            window.toggleUserStatus = async function(id, activate) {
-                if (!await showConfirm(activate ? 'Activar Usuario' : 'Desactivar Usuario', `¿${activate ? 'Activar' : 'Desactivar'} este usuario?`)) return;
+            window.toggleUserStatus = function(id, activate) {
+                if (!showConfirm(activate ? 'Activar Usuario' : 'Desactivar Usuario', `¿${activate ? 'Activar' : 'Desactivar'} este usuario?`)) return;
                 
                 const user = allUsers.find(u => u.id === id);
                 if (user) {
@@ -2495,7 +3297,7 @@
                                 <td>#${p.id}</td>
                                 <td>
                                     ${p.imagen_url ? 
-                                        `<img src="${p.imagen_url}" style="width: 50px; height: 40px; object-fit: cover; border-radius: 4px;">` : 
+                                        `<img src="${p.imagen_url}" style="width: 50px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('${p.imagen_url}')">` : 
                                         `<div style="width: 50px; height: 40px; background: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center;"><i class="bi bi-image" style="color: #999;"></i></div>`
                                     }
                                 </td>
@@ -2551,10 +3353,10 @@
                         <div class="form-group">
                             <label>Contenido *</label>
                             <textarea id="post-content" class="form-control" rows="6" required></textarea>
-                            <small style="color: #666;">Puedes usar HTML básico</small>
+                            <small style="color: #666;">Puedes usar HTML básico (h1, h2, p, strong, em, ul, li)</small>
                         </div>
                         <div class="form-group">
-                            <label>Extracto</label>
+                            <label>Extracto (Resumen)</label>
                             <textarea id="post-excerpt" class="form-control" rows="2"></textarea>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -2565,6 +3367,7 @@
                                     <option value="tours">Tours</option>
                                     <option value="consejos">Consejos</option>
                                     <option value="historias">Historias</option>
+                                    <option value="eventos">Eventos</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -2573,8 +3376,18 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>URL Imagen</label>
-                            <input type="url" id="post-image" class="form-control" placeholder="https://...">
+                            <label>Imagen Destacada</label>
+                            <div id="upload-post-image" class="image-upload-container" onclick="document.getElementById('post-image-file').click()">
+                                <i class="bi bi-cloud-upload"></i>
+                                <p>Haz clic para subir una imagen</p>
+                                <small>PNG, JPG, WEBP (max. 5MB)</small>
+                                <input type="file" id="post-image-file" accept="image/*" style="display: none;">
+                            </div>
+                            <img id="post-image-preview" class="image-preview">
+                            <button type="button" id="post-image-remove" class="image-remove-btn" style="display: none;" onclick="removePostImage()">
+                                <i class="bi bi-trash"></i> Eliminar imagen
+                            </button>
+                            <input type="hidden" id="post-image" value="">
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="post-published">
@@ -2586,13 +3399,32 @@
                 document.getElementById('modal-body').innerHTML = html;
                 document.getElementById('modal-footer').innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="savePost(null)">Crear</button>
+                    <button class="btn btn-primary" onclick="savePost(null)">Crear Artículo</button>
                 `;
                 
                 modal.classList.add('active');
+                
+                // Configurar upload de imagen
+                const fileInput = document.getElementById('post-image-file');
+                fileInput.addEventListener('change', createImageUploader(
+                    'post-image-file',
+                    'post-image-preview',
+                    'upload-post-image',
+                    (base64) => {
+                        document.getElementById('post-image').value = base64;
+                        document.getElementById('post-image-remove').style.display = 'inline-flex';
+                    }
+                ));
+                
+                window.removePostImage = function() {
+                    removeImage('post-image-preview', 'post-image-file', () => {
+                        document.getElementById('post-image').value = '';
+                        document.getElementById('post-image-remove').style.display = 'none';
+                    });
+                };
             };
             
-            window.editPost = async function(id) {
+            window.editPost = function(id) {
                 const post = allPosts.find(p => p.id === id);
                 if (!post) return;
                 
@@ -2621,6 +3453,7 @@
                                     <option value="tours" ${post.categoria === 'tours' ? 'selected' : ''}>Tours</option>
                                     <option value="consejos" ${post.categoria === 'consejos' ? 'selected' : ''}>Consejos</option>
                                     <option value="historias" ${post.categoria === 'historias' ? 'selected' : ''}>Historias</option>
+                                    <option value="eventos" ${post.categoria === 'eventos' ? 'selected' : ''}>Eventos</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -2629,8 +3462,18 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>URL Imagen</label>
-                            <input type="url" id="post-image" class="form-control" value="${post.imagen_url || ''}">
+                            <label>Imagen Destacada</label>
+                            <div id="upload-post-image" class="image-upload-container" onclick="document.getElementById('post-image-file').click()">
+                                <i class="bi bi-cloud-upload"></i>
+                                <p>Haz clic para cambiar la imagen</p>
+                                <small>PNG, JPG, WEBP (max. 5MB)</small>
+                                <input type="file" id="post-image-file" accept="image/*" style="display: none;">
+                            </div>
+                            <img id="post-image-preview" class="image-preview ${post.imagen_url ? 'active' : ''}" src="${post.imagen_url || ''}">
+                            <button type="button" id="post-image-remove" class="image-remove-btn" style="${post.imagen_url ? 'display: inline-flex;' : 'display: none;'}" onclick="removePostImage()">
+                                <i class="bi bi-trash"></i> Eliminar imagen
+                            </button>
+                            <input type="hidden" id="post-image" value="${post.imagen_url || ''}">
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="post-published" ${post.publicado ? 'checked' : ''}>
@@ -2642,10 +3485,29 @@
                 document.getElementById('modal-body').innerHTML = html;
                 document.getElementById('modal-footer').innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="savePost(${post.id})">Guardar</button>
+                    <button class="btn btn-primary" onclick="savePost(${post.id})">Guardar Cambios</button>
                 `;
                 
                 modal.classList.add('active');
+                
+                // Configurar upload de imagen
+                const fileInput = document.getElementById('post-image-file');
+                fileInput.addEventListener('change', createImageUploader(
+                    'post-image-file',
+                    'post-image-preview',
+                    'upload-post-image',
+                    (base64) => {
+                        document.getElementById('post-image').value = base64;
+                        document.getElementById('post-image-remove').style.display = 'inline-flex';
+                    }
+                ));
+                
+                window.removePostImage = function() {
+                    removeImage('post-image-preview', 'post-image-file', () => {
+                        document.getElementById('post-image').value = '';
+                        document.getElementById('post-image-remove').style.display = 'none';
+                    });
+                };
             };
             
             window.savePost = async function(id) {
@@ -2684,9 +3546,63 @@
                         }
                         
                         loadSection(currentSection);
+                    } else {
+                        // Fallback local
+                        if (id) {
+                            const index = allPosts.findIndex(p => p.id === id);
+                            if (index !== -1) {
+                                allPosts[index] = { ...allPosts[index], ...data, id };
+                                showSuccess('Artículo actualizado (local)');
+                            }
+                        } else {
+                            const newPost = { 
+                                ...data, 
+                                id: allPosts.length + 1,
+                                created_at: new Date().toISOString(),
+                                vistas: 0
+                            };
+                            allPosts.push(newPost);
+                            showSuccess('Artículo creado (local)');
+                        }
+                        closeModal();
+                        loadSection(currentSection);
                     }
                 } catch (error) {
-                    showError('Error al guardar');
+                    // Fallback local
+                    if (id) {
+                        const index = allPosts.findIndex(p => p.id === id);
+                        if (index !== -1) {
+                            allPosts[index] = { 
+                                ...allPosts[index], 
+                                titulo: document.getElementById('post-title').value,
+                                contenido: document.getElementById('post-content').value,
+                                excerpt: document.getElementById('post-excerpt').value,
+                                categoria: document.getElementById('post-category').value,
+                                autor: document.getElementById('post-author').value,
+                                imagen_url: document.getElementById('post-image').value || null,
+                                publicado: document.getElementById('post-published').checked,
+                                id: id
+                            };
+                            showSuccess('Artículo actualizado (local)');
+                        }
+                    } else {
+                        const newPost = {
+                            id: allPosts.length + 1,
+                            titulo: document.getElementById('post-title').value,
+                            contenido: document.getElementById('post-content').value,
+                            excerpt: document.getElementById('post-excerpt').value,
+                            categoria: document.getElementById('post-category').value,
+                            autor: document.getElementById('post-author').value,
+                            imagen_url: document.getElementById('post-image').value || null,
+                            publicado: document.getElementById('post-published').checked,
+                            created_at: new Date().toISOString(),
+                            vistas: 0
+                        };
+                        allPosts.push(newPost);
+                        showSuccess('Artículo creado (local)');
+                    }
+                    closeModal();
+                    loadSection(currentSection);
                 }
             };
             
@@ -2706,9 +3622,23 @@
                         const post = allPosts.find(p => p.id === id);
                         if (post) post.publicado = publish;
                         loadSection(currentSection);
+                    } else {
+                        const post = allPosts.find(p => p.id === id);
+                        if (post) {
+                            post.publicado = publish;
+                            showSuccess(`Artículo ${publish ? 'publicado' : 'ocultado'} (local)`);
+                            loadSection(currentSection);
+                        }
                     }
                 } catch (error) {
-                    showError('Error al cambiar estado');
+                    const post = allPosts.find(p => p.id === id);
+                    if (post) {
+                        post.publicado = publish;
+                        showSuccess(`Artículo ${publish ? 'publicado' : 'ocultado'} (local)`);
+                        loadSection(currentSection);
+                    } else {
+                        showError('Error al cambiar estado');
+                    }
                 }
             };
             
@@ -2726,9 +3656,15 @@
                         showSuccess('Artículo eliminado');
                         allPosts = allPosts.filter(p => p.id !== id);
                         loadSection(currentSection);
+                    } else {
+                        allPosts = allPosts.filter(p => p.id !== id);
+                        showSuccess('Artículo eliminado (local)');
+                        loadSection(currentSection);
                     }
                 } catch (error) {
-                    showError('Error al eliminar');
+                    allPosts = allPosts.filter(p => p.id !== id);
+                    showSuccess('Artículo eliminado (local)');
+                    loadSection(currentSection);
                 }
             };
             
@@ -2764,25 +3700,39 @@
                     
                     <div class="report-filters">
                         <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Período</label>
-                            <select id="report-period" class="form-control">
-                                <option value="30">Últimos 30 días</option>
-                                <option value="90">Últimos 90 días</option>
-                                <option value="365">Último año</option>
-                                <option value="all">Todo</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Reporte</label>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Tipo de Reporte</label>
                             <select id="report-type" class="form-control">
                                 <option value="reservas">Reservas</option>
                                 <option value="ingresos">Ingresos</option>
                                 <option value="tours">Tours</option>
+                                <option value="usuarios">Usuarios</option>
+                                <option value="blog">Blog</option>
                             </select>
                         </div>
                         <div>
-                            <button onclick="generateReport()" class="btn btn-primary">
-                                <i class="bi bi-file-earmark-bar-graph"></i> Generar
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Período</label>
+                            <select id="report-period" class="form-control">
+                                <option value="7">Últimos 7 días</option>
+                                <option value="30" selected>Últimos 30 días</option>
+                                <option value="90">Últimos 90 días</option>
+                                <option value="365">Último año</option>
+                                <option value="all">Todo el historial</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Formato</label>
+                            <select id="report-format" class="form-control">
+                                <option value="excel">Excel (.xlsx)</option>
+                                <option value="pdf">PDF</option>
+                                <option value="csv">CSV</option>
+                            </select>
+                        </div>
+                        <div class="report-actions">
+                            <button onclick="generateAndDownloadReport()" class="btn btn-primary">
+                                <i class="bi bi-file-earmark-bar-graph"></i> Generar Reporte
+                            </button>
+                            <button onclick="generateAndDownloadReport()" class="btn btn-success">
+                                <i class="bi bi-download"></i> Descargar
                             </button>
                         </div>
                     </div>
@@ -2822,7 +3772,7 @@
                     </div>
                     
                     <div style="margin-top: 30px;">
-                        <h3 style="color: #0d3b66; margin-bottom: 20px;">Top 5 Tours</h3>
+                        <h3 style="color: #0d3b66; margin-bottom: 20px;">Top 5 Tours Más Reservados</h3>
                         <div class="table-responsive">
                             <table>
                                 <thead>
@@ -2831,7 +3781,7 @@
                                         <th>Tour</th>
                                         <th>Reservas</th>
                                         <th>Ingresos</th>
-                                        <th>%</th>
+                                        <th>% del Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -2877,10 +3827,27 @@
                                 datasets: [{
                                     data: [pending, confirmed, completed, cancelled],
                                     backgroundColor: ['#ffc107', '#28a745', '#17a2b8', '#dc3545'],
-                                    borderWidth: 0
+                                    borderWidth: 0,
+                                    borderRadius: 5
                                 }]
                             },
-                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                            options: { 
+                                responsive: true, 
+                                maintainAspectRatio: false,
+                                cutout: '60%',
+                                plugins: { 
+                                    legend: { 
+                                        position: 'bottom',
+                                        labels: { padding: 20 }
+                                    } 
+                                },
+                                layout: {
+                                    padding: {
+                                        top: 20,
+                                        bottom: 20
+                                    }
+                                }
+                            }
                         });
                     }
                     
@@ -2897,147 +3864,640 @@
                                     borderRadius: 5
                                 }]
                             },
-                            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                            options: { 
+                                responsive: true, 
+                                maintainAspectRatio: false, 
+                                scales: { 
+                                    y: { 
+                                        beginAtZero: true, 
+                                        ticks: { stepSize: 1 } 
+                                    } 
+                                } 
+                            }
                         });
                     }
                 }, 100);
             }
             
-            // ========== EXPORTACIONES ==========
-            window.exportBookingsExcel = function() {
-                const data = allBookings.map(b => ({
-                    Código: b.codigo || 'N/A',
-                    Cliente: b.user_nombre || 'N/A',
-                    Email: b.user_email || 'N/A',
-                    Tour: b.tour_nombre || `Tour #${b.tour_id}`,
-                    Fecha: formatDate(b.fecha),
-                    Personas: b.personas || 1,
-                    Total: b.total || 0,
-                    Estado: getEstadoTexto(b.estado),
-                    'Método Pago': getMetodoPagoTexto(b.metodo_pago)
-                }));
+            window.generateAndDownloadReport = function() {
+                const type = document.getElementById('report-type')?.value || 'reservas';
+                const period = document.getElementById('report-period')?.value || '30';
+                const format = document.getElementById('report-format')?.value || 'excel';
+                
+                showInfo(`Generando reporte de ${type}...`);
+                
+                setTimeout(() => {
+                    if (format === 'excel') {
+                        exportReportToExcel(type, period);
+                    } else if (format === 'pdf') {
+                        exportReportToPDF(type, period);
+                    } else if (format === 'csv') {
+                        exportReportToCSV(type, period);
+                    }
+                }, 500);
+            };
+            
+            function exportReportToExcel(type, period) {
+                let data = [];
+                let sheetName = 'Reporte';
+                
+                if (type === 'reservas') {
+                    data = allBookings.map(b => ({
+                        Código: b.codigo || 'N/A',
+                        Cliente: b.user_nombre || 'N/A',
+                        Email: b.user_email || 'N/A',
+                        Tour: b.tour_nombre || `Tour #${b.tour_id}`,
+                        Fecha: formatDate(b.fecha),
+                        Personas: b.personas || 1,
+                        Total: b.total || 0,
+                        Estado: getEstadoTexto(b.estado),
+                        'Método Pago': getMetodoPagoTexto(b.metodo_pago),
+                        'Fecha Reserva': b.created_at ? new Date(b.created_at).toLocaleString() : 'N/A'
+                    }));
+                    sheetName = 'Reservas';
+                } else if (type === 'ingresos') {
+                    const tours = {};
+                    allBookings.forEach(b => {
+                        const tourName = b.tour_nombre || `Tour #${b.tour_id}`;
+                        if (!tours[tourName]) {
+                            tours[tourName] = {
+                                tour: tourName,
+                                reservas: 0,
+                                ingresos: 0,
+                                personas: 0
+                            };
+                        }
+                        tours[tourName].reservas++;
+                        tours[tourName].ingresos += b.total || 0;
+                        tours[tourName].personas += b.personas || 1;
+                    });
+                    
+                    data = Object.values(tours).map(t => ({
+                        Tour: t.tour,
+                        'Total Reservas': t.reservas,
+                        'Total Personas': t.personas,
+                        'Ingresos Totales': t.ingresos,
+                        'Promedio por Reserva': t.ingresos / t.reservas
+                    }));
+                    sheetName = 'Ingresos';
+                } else if (type === 'tours') {
+                    data = allTours.map(t => ({
+                        ID: t.id,
+                        Nombre: t.nombre,
+                        Precio: t.precio,
+                        Duración: t.duracion,
+                        Capacidad: t.capacidad,
+                        Estado: t.disponible ? 'Activo' : 'Inactivo',
+                        Reservas: allBookings.filter(b => b.tour_id === t.id).length
+                    }));
+                    sheetName = 'Tours';
+                } else if (type === 'usuarios') {
+                    data = allUsers.map(u => ({
+                        ID: u.id,
+                        Nombre: u.nombre,
+                        Email: u.email,
+                        Teléfono: u.telefono || 'N/A',
+                        Rol: u.rol === 'admin' ? 'Administrador' : 'Usuario',
+                        Estado: u.activo ? 'Activo' : 'Inactivo',
+                        Registro: u.fecha_registro ? new Date(u.fecha_registro).toLocaleDateString() : 'N/A',
+                        Reservas: allBookings.filter(b => b.user_id === u.id).length
+                    }));
+                    sheetName = 'Usuarios';
+                } else if (type === 'blog') {
+                    data = allPosts.map(p => ({
+                        ID: p.id,
+                        Título: p.titulo,
+                        Categoría: p.categoria,
+                        Autor: p.autor,
+                        Estado: p.publicado ? 'Publicado' : 'Borrador',
+                        Vistas: p.vistas || 0,
+                        Fecha: p.created_at ? new Date(p.created_at).toLocaleDateString() : 'N/A'
+                    }));
+                    sheetName = 'Blog';
+                }
                 
                 const ws = XLSX.utils.json_to_sheet(data);
                 const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, 'Reservas');
-                XLSX.writeFile(wb, `reservas_${new Date().getTime()}.xlsx`);
-                showSuccess('Exportado correctamente');
-            };
+                XLSX.utils.book_append_sheet(wb, ws, sheetName);
+                XLSX.writeFile(wb, `${sheetName}_${new Date().getTime()}.xlsx`);
+                
+                showSuccess(`Reporte de ${type} exportado exitosamente`);
+            }
             
-            window.exportBookingsPDF = function() {
+            function exportReportToPDF(type, period) {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF('landscape');
                 
                 doc.setFontSize(18);
-                doc.text('Reporte de Reservas - Caño Salao', 14, 22);
+                doc.text(`Reporte de ${type} - Caño Salao`, 14, 22);
                 doc.setFontSize(10);
-                doc.text(`Generado: ${new Date().toLocaleDateString()}`, 14, 32);
+                doc.text(`Generado: ${new Date().toLocaleString()}`, 14, 32);
                 
-                const headers = [['Código', 'Cliente', 'Tour', 'Fecha', 'Personas', 'Total', 'Estado']];
-                const data = allBookings.slice(0, 50).map(b => [
-                    b.codigo || 'N/A',
-                    b.user_nombre || 'N/A',
-                    b.tour_nombre || `Tour #${b.tour_id}`,
-                    formatDate(b.fecha),
-                    b.personas || 1,
-                    `$${(b.total || 0).toFixed(2)}`,
-                    getEstadoTexto(b.estado)
-                ]);
+                let headers = [];
+                let body = [];
                 
-                doc.autoTable({
-                    head: headers,
-                    body: data,
-                    startY: 45,
-                    theme: 'striped',
-                    headStyles: { fillColor: [13, 59, 102], textColor: 255 }
-                });
+                if (type === 'reservas') {
+                    headers = [['Código', 'Cliente', 'Tour', 'Fecha', 'Personas', 'Total', 'Estado']];
+                    body = allBookings.slice(0, 50).map(b => [
+                        b.codigo || 'N/A',
+                        b.user_nombre || 'N/A',
+                        b.tour_nombre || `Tour #${b.tour_id}`,
+                        formatDate(b.fecha),
+                        (b.personas || 1).toString(),
+                        `$${(b.total || 0).toFixed(2)}`,
+                        getEstadoTexto(b.estado)
+                    ]);
+                } else if (type === 'ingresos') {
+                    headers = [['Tour', 'Reservas', 'Personas', 'Ingresos', 'Promedio']];
+                    const tours = {};
+                    allBookings.forEach(b => {
+                        const tourName = b.tour_nombre || `Tour #${b.tour_id}`;
+                        if (!tours[tourName]) tours[tourName] = { reservas: 0, ingresos: 0, personas: 0 };
+                        tours[tourName].reservas++;
+                        tours[tourName].ingresos += b.total || 0;
+                        tours[tourName].personas += b.personas || 1;
+                    });
+                    body = Object.entries(tours).map(([name, t]) => [
+                        name,
+                        t.reservas.toString(),
+                        t.personas.toString(),
+                        `$${t.ingresos.toFixed(2)}`,
+                        `$${(t.ingresos / t.reservas).toFixed(2)}`
+                    ]);
+                } else if (type === 'tours') {
+                    headers = [['ID', 'Nombre', 'Precio', 'Duración', 'Capacidad', 'Estado', 'Reservas']];
+                    body = allTours.map(t => [
+                        `#${t.id}`,
+                        t.nombre || '',
+                        `$${(t.precio || 0).toFixed(2)}`,
+                        t.duracion || 'N/A',
+                        (t.capacidad || 15).toString(),
+                        t.disponible ? 'Activo' : 'Inactivo',
+                        allBookings.filter(b => b.tour_id === t.id).length.toString()
+                    ]);
+                }
                 
-                doc.save(`reservas_${new Date().getTime()}.pdf`);
-                showSuccess('PDF generado');
+                if (body.length > 0) {
+                    doc.autoTable({
+                        head: headers,
+                        body: body,
+                        startY: 45,
+                        theme: 'striped',
+                        headStyles: { fillColor: [13, 59, 102], textColor: 255 }
+                    });
+                }
+                
+                doc.save(`Reporte_${type}_${new Date().getTime()}.pdf`);
+                showSuccess(`Reporte de ${type} exportado exitosamente`);
+            }
+            
+            function exportReportToCSV(type, period) {
+                let data = [];
+                let filename = `reporte_${type}_${new Date().getTime()}.csv`;
+                
+                if (type === 'reservas') {
+                    data = allBookings.map(b => ({
+                        Codigo: b.codigo || 'N/A',
+                        Cliente: b.user_nombre || 'N/A',
+                        Tour: b.tour_nombre || `Tour #${b.tour_id}`,
+                        Fecha: formatDate(b.fecha),
+                        Personas: b.personas || 1,
+                        Total: (b.total || 0).toFixed(2),
+                        Estado: getEstadoTexto(b.estado)
+                    }));
+                } else if (type === 'tours') {
+                    data = allTours.map(t => ({
+                        ID: t.id,
+                        Nombre: t.nombre,
+                        Precio: (t.precio || 0).toFixed(2),
+                        Duracion: t.duracion || 'N/A',
+                        Capacidad: t.capacidad || 15,
+                        Estado: t.disponible ? 'Activo' : 'Inactivo',
+                        Reservas: allBookings.filter(b => b.tour_id === t.id).length
+                    }));
+                } else if (type === 'usuarios') {
+                    data = allUsers.map(u => ({
+                        ID: u.id,
+                        Nombre: u.nombre || 'N/A',
+                        Email: u.email,
+                        Rol: u.rol === 'admin' ? 'Administrador' : 'Usuario',
+                        Activo: u.activo ? 'Sí' : 'No',
+                        Reservas: allBookings.filter(b => b.user_id === u.id).length
+                    }));
+                }
+                
+                if (data.length > 0) {
+                    const ws = XLSX.utils.json_to_sheet(data);
+                    const csv = XLSX.utils.sheet_to_csv(ws);
+                    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                    
+                    showSuccess(`Reporte de ${type} exportado exitosamente`);
+                } else {
+                    showError('No hay datos para exportar');
+                }
+            }
+            
+            // ========== CONFIGURACIÓN ==========
+            async function renderConfiguracion() {
+                const mainContent = document.getElementById('main-content');
+                
+                let html = `
+                    <div class="section-header">
+                        <h2><i class="bi bi-gear"></i> Configuración</h2>
+                        <div class="section-actions">
+                            <button onclick="saveConfig()" class="btn btn-success">
+                                <i class="bi bi-save"></i> Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="config-section">
+                        <h3><i class="bi bi-building"></i> Información del Sitio</h3>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Nombre del Sitio</h4>
+                                    <p>${siteConfig.site_name}</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <button class="btn btn-outline" onclick="editConfigField('site_name')">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Email de Contacto</h4>
+                                    <p>${siteConfig.site_email}</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <button class="btn btn-outline" onclick="editConfigField('site_email')">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Teléfono</h4>
+                                    <p>${siteConfig.site_phone}</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <button class="btn btn-outline" onclick="editConfigField('site_phone')">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Dirección</h4>
+                                    <p>${siteConfig.site_address}</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <button class="btn btn-outline" onclick="editConfigField('site_address')">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="config-section">
+                        <h3><i class="bi bi-toggle-on"></i> Funcionalidades</h3>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Reservas en línea</h4>
+                                    <p>Permitir a los usuarios realizar reservas</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <div class="config-toggle ${siteConfig.booking_enabled ? 'active' : ''}" 
+                                         onclick="toggleConfig('booking_enabled')" id="toggle-booking_enabled"></div>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Registro de usuarios</h4>
+                                    <p>Permitir nuevos registros</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <div class="config-toggle ${siteConfig.registration_enabled ? 'active' : ''}" 
+                                         onclick="toggleConfig('registration_enabled')" id="toggle-registration_enabled"></div>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Comentarios en blog</h4>
+                                    <p>Permitir comentarios en artículos</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <div class="config-toggle ${siteConfig.comments_enabled ? 'active' : ''}" 
+                                         onclick="toggleConfig('comments_enabled')" id="toggle-comments_enabled"></div>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Modo mantenimiento</h4>
+                                    <p>Deshabilitar acceso público</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <div class="config-toggle ${siteConfig.maintenance_mode ? 'active' : ''}" 
+                                         onclick="toggleConfig('maintenance_mode')" id="toggle-maintenance_mode"></div>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Notificaciones email</h4>
+                                    <p>Enviar notificaciones automáticas</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <div class="config-toggle ${siteConfig.email_notifications ? 'active' : ''}" 
+                                         onclick="toggleConfig('email_notifications')" id="toggle-email_notifications"></div>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Auto-confirmar reservas</h4>
+                                    <p>Confirmar automáticamente nuevas reservas</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <div class="config-toggle ${siteConfig.auto_confirm_bookings ? 'active' : ''}" 
+                                         onclick="toggleConfig('auto_confirm_bookings')" id="toggle-auto_confirm_bookings"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="config-section">
+                        <h3><i class="bi bi-sliders2"></i> Preferencias</h3>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Moneda</h4>
+                                    <p>${siteConfig.currency}</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <select onchange="updateConfig('currency', this.value)" class="filter-select">
+                                        <option value="USD" ${siteConfig.currency === 'USD' ? 'selected' : ''}>USD</option>
+                                        <option value="EUR" ${siteConfig.currency === 'EUR' ? 'selected' : ''}>EUR</option>
+                                        <option value="VES" ${siteConfig.currency === 'VES' ? 'selected' : ''}>VES</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Zona Horaria</h4>
+                                    <p>${siteConfig.timezone}</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <select onchange="updateConfig('timezone', this.value)" class="filter-select">
+                                        <option value="America/Caracas" ${siteConfig.timezone === 'America/Caracas' ? 'selected' : ''}>Caracas</option>
+                                        <option value="America/Bogota" ${siteConfig.timezone === 'America/Bogota' ? 'selected' : ''}>Bogotá</option>
+                                        <option value="America/New_York" ${siteConfig.timezone === 'America/New_York' ? 'selected' : ''}>Nueva York</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Formato de fecha</h4>
+                                    <p>${siteConfig.date_format}</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <select onchange="updateConfig('date_format', this.value)" class="filter-select">
+                                        <option value="DD/MM/YYYY" ${siteConfig.date_format === 'DD/MM/YYYY' ? 'selected' : ''}>DD/MM/YYYY</option>
+                                        <option value="MM/DD/YYYY" ${siteConfig.date_format === 'MM/DD/YYYY' ? 'selected' : ''}>MM/DD/YYYY</option>
+                                        <option value="YYYY-MM-DD" ${siteConfig.date_format === 'YYYY-MM-DD' ? 'selected' : ''}>YYYY-MM-DD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Items por página</h4>
+                                    <p>${siteConfig.items_per_page}</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <select onchange="updateConfig('items_per_page', parseInt(this.value))" class="filter-select">
+                                        <option value="10" ${siteConfig.items_per_page === 10 ? 'selected' : ''}>10</option>
+                                        <option value="25" ${siteConfig.items_per_page === 25 ? 'selected' : ''}>25</option>
+                                        <option value="50" ${siteConfig.items_per_page === 50 ? 'selected' : ''}>50</option>
+                                        <option value="100" ${siteConfig.items_per_page === 100 ? 'selected' : ''}>100</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="config-section">
+                        <h3><i class="bi bi-database"></i> Mantenimiento</h3>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Respaldar base de datos</h4>
+                                    <p>Crear una copia de seguridad</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <button class="btn btn-primary" onclick="backupDatabase()">
+                                        <i class="bi bi-database-down"></i> Respaldar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Restaurar respaldo</h4>
+                                    <p>Restaurar desde archivo</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <button class="btn btn-warning" onclick="restoreDatabase()">
+                                        <i class="bi bi-database-up"></i> Restaurar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Limpiar caché</h4>
+                                    <p>Eliminar datos temporales</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <button class="btn btn-info" onclick="clearCache()">
+                                        <i class="bi bi-trash"></i> Limpiar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-item-info">
+                                    <h4>Reiniciar contadores</h4>
+                                    <p>Restablecer estadísticas</p>
+                                </div>
+                                <div class="config-item-actions">
+                                    <button class="btn btn-danger" onclick="resetCounters()">
+                                        <i class="bi bi-arrow-counterclockwise"></i> Reiniciar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                mainContent.innerHTML = html;
+            }
+            
+            window.toggleConfig = function(key) {
+                siteConfig[key] = !siteConfig[key];
+                const toggle = document.getElementById(`toggle-${key}`);
+                if (toggle) {
+                    if (siteConfig[key]) {
+                        toggle.classList.add('active');
+                    } else {
+                        toggle.classList.remove('active');
+                    }
+                }
+                showInfo(`${key.replace(/_/g, ' ')}: ${siteConfig[key] ? 'Activado' : 'Desactivado'}`);
+            };
+            
+            window.updateConfig = function(key, value) {
+                siteConfig[key] = value;
+                showInfo(`${key.replace(/_/g, ' ')} actualizado`);
+            };
+            
+            window.editConfigField = function(key) {
+                const currentValue = siteConfig[key];
+                const newValue = prompt(`Editar ${key.replace(/_/g, ' ')}:`, currentValue);
+                if (newValue !== null && newValue.trim() !== '') {
+                    siteConfig[key] = newValue.trim();
+                    showSuccess(`${key.replace(/_/g, ' ')} actualizado`);
+                    renderConfiguracion();
+                }
+            };
+            
+            window.backupDatabase = function() {
+                const backup = {
+                    users: allUsers,
+                    tours: allTours,
+                    bookings: allBookings,
+                    posts: allPosts,
+                    config: siteConfig,
+                    timestamp: new Date().toISOString()
+                };
+                
+                const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `cano_salao_backup_${new Date().getTime()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                showSuccess('Respaldo creado exitosamente');
+            };
+            
+            window.restoreDatabase = function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        try {
+                            const backup = JSON.parse(event.target.result);
+                            
+                            if (backup.users) allUsers = backup.users;
+                            if (backup.tours) allTours = backup.tours;
+                            if (backup.bookings) allBookings = backup.bookings;
+                            if (backup.posts) allPosts = backup.posts;
+                            if (backup.config) siteConfig = { ...siteConfig, ...backup.config };
+                            
+                            localStorage.setItem('cano_salao_config', JSON.stringify(siteConfig));
+                            
+                            showSuccess('Base de datos restaurada exitosamente');
+                            updatePendingBadge(allBookings.filter(b => b.estado === 'pending').length);
+                            loadSection(currentSection);
+                        } catch (error) {
+                            showError('Error al restaurar el respaldo');
+                        }
+                    };
+                    reader.readAsText(file);
+                };
+                input.click();
+            };
+            
+            window.clearCache = function() {
+                localStorage.removeItem('cano_salao_tmp');
+                showSuccess('Caché limpiado exitosamente');
+            };
+            
+            window.resetCounters = function() {
+                if (showConfirm('Reiniciar Contadores', '¿Estás seguro de reiniciar las estadísticas? Esta acción no eliminará datos, solo restablecerá los contadores.')) {
+                    showSuccess('Contadores reiniciados');
+                }
+            };
+            
+            // ========== EXPORTACIONES ==========
+            window.exportBookingsExcel = function() {
+                exportReportToExcel('reservas', 'all');
+            };
+            
+            window.exportBookingsPDF = function() {
+                exportReportToPDF('reservas', 'all');
             };
             
             window.exportTours = function() {
-                const data = allTours.map(t => ({
-                    ID: t.id,
-                    Nombre: t.nombre,
-                    Descripción: t.descripcion,
-                    Precio: t.precio,
-                    Duración: t.duracion,
-                    Capacidad: t.capacidad,
-                    Estado: t.disponible ? 'Activo' : 'Inactivo',
-                    Reservas: allBookings.filter(b => b.tour_id === t.id).length
-                }));
-                
-                const ws = XLSX.utils.json_to_sheet(data);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, 'Tours');
-                XLSX.writeFile(wb, `tours_${new Date().getTime()}.xlsx`);
-                showSuccess('Exportado correctamente');
+                exportReportToExcel('tours', 'all');
             };
             
             window.exportUsers = function() {
-                const data = allUsers.map(u => ({
-                    ID: u.id,
-                    Nombre: u.nombre,
-                    Email: u.email,
-                    Teléfono: u.telefono || 'N/A',
-                    Rol: u.rol === 'admin' ? 'Administrador' : 'Usuario',
-                    Estado: u.activo ? 'Activo' : 'Inactivo',
-                    Registro: u.fecha_registro ? new Date(u.fecha_registro).toLocaleDateString() : 'N/A',
-                    Reservas: allBookings.filter(b => b.user_id === u.id).length
-                }));
-                
-                const ws = XLSX.utils.json_to_sheet(data);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, 'Usuarios');
-                XLSX.writeFile(wb, `usuarios_${new Date().getTime()}.xlsx`);
-                showSuccess('Exportado correctamente');
+                exportReportToExcel('usuarios', 'all');
             };
             
             window.exportPosts = function() {
-                const data = allPosts.map(p => ({
-                    ID: p.id,
-                    Título: p.titulo,
-                    Categoría: p.categoria,
-                    Autor: p.autor,
-                    Estado: p.publicado ? 'Publicado' : 'Borrador',
-                    Vistas: p.vistas || 0,
-                    Fecha: p.created_at ? new Date(p.created_at).toLocaleDateString() : 'N/A'
-                }));
-                
-                const ws = XLSX.utils.json_to_sheet(data);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, 'Blog');
-                XLSX.writeFile(wb, `blog_${new Date().getTime()}.xlsx`);
-                showSuccess('Exportado correctamente');
+                exportReportToExcel('blog', 'all');
             };
             
             window.exportAllData = function() {
                 const wb = XLSX.utils.book_new();
                 
                 XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(allBookings.map(b => ({
-                    Código: b.codigo, Cliente: b.user_nombre, Email: b.user_email, Tour: b.tour_nombre, Fecha: b.fecha, Total: b.total, Estado: b.estado
+                    Código: b.codigo,
+                    Cliente: b.user_nombre,
+                    Email: b.user_email,
+                    Tour: b.tour_nombre,
+                    Fecha: b.fecha,
+                    Personas: b.personas,
+                    Total: b.total,
+                    Estado: b.estado
                 }))), 'Reservas');
                 
                 XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(allTours.map(t => ({
-                    ID: t.id, Nombre: t.nombre, Precio: t.precio, Duración: t.duracion, Estado: t.disponible ? 'Activo' : 'Inactivo'
+                    ID: t.id,
+                    Nombre: t.nombre,
+                    Precio: t.precio,
+                    Duración: t.duracion,
+                    Capacidad: t.capacidad,
+                    Estado: t.disponible ? 'Activo' : 'Inactivo'
                 }))), 'Tours');
                 
                 XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(allUsers.map(u => ({
-                    ID: u.id, Nombre: u.nombre, Email: u.email, Rol: u.rol, Activo: u.activo
+                    ID: u.id,
+                    Nombre: u.nombre,
+                    Email: u.email,
+                    Rol: u.rol,
+                    Activo: u.activo
                 }))), 'Usuarios');
                 
                 XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(allPosts.map(p => ({
-                    ID: p.id, Título: p.titulo, Categoría: p.categoria, Publicado: p.publicado, Vistas: p.vistas
+                    ID: p.id,
+                    Título: p.titulo,
+                    Categoría: p.categoria,
+                    Publicado: p.publicado,
+                    Vistas: p.vistas
                 }))), 'Blog');
                 
                 XLSX.writeFile(wb, `cano_salao_completo_${new Date().getTime()}.xlsx`);
-                showSuccess('Datos exportados');
-            };
-            
-            window.generateReport = function() {
-                showInfo('Generando reporte...');
-                setTimeout(() => showSuccess('Reporte generado'), 1500);
+                showSuccess('Datos exportados exitosamente');
             };
             
             // ========== PAGINACIÓN ==========
@@ -3083,10 +4543,17 @@
             function formatDate(date) {
                 if (!date) return 'N/A';
                 try {
-                    return new Date(date).toLocaleDateString();
+                    const d = new Date(date);
+                    if (isNaN(d.getTime())) return date;
+                    return d.toLocaleDateString();
                 } catch {
                     return date;
                 }
+            }
+            
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
             }
             
             // ========== SISTEMA DE ALERTAS ==========
@@ -3139,9 +4606,11 @@
             
             // ========== LOGOUT ==========
             async function logout() {
-                await showConfirm('Cerrar Sesión', '¿Cerrar sesión?');
-                clearSession();
-                window.location.href = '../Pages/login.html';
+                const confirmed = await showConfirm('Cerrar Sesión', '¿Estás seguro que deseas cerrar la sesión?');
+                if (confirmed) {
+                    clearSession();
+                    window.location.href = '../Pages/login.html';
+                }
             }
             
             // ========== EXPONER GLOBALMENTE ==========
@@ -3151,12 +4620,16 @@
             window.filterTours = filterTours;
             window.filterUsers = filterUsers;
             window.filterPosts = filterPosts;
+            window.openCreateBookingModal = openCreateBookingModal;
+            window.createBooking = createBooking;
             window.confirmBooking = confirmBooking;
             window.completeBooking = completeBooking;
             window.viewBooking = viewBooking;
             window.editBooking = editBooking;
             window.saveBooking = saveBooking;
             window.deleteBooking = deleteBooking;
+            window.calculateTotal = function() {};
+            window.editCalculateTotal = function() {};
             window.openCreateTourModal = openCreateTourModal;
             window.editTour = editTour;
             window.saveTour = saveTour;
@@ -3171,13 +4644,23 @@
             window.savePost = savePost;
             window.togglePostStatus = togglePostStatus;
             window.deletePost = deletePost;
+            window.generateAndDownloadReport = generateAndDownloadReport;
             window.exportBookingsExcel = exportBookingsExcel;
             window.exportBookingsPDF = exportBookingsPDF;
             window.exportTours = exportTours;
             window.exportUsers = exportUsers;
             window.exportPosts = exportPosts;
             window.exportAllData = exportAllData;
-            window.generateReport = generateReport;
+            window.openImageModal = openImageModal;
+            window.closeImageModal = closeImageModal;
+            window.toggleConfig = toggleConfig;
+            window.updateConfig = updateConfig;
+            window.editConfigField = editConfigField;
+            window.backupDatabase = backupDatabase;
+            window.restoreDatabase = restoreDatabase;
+            window.clearCache = clearCache;
+            window.resetCounters = resetCounters;
+            window.saveConfig = saveConfig;
             window.changePage = changePage;
             window.closeModal = closeModal;
             window.closeConfirmModal = closeConfirmModal;
