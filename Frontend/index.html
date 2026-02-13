@@ -22,7 +22,7 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
-    <!-- ESTILOS CRÍTICOS INLINE -->
+    <!-- ESTILOS CRÍTICOS -->
     <style>
         /* ===== RESET Y ESTILOS BASE ===== */
         * {
@@ -35,7 +35,7 @@
             width: 100%;
             overflow-x: hidden;
             font-family: 'Roboto', sans-serif;
-            line-height: 1.5;
+            line-height: 1.6;
             color: #333;
             background: #fff;
         }
@@ -124,7 +124,7 @@
             color: #FF8C42;
         }
         
-        /* ===== NAVEGACIÓN DESKTOP ===== */
+        /* ===== NAVEGACIÓN ===== */
         .nav-center {
             flex: 1;
             display: flex;
@@ -155,11 +155,6 @@
         
         nav ul li a:hover {
             background: rgba(255,255,255,0.15);
-            color: white;
-        }
-        
-        nav ul li a.active {
-            background: rgba(255,255,255,0.2);
             color: white;
         }
         
@@ -212,48 +207,6 @@
         
         .mobile-menu-container.active {
             right: 0;
-        }
-        
-        .mobile-menu-header {
-            padding: 1.2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .mobile-menu-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.8rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            min-width: 44px;
-            min-height: 44px;
-        }
-        
-        .mobile-menu-nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .mobile-menu-nav a {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.5rem;
-            color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            transition: background 0.2s ease;
-        }
-        
-        .mobile-menu-nav a:hover,
-        .mobile-menu-nav a.active {
-            background: rgba(255,255,255,0.15);
         }
         
         /* ===== SISTEMA DE USUARIO ===== */
@@ -351,38 +304,6 @@
         
         .user-dropdown-menu.show {
             display: block;
-        }
-        
-        .user-dropdown-header {
-            padding: 1rem;
-            background: linear-gradient(135deg, #1a7fb8, #0d3b66);
-            color: white;
-        }
-        
-        .user-dropdown-email {
-            font-size: 0.8rem;
-            opacity: 0.9;
-            margin-top: 0.2rem;
-        }
-        
-        .user-dropdown-menu a {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem 1rem;
-            color: #333;
-            text-decoration: none;
-            border-bottom: 1px solid #eee;
-            transition: background 0.2s;
-        }
-        
-        .user-dropdown-menu a:hover {
-            background: #f5f5f5;
-        }
-        
-        .user-dropdown-menu a:last-child {
-            border-bottom: none;
-            color: #e74c3c;
         }
         
         @keyframes fadeInDown {
@@ -501,7 +422,73 @@
             margin: 0 auto;
         }
         
-        /* ===== TOURS GRID ===== */
+        /* ===== EMPRESA / HISTORIA ===== */
+        .history-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        
+        .history-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .history-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .factible-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .factible-feature {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .factible-feature:hover {
+            transform: translateY(-5px);
+        }
+        
+        .factible-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #1a7fb8, #0d3b66);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .factible-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .factible-feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #0d3b66;
+        }
+        
+        /* ===== ATRACCIONES / TOURS ===== */
         .attractions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -556,72 +543,204 @@
             font-size: 0.95rem;
         }
         
-        .tour-details span {
+        /* ===== LA RUTA / PROGRAMAS ===== */
+        .programas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .carta {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .carta:hover {
+            transform: translateY(-10px);
+        }
+        
+        .carta-header {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .carta-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .carta:hover .carta-header img {
+            transform: scale(1.1);
+        }
+        
+        .carta-content {
+            padding: 2rem;
+        }
+        
+        .carta-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #0d3b66;
+        }
+        
+        /* ===== CARACTERÍSTICAS ===== */
+        .caracteristicas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .caracteristica-item {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .caracteristica-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .caracteristica-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1a7fb8, #0d3b66);
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+        }
+        
+        .caracteristica-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .caracteristica-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #0d3b66;
+        }
+        
+        /* ===== PREGUNTAS ===== */
+        #preguntas {
+            text-align: center;
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background: #FF8C42;
+            color: white;
+        }
+        
+        .cta-btn.secondary {
+            background: transparent;
+            color: #0d3b66;
+            border: 2px solid #0d3b66;
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* ===== CONTACTO ===== */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #0d3b66;
+        }
+        
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1a7fb8, #0d3b66);
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            justify-content: center;
+            flex-shrink: 0;
         }
         
-        /* ===== LOADING ===== */
-        .tour-loading {
-            text-align: center;
-            padding: 3rem;
-            color: #666;
-            grid-column: 1 / -1;
+        .contact-icon i {
+            color: white;
+            font-size: 1.2rem;
         }
         
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         
-        /* ===== ALERTAS ===== */
-        .site-alert {
-            position: fixed;
-            top: 90px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            z-index: 9998;
-            max-width: 350px;
-            display: none;
-            animation: slideInRight 0.3s ease;
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
             font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            color: #0d3b66;
         }
         
-        .site-alert.success {
-            background: #d4edda;
-            border-left: 4px solid #28a745;
-            color: #155724;
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
         }
         
-        .site-alert.error {
-            background: #f8d7da;
-            border-left: 4px solid #dc3545;
-            color: #721c24;
-        }
-        
-        .site-alert.info {
-            background: #d1ecf1;
-            border-left: 4px solid #17a2b8;
-            color: #0c5460;
-        }
-        
-        .site-alert.warning {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            color: #856404;
-        }
-        
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .form-control:focus {
+            outline: none;
+            border-color: #1a7fb8;
+            box-shadow: 0 0 0 3px rgba(26,127,184,0.1);
         }
         
         /* ===== FOOTER ===== */
@@ -701,6 +820,38 @@
             font-size: 0.9rem;
         }
         
+        /* ===== ALERTAS ===== */
+        .site-alert {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            z-index: 9998;
+            max-width: 350px;
+            display: none;
+            animation: slideInRight 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .site-alert.success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        
+        .site-alert.error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
         /* ===== RESPONSIVE ===== */
         @media (max-width: 992px) {
             .nav-center {
@@ -715,19 +866,15 @@
                 font-size: 2.8rem;
             }
             
-            .hero-subtitle {
-                font-size: 1.3rem;
+            .history-content,
+            .contact-content {
+                grid-template-columns: 1fr;
             }
         }
         
         @media (max-width: 768px) {
             .logo h1 {
                 font-size: 1.4rem;
-            }
-            
-            .logo-img {
-                width: 35px;
-                height: 35px;
             }
             
             .hero-title {
@@ -745,16 +892,6 @@
             .user-info {
                 display: none;
             }
-            
-            .logged-user {
-                padding: 0.3rem;
-            }
-            
-            .user-avatar {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
         }
         
         @media (max-width: 576px) {
@@ -770,30 +907,25 @@
                 padding: 0.8rem 1.5rem;
                 font-size: 1rem;
             }
-            
-            .container {
-                width: 95%;
-                padding: 0 10px;
-            }
-            
-            section {
-                padding: 3rem 0;
-            }
         }
         
-        /* Utilidades */
-        .times-font {
-            font-family: 'Roboto', sans-serif;
+        .tour-loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            grid-column: 1 / -1;
         }
         
-        .non-critical {
-            opacity: 1;
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
         }
     </style>
-    
-    <!-- CSS no crítico (cargar después) -->
-    <link rel="stylesheet" href="index.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="index.css"></noscript>
 </head>
 <body>
     <!-- Sistema de alertas -->
@@ -809,22 +941,14 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img 
-                        src="media/Logo_cano_60.png" 
-                        srcset="media/Logo_cano_60.png 1x, media/Logo_cano_120.png 2x" 
-                        alt="Logo Caño Salao" 
-                        class="logo-img"
-                        width="40" 
-                        height="40"
-                        loading="eager"
-                    >
+                    <img src="media/Logo_cano_60.png" alt="Logo Caño Salao" class="logo-img" width="40" height="40">
                     <h1>Caño <span class="text-orange">Salao</span></h1>
                 </div>
 
                 <!-- Navegación desktop -->
                 <div class="nav-center">
                     <nav>
-                        <ul id="main-navigation">
+                        <ul>
                             <li><a href="index.html" class="active"><i class="bi bi-house"></i> Inicio</a></li>
                             <li><a href="Pages/Empresa.html"><i class="bi bi-building"></i> Empresa</a></li>
                             <li><a href="Pages/Historia.html"><i class="bi bi-journal-text"></i> Historia</a></li>
@@ -844,7 +968,7 @@
                         </a>
                         
                         <div class="logged-user" id="logged-user" style="display: none;">
-                            <div class="user-avatar" id="user-avatar" role="button" tabindex="0">U</div>
+                            <div class="user-avatar" id="user-avatar">U</div>
                             <div class="user-info">
                                 <div class="user-name" id="user-name">Usuario</div>
                                 <div class="user-role" id="user-role">user</div>
@@ -854,28 +978,25 @@
                 </div>
 
                 <!-- Botón menú móvil -->
-                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Menú">
+                <button class="menu-toggle" id="mobile-menu-toggle">
                     <i class="bi bi-list"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Menú móvil overlay -->
+    <!-- Menú móvil -->
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
-
-    <!-- Menú móvil container -->
     <div class="mobile-menu-container" id="mobile-menu-container">
         <div class="mobile-menu-header">
             <div class="logo">
                 <img src="media/Logo_cano_60.png" alt="Logo" class="logo-img" width="35" height="35">
-                <h2 style="color: white; font-size: 1.2rem;">Caño <span class="text-orange">Salao</span></h2>
+                <h2 style="color: white;">Caño <span class="text-orange">Salao</span></h2>
             </div>
-            <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Cerrar">
+            <button class="mobile-menu-close" id="mobile-menu-close">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
-        
         <nav class="mobile-menu-nav">
             <ul>
                 <li><a href="index.html" class="active"><i class="bi bi-house"></i> Inicio</a></li>
@@ -893,7 +1014,7 @@
         </nav>
     </div>
 
-    <!-- Hero Section -->
+    <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-bg" id="heroBackground"></div>
         <div class="container">
@@ -913,7 +1034,75 @@
         </div>
     </section>
     
-    <!-- Sección: Tours desde API -->
+    <!-- EMPRESA DE PRODUCCIÓN SOCIAL -->
+    <section id="empresa">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="bi bi-building"></i> Empresa de Producción Social</h2>
+                <p>Conoce nuestro modelo de negocio sostenible que beneficia a la comunidad de Caño Salao</p>
+            </div>
+            <div class="history-content">
+                <div class="history-text">
+                    <p>La empresa de producción social de transporte turístico acuático "Caño Salao" se establece como una entidad jurídica con el propósito de ofrecer servicios turísticos acuáticos sostenibles en la comunidad de Caño Salao, ubicada en Barcelona, Municipio Simón Bolívar, estado Anzoátegui.</p>
+                    <p>Su razón social refleja su compromiso con la protección del medio ambiente natural y el desarrollo socioeconómico de las comunidades locales.</p>
+                    <a href="Pages/Empresa.html" class="btn">
+                        <i class="bi bi-info-circle"></i> Conoce Más
+                    </a>
+                </div>
+                <div class="history-image">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600" alt="Nuestra empresa" loading="lazy">
+                </div>
+            </div>
+            
+            <div class="factible-features">
+                <div class="factible-feature">
+                    <div class="factible-icon">
+                        <i class="bi bi-tree-fill"></i>
+                    </div>
+                    <h3>Sostenibilidad Ambiental</h3>
+                    <p>Comprometidos con la protección del ecosistema único de manglares y especies marinas.</p>
+                </div>
+                <div class="factible-feature">
+                    <div class="factible-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h3>Desarrollo Comunitario</h3>
+                    <p>Generamos empleo local y reinvertimos utilidades en proyectos comunitarios.</p>
+                </div>
+                <div class="factible-feature">
+                    <div class="factible-icon">
+                        <i class="bi bi-globe-americas"></i>
+                    </div>
+                    <h3>Turismo Responsable</h3>
+                    <p>Ofrecemos experiencias auténticas que respetan la cultura local y el medio ambiente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HISTORIA -->
+    <section id="historia">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="bi bi-journal-text"></i> Historia de Caño Salao</h2>
+                <p>Conoce los orígenes de esta comunidad pesquera y su transformación en un destino turístico sostenible</p>
+            </div>
+            <div class="history-content">
+                <div class="history-text">
+                    <p>Caño Salao es una pequeña aldea de pescadores ubicada en el estado Anzoátegui, Venezuela, que surgió a mediados del siglo XX gracias a la iniciativa de varias familias provenientes de Barcelona.</p>
+                    <p>Atraídos por los hermosos paisajes costeros y la abundancia de recursos marinos, estos pioneros decidieron establecerse en esta zona y construir sus hogares.</p>
+                    <a href="Pages/Historia.html" class="btn">
+                        <i class="bi bi-clock-history"></i> Ver Historia Completa
+                    </a>
+                </div>
+                <div class="history-image">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600" alt="Paisaje de Caño Salao" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOURS (DESDE API) -->
     <section id="tours-api">
         <div class="container">
             <div class="section-title">
@@ -934,7 +1123,126 @@
         </div>
     </section>
 
-    <!-- Sección: Últimos Artículos del Blog -->
+    <!-- LA RUTA / PROGRAMAS -->
+    <section id="la-ruta">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="bi bi-map"></i> Descubre Nuestra Ruta</h2>
+                <p>Una experiencia única que combina naturaleza, historia y aventura</p>
+            </div>
+            <div class="programas">
+                <div class="carta">
+                    <div class="carta-header">
+                        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=500" alt="Manglares">
+                    </div>
+                    <div class="carta-content">
+                        <h3>Manglares y Biodiversidad</h3>
+                        <p>Explora los impresionantes manglares que albergan una rica diversidad de aves y especies marinas.</p>
+                        <a href="Pages/Servicios.html" class="carta-btn">
+                            Saber Más <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="carta">
+                    <div class="carta-header">
+                        <img src="https://images.unsplash.com/photo-1597076953441-3197b7c9c9b8?w=500" alt="Patrimonio Histórico">
+                    </div>
+                    <div class="carta-content">
+                        <h3>Patrimonio Histórico</h3>
+                        <p>Descubre el Puente Una Luz y las ruinas coloniales, testigos del desarrollo de la comunidad.</p>
+                        <a href="Pages/Historia.html" class="carta-btn">
+                            Explorar <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="carta">
+                    <div class="carta-header">
+                        <img src="https://images.unsplash.com/photo-1506260408121-e353d10b87c7?w=500" alt="Aventura Acuática">
+                    </div>
+                    <div class="carta-content">
+                        <h3>Aventura Acuática</h3>
+                        <p>Vive la emoción de navegar por los canales y disfrutar de paisajes espectaculares.</p>
+                        <a href="Pages/Atracciones.html" class="carta-btn">
+                            Iniciar Aventura <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ATRACCIONES TURÍSTICAS -->
+    <section id="atracciones">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="bi bi-star"></i> Atracciones Turísticas</h2>
+                <p>Descubre los tesoros naturales y culturales de Caño Salao</p>
+            </div>
+            <div class="attractions-grid">
+                <div class="attraction-card">
+                    <div class="attraction-img">
+                        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600" alt="Manglares">
+                    </div>
+                    <div class="attraction-info">
+                        <h3>Recorrido por Manglares</h3>
+                        <p>Navega entre los impresionantes manglares que albergan una rica biodiversidad.</p>
+                    </div>
+                </div>
+                <div class="attraction-card">
+                    <div class="attraction-img">
+                        <img src="https://images.unsplash.com/photo-1597076953441-3197b7c9c9b8?w=600" alt="Puente Una Luz">
+                    </div>
+                    <div class="attraction-info">
+                        <h3>Puente Una Luz</h3>
+                        <p>Visita este histórico puente, testigo del desarrollo de la comunidad.</p>
+                    </div>
+                </div>
+                <div class="attraction-card">
+                    <div class="attraction-img">
+                        <img src="https://images.unsplash.com/photo-1580137189272-c9370b0d12c9?w=600" alt="Ruinas">
+                    </div>
+                    <div class="attraction-info">
+                        <h3>Ruinas de la Antigua Aduana</h3>
+                        <p>Explora los restos de la época colonial que controlaba el comercio marítimo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CARACTERÍSTICAS / POR QUÉ ELEGIRNOS -->
+    <section id="caracteristicas">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="bi bi-check-circle"></i> ¿Por Qué Elegirnos?</h2>
+                <p>Descubre lo que nos hace la mejor opción para tu aventura</p>
+            </div>
+            <div class="caracteristicas-grid">
+                <div class="caracteristica-item">
+                    <span class="caracteristica-icon"><i class="bi bi-recycle"></i></span>
+                    <h3>Turismo Sostenible</h3>
+                    <p>Comprometidos con la protección del medio ambiente y la comunidad local.</p>
+                </div>
+                <div class="caracteristica-item">
+                    <span class="caracteristica-icon"><i class="bi bi-person-badge"></i></span>
+                    <h3>Guías Expertos</h3>
+                    <p>Nuestros guías locales conocen cada rincón de Caño Salao.</p>
+                </div>
+                <div class="caracteristica-item">
+                    <span class="caracteristica-icon"><i class="bi bi-shield-check"></i></span>
+                    <h3>Equipo Seguro</h3>
+                    <p>Embarcaciones modernas y equipos de seguridad certificados.</p>
+                </div>
+                <div class="caracteristica-item">
+                    <span class="caracteristica-icon"><i class="bi bi-cash-stack"></i></span>
+                    <h3>Precios Accesibles</h3>
+                    <p>Experiencias inolvidables a precios justos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOG PREVIEW -->
     <section id="blog-preview" style="display: none;">
         <div class="container">
             <div class="section-title">
@@ -950,7 +1258,99 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- PREGUNTAS / CTA -->
+    <section id="preguntas">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem; color: #0d3b66;">
+                <i class="bi bi-question-circle"></i> ¿Listo para la Aventura?
+            </h2>
+            <p style="font-size: 1.2rem; color: #666; max-width: 700px; margin: 0 auto 2rem;">
+                Reserva tu experiencia hoy mismo y descubre la magia de Caño Salao
+            </p>
+            <div class="cta-buttons">
+                <a href="Pages/Contacto.html" class="cta-btn">
+                    <i class="bi bi-calendar-plus"></i> Reservar Ahora
+                </a>
+                <a href="Pages/Servicios.html" class="cta-btn secondary">
+                    <i class="bi bi-eye"></i> Ver Tours
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="bi bi-chat-dots"></i> Contacto</h2>
+                <p>Reserva tu tour o solicita más información</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3><i class="bi bi-info-circle"></i> Información de Contacto</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                            <div>
+                                <h4>Ubicación</h4>
+                                <p>Sector Caño Salao, Barcelona, Estado Anzoátegui, Venezuela</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
+                            <div>
+                                <h4>Teléfono</h4>
+                                <p>+58 412-205-6558</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>info@canosalaotours.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h3><i class="bi bi-clock"></i> Horarios</h3>
+                    <p>Lunes a Domingo: 8:00 AM - 5:00 PM</p>
+                </div>
+                <div class="contact-form">
+                    <form id="reservation-form">
+                        <div class="form-group">
+                            <label><i class="bi bi-person"></i> Nombre Completo *</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-envelope"></i> Correo Electrónico *</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-telephone"></i> Teléfono</label>
+                            <input type="tel" id="phone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-signpost"></i> Tour de Interés</label>
+                            <select id="tour" class="form-control">
+                                <option value="">Selecciona un tour</option>
+                                <option value="Tour Básico">Tour Básico</option>
+                                <option value="Tour Completo">Tour Completo</option>
+                                <option value="Tour Fotográfico">Tour Fotográfico</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-chat-text"></i> Mensaje</label>
+                            <textarea id="message" class="form-control" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%;">
+                            <i class="bi bi-send"></i> Enviar Reserva
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -984,230 +1384,42 @@
         </div>
     </footer>
 
-    <!-- ===== JAVASCRIPT PRINCIPAL - VERSIÓN FINAL CORREGIDA ===== -->
+    <!-- JAVASCRIPT (SOLO LO NECESARIO PARA BACKEND) -->
     <script>
         (function() {
             "use strict";
             
-            // ========== CONFIGURACIÓN ==========
             const API_BASE_URL = 'https://ricardjf.pythonanywhere.com';
             
             const STORAGE_KEYS = {
                 TOKEN: 'cano_salao_token',
                 REFRESH_TOKEN: 'cano_salao_refresh_token',
-                USER: 'cano_salao_user',
-                EXPIRES: 'cano_salao_expires'
+                USER: 'cano_salao_user'
             };
             
             let currentUser = null;
             
-            // ========== INICIALIZACIÓN ==========
+            // Inicialización
             async function init() {
-                console.log('🚀 Iniciando Caño Salao Frontend');
-                console.log('🔗 API:', API_BASE_URL);
-                
-                // Verificar conexión con backend
-                await testConnection();
+                console.log('🚀 Iniciando Caño Salao');
                 
                 // Ocultar loader
-                hideLoader();
+                document.getElementById('page-loader')?.classList.add('hidden');
                 
                 // Cargar usuario
                 await loadUser();
                 
-                // Cargar contenido
+                // Cargar tours
                 loadTours();
+                
+                // Cargar blog
                 loadBlogPosts();
                 
                 // Configurar eventos
-                setupEventListeners();
+                setupEvents();
             }
             
-            // ========== TEST DE CONEXIÓN ==========
-            async function testConnection() {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/`);
-                    if (response.ok) {
-                        const data = await response.json();
-                        console.log('✅ Conectado al backend:', data.message);
-                        showAlert('✅ Conectado al servidor', 'success');
-                        return true;
-                    }
-                } catch (error) {
-                    console.error('❌ Error de conexión:', error);
-                    showAlert('⚠️ No se pudo conectar al servidor', 'warning');
-                    return false;
-                }
-            }
-            
-            // ========== API REQUEST ==========
-            async function apiRequest(endpoint, options = {}) {
-                const url = `${API_BASE_URL}${endpoint}`;
-                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-                
-                const headers = {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    ...options.headers
-                };
-                
-                if (token) {
-                    headers['Authorization'] = `Bearer ${token}`;
-                }
-                
-                try {
-                    const response = await fetch(url, {
-                        ...options,
-                        headers,
-                        credentials: 'omit'
-                    });
-                    
-                    // Si token expirado, intentar refresh
-                    if (response.status === 401) {
-                        const data = await response.json();
-                        if (data.error === 'token_expired' || data.can_refresh) {
-                            const refreshed = await refreshToken();
-                            if (refreshed) {
-                                return apiRequest(endpoint, options);
-                            }
-                        }
-                        // Token inválido
-                        clearSession();
-                    }
-                    
-                    return response;
-                } catch (error) {
-                    console.error('❌ API Error:', error);
-                    throw error;
-                }
-            }
-            
-            // ========== SISTEMA DE USUARIO ==========
-            async function loadUser() {
-                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-                const userData = localStorage.getItem(STORAGE_KEYS.USER);
-                
-                if (token && userData) {
-                    try {
-                        currentUser = JSON.parse(userData);
-                        console.log('✅ Usuario cargado:', currentUser.email);
-                        
-                        // Verificar token
-                        await verifyToken();
-                    } catch (error) {
-                        console.error('❌ Error cargando usuario:', error);
-                        clearSession();
-                    }
-                }
-                
-                updateUI();
-            }
-            
-            async function verifyToken() {
-                const response = await apiRequest('/api/auth/verify');
-                
-                if (response && response.ok) {
-                    const data = await response.json();
-                    if (data.valid && data.user) {
-                        currentUser = data.user;
-                        localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(data.user));
-                        updateUI();
-                        return true;
-                    }
-                }
-                
-                clearSession();
-                return false;
-            }
-            
-            async function refreshToken() {
-                const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
-                if (!refreshToken) return false;
-                
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${refreshToken}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        localStorage.setItem(STORAGE_KEYS.TOKEN, data.access_token || data.token);
-                        
-                        if (data.user) {
-                            localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(data.user));
-                            currentUser = data.user;
-                        }
-                        
-                        console.log('✅ Token refrescado');
-                        updateUI();
-                        return true;
-                    }
-                } catch (error) {
-                    console.error('❌ Error refresh:', error);
-                }
-                
-                clearSession();
-                return false;
-            }
-            
-            function clearSession() {
-                Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
-                currentUser = null;
-                updateUI();
-                console.log('✅ Sesión limpiada');
-            }
-            
-            function logout() {
-                clearSession();
-                showAlert('Sesión cerrada correctamente', 'success');
-            }
-            
-            // ========== INTERFAZ DE USUARIO ==========
-            function updateUI() {
-                const loginBtn = document.getElementById('login-btn');
-                const loggedUser = document.getElementById('logged-user');
-                const userName = document.getElementById('user-name');
-                const userRole = document.getElementById('user-role');
-                const userAvatar = document.getElementById('user-avatar');
-                const mobileUserMenu = document.getElementById('mobile-user-menu');
-                const mobileLoginLink = document.getElementById('mobile-login-link');
-                
-                if (currentUser) {
-                    // Mostrar interfaz de usuario logueado
-                    if (loginBtn) loginBtn.style.display = 'none';
-                    if (loggedUser) loggedUser.style.display = 'flex';
-                    if (mobileUserMenu) mobileUserMenu.style.display = 'block';
-                    if (mobileLoginLink) mobileLoginLink.style.display = 'none';
-                    
-                    // Actualizar información
-                    if (userName) {
-                        userName.textContent = currentUser.nombre || currentUser.email.split('@')[0];
-                    }
-                    
-                    if (userRole) {
-                        userRole.textContent = currentUser.rol === 'admin' ? 'Administrador' : 'Usuario';
-                        userRole.className = 'user-role ' + (currentUser.rol === 'admin' ? 'admin' : '');
-                    }
-                    
-                    if (userAvatar) {
-                        const letter = (currentUser.nombre || currentUser.email).charAt(0).toUpperCase();
-                        userAvatar.textContent = letter;
-                    }
-                    
-                } else {
-                    // Mostrar interfaz de invitado
-                    if (loginBtn) loginBtn.style.display = 'flex';
-                    if (loggedUser) loggedUser.style.display = 'none';
-                    if (mobileUserMenu) mobileUserMenu.style.display = 'none';
-                    if (mobileLoginLink) mobileLoginLink.style.display = 'block';
-                }
-            }
-            
-            // ========== CARGAR TOURS ==========
+            // Cargar tours desde API
             async function loadTours() {
                 const container = document.getElementById('tours-api-container');
                 if (!container) return;
@@ -1218,13 +1430,12 @@
                     if (response.ok) {
                         const tours = await response.json();
                         renderTours(tours, container);
-                        console.log(`✅ ${tours.length} tours cargados`);
                     } else {
                         throw new Error('Error cargando tours');
                     }
                 } catch (error) {
-                    console.error('❌ Error:', error);
-                    renderFallbackTours(container);
+                    console.error('Error:', error);
+                    container.innerHTML = '<div class="tour-loading"><p>No se pudieron cargar los tours</p></div>';
                 }
             }
             
@@ -1240,77 +1451,35 @@
                 toursToShow.forEach(tour => {
                     const card = document.createElement('div');
                     card.className = 'attraction-card';
-                    
-                    const imagen = tour.imagen_url || 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600';
-                    const descripcion = tour.descripcion ? tour.descripcion.substring(0, 80) + '...' : 'Descripción no disponible';
-                    const duracion = tour.duracion || '2 horas';
-                    const precio = tour.precio || '25.00';
-                    
                     card.innerHTML = `
                         <div class="attraction-img">
-                            <img src="${imagen}" alt="${tour.nombre}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600'">
+                            <img src="${tour.imagen_url || 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600'}" alt="${tour.nombre}" loading="lazy">
                         </div>
                         <div class="attraction-info">
                             <h3>${tour.nombre}</h3>
-                            <p>${descripcion}</p>
+                            <p>${tour.descripcion ? tour.descripcion.substring(0, 80) + '...' : ''}</p>
                             <div class="tour-details">
-                                <span><i class="bi bi-clock"></i> ${duracion}</span>
-                                <span><i class="bi bi-currency-dollar"></i> $${precio}</span>
+                                <span><i class="bi bi-clock"></i> ${tour.duracion || '2 horas'}</span>
+                                <span><i class="bi bi-currency-dollar"></i> $${tour.precio || '25.00'}</span>
                             </div>
-                            <a href="Pages/Contacto.html?tour=${tour.id}" class="btn" style="width:100%; text-align:center; margin-top:1rem;">
+                            <a href="Pages/Contacto.html?tour=${tour.id}" class="btn" style="width:100%; margin-top:1rem;">
                                 Consultar Disponibilidad
                             </a>
                         </div>
                     `;
-                    
                     container.appendChild(card);
                 });
             }
             
-            function renderFallbackTours(container) {
-                const fallbackTours = [
-                    {
-                        id: 1,
-                        nombre: 'Tour Básico por los Manglares',
-                        descripcion: 'Recorrido guiado de 2 horas por los manglares',
-                        duracion: '2 horas',
-                        precio: '25.00',
-                        imagen_url: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600'
-                    },
-                    {
-                        id: 2,
-                        nombre: 'Tour Completo de Aventura',
-                        descripcion: 'Experiencia completa de 4 horas',
-                        duracion: '4 horas',
-                        precio: '45.00',
-                        imagen_url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600'
-                    },
-                    {
-                        id: 3,
-                        nombre: 'Tour Fotográfico Nocturno',
-                        descripcion: 'Tour especializado para fotografía nocturna',
-                        duracion: '3 horas',
-                        precio: '35.00',
-                        imagen_url: 'https://images.unsplash.com/photo-1506260408121-e353d10b87c7?w=600'
-                    }
-                ];
-                
-                renderTours(fallbackTours, container);
-            }
-            
-            // ========== CARGAR BLOG ==========
+            // Cargar blog
             async function loadBlogPosts() {
                 try {
                     const response = await fetch(`${API_BASE_URL}/api/blog`);
-                    
                     if (response.ok) {
                         const posts = await response.json();
                         if (posts && posts.length > 0) {
                             const blogSection = document.getElementById('blog-preview');
-                            if (blogSection) {
-                                blogSection.style.display = 'block';
-                                renderBlogPosts(posts);
-                            }
+                            if (blogSection) blogSection.style.display = 'block';
                         }
                     }
                 } catch (error) {
@@ -1318,59 +1487,51 @@
                 }
             }
             
-            function renderBlogPosts(posts) {
-                const container = document.getElementById('blog-posts-container');
-                if (!container) return;
+            // Sistema de usuario
+            async function loadUser() {
+                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+                const userData = localStorage.getItem(STORAGE_KEYS.USER);
                 
-                const recentPosts = posts.slice(0, 3);
-                container.innerHTML = '';
-                
-                recentPosts.forEach(post => {
-                    const card = document.createElement('div');
-                    card.className = 'attraction-card';
-                    
-                    const fecha = post.created_at ? new Date(post.created_at).toLocaleDateString('es-ES') : 'Fecha no disponible';
-                    
-                    card.innerHTML = `
-                        <div class="attraction-info">
-                            <h3>${post.titulo || 'Sin título'}</h3>
-                            <div style="color:#666; font-size:0.85rem; margin:0.5rem 0;">
-                                <i class="bi bi-calendar"></i> ${fecha}
-                            </div>
-                            <p>${post.excerpt || (post.contenido ? post.contenido.substring(0, 100) + '...' : '')}</p>
-                            <a href="Pages/blog.html?id=${post.id}" style="color:#3498db; text-decoration:none;">
-                                Leer más <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    `;
-                    
-                    container.appendChild(card);
-                });
-            }
-            
-            // ========== FUNCIONES DE UI ==========
-            function hideLoader() {
-                const loader = document.getElementById('page-loader');
-                if (loader) {
-                    loader.classList.add('hidden');
+                if (token && userData) {
+                    try {
+                        currentUser = JSON.parse(userData);
+                        updateUI();
+                    } catch (e) {
+                        clearSession();
+                    }
                 }
             }
             
-            function showAlert(message, type = 'info') {
-                const alertDiv = document.getElementById('site-alert');
-                if (!alertDiv) return;
+            function updateUI() {
+                const loginBtn = document.getElementById('login-btn');
+                const loggedUser = document.getElementById('logged-user');
+                const userName = document.getElementById('user-name');
+                const userRole = document.getElementById('user-role');
+                const userAvatar = document.getElementById('user-avatar');
                 
-                alertDiv.textContent = message;
-                alertDiv.className = `site-alert ${type}`;
-                alertDiv.style.display = 'block';
-                
-                setTimeout(() => {
-                    alertDiv.style.display = 'none';
-                }, 4000);
+                if (currentUser) {
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    if (loggedUser) loggedUser.style.display = 'flex';
+                    if (userName) userName.textContent = currentUser.nombre || currentUser.email;
+                    if (userRole) userRole.textContent = currentUser.rol === 'admin' ? 'Administrador' : 'Usuario';
+                    if (userAvatar) {
+                        userAvatar.textContent = (currentUser.nombre || currentUser.email).charAt(0).toUpperCase();
+                    }
+                } else {
+                    if (loginBtn) loginBtn.style.display = 'flex';
+                    if (loggedUser) loggedUser.style.display = 'none';
+                }
             }
             
-            // ========== MENÚ MÓVIL ==========
-            function setupMobileMenu() {
+            function clearSession() {
+                Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
+                currentUser = null;
+                updateUI();
+            }
+            
+            // Eventos
+            function setupEvents() {
+                // Menú móvil
                 const toggle = document.getElementById('mobile-menu-toggle');
                 const close = document.getElementById('mobile-menu-close');
                 const overlay = document.getElementById('mobile-menu-overlay');
@@ -1380,100 +1541,31 @@
                     toggle.addEventListener('click', () => {
                         container?.classList.add('active');
                         overlay?.classList.add('active');
-                        document.body.style.overflow = 'hidden';
                     });
                 }
                 
                 if (close) {
-                    close.addEventListener('click', closeMobileMenu);
+                    close.addEventListener('click', () => {
+                        container?.classList.remove('active');
+                        overlay?.classList.remove('active');
+                    });
                 }
                 
                 if (overlay) {
-                    overlay.addEventListener('click', closeMobileMenu);
-                }
-                
-                function closeMobileMenu() {
-                    container?.classList.remove('active');
-                    overlay?.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            }
-            
-            // ========== DROPDOWN DE USUARIO ==========
-            function setupUserDropdown() {
-                const avatar = document.getElementById('user-avatar');
-                
-                if (avatar) {
-                    avatar.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        toggleDropdown();
+                    overlay.addEventListener('click', () => {
+                        container?.classList.remove('active');
+                        overlay?.classList.remove('active');
                     });
                 }
                 
-                function toggleDropdown() {
-                    let dropdown = document.getElementById('user-dropdown-menu');
-                    
-                    if (dropdown) {
-                        dropdown.remove();
-                        return;
-                    }
-                    
-                    if (!currentUser) return;
-                    
-                    dropdown = document.createElement('div');
-                    dropdown.id = 'user-dropdown-menu';
-                    dropdown.className = 'user-dropdown-menu show';
-                    
-                    dropdown.innerHTML = `
-                        <div class="user-dropdown-header">
-                            <div style="font-weight:600;">${currentUser.nombre || 'Usuario'}</div>
-                            <div class="user-dropdown-email">${currentUser.email}</div>
-                        </div>
-                        <a href="Pages/usuario.html"><i class="bi bi-person"></i> Mi Cuenta</a>
-                        ${currentUser.rol === 'admin' ? 
-                            '<a href="Pages/admin.html"><i class="bi bi-shield-check"></i> Panel Admin</a>' : ''}
-                        <a href="Pages/reservas.html"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
-                        <a href="#" id="dropdown-logout"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
-                    `;
-                    
-                    document.getElementById('user-menu-container').appendChild(dropdown);
-                    
-                    document.getElementById('dropdown-logout')?.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        logout();
-                        dropdown.remove();
-                    });
-                    
-                    // Cerrar al hacer clic fuera
-                    setTimeout(() => {
-                        document.addEventListener('click', function closeDropdown(e) {
-                            if (!dropdown.contains(e.target) && e.target !== avatar) {
-                                dropdown.remove();
-                                document.removeEventListener('click', closeDropdown);
-                            }
-                        });
-                    }, 10);
-                }
-            }
-            
-            // ========== HERO BACKGROUND ==========
-            function setupHeroBackground() {
+                // Hero background
                 const heroBg = document.getElementById('heroBackground');
                 if (heroBg) {
-                    heroBg.style.backgroundImage = 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80")';
+                    heroBg.style.backgroundImage = 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200")';
                 }
             }
             
-            // ========== EVENT LISTENERS ==========
-            function setupEventListeners() {
-                setupMobileMenu();
-                setupUserDropdown();
-                setupHeroBackground();
-            }
-            
-            // ========== INICIAR ==========
             document.addEventListener('DOMContentLoaded', init);
-            
         })();
     </script>
 </body>
