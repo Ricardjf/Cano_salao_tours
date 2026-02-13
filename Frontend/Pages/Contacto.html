@@ -523,7 +523,7 @@
                     <h1 class="times-font">Caño <span class="text-orange">Salao</span></h1>
                 </div>
 
-                <!-- Navegación desktop -->
+                <!-- Navegación desktop (oculta en móvil) -->
                 <div class="nav-center">
                     <nav>
                         <ul id="main-navigation">
@@ -546,17 +546,17 @@
                 </div>
 
                 <!-- Botón hamburguesa para móvil -->
-                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
                     <i class="bi bi-list"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Menú móvil overlay -->
+    <!-- Menú móvil overlay (fondo oscuro) -->
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
 
-    <!-- Menú móvil -->
+    <!-- Menú móvil (se abre desde la derecha) -->
     <div class="mobile-menu-container" id="mobile-menu-container">
         <div class="mobile-menu-header">
             <div class="logo">
@@ -580,7 +580,7 @@
         </nav>
     </div>
 
-    <!-- Hero Section -->
+    <!-- Hero Section con imagen de fondo -->
     <section class="page-hero">
         <div class="hero-bg" id="heroBackgroundContacto"></div>
         <div class="container">
@@ -699,7 +699,7 @@
                     </div>
                 </div>
 
-                <!-- FORMULARIO DE CONTACTO - CORREGIDO SOLO EMAILJS -->
+                <!-- Formulario de contacto -->
                 <div class="contact-form-container" id="formulario">
                     <h2 class="times-font"><i class="bi bi-chat-left-text"></i> Envíanos un Mensaje</h2>
                     <p>¿Tienes preguntas sobre nuestros tours, necesitas hacer una reserva o simplemente quieres más información? Completa el siguiente formulario y te enviaremos un email de confirmación automático.</p>
@@ -954,15 +954,17 @@
         </div>
     </footer>
 
-    <!-- Script principal - SOLO CAMBIOS EN EMAILJS -->
+    <!-- Script - SOLO MODIFICADO EL ENVÍO DE EMAIL -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // ========== MENÚ MÓVIL ==========
+            // ========== VARIABLES DEL MENÚ MÓVIL ==========
             let isMobileMenuOpen = false;
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
             const mobileMenuClose = document.getElementById('mobile-menu-close');
             const mobileMenuContainer = document.getElementById('mobile-menu-container');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            
+            // ========== FUNCIONES DEL MENÚ MÓVIL ==========
             
             function openMobileMenu() {
                 mobileMenuContainer.classList.add('active');
@@ -982,6 +984,7 @@
                 mobileMenuToggle.innerHTML = '<i class="bi bi-list"></i>';
             }
             
+            // Configurar eventos del menú móvil
             mobileMenuToggle.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1006,7 +1009,9 @@
                 }
             });
             
-            // ========== HERO BACKGROUND ==========
+            // ========== FUNCIONES PRINCIPALES ==========
+            
+            // Cargar imagen de fondo del hero
             function loadHeroImage() {
                 const heroBg = document.getElementById('heroBackgroundContacto');
                 if (!heroBg) return;
@@ -1027,13 +1032,13 @@
             
             loadHeroImage();
             
-            // ========== FORMULARIO DE CONTACTO - SOLO EMAILJS ==========
+            // ========== FORMULARIO DE CONTACTO - SOLO CAMBIOS EN EMAILJS ==========
             const contactForm = document.getElementById('contact-form');
             if (contactForm) {
                 contactForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
-                    // Limpiar errores
+                    // Limpiar errores anteriores
                     document.querySelectorAll('.error-message').forEach(el => {
                         el.textContent = '';
                         el.style.display = 'none';
@@ -1062,7 +1067,7 @@
                     let isValid = true;
                     
                     if (!name || name.length < 2) {
-                        document.getElementById('name-error').textContent = 'Nombre completo requerido';
+                        document.getElementById('name-error').textContent = 'Nombre completo requerido (mínimo 2 caracteres)';
                         document.getElementById('name-error').style.display = 'block';
                         isValid = false;
                     }
@@ -1072,13 +1077,13 @@
                         document.getElementById('email-error').style.display = 'block';
                         isValid = false;
                     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                        document.getElementById('email-error').textContent = 'Email inválido';
+                        document.getElementById('email-error').textContent = 'Formato de email inválido';
                         document.getElementById('email-error').style.display = 'block';
                         isValid = false;
                     }
                     
                     if (!subjectValue) {
-                        document.getElementById('subject-error').textContent = 'Selecciona un asunto';
+                        document.getElementById('subject-error').textContent = 'Por favor selecciona un asunto';
                         document.getElementById('subject-error').style.display = 'block';
                         isValid = false;
                     }
@@ -1096,14 +1101,15 @@
                     }
                     
                     if (!isValid) {
-                        formMessage.innerHTML = '<div class="alert alert-danger">Por favor corrige los errores señalados.</div>';
+                        formMessage.innerHTML = '<div class="alert alert-danger">Por favor, corrige los errores señalados.</div>';
                         return;
                     }
                     
-                    // Botón de enviar
+                    // Configurar botón
                     const submitBtn = document.getElementById('submit-btn');
                     const originalText = submitBtn.innerHTML;
-                    submitBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Enviando...';
+                    
+                    submitBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Enviando mensaje...';
                     submitBtn.disabled = true;
                     
                     try {
@@ -1130,7 +1136,7 @@
                         }
                         
                         // ===== ENVIAR EMAIL AL CLIENTE =====
-                        // SOLO las variables que usa la plantilla
+                        // SOLO las variables que usa tu plantilla
                         const templateParams = {
                             to_email: email,
                             name: name,
@@ -1141,13 +1147,13 @@
                             message: message
                         };
                         
-                        console.log('Enviando email...', templateParams);
+                        console.log('📧 Enviando email...', templateParams);
                         
                         await emailjs.send('service_j5txz1f', 'template_1g7v6jp', templateParams);
                         
-                        console.log('Email enviado a:', email);
+                        console.log('✅ Email enviado a:', email);
                         
-                        // Mensaje de éxito
+                        // Mostrar éxito
                         formMessage.innerHTML = `
                             <div class="alert alert-success" style="text-align: center; padding: 2rem;">
                                 <i class="bi bi-check-circle-fill" style="font-size: 3rem; color: #155724;"></i>
@@ -1156,7 +1162,7 @@
                                     <strong>¡Gracias ${name}!</strong>
                                 </p>
                                 <p style="margin-bottom: 0.5rem;">
-                                    Te hemos enviado un email de confirmación a <strong>${email}</strong>
+                                    📧 Te hemos enviado un email de confirmación a <strong>${email}</strong>
                                 </p>
                                 <p style="color: #856404; margin-top: 1rem;">
                                     ⚡ Revisa tu bandeja de SPAM / Correo no deseado
@@ -1171,7 +1177,7 @@
                         contactForm.reset();
                         
                     } catch (error) {
-                        console.error('Error:', error);
+                        console.error('❌ Error:', error);
                         
                         let errorMsg = 'Error al enviar el mensaje. ';
                         if (error.text) errorMsg += error.text;
@@ -1185,18 +1191,20 @@
                             </div>
                         `;
                     } finally {
+                        // Restaurar botón
                         submitBtn.innerHTML = originalText;
                         submitBtn.disabled = false;
                     }
                 });
             }
             
-            // ========== FAQ ACCORDION ==========
+            // ========== FAQ INTERACTIVO ==========
             document.querySelectorAll('.faq-question').forEach(question => {
                 question.addEventListener('click', function() {
                     const answer = this.nextElementSibling;
                     const toggle = this.querySelector('.faq-toggle');
                     
+                    // Cerrar otras respuestas
                     document.querySelectorAll('.faq-answer').forEach(item => {
                         if (item !== answer && item.classList.contains('active')) {
                             item.classList.remove('active');
@@ -1204,12 +1212,13 @@
                         }
                     });
                     
+                    // Alternar respuesta actual
                     answer.classList.toggle('active');
                     toggle.textContent = answer.classList.contains('active') ? '−' : '+';
                 });
             });
             
-            // ========== FECHA MÍNIMA ==========
+            // ========== CONFIGURAR FECHA MÍNIMA ==========
             const dateInput = document.getElementById('preferred-date');
             if (dateInput) {
                 const today = new Date();
@@ -1239,7 +1248,7 @@
                 }
             });
             
-            // ========== CHECK AUTH ==========
+            // ========== VERIFICAR AUTENTICACIÓN ==========
             try {
                 const token = localStorage.getItem('cano_salao_token');
                 const user = localStorage.getItem('cano_salao_user');
@@ -1250,9 +1259,7 @@
                     loginBtn.innerHTML = `<i class="bi bi-person-check"></i> <span class="login-text">${userData.nombre?.split(' ')[0] || 'Usuario'}</span>`;
                     loginBtn.href = 'usuario.html';
                 }
-            } catch (e) {
-                console.log('Error en auth:', e);
-            }
+            } catch (e) {}
         });
     </script>
 </body>
