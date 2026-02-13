@@ -14,36 +14,48 @@
     <link rel="apple-touch-icon" href="media/Logo_cano_120.png">
     <meta name="theme-color" content="#0d3b66">
     
-    <!-- FUENTES -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Preload de fuentes críticas -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Times+New+Roman:ital,wght@0,400;0,700;1,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Times+New+Roman:ital,wght@0,400;0,700;1,400&display=swap"></noscript>
+    
+    <!-- Preload del logo -->
+    <link rel="preload" href="media/Logo_cano_60.png" as="image">
     
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
+    <!-- Estilos críticos inline -->
     <style>
-        /* ===== RESET Y ESTILOS BASE ===== */
+        /* ===== RESET Y ESTILOS CRÍTICOS ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-touch-callout: none;
         }
         
         html, body {
             width: 100%;
             overflow-x: hidden;
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: #333;
+            touch-action: manipulation;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.5;
             background: #fff;
+            opacity: 1 !important;
+            visibility: visible !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 20px;
         }
         
         /* ===== LOADER ===== */
@@ -68,10 +80,10 @@
         }
         
         .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #0d3b66;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0d3b66;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -88,8 +100,10 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            padding: 0.8rem 0;
+            padding: 0.5rem 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
         
         .header-content {
@@ -102,21 +116,28 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.6rem;
             flex-shrink: 0;
+            z-index: 1002;
         }
         
         .logo-img {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             object-fit: contain;
             border-radius: 50%;
+            display: block;
+            flex-shrink: 0;
+            -webkit-user-select: none;
+            user-select: none;
         }
         
         .logo h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: bold;
             color: white;
+            margin: 0;
+            white-space: nowrap;
         }
         
         .text-orange {
@@ -128,38 +149,43 @@
             flex: 1;
             display: flex;
             justify-content: center;
+            align-items: center;
+        }
+        
+        nav {
+            width: 100%;
         }
         
         nav ul {
             display: flex;
             list-style: none;
-            gap: 0.8rem;
+            gap: 0.5rem;
             align-items: center;
             margin: 0;
             padding: 0;
+            justify-content: center;
         }
         
         nav ul li a {
-            color: rgba(255,255,255,0.9);
+            color: rgba(255,255,255,0.95);
             text-decoration: none;
             font-weight: 500;
-            padding: 0.5rem 0.8rem;
+            padding: 0.4rem 0.6rem;
             border-radius: 4px;
             display: flex;
             align-items: center;
             gap: 0.3rem;
             transition: all 0.2s ease;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
         
         nav ul li a:hover {
-            background: rgba(255,255,255,0.15);
-            color: white;
+            background: rgba(255,255,255,0.1);
         }
         
         nav ul li a.active {
-            background: rgba(255,255,255,0.2);
-            color: white;
+            background: rgba(255,255,255,0.15);
         }
         
         /* ===== MENÚ MÓVIL ===== */
@@ -171,6 +197,9 @@
             font-size: 1.8rem;
             cursor: pointer;
             padding: 0.5rem;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            z-index: 1002;
             min-width: 44px;
             min-height: 44px;
             align-items: center;
@@ -185,7 +214,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
-            z-index: 1001;
+            z-index: 999;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -200,13 +229,13 @@
             top: 0;
             right: -100%;
             width: 85%;
-            max-width: 320px;
+            max-width: 300px;
             height: 100%;
             background: linear-gradient(135deg, #1a7fb8 0%, #0d3b66 100%);
-            z-index: 1002;
+            z-index: 1000;
             overflow-y: auto;
             transition: right 0.3s ease;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+            box-shadow: -2px 0 10px rgba(0,0,0,0.3);
         }
         
         .mobile-menu-container.active {
@@ -214,7 +243,7 @@
         }
         
         .mobile-menu-header {
-            padding: 1.2rem;
+            padding: 1rem;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
             justify-content: space-between;
@@ -230,12 +259,26 @@
             padding: 0.5rem;
             min-width: 44px;
             min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mobile-menu-nav {
+            padding: 1rem 0;
         }
         
         .mobile-menu-nav ul {
             list-style: none;
             padding: 0;
             margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mobile-menu-nav li {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
         }
         
         .mobile-menu-nav a {
@@ -246,58 +289,39 @@
             color: white;
             text-decoration: none;
             font-size: 1.1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
             transition: background 0.2s ease;
+            width: 100%;
         }
         
-        .mobile-menu-nav a:hover,
         .mobile-menu-nav a.active {
             background: rgba(255,255,255,0.15);
+            font-weight: 600;
         }
         
         /* ===== SISTEMA DE USUARIO ===== */
         .user-menu-container {
             position: relative;
-            z-index: 1003;
-        }
-        
-        .login-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255,255,255,0.15);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .login-btn:hover {
-            background: rgba(255,255,255,0.25);
-            transform: translateY(-2px);
+            z-index: 1002;
         }
         
         .logged-user {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 8px;
             cursor: pointer;
-            padding: 0.4rem 0.8rem;
-            border-radius: 30px;
-            background: rgba(255,255,255,0.1);
-            transition: background 0.2s ease;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+            min-height: 44px;
         }
         
         .logged-user:hover {
-            background: rgba(255,255,255,0.2);
+            background-color: rgba(255, 255, 255, 0.1);
         }
         
         .user-avatar {
-            width: 38px;
-            height: 38px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             background: linear-gradient(135deg, #3498db, #2c3e50);
             color: white;
@@ -305,47 +329,62 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.1rem;
-            border: 2px solid rgba(255,255,255,0.3);
+            font-size: 16px;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .user-avatar:hover {
+            transform: scale(1.05);
         }
         
         .user-info {
             display: flex;
             flex-direction: column;
-            line-height: 1.2;
+            gap: 2px;
         }
         
         .user-name {
             font-size: 0.85rem;
             font-weight: 600;
             color: white;
+            white-space: nowrap;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .user-role {
             font-size: 0.7rem;
-            color: rgba(255,255,255,0.9);
-            background: rgba(255,255,255,0.2);
-            padding: 0.1rem 0.5rem;
-            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1px 6px;
+            border-radius: 10px;
             display: inline-block;
+            text-transform: uppercase;
         }
         
         .user-role.admin {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            font-weight: bold;
         }
         
         .user-dropdown-menu {
             position: absolute;
-            top: 110%;
+            top: 100%;
             right: 0;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            min-width: 240px;
-            z-index: 1004;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 220px;
+            z-index: 1001;
             overflow: hidden;
+            margin-top: 5px;
             display: none;
             animation: fadeInDown 0.2s ease;
+            border: 1px solid #eee;
         }
         
         .user-dropdown-menu.show {
@@ -353,26 +392,29 @@
         }
         
         .user-dropdown-header {
-            padding: 1rem;
+            padding: 12px 15px;
             background: linear-gradient(135deg, #1a7fb8, #0d3b66);
             color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
         .user-dropdown-email {
-            font-size: 0.8rem;
-            opacity: 0.9;
-            margin-top: 0.2rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.9);
+            margin-top: 2px;
         }
         
         .user-dropdown-menu a {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem 1rem;
+            gap: 10px;
+            padding: 12px 15px;
             color: #333;
             text-decoration: none;
             border-bottom: 1px solid #eee;
             transition: background 0.2s;
+            font-size: 14px;
+            cursor: pointer;
         }
         
         .user-dropdown-menu a:hover {
@@ -384,9 +426,52 @@
             color: #e74c3c;
         }
         
+        .user-dropdown-menu a:last-child:hover {
+            background: #ffeaea;
+        }
+        
+        .admin-badge {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: auto;
+        }
+        
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .auth-section {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-shrink: 0;
+            z-index: 1002;
+        }
+        
+        .login-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            min-height: 44px;
+        }
+        
+        .login-btn:hover {
+            background: rgba(255,255,255,0.25);
         }
         
         /* ===== HERO SECTION ===== */
@@ -397,9 +482,11 @@
             justify-content: center;
             text-align: center;
             color: white;
-            padding: 4rem 1rem;
+            padding: 2rem 1rem;
             position: relative;
-            background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%);
+            background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%) !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
         
         .hero-bg {
@@ -410,7 +497,8 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            opacity: 0.25;
+            background-repeat: no-repeat;
+            opacity: 0.4;
             z-index: 1;
         }
         
@@ -432,19 +520,20 @@
             margin: 0 auto 2.5rem;
             opacity: 0.95;
             animation: fadeInUp 0.8s ease-out 0.2s both;
+            line-height: 1.5;
+            font-weight: 400;
         }
         
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
+            from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* ===== BOTONES ===== */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -462,9 +551,8 @@
         }
         
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            background: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
         .btn.outline {
@@ -477,9 +565,10 @@
             color: #0d3b66;
         }
         
-        /* ===== SECCIONES ===== */
-        section {
-            padding: 5rem 0;
+        /* ===== ESTILOS PARA SECCIONES ===== */
+        .non-critical {
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
         
         .section-title {
@@ -500,7 +589,7 @@
             margin: 0 auto;
         }
         
-        /* ===== EMPRESA / HISTORIA ===== */
+        /* Historia y Empresa */
         .history-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -524,6 +613,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
         
+        /* Factible Features */
         .factible-features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -571,19 +661,19 @@
             line-height: 1.6;
         }
         
-        /* ===== ATRACCIONES / TOURS ===== */
+        /* Atracciones Grid */
         .attractions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
         
         .attraction-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
@@ -593,7 +683,7 @@
         }
         
         .attraction-img {
-            height: 220px;
+            height: 200px;
             overflow: hidden;
         }
         
@@ -614,7 +704,7 @@
         
         .attraction-info h3 {
             font-size: 1.3rem;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             color: #0d3b66;
             display: flex;
             align-items: center;
@@ -630,18 +720,18 @@
         .tour-details {
             display: flex;
             justify-content: space-between;
-            margin: 1rem 0;
+            margin-top: 10px;
             color: #666;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         
         .tour-details span {
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 5px;
         }
         
-        /* ===== LA RUTA / PROGRAMAS ===== */
+        /* La Ruta */
         .programas {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -710,7 +800,7 @@
             gap: 1rem;
         }
         
-        /* ===== CARACTERÍSTICAS ===== */
+        /* Características */
         .caracteristicas-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -758,7 +848,7 @@
             line-height: 1.6;
         }
         
-        /* ===== PREGUNTAS ===== */
+        /* Preguntas */
         #preguntas {
             text-align: center;
             padding: 5rem 0;
@@ -771,7 +861,7 @@
             color: #0d3b66;
         }
         
-        .subtitle {
+        #preguntas .subtitle {
             font-size: 1.2rem;
             color: #666;
             margin-bottom: 3rem;
@@ -797,6 +887,9 @@
             font-weight: 600;
             font-size: 1.1rem;
             transition: all 0.3s ease;
+        }
+        
+        .cta-btn {
             background: #FF8C42;
             color: white;
         }
@@ -812,12 +905,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
-        .cta-btn.secondary:hover {
-            background: #0d3b66;
-            color: white;
-        }
-        
-        /* ===== CONTACTO ===== */
+        /* Contacto */
         .contact-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -906,15 +994,15 @@
         .form-control:focus {
             outline: none;
             border-color: #1a7fb8;
-            box-shadow: 0 0 0 3px rgba(26,127,184,0.1);
+            box-shadow: 0 0 0 3px rgba(26, 127, 184, 0.1);
         }
         
-        /* ===== FOOTER ===== */
+        /* Footer */
         footer {
             background: linear-gradient(135deg, #0d3b66 0%, #1a5276 100%);
             color: white;
             padding: 4rem 0 2rem;
-            margin-top: 2rem;
+            margin-top: 4rem;
         }
         
         .footer-content {
@@ -964,6 +1052,7 @@
         .social-links {
             display: flex;
             gap: 1rem;
+            margin-top: 1rem;
         }
         
         .social-icon {
@@ -981,66 +1070,60 @@
         
         .social-icon:hover {
             background: rgba(255,255,255,0.2);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
         .copyright {
             text-align: center;
             padding-top: 2rem;
             border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.7);
+            color: rgba(255,255,255,0.6);
             font-size: 0.9rem;
-        }
-        
-        .copyright p {
-            margin-bottom: 0.5rem;
         }
         
         /* ===== ALERTAS ===== */
         .site-alert {
             position: fixed;
-            top: 90px;
+            top: 80px;
             right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
+            padding: 12px 20px;
+            border-radius: 6px;
             z-index: 9998;
-            max-width: 350px;
+            max-width: 300px;
             display: none;
             animation: slideInRight 0.3s ease;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         .site-alert.success {
             background: #d4edda;
-            border-left: 4px solid #28a745;
+            border: 1px solid #c3e6cb;
             color: #155724;
         }
         
         .site-alert.error {
             background: #f8d7da;
-            border-left: 4px solid #dc3545;
+            border: 1px solid #f5c6cb;
             color: #721c24;
         }
         
         .site-alert.info {
             background: #d1ecf1;
-            border-left: 4px solid #17a2b8;
+            border: 1px solid #bee5eb;
             color: #0c5460;
         }
         
         .site-alert.warning {
             background: #fff3cd;
-            border-left: 4px solid #ffc107;
+            border: 1px solid #ffeaa7;
             color: #856404;
         }
         
         @keyframes slideInRight {
             from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(0%); opacity: 1; }
         }
         
-        /* ===== LOADING ===== */
+        /* ===== TOURS LOADING ===== */
         .tour-loading {
             text-align: center;
             padding: 3rem;
@@ -1048,120 +1131,117 @@
             grid-column: 1 / -1;
         }
         
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
+        .tour-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem;
         }
         
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 992px) {
-            .nav-center {
-                display: none;
-            }
-            
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .hero-title {
-                font-size: 2.8rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.3rem;
-            }
-            
-            .history-content,
-            .contact-content {
-                grid-template-columns: 1fr;
-            }
-        }
-        
         @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex !important;
+            }
+            
+            .nav-center {
+                display: none !important;
+            }
+            
+            .header-content {
+                flex-wrap: nowrap;
+            }
+            
+            .logo {
+                flex: 1;
+            }
+            
             .logo h1 {
                 font-size: 1.4rem;
             }
             
-            .logo-img {
-                width: 35px;
-                height: 35px;
+            .auth-section {
+                order: 3;
             }
             
             .hero-title {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             
             .hero-subtitle {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
             
-            .section-title h2 {
-                font-size: 2rem;
+            .history-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
             }
             
             .user-info {
                 display: none;
             }
             
-            .logged-user {
-                padding: 0.3rem;
+            .section-title h2 {
+                font-size: 2rem;
             }
             
-            .user-avatar {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
-            
-            .factible-features,
-            .caracteristicas-grid,
-            .programas,
             .attractions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .programas {
+                grid-template-columns: 1fr;
+            }
+            
+            .caracteristicas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .factible-features {
                 grid-template-columns: 1fr;
             }
         }
         
         @media (max-width: 576px) {
+            .logo-img {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+            
             .hero-title {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             
             .hero-subtitle {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
-            .btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
             }
             
-            .container {
-                width: 95%;
-                padding: 0 10px;
-            }
-            
-            section {
-                padding: 3rem 0;
-            }
-            
-            .section-title h2 {
-                font-size: 1.8rem;
-            }
-            
-            .section-title p {
-                font-size: 1rem;
-            }
-            
-            .history-image img {
-                height: 250px;
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
             }
         }
     </style>
+    
+    <!-- CSS no crítico -->
+    <link rel="stylesheet" href="index.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="index.css"></noscript>
 </head>
 <body>
     <!-- Sistema de alertas -->
@@ -1172,7 +1252,7 @@
         <div class="loader-spinner"></div>
     </div>
 
-    <!-- HEADER -->
+    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -1182,8 +1262,8 @@
                         srcset="media/Logo_cano_60.png 1x, media/Logo_cano_120.png 2x" 
                         alt="Logo Caño Salao" 
                         class="logo-img"
-                        width="40" 
-                        height="40"
+                        width="35" 
+                        height="35"
                         loading="eager"
                     >
                     <h1>Caño <span class="text-orange">Salao</span></h1>
@@ -1212,7 +1292,7 @@
                         </a>
                         
                         <div class="logged-user" id="logged-user" style="display: none;">
-                            <div class="user-avatar" id="user-avatar" role="button" tabindex="0">U</div>
+                            <div class="user-avatar" id="user-avatar" aria-label="Menú de usuario" role="button" tabindex="0">U</div>
                             <div class="user-info">
                                 <div class="user-name" id="user-name">Usuario</div>
                                 <div class="user-role" id="user-role">user</div>
@@ -1222,24 +1302,22 @@
                 </div>
 
                 <!-- Botón menú móvil -->
-                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Menú">
+                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menú">
                     <i class="bi bi-list"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Menú móvil overlay -->
+    <!-- Menú móvil -->
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
-
-    <!-- Menú móvil container -->
     <div class="mobile-menu-container" id="mobile-menu-container">
         <div class="mobile-menu-header">
             <div class="logo">
-                <img src="media/Logo_cano_60.png" alt="Logo" class="logo-img" width="35" height="35">
+                <img src="media/Logo_cano_60.png" alt="Logo Caño Salao" class="logo-img" width="35" height="35">
                 <h2 style="color: white; font-size: 1.2rem;">Caño <span class="text-orange">Salao</span></h2>
             </div>
-            <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Cerrar">
+            <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Cerrar menú">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
@@ -1261,7 +1339,7 @@
         </nav>
     </div>
 
-    <!-- HERO SECTION -->
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-bg" id="heroBackground"></div>
         <div class="container">
@@ -1281,8 +1359,8 @@
         </div>
     </section>
     
-    <!-- EMPRESA DE PRODUCCIÓN SOCIAL -->
-    <section id="empresa">
+    <!-- Empresa de Producción Social -->
+    <section id="empresa" class="non-critical">
         <div class="container">
             <div class="section-title">
                 <h2><i class="bi bi-building"></i> Empresa de Producción Social</h2>
@@ -1334,8 +1412,8 @@
         </div>
     </section>
 
-    <!-- HISTORIA -->
-    <section id="historia">
+    <!-- Historia -->
+    <section id="historia" class="non-critical">
         <div class="container">
             <div class="section-title">
                 <h2><i class="bi bi-journal-text"></i> Historia de Caño Salao</h2>
@@ -1356,8 +1434,8 @@
         </div>
     </section>
 
-    <!-- TOURS DINÁMICOS DESDE API -->
-    <section id="tours-api">
+    <!-- Sección: Tours desde API -->
+    <section id="tours-api" class="non-critical">
         <div class="container">
             <div class="section-title">
                 <h2><i class="bi bi-geo-alt"></i> Nuestros Tours Disponibles</h2>
@@ -1377,8 +1455,8 @@
         </div>
     </section>
 
-    <!-- LA RUTA / PROGRAMAS -->
-    <section id="la-ruta">
+    <!-- Sección: La Ruta -->
+    <section id="la-ruta" class="non-critical">
         <div class="container">
             <div class="section-title">
                 <h2><i class="bi bi-map"></i> Descubre Nuestra Ruta</h2>
@@ -1428,8 +1506,8 @@
         </div>
     </section>
 
-    <!-- ATRACCIONES TURÍSTICAS -->
-    <section id="atracciones">
+    <!-- Atracciones Turísticas -->
+    <section id="atracciones" class="non-critical">
         <div class="container">
             <div class="section-title">
                 <h2><i class="bi bi-star"></i> Atracciones Turísticas</h2>
@@ -1467,8 +1545,8 @@
         </div>
     </section>
 
-    <!-- CARACTERÍSTICAS / POR QUÉ ELEGIRNOS -->
-    <section id="caracteristicas">
+    <!-- Sección Características -->
+    <section id="caracteristicas" class="non-critical">
         <div class="container">
             <div class="section-title">
                 <h2><i class="bi bi-check-circle"></i> ¿Por Qué Elegirnos?</h2>
@@ -1502,8 +1580,8 @@
         </div>
     </section>
 
-    <!-- BLOG PREVIEW (DESDE API) -->
-    <section id="blog-preview" style="display: none;">
+    <!-- Sección: Últimos Artículos del Blog (API) -->
+    <section id="blog-preview" class="non-critical" style="display: none;">
         <div class="container">
             <div class="section-title">
                 <h2><i class="bi bi-newspaper"></i> Últimas Noticias</h2>
@@ -1523,8 +1601,8 @@
         </div>
     </section>
 
-    <!-- PREGUNTAS / CTA -->
-    <section id="preguntas">
+    <!-- Sección Preguntas -->
+    <section id="preguntas" class="non-critical">
         <div class="container">
             <h2><i class="bi bi-question-circle"></i> ¿Listo para la Aventura?</h2>
             <p class="subtitle">Reserva tu experiencia hoy mismo y descubre la magia de Caño Salao</p>
@@ -1540,8 +1618,8 @@
         </div>
     </section>
 
-    <!-- CONTACTO -->
-    <section id="contacto">
+    <!-- Contacto -->
+    <section id="contacto" class="non-critical">
         <div class="container">
             <div class="section-title">
                 <h2><i class="bi bi-chat-dots"></i> Contacto</h2>
@@ -1603,7 +1681,7 @@
                             <label for="message"><i class="bi bi-chat-text"></i> Mensaje</label>
                             <textarea id="message" class="form-control" placeholder="Cuéntanos sobre tus intereses o necesidades especiales..." rows="4"></textarea>
                         </div>
-                        <button type="submit" class="btn" style="width: 100%;">
+                        <button type="submit" class="btn">
                             <i class="bi bi-send"></i> Enviar Reserva
                         </button>
                     </form>
@@ -1612,8 +1690,8 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer>
+    <!-- Footer -->
+    <footer class="non-critical">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
@@ -1648,7 +1726,7 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT - SOLO LO NECESARIO PARA BACKEND -->
+    <!-- JavaScript - CORREGIDO PARA CONEXIÓN BACKEND -->
     <script>
         (function() {
             "use strict";
@@ -1685,11 +1763,12 @@
                 // Configurar eventos
                 setupEvents();
                 
-                // Hero background
-                const heroBg = document.getElementById('heroBackground');
-                if (heroBg) {
-                    heroBg.style.backgroundImage = 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80")';
-                }
+                // Mostrar contenido gradualmente
+                setTimeout(() => {
+                    document.querySelectorAll('.non-critical').forEach(el => {
+                        el.style.opacity = '1';
+                    });
+                }, 200);
             }
             
             // ========== SISTEMA DE USUARIO ==========
@@ -1700,11 +1779,77 @@
                 if (token && userData) {
                     try {
                         currentUser = JSON.parse(userData);
+                        console.log('✅ Usuario cargado:', currentUser.email);
                         updateUI();
+                        
+                        // Verificar token con servidor
+                        verifyToken();
                     } catch (e) {
                         clearSession();
                     }
                 }
+            }
+            
+            async function verifyToken() {
+                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+                if (!token) return;
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.valid && data.user) {
+                            currentUser = data.user;
+                            localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(data.user));
+                            updateUI();
+                        }
+                    } else if (response.status === 401) {
+                        await refreshToken();
+                    }
+                } catch (error) {
+                    console.error('Error verificando token:', error);
+                }
+            }
+            
+            async function refreshToken() {
+                const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
+                if (!refreshToken) {
+                    clearSession();
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${refreshToken}` }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        localStorage.setItem(STORAGE_KEYS.TOKEN, data.access_token || data.token);
+                        if (data.user) {
+                            localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(data.user));
+                            currentUser = data.user;
+                            updateUI();
+                        }
+                        console.log('✅ Token refrescado');
+                    } else {
+                        clearSession();
+                    }
+                } catch (error) {
+                    console.error('Error refrescando token:', error);
+                    clearSession();
+                }
+            }
+            
+            function clearSession() {
+                Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
+                currentUser = null;
+                updateUI();
+                console.log('✅ Sesión limpiada');
             }
             
             function updateUI() {
@@ -1734,6 +1879,9 @@
                     if (userAvatar) {
                         const letter = (currentUser.nombre || currentUser.email).charAt(0).toUpperCase();
                         userAvatar.textContent = letter;
+                        userAvatar.style.background = currentUser.rol === 'admin' 
+                            ? 'linear-gradient(135deg, #e74c3c, #c0392b)'
+                            : 'linear-gradient(135deg, #3498db, #2c3e50)';
                     }
                 } else {
                     if (loginBtn) loginBtn.style.display = 'flex';
@@ -1741,12 +1889,6 @@
                     if (mobileUserMenu) mobileUserMenu.style.display = 'none';
                     if (mobileLoginLink) mobileLoginLink.style.display = 'block';
                 }
-            }
-            
-            function clearSession() {
-                Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
-                currentUser = null;
-                updateUI();
             }
             
             // ========== CARGAR TOURS ==========
@@ -1760,6 +1902,7 @@
                     if (response.ok) {
                         const tours = await response.json();
                         renderTours(tours, container);
+                        console.log(`✅ ${tours.length} tours cargados`);
                     } else {
                         throw new Error('Error cargando tours');
                     }
@@ -1771,7 +1914,7 @@
             
             function renderTours(tours, container) {
                 if (!tours || tours.length === 0) {
-                    container.innerHTML = '<div class="tour-loading"><p>No hay tours disponibles</p></div>';
+                    container.innerHTML = '<div class="tour-loading"><p>No hay tours disponibles en este momento.</p></div>';
                     return;
                 }
                 
@@ -1798,7 +1941,7 @@
                                 <span><i class="bi bi-clock"></i> ${duracion}</span>
                                 <span><i class="bi bi-currency-dollar"></i> $${precio}</span>
                             </div>
-                            <a href="Pages/Contacto.html?tour=${tour.id}" class="btn" style="width:100%; text-align:center; margin-top:1rem;">
+                            <a href="Pages/Contacto.html?tour=${tour.id}" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background: #FF8C42; color: white; text-decoration: none; border-radius: 4px; width: 100%; text-align: center;">
                                 <i class="bi bi-calendar-plus"></i> Consultar Disponibilidad
                             </a>
                         </div>
@@ -1870,17 +2013,30 @@
                     const card = document.createElement('div');
                     card.className = 'attraction-card';
                     
-                    const fecha = post.created_at ? new Date(post.created_at).toLocaleDateString('es-ES') : 'Fecha no disponible';
+                    const fecha = post.created_at ? new Date(post.created_at).toLocaleDateString('es-ES', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric'
+                    }) : 'Fecha no disponible';
                     
                     card.innerHTML = `
+                        <div class="attraction-img">
+                            ${post.imagen_url ? 
+                                `<img src="${post.imagen_url}" alt="${post.titulo}" loading="lazy">` : 
+                                `<div style="width:100%;height:180px;background:linear-gradient(135deg, #2c3e50, #3498db);display:flex;align-items:center;justify-content:center;">
+                                    <i class="bi bi-newspaper" style="font-size:48px;color:white;"></i>
+                                </div>`
+                            }
+                        </div>
                         <div class="attraction-info">
                             <h3 style="font-size: 1.1rem;">${post.titulo || 'Sin título'}</h3>
-                            <div style="color:#666; font-size:0.85rem; margin:0.5rem 0;">
-                                <i class="bi bi-calendar"></i> ${fecha}
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0;font-size:12px;color:#666;">
+                                <span><i class="bi bi-calendar"></i> ${fecha}</span>
+                                ${post.vistas ? `<span><i class="bi bi-eye"></i> ${post.vistas}</span>` : ''}
                             </div>
-                            <p>${post.excerpt || (post.contenido ? post.contenido.substring(0, 100) + '...' : 'Sin contenido disponible')}</p>
-                            <a href="Pages/blog.html?id=${post.id}" style="color:#3498db; text-decoration:none; display:inline-flex; align-items:center; gap:0.3rem;">
-                                Leer más <i class="bi bi-arrow-right"></i>
+                            <p>${post.excerpt || (post.contenido ? post.contenido.substring(0, 80) + '...' : 'Sin contenido disponible')}</p>
+                            <a href="Pages/blog.html?id=${post.id}" style="color:#3498db;text-decoration:none;font-size:14px;display:inline-flex;align-items:center;gap:5px;margin-top:10px;">
+                                <i class="bi bi-arrow-right"></i> Leer más
                             </a>
                         </div>
                     `;
@@ -1892,30 +2048,30 @@
             // ========== EVENTOS ==========
             function setupEvents() {
                 // Menú móvil
-                const toggle = document.getElementById('mobile-menu-toggle');
-                const close = document.getElementById('mobile-menu-close');
-                const overlay = document.getElementById('mobile-menu-overlay');
-                const container = document.getElementById('mobile-menu-container');
+                const menuToggle = document.getElementById('mobile-menu-toggle');
+                const menuClose = document.getElementById('mobile-menu-close');
+                const menuOverlay = document.getElementById('mobile-menu-overlay');
+                const menuContainer = document.getElementById('mobile-menu-container');
                 
-                if (toggle) {
-                    toggle.addEventListener('click', () => {
-                        container?.classList.add('active');
-                        overlay?.classList.add('active');
+                if (menuToggle) {
+                    menuToggle.addEventListener('click', () => {
+                        menuContainer?.classList.add('active');
+                        menuOverlay?.classList.add('active');
                         document.body.style.overflow = 'hidden';
                     });
                 }
                 
-                if (close) {
-                    close.addEventListener('click', closeMobileMenu);
+                if (menuClose) {
+                    menuClose.addEventListener('click', closeMobileMenu);
                 }
                 
-                if (overlay) {
-                    overlay.addEventListener('click', closeMobileMenu);
+                if (menuOverlay) {
+                    menuOverlay.addEventListener('click', closeMobileMenu);
                 }
                 
                 function closeMobileMenu() {
-                    container?.classList.remove('active');
-                    overlay?.classList.remove('active');
+                    menuContainer?.classList.remove('active');
+                    menuOverlay?.classList.remove('active');
                     document.body.style.overflow = '';
                 }
                 
@@ -1944,19 +2100,20 @@
                     
                     dropdown.innerHTML = `
                         <div class="user-dropdown-header">
-                            <div style="font-weight:600;">${currentUser.nombre || 'Usuario'}</div>
+                            <div style="font-weight: bold; font-size: 16px;">${currentUser.nombre || 'Usuario'}</div>
                             <div class="user-dropdown-email">${currentUser.email}</div>
+                            ${currentUser.rol === 'admin' ? '<div style="font-size: 12px; margin-top: 4px; padding: 2px 8px; background: rgba(255,255,255,0.2); border-radius: 4px; display: inline-block;">Administrador</div>' : ''}
                         </div>
                         <a href="Pages/usuario.html"><i class="bi bi-person"></i> Mi Cuenta</a>
                         ${currentUser.rol === 'admin' ? 
-                            '<a href="Pages/admin.html"><i class="bi bi-shield-check"></i> Panel Admin</a>' : ''}
+                            '<a href="Pages/admin.html"><i class="bi bi-shield-check"></i> Panel de Administración</a>' : ''}
                         <a href="Pages/reservas.html"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
-                        <a href="#" id="dropdown-logout"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+                        <a href="#" id="logout-link"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
                     `;
                     
                     document.getElementById('user-menu-container').appendChild(dropdown);
                     
-                    document.getElementById('dropdown-logout')?.addEventListener('click', (e) => {
+                    document.getElementById('logout-link')?.addEventListener('click', function(e) {
                         e.preventDefault();
                         clearSession();
                         dropdown.remove();
@@ -1972,20 +2129,44 @@
                     }, 10);
                 }
                 
+                // Hero background
+                const heroBg = document.getElementById('heroBackground');
+                if (heroBg) {
+                    const img = new Image();
+                    img.onload = function() {
+                        heroBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${this.src}')`;
+                    };
+                    img.onerror = function() {
+                        heroBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')`;
+                    };
+                    img.src = 'media/upscalemedia-transformed.jpeg';
+                }
+                
                 // Formulario de contacto
                 const form = document.getElementById('reservation-form');
                 if (form) {
                     form.addEventListener('submit', function(e) {
                         e.preventDefault();
-                        const name = document.getElementById('name')?.value;
-                        const email = document.getElementById('email')?.value;
                         
-                        if (name && email) {
-                            alert('¡Gracias por contactarnos! Te responderemos pronto.');
-                            form.reset();
-                        } else {
+                        const name = document.getElementById('name')?.value.trim();
+                        const email = document.getElementById('email')?.value.trim();
+                        
+                        if (!name || !email) {
                             alert('Por favor completa los campos requeridos');
+                            return;
                         }
+                        
+                        const button = e.target.querySelector('button[type="submit"]');
+                        const originalText = button.innerHTML;
+                        button.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Enviando...';
+                        button.disabled = true;
+                        
+                        setTimeout(() => {
+                            alert('¡Gracias! Tu solicitud ha sido enviada. Te contactaremos pronto.');
+                            form.reset();
+                            button.innerHTML = originalText;
+                            button.disabled = false;
+                        }, 1500);
                     });
                 }
             }
