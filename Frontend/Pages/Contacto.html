@@ -24,6 +24,14 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init('zuKi1ZdngOWyVYu-p');
+        })();
+    </script>
+    
     <style>
         /* Estilos adicionales específicos para Contacto */
         .page-hero {
@@ -280,7 +288,7 @@
         
         /* Alert Messages */
         .alert {
-            padding: 1rem;
+            padding: 1.5rem;
             border-radius: var(--radius-sm);
             margin-top: 1rem;
             transition: all 0.3s ease;
@@ -424,6 +432,27 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        /* Email success */
+        .email-success {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .email-success i {
+            font-size: 3rem;
+            color: #155724;
+            margin-bottom: 1rem;
+        }
+        
+        .email-success h3 {
+            color: #155724;
+            margin-bottom: 1rem;
+        }
+        
+        .email-success p {
+            margin-bottom: 0.5rem;
         }
         
         @media (max-width: 992px) {
@@ -678,7 +707,7 @@
                 <!-- Formulario de contacto -->
                 <div class="contact-form-container" id="formulario">
                     <h2 class="times-font"><i class="bi bi-chat-left-text"></i> Envíanos un Mensaje</h2>
-                    <p>¿Tienes preguntas sobre nuestros tours, necesitas hacer una reserva o simplemente quieres más información? Completa el siguiente formulario y nos pondremos en contacto contigo a la brevedad.</p>
+                    <p>¿Tienes preguntas sobre nuestros tours, necesitas hacer una reserva o simplemente quieres más información? Completa el siguiente formulario y te enviaremos un email de confirmación automático.</p>
                     
                     <form id="contact-form">
                         <div class="form-row">
@@ -763,7 +792,7 @@
                             <i class="bi bi-send"></i> Enviar Mensaje
                         </button>
                         <div id="form-message" style="margin-top: 1rem;"></div>
-                        <p class="form-note"><i class="bi bi-info-circle"></i> Campos marcados con * son obligatorios</p>
+                        <p class="form-note"><i class="bi bi-info-circle"></i> Campos marcados con * son obligatorios. Recibirás un email de confirmación automático.</p>
                     </form>
                 </div>
             </div>
@@ -1039,7 +1068,7 @@
             
             loadHeroImage();
             
-            // ========== FORMULARIO DE CONTACTO ==========
+            // ========== FORMULARIO DE CONTACTO CON EMAILJS ==========
             const contactForm = document.getElementById('contact-form');
             if (contactForm) {
                 contactForm.addEventListener('submit', async function(e) {
@@ -1059,12 +1088,16 @@
                     const name = document.getElementById('name').value.trim();
                     const email = document.getElementById('email').value.trim();
                     const phone = document.getElementById('phone').value.trim();
-                    const subject = document.getElementById('subject').value;
-                    const tourType = document.getElementById('tour-type').value;
+                    const subject = document.getElementById('subject');
+                    const subjectText = subject.options[subject.selectedIndex]?.text || 'No especificado';
+                    const subjectValue = subject.value;
+                    const tourType = document.getElementById('tour-type');
+                    const tourTypeText = tourType.options[tourType.selectedIndex]?.text || 'No especificado';
                     const participants = document.getElementById('participants').value;
                     const preferredDate = document.getElementById('preferred-date').value;
                     const message = document.getElementById('message').value.trim();
                     const privacyPolicy = document.getElementById('privacy-policy').checked;
+                    const newsletter = document.getElementById('newsletter').checked;
                     
                     // Validación
                     let isValid = true;
@@ -1082,7 +1115,7 @@
                         isValid = false;
                     }
                     
-                    if (!subject) {
+                    if (!subjectValue) {
                         showError('subject-error', 'Por favor selecciona un asunto');
                         isValid = false;
                     }
@@ -1106,35 +1139,80 @@
                     const submitBtn = document.getElementById('submit-btn');
                     const originalText = submitBtn.innerHTML;
                     
-                    submitBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Enviando...';
+                    submitBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Enviando mensaje y enviando confirmación a tu email...';
                     submitBtn.disabled = true;
                     
                     try {
-                        // Crear objeto de contacto
+                        // Guardar en localStorage
                         const contactData = {
                             nombre: name,
                             email: email,
                             telefono: phone || 'No proporcionado',
-                            asunto: document.getElementById('subject').options[document.getElementById('subject').selectedIndex].text,
-                            tour_interes: document.getElementById('tour-type').options[document.getElementById('tour-type').selectedIndex].text || 'No especificado',
+                            asunto: subjectText,
+                            tour_interes: tourTypeText,
                             participantes: participants || 'No especificado',
                             fecha_preferida: preferredDate || 'No especificada',
                             mensaje: message,
-                            newsletter: document.getElementById('newsletter').checked,
+                            newsletter: newsletter,
                             fecha_envio: new Date().toISOString()
                         };
                         
-                        console.log('Enviando contacto:', contactData);
-                        
-                        // Guardar en localStorage
                         saveContactToLocalStorage(contactData);
+                        
+                        // ===== ENVIAR EMAIL AL CLIENTE (AUTORESPUESTA) =====
+                        const templateParamsCliente = {
+                            to_email: email,
+                            to_name: name,
+                            name: name,
+                            subject: subjectText,
+                            tourType: tourTypeText,
+                            message: message,
+                            participants: participants || 'No especificado',
+                            preferredDate: preferredDate || 'No especificada',
+                            phone: phone || 'No proporcionado',
+                            reply_to: 'reservas@canosalaotours.com'
+                        };
+                        
+                        // Enviar email al cliente usando tu template
+                        await emailjs.send('service_j5txz1f', 'template_1g7v6jp', templateParamsCliente);
+                        console.log('✅ Email de confirmación enviado al cliente:', email);
+                        
+                        // ===== ENVIAR NOTIFICACIÓN AL ADMINISTRADOR =====
+                        const templateParamsAdmin = {
+                            to_email: 'reservas@canosalaotours.com',
+                            from_name: name,
+                            from_email: email,
+                            from_phone: phone || 'No proporcionado',
+                            subject: subjectText,
+                            tourType: tourTypeText,
+                            message: message,
+                            participants: participants || 'No especificado',
+                            preferredDate: preferredDate || 'No especificada',
+                            newsletter: newsletter ? 'Sí' : 'No'
+                        };
+                        
+                        // Enviar notificación al admin (usando el mismo template por ahora)
+                        await emailjs.send('service_j5txz1f', 'template_1g7v6jp', templateParamsAdmin);
+                        console.log('✅ Notificación enviada al administrador');
                         
                         // Mostrar éxito
                         showFormMessage(
-                            `<i class="bi bi-check-circle"></i> 
-                            <strong>¡Gracias ${name}!</strong> 
-                            Tu mensaje ha sido enviado correctamente. 
-                            <br><small>Nos pondremos en contacto contigo pronto a través de <strong>${email}</strong>.</small>`,
+                            `<div class="email-success">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <h3>¡Mensaje Enviado!</h3>
+                                <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                                    <strong>¡Gracias ${name}!</strong>
+                                </p>
+                                <p style="margin-bottom: 0.5rem;">
+                                    📧 Te hemos enviado un email de confirmación a <strong>${email}</strong>
+                                </p>
+                                <p style="margin-bottom: 0.5rem;">
+                                    ✅ Revisa tu bandeja de entrada y SPAM
+                                </p>
+                                <p style="color: #666; margin-top: 1rem;">
+                                    Nos pondremos en contacto contigo dentro de las próximas 24 horas.
+                                </p>
+                            </div>`,
                             'success'
                         );
                         
@@ -1147,13 +1225,31 @@
                         }, 300);
                         
                     } catch (error) {
-                        console.error('Error:', error);
+                        console.error('❌ Error detallado:', error);
+                        
+                        let errorMessage = 'No se pudo enviar el mensaje. ';
+                        
+                        if (error.text) {
+                            errorMessage += error.text;
+                        } else if (error.message) {
+                            errorMessage += error.message;
+                        } else {
+                            errorMessage += 'Por favor intenta nuevamente o contáctanos por teléfono: +58 412-205-6558';
+                        }
+                        
                         showFormMessage(
-                            `<i class="bi bi-exclamation-triangle"></i> 
-                            <strong>Error:</strong> No se pudo enviar el mensaje. 
-                            <br><small>Por favor intenta nuevamente o contáctanos por teléfono: +58 412-205-6558</small>`,
-                            'danger'
+                            `<div style="text-align: center; padding: 1rem;">
+                                <i class="bi bi-exclamation-triangle-fill" style="font-size: 2.5rem; color: #856404;"></i>
+                                <h3 style="color: #856404; margin: 1rem 0;">Error en el envío</h3>
+                                <p style="margin-bottom: 0.5rem;">${errorMessage}</p>
+                                <p style="margin-top: 1rem; color: #666;">
+                                    <i class="bi bi-info-circle"></i> 
+                                    Tu mensaje ha sido guardado localmente. Nos contactaremos contigo pronto.
+                                </p>
+                            </div>`,
+                            'warning'
                         );
+                        
                     } finally {
                         // Restaurar botón
                         submitBtn.innerHTML = originalText;
@@ -1170,9 +1266,8 @@
                     contactData.status = 'pendiente';
                     contacts.push(contactData);
                     localStorage.setItem('cano_salao_contacts', JSON.stringify(contacts));
-                    console.log('Contacto guardado localmente:', contactData.id);
+                    console.log('✅ Contacto guardado localmente:', contactData.id);
                     
-                    // Si hay usuario autenticado, guardar relación
                     const user = JSON.parse(localStorage.getItem('cano_salao_user') || 'null');
                     if (user) {
                         contactData.usuario_id = user.id;
@@ -1197,7 +1292,6 @@
             function showFormMessage(message, type) {
                 const formMessage = document.getElementById('form-message');
                 formMessage.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
-                formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
             
             // Función para validar email
@@ -1212,7 +1306,6 @@
                     const answer = this.nextElementSibling;
                     const toggle = this.querySelector('.faq-toggle');
                     
-                    // Cerrar otras respuestas
                     document.querySelectorAll('.faq-answer').forEach(item => {
                         if (item !== answer && item.classList.contains('active')) {
                             item.classList.remove('active');
@@ -1220,7 +1313,6 @@
                         }
                     });
                     
-                    // Alternar respuesta actual
                     answer.classList.toggle('active');
                     toggle.textContent = answer.classList.contains('active') ? '−' : '+';
                 });
@@ -1234,7 +1326,6 @@
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 dateInput.min = tomorrow.toISOString().split('T')[0];
                 
-                // Máximo 3 meses
                 const maxDate = new Date(today);
                 maxDate.setMonth(maxDate.getMonth() + 3);
                 dateInput.max = maxDate.toISOString().split('T')[0];
@@ -1254,7 +1345,6 @@
                             behavior: 'smooth'
                         });
                         
-                        // Cerrar menú móvil si está abierto
                         if (isMobileMenuOpen) {
                             closeMobileMenu();
                         }
@@ -1292,7 +1382,6 @@
                     });
                 }, { threshold: 0.1 });
                 
-                // Observar todas las secciones
                 document.querySelectorAll('section').forEach(section => {
                     observer.observe(section);
                 });
@@ -1317,21 +1406,6 @@
                 }
             }
         }
-        
-        // Estilo para spinner
-        const style = document.createElement('style');
-        style.textContent = `
-            .spin {
-                animation: spin 1s linear infinite;
-            }
-            
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
-
