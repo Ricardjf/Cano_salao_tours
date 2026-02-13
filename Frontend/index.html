@@ -14,17 +14,14 @@
     <link rel="apple-touch-icon" href="media/Logo_cano_120.png">
     <meta name="theme-color" content="#0d3b66">
     
-    <!-- Preload de fuentes críticas -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Times+New+Roman:ital,wght@0,400;0,700;1,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Times+New+Roman:ital,wght@0,400;0,700;1,400&display=swap"></noscript>
-    
-    <!-- Preload del logo -->
-    <link rel="preload" href="media/Logo_cano_60.png" as="image">
+    <!-- FUENTES CORREGIDAS: Times New Roman y Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
-    <!-- Estilos críticos inline -->
     <style>
         /* ===== RESET Y ESTILOS CRÍTICOS ===== */
         * {
@@ -42,13 +39,19 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, sans-serif;
             line-height: 1.5;
             background: #fff;
             opacity: 1 !important;
             visibility: visible !important;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* FUENTE TIMES NEW ROMAN PARA TÍTULOS ESPECIALES */
+        .times-font {
+            font-family: 'Times New Roman', Times, serif !important;
+            font-weight: 700;
         }
         
         .container {
@@ -138,6 +141,7 @@
             color: white;
             margin: 0;
             white-space: nowrap;
+            font-family: 'Times New Roman', Times, serif;
         }
         
         .text-orange {
@@ -248,6 +252,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+        
+        .mobile-menu-header .logo h2 {
+            font-family: 'Times New Roman', Times, serif;
+            color: white;
+            font-size: 1.2rem;
         }
         
         .mobile-menu-close {
@@ -512,6 +522,8 @@
             margin-bottom: 1.5rem;
             color: white;
             animation: fadeInDown 0.8s ease-out;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         .hero-subtitle {
@@ -522,6 +534,7 @@
             animation: fadeInUp 0.8s ease-out 0.2s both;
             line-height: 1.5;
             font-weight: 400;
+            font-family: 'Times New Roman', Times, serif;
         }
         
         @keyframes fadeInDown {
@@ -548,6 +561,7 @@
             border: none;
             cursor: pointer;
             font-size: 1.1rem;
+            font-family: 'Roboto', sans-serif;
         }
         
         .btn:hover {
@@ -580,6 +594,8 @@
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: #0d3b66;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         .section-title p {
@@ -587,6 +603,7 @@
             color: #666;
             max-width: 700px;
             margin: 0 auto;
+            font-family: 'Roboto', sans-serif;
         }
         
         /* Historia y Empresa */
@@ -603,6 +620,7 @@
             font-size: 1.1rem;
             line-height: 1.6;
             color: #333;
+            font-family: 'Roboto', sans-serif;
         }
         
         .history-image img {
@@ -654,11 +672,14 @@
             font-size: 1.3rem;
             margin-bottom: 1rem;
             color: #0d3b66;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         .factible-feature p {
             color: #666;
             line-height: 1.6;
+            font-family: 'Roboto', sans-serif;
         }
         
         /* Atracciones Grid */
@@ -709,12 +730,15 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         .attraction-info p {
             color: #666;
             line-height: 1.6;
             margin-bottom: 1rem;
+            font-family: 'Roboto', sans-serif;
         }
         
         .tour-details {
@@ -723,6 +747,7 @@
             margin-top: 10px;
             color: #666;
             font-size: 0.9rem;
+            font-family: 'Roboto', sans-serif;
         }
         
         .tour-details span {
@@ -778,12 +803,15 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         .carta-content p {
             color: #666;
             line-height: 1.6;
             margin-bottom: 1.5rem;
+            font-family: 'Roboto', sans-serif;
         }
         
         .carta-btn {
@@ -794,6 +822,7 @@
             text-decoration: none;
             font-weight: 600;
             transition: gap 0.3s ease;
+            font-family: 'Roboto', sans-serif;
         }
         
         .carta-btn:hover {
@@ -841,11 +870,14 @@
             font-size: 1.3rem;
             margin-bottom: 1rem;
             color: #0d3b66;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         .caracteristica-item p {
             color: #666;
             line-height: 1.6;
+            font-family: 'Roboto', sans-serif;
         }
         
         /* Preguntas */
@@ -859,6 +891,8 @@
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: #0d3b66;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         #preguntas .subtitle {
@@ -868,6 +902,7 @@
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            font-family: 'Roboto', sans-serif;
         }
         
         .cta-buttons {
@@ -887,6 +922,7 @@
             font-weight: 600;
             font-size: 1.1rem;
             transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
         }
         
         .cta-btn {
@@ -920,6 +956,8 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         .contact-details {
@@ -953,11 +991,14 @@
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
             color: #0d3b66;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         .contact-item p {
             color: #666;
             line-height: 1.6;
+            font-family: 'Roboto', sans-serif;
         }
         
         .contact-form {
@@ -979,6 +1020,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Roboto', sans-serif;
         }
         
         .form-control {
@@ -986,7 +1028,7 @@
             padding: 0.75rem 1rem;
             border: 1px solid #ddd;
             border-radius: 5px;
-            font-family: inherit;
+            font-family: 'Roboto', sans-serif;
             font-size: 1rem;
             transition: border-color 0.3s ease;
         }
@@ -1019,12 +1061,15 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         .footer-column p {
             color: rgba(255,255,255,0.8);
             line-height: 1.6;
             margin-bottom: 1.5rem;
+            font-family: 'Roboto', sans-serif;
         }
         
         .footer-links {
@@ -1043,6 +1088,7 @@
             align-items: center;
             gap: 0.5rem;
             transition: color 0.3s ease;
+            font-family: 'Roboto', sans-serif;
         }
         
         .footer-links a:hover {
@@ -1079,6 +1125,7 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             color: rgba(255,255,255,0.6);
             font-size: 0.9rem;
+            font-family: 'Roboto', sans-serif;
         }
         
         /* ===== ALERTAS ===== */
@@ -1092,6 +1139,7 @@
             max-width: 300px;
             display: none;
             animation: slideInRight 0.3s ease;
+            font-family: 'Roboto', sans-serif;
         }
         
         .site-alert.success {
@@ -1129,6 +1177,7 @@
             padding: 3rem;
             color: #666;
             grid-column: 1 / -1;
+            font-family: 'Roboto', sans-serif;
         }
         
         .tour-loading .spinner {
@@ -1266,7 +1315,7 @@
                         height="35"
                         loading="eager"
                     >
-                    <h1>Caño <span class="text-orange">Salao</span></h1>
+                    <h1 class="times-font">Caño <span class="text-orange">Salao</span></h1>
                 </div>
 
                 <!-- Navegación desktop -->
@@ -1315,7 +1364,7 @@
         <div class="mobile-menu-header">
             <div class="logo">
                 <img src="media/Logo_cano_60.png" alt="Logo Caño Salao" class="logo-img" width="35" height="35">
-                <h2 style="color: white; font-size: 1.2rem;">Caño <span class="text-orange">Salao</span></h2>
+                <h2 class="times-font">Caño <span class="text-orange">Salao</span></h2>
             </div>
             <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Cerrar menú">
                 <i class="bi bi-x-lg"></i>
@@ -1343,8 +1392,8 @@
     <section class="hero">
         <div class="hero-bg" id="heroBackground"></div>
         <div class="container">
-            <h2 class="hero-title">¡Descubre la Belleza Natural de <span class="text-orange">Caño</span> Salao!</h2>
-            <p class="hero-subtitle">
+            <h2 class="times-font hero-title">¡Descubre la Belleza Natural de <span class="text-orange">Caño</span> Salao!</h2>
+            <p class="times-font hero-subtitle">
                 Embárcate en una aventura única por los manglares de Barcelona, Venezuela. 
                 <strong>Turismo comunitario</strong> que conecta naturaleza, historia y comunidad.
             </p>
@@ -1363,7 +1412,7 @@
     <section id="empresa" class="non-critical">
         <div class="container">
             <div class="section-title">
-                <h2><i class="bi bi-building"></i> Empresa de Producción Social</h2>
+                <h2 class="times-font"><i class="bi bi-building"></i> Empresa de Producción Social</h2>
                 <p>Conoce nuestro modelo de negocio sostenible que beneficia a la comunidad de Caño Salao</p>
             </div>
             <div class="history-content">
@@ -1384,28 +1433,28 @@
                     <div class="factible-icon">
                         <i class="bi bi-tree-fill"></i>
                     </div>
-                    <h3>Sostenibilidad Ambiental</h3>
+                    <h3 class="times-font">Sostenibilidad Ambiental</h3>
                     <p>Comprometidos con la protección del ecosistema único de manglares y especies marinas de Caño Salao.</p>
                 </div>
                 <div class="factible-feature">
                     <div class="factible-icon">
                         <i class="bi bi-people-fill"></i>
                     </div>
-                    <h3>Desarrollo Comunitario</h3>
+                    <h3 class="times-font">Desarrollo Comunitario</h3>
                     <p>Generamos empleo local y reinvertimos utilidades en proyectos que benefician a la comunidad.</p>
                 </div>
                 <div class="factible-feature">
                     <div class="factible-icon">
                         <i class="bi bi-globe-americas"></i>
                     </div>
-                    <h3>Turismo Responsable</h3>
+                    <h3 class="times-font">Turismo Responsable</h3>
                     <p>Ofrecemos experiencias auténticas que respetan la cultura local y el medio ambiente.</p>
                 </div>
                 <div class="factible-feature">
                     <div class="factible-icon">
                         <i class="bi bi-graph-up-arrow"></i>
                     </div>
-                    <h3>Modelo Económico Sólido</h3>
+                    <h3 class="times-font">Modelo Económico Sólido</h3>
                     <p>Combinamos viabilidad económica con impacto social positivo para un desarrollo sostenible.</p>
                 </div>
             </div>
@@ -1416,7 +1465,7 @@
     <section id="historia" class="non-critical">
         <div class="container">
             <div class="section-title">
-                <h2><i class="bi bi-journal-text"></i> Historia de Caño Salao</h2>
+                <h2 class="times-font"><i class="bi bi-journal-text"></i> Historia de Caño Salao</h2>
                 <p>Conoce los orígenes de esta comunidad pesquera y su transformación en un destino turístico sostenible</p>
             </div>
             <div class="history-content">
@@ -1438,7 +1487,7 @@
     <section id="tours-api" class="non-critical">
         <div class="container">
             <div class="section-title">
-                <h2><i class="bi bi-geo-alt"></i> Nuestros Tours Disponibles</h2>
+                <h2 class="times-font"><i class="bi bi-geo-alt"></i> Nuestros Tours Disponibles</h2>
                 <p>Descubre las experiencias que tenemos preparadas para ti</p>
             </div>
             <div class="attractions-grid" id="tours-api-container">
@@ -1459,7 +1508,7 @@
     <section id="la-ruta" class="non-critical">
         <div class="container">
             <div class="section-title">
-                <h2><i class="bi bi-map"></i> Descubre Nuestra Ruta</h2>
+                <h2 class="times-font"><i class="bi bi-map"></i> Descubre Nuestra Ruta</h2>
                 <p>Una experiencia única que combina naturaleza, historia y aventura en el corazón de Caño Salao</p>
             </div>
             
@@ -1469,7 +1518,7 @@
                         <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Manglares" loading="lazy">
                     </div>
                     <div class="carta-content">
-                        <h3><i class="bi bi-flower1"></i> Manglares y Biodiversidad</h3>
+                        <h3 class="times-font"><i class="bi bi-flower1"></i> Manglares y Biodiversidad</h3>
                         <p>Explora los impresionantes manglares que albergan una rica diversidad de aves y especies marinas.</p>
                         <a href="Pages/Servicios.html" class="carta-btn">
                             <i class="bi bi-arrow-right-circle"></i> Saber Más
@@ -1482,7 +1531,7 @@
                         <img src="https://images.unsplash.com/photo-1597076953441-3197b7c9c9b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Patrimonio Histórico" loading="lazy">
                     </div>
                     <div class="carta-content">
-                        <h3><i class="bi bi-buildings"></i> Patrimonio Histórico</h3>
+                        <h3 class="times-font"><i class="bi bi-buildings"></i> Patrimonio Histórico</h3>
                         <p>Descubre los tesoros históricos de Caño Salao, desde el Puente Una Luz hasta las ruinas coloniales.</p>
                         <a href="Pages/Historia.html" class="carta-btn">
                             <i class="bi bi-arrow-right-circle"></i> Explorar Historia
@@ -1495,7 +1544,7 @@
                         <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Aventura Acuática" loading="lazy">
                     </div>
                     <div class="carta-content">
-                        <h3><i class="bi bi-compass"></i> Aventura Acuática</h3>
+                        <h3 class="times-font"><i class="bi bi-compass"></i> Aventura Acuática</h3>
                         <p>Vive la emoción de navegar por los canales y disfrutar de paisajes espectaculares.</p>
                         <a href="Pages/Atracciones.html" class="carta-btn">
                             <i class="bi bi-arrow-right-circle"></i> Iniciar Aventura
@@ -1510,7 +1559,7 @@
     <section id="atracciones" class="non-critical">
         <div class="container">
             <div class="section-title">
-                <h2><i class="bi bi-star"></i> Atracciones Turísticas</h2>
+                <h2 class="times-font"><i class="bi bi-star"></i> Atracciones Turísticas</h2>
                 <p>Descubre los tesoros naturales y culturales que hacen única a la ruta marítima Caño Salao</p>
             </div>
             <div class="attractions-grid">
@@ -1519,7 +1568,7 @@
                         <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Manglares" loading="lazy">
                     </div>
                     <div class="attraction-info">
-                        <h3><i class="bi bi-tree"></i> Recorrido por Manglares</h3>
+                        <h3 class="times-font"><i class="bi bi-tree"></i> Recorrido por Manglares</h3>
                         <p>Navega entre los impresionantes manglares que albergan una rica biodiversidad de aves y especies marinas.</p>
                     </div>
                 </div>
@@ -1528,7 +1577,7 @@
                         <img src="https://images.unsplash.com/photo-1597076953441-3197b7c9c9b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Puente Una Luz" loading="lazy">
                     </div>
                     <div class="attraction-info">
-                        <h3><i class="bi bi-bridge"></i> Puente Una Luz</h3>
+                        <h3 class="times-font"><i class="bi bi-bridge"></i> Puente Una Luz</h3>
                         <p>Visita este histórico puente construido hace muchos años, testigo del desarrollo de la comunidad.</p>
                     </div>
                 </div>
@@ -1537,7 +1586,7 @@
                         <img src="https://images.unsplash.com/photo-1580137189272-c9370b0d12c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ruinas de la Aduana" loading="lazy">
                     </div>
                     <div class="attraction-info">
-                        <h3><i class="bi bi-building"></i> Ruinas de la Antigua Aduana</h3>
+                        <h3 class="times-font"><i class="bi bi-building"></i> Ruinas de la Antigua Aduana</h3>
                         <p>Explora los restos de un edificio importante de la época colonial española que controlaba el comercio marítimo.</p>
                     </div>
                 </div>
@@ -1549,31 +1598,31 @@
     <section id="caracteristicas" class="non-critical">
         <div class="container">
             <div class="section-title">
-                <h2><i class="bi bi-check-circle"></i> ¿Por Qué Elegirnos?</h2>
+                <h2 class="times-font"><i class="bi bi-check-circle"></i> ¿Por Qué Elegirnos?</h2>
                 <p>Descubre lo que nos hace la mejor opción para tu aventura en Caño Salao</p>
             </div>
             <div class="caracteristicas-grid">
                 <div class="caracteristica-item">
                     <span class="caracteristica-icon"><i class="bi bi-recycle"></i></span>
-                    <h3>Turismo Sostenible</h3>
+                    <h3 class="times-font">Turismo Sostenible</h3>
                     <p>Comprometidos con la protección del medio ambiente y el desarrollo de la comunidad local.</p>
                 </div>
                 
                 <div class="caracteristica-item">
                     <span class="caracteristica-icon"><i class="bi bi-person-badge"></i></span>
-                    <h3>Guías Expertos</h3>
+                    <h3 class="times-font">Guías Expertos</h3>
                     <p>Nuestros guías locales conocen cada rincón de Caño Salao y su fascinante historia.</p>
                 </div>
                 
                 <div class="caracteristica-item">
                     <span class="caracteristica-icon"><i class="bi bi-shield-check"></i></span>
-                    <h3>Equipo Seguro</h3>
+                    <h3 class="times-font">Equipo Seguro</h3>
                     <p>Embarcaciones modernas y equipos de seguridad para garantizar tu tranquilidad.</p>
                 </div>
                 
                 <div class="caracteristica-item">
                     <span class="caracteristica-icon"><i class="bi bi-cash-stack"></i></span>
-                    <h3>Precios Accesibles</h3>
+                    <h3 class="times-font">Precios Accesibles</h3>
                     <p>Experiencias inolvidables a precios que respetan tu presupuesto.</p>
                 </div>
             </div>
@@ -1584,7 +1633,7 @@
     <section id="blog-preview" class="non-critical" style="display: none;">
         <div class="container">
             <div class="section-title">
-                <h2><i class="bi bi-newspaper"></i> Últimas Noticias</h2>
+                <h2 class="times-font"><i class="bi bi-newspaper"></i> Últimas Noticias</h2>
                 <p>Mantente informado sobre nuestros tours y actividades</p>
             </div>
             <div class="attractions-grid" id="blog-posts-container">
@@ -1604,7 +1653,7 @@
     <!-- Sección Preguntas -->
     <section id="preguntas" class="non-critical">
         <div class="container">
-            <h2><i class="bi bi-question-circle"></i> ¿Listo para la Aventura?</h2>
+            <h2 class="times-font"><i class="bi bi-question-circle"></i> ¿Listo para la Aventura?</h2>
             <p class="subtitle">Reserva tu experiencia hoy mismo y descubre la magia de Caño Salao</p>
             
             <div class="cta-buttons">
@@ -1622,36 +1671,36 @@
     <section id="contacto" class="non-critical">
         <div class="container">
             <div class="section-title">
-                <h2><i class="bi bi-chat-dots"></i> Contacto</h2>
+                <h2 class="times-font"><i class="bi bi-chat-dots"></i> Contacto</h2>
                 <p>Reserva tu tour o solicita más información sobre nuestros servicios</p>
             </div>
             <div class="contact-content">
                 <div class="contact-info">
-                    <h3><i class="bi bi-info-circle"></i> Información de Contacto</h3>
+                    <h3 class="times-font"><i class="bi bi-info-circle"></i> Información de Contacto</h3>
                     <div class="contact-details">
                         <div class="contact-item">
                             <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
                             <div>
-                                <h4>Ubicación</h4>
+                                <h4 class="times-font">Ubicación</h4>
                                 <p>Sector Caño Salao, Barcelona, Municipio Simón Bolívar, Estado Anzoátegui, Venezuela</p>
                             </div>
                         </div>
                         <div class="contact-item">
                             <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
                             <div>
-                                <h4>Teléfono</h4>
+                                <h4 class="times-font">Teléfono</h4>
                                 <p>+58 412-205-6558</p>
                             </div>
                         </div>
                         <div class="contact-item">
                             <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
                             <div>
-                                <h4>Email</h4>
+                                <h4 class="times-font">Email</h4>
                                 <p>info@canosalaotours.com</p>
                             </div>
                         </div>
                     </div>
-                    <h3><i class="bi bi-clock"></i> Horarios de Atención</h3>
+                    <h3 class="times-font"><i class="bi bi-clock"></i> Horarios de Atención</h3>
                     <p>Lunes a Domingo: 8:00 AM - 5:00 PM</p>
                 </div>
                 <div class="contact-form">
@@ -1695,11 +1744,11 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3><i class="bi bi-geo-alt"></i> Ruta Turística Caño Salao</h3>
+                    <h3 class="times-font"><i class="bi bi-geo-alt"></i> Ruta Turística Caño Salao</h3>
                     <p>Empresa de producción social de transporte turístico acuático comprometida con el desarrollo sostenible de la comunidad y la protección del medio ambiente.</p>
                 </div>
                 <div class="footer-column">
-                    <h3><i class="bi bi-link"></i> Enlaces Rápidos</h3>
+                    <h3 class="times-font"><i class="bi bi-link"></i> Enlaces Rápidos</h3>
                     <ul class="footer-links">
                         <li><a href="index.html"><i class="bi bi-house"></i> Inicio</a></li>
                         <li><a href="Pages/Empresa.html"><i class="bi bi-building"></i> Empresa</a></li>
@@ -1710,7 +1759,7 @@
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3><i class="bi bi-people"></i> Síguenos</h3>
+                    <h3 class="times-font"><i class="bi bi-people"></i> Síguenos</h3>
                     <div class="social-links">
                         <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
                         <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
@@ -1935,13 +1984,13 @@
                             <img src="${imagen}" alt="${tour.nombre}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'">
                         </div>
                         <div class="attraction-info">
-                            <h3><i class="bi bi-geo-alt" style="color: #3498db;"></i> ${tour.nombre}</h3>
+                            <h3 class="times-font"><i class="bi bi-geo-alt" style="color: #3498db;"></i> ${tour.nombre}</h3>
                             <p>${descripcion}</p>
                             <div class="tour-details">
                                 <span><i class="bi bi-clock"></i> ${duracion}</span>
                                 <span><i class="bi bi-currency-dollar"></i> $${precio}</span>
                             </div>
-                            <a href="Pages/Contacto.html?tour=${tour.id}" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background: #FF8C42; color: white; text-decoration: none; border-radius: 4px; width: 100%; text-align: center;">
+                            <a href="Pages/Contacto.html?tour=${tour.id}" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background: #FF8C42; color: white; text-decoration: none; border-radius: 4px; width: 100%; text-align: center; font-family: 'Roboto', sans-serif;">
                                 <i class="bi bi-calendar-plus"></i> Consultar Disponibilidad
                             </a>
                         </div>
@@ -2029,13 +2078,13 @@
                             }
                         </div>
                         <div class="attraction-info">
-                            <h3 style="font-size: 1.1rem;">${post.titulo || 'Sin título'}</h3>
-                            <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0;font-size:12px;color:#666;">
+                            <h3 style="font-size: 1.1rem; font-family: 'Times New Roman', Times, serif; font-weight: 700;">${post.titulo || 'Sin título'}</h3>
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0;font-size:12px;color:#666; font-family: 'Roboto', sans-serif;">
                                 <span><i class="bi bi-calendar"></i> ${fecha}</span>
                                 ${post.vistas ? `<span><i class="bi bi-eye"></i> ${post.vistas}</span>` : ''}
                             </div>
-                            <p>${post.excerpt || (post.contenido ? post.contenido.substring(0, 80) + '...' : 'Sin contenido disponible')}</p>
-                            <a href="Pages/blog.html?id=${post.id}" style="color:#3498db;text-decoration:none;font-size:14px;display:inline-flex;align-items:center;gap:5px;margin-top:10px;">
+                            <p style="font-family: 'Roboto', sans-serif;">${post.excerpt || (post.contenido ? post.contenido.substring(0, 80) + '...' : 'Sin contenido disponible')}</p>
+                            <a href="Pages/blog.html?id=${post.id}" style="color:#3498db;text-decoration:none;font-size:14px;display:inline-flex;align-items:center;gap:5px;margin-top:10px; font-family: 'Roboto', sans-serif;">
                                 <i class="bi bi-arrow-right"></i> Leer más
                             </a>
                         </div>
@@ -2100,15 +2149,15 @@
                     
                     dropdown.innerHTML = `
                         <div class="user-dropdown-header">
-                            <div style="font-weight: bold; font-size: 16px;">${currentUser.nombre || 'Usuario'}</div>
-                            <div class="user-dropdown-email">${currentUser.email}</div>
-                            ${currentUser.rol === 'admin' ? '<div style="font-size: 12px; margin-top: 4px; padding: 2px 8px; background: rgba(255,255,255,0.2); border-radius: 4px; display: inline-block;">Administrador</div>' : ''}
+                            <div style="font-weight: bold; font-size: 16px; font-family: 'Times New Roman', Times, serif;">${currentUser.nombre || 'Usuario'}</div>
+                            <div class="user-dropdown-email" style="font-family: 'Roboto', sans-serif;">${currentUser.email}</div>
+                            ${currentUser.rol === 'admin' ? '<div style="font-size: 12px; margin-top: 4px; padding: 2px 8px; background: rgba(255,255,255,0.2); border-radius: 4px; display: inline-block; font-family: \'Roboto\', sans-serif;">Administrador</div>' : ''}
                         </div>
-                        <a href="Pages/usuario.html"><i class="bi bi-person"></i> Mi Cuenta</a>
+                        <a href="Pages/usuario.html" style="font-family: 'Roboto', sans-serif;"><i class="bi bi-person"></i> Mi Cuenta</a>
                         ${currentUser.rol === 'admin' ? 
-                            '<a href="Pages/admin.html"><i class="bi bi-shield-check"></i> Panel de Administración</a>' : ''}
-                        <a href="Pages/reservas.html"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
-                        <a href="#" id="logout-link"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+                            '<a href="Pages/admin.html" style="font-family: \'Roboto\', sans-serif;"><i class="bi bi-shield-check"></i> Panel de Administración</a>' : ''}
+                        <a href="Pages/reservas.html" style="font-family: \'Roboto\', sans-serif;"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
+                        <a href="#" id="logout-link" style="font-family: \'Roboto\', sans-serif;"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
                     `;
                     
                     document.getElementById('user-menu-container').appendChild(dropdown);
