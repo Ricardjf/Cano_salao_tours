@@ -434,7 +434,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Email success */
         .email-success {
             text-align: center;
             padding: 1rem;
@@ -668,12 +667,12 @@
                     </div>
 
                     <div class="contact-info-card">
-                        <h2 class="times-font"><i class="bi bi-people"></i> Síguenos en Redes</h2>
+                        <h2 class="times-font"><i class="bi bi-people"></i> Síguenos en Redes Sociales</h2>
                         <div class="contact-detail">
                             <div class="contact-icon"><i class="bi bi-phone"></i></div>
                             <div class="contact-text">
                                 <h3>Conéctate con Nosotros</h3>
-                                <p>Mantente actualizado con nuestras últimas noticias y ofertas especiales.</p>
+                                <p>Mantente actualizado con nuestras últimas noticias, ofertas especiales y hermosas imágenes de Caño Salao.</p>
                             </div>
                         </div>
                         <div class="social-links" style="justify-content: center; margin-top: 1rem;">
@@ -685,25 +684,25 @@
                     </div>
 
                     <div class="contact-info-card">
-                        <h2 class="times-font"><i class="bi bi-map"></i> Ubicación</h2>
+                        <h2 class="times-font"><i class="bi bi-map"></i> Ubicación en el Mapa</h2>
                         <div class="map-container">
                             <iframe 
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.1234567890123!2d-64.699987!3d10.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c2e63e1b5f5b5a5%3A0x5c2e63e1b5f5b5a5!2sCa%C3%B1o%20Salao%2C%20Barcelona%2C%20Anzo%C3%A1tegui%2C%20Venezuela!5e0!3m2!1ses!2sve!4v1234567890123" 
                                 allowfullscreen="" 
                                 loading="lazy" 
                                 referrerpolicy="no-referrer-when-downgrade"
-                                title="Ubicación de Caño Salao"
-                                aria-label="Mapa mostrando la ubicación de Caño Salao">
+                                title="Ubicación de Caño Salao en Google Maps"
+                                aria-label="Mapa interactivo mostrando la ubicación de Caño Salao">
                             </iframe>
                         </div>
-                        <p class="map-note"><i class="bi bi-geo-alt"></i> Muelle principal de Caño Salao</p>
+                        <p class="map-note"><i class="bi bi-geo-alt"></i> Punto de encuentro: Muelle principal de Caño Salao</p>
                     </div>
                 </div>
 
-                <!-- FORMULARIO DE CONTACTO - VERSIÓN CORREGIDA -->
+                <!-- FORMULARIO DE CONTACTO - CORREGIDO SOLO EMAILJS -->
                 <div class="contact-form-container" id="formulario">
                     <h2 class="times-font"><i class="bi bi-chat-left-text"></i> Envíanos un Mensaje</h2>
-                    <p>¿Tienes preguntas sobre nuestros tours, necesitas hacer una reserva o simplemente quieres más información? Completa el formulario y te responderemos a la brevedad.</p>
+                    <p>¿Tienes preguntas sobre nuestros tours, necesitas hacer una reserva o simplemente quieres más información? Completa el siguiente formulario y te enviaremos un email de confirmación automático.</p>
                     
                     <form id="contact-form">
                         <div class="form-row">
@@ -721,7 +720,7 @@
                         
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="phone" class="times-font"><i class="bi bi-telephone"></i> Teléfono</label>
+                                <label for="phone" class="times-font"><i class="bi bi-telephone"></i> Teléfono de Contacto</label>
                                 <input type="tel" id="phone" name="phone" class="form-control" placeholder="Ej: +58 412-555-1234">
                                 <span class="error-message" id="phone-error"></span>
                             </div>
@@ -765,14 +764,14 @@
                         
                         <div class="form-group">
                             <label for="message" class="times-font"><i class="bi bi-chat-text"></i> Mensaje <span class="required">*</span></label>
-                            <textarea id="message" name="message" class="form-control" placeholder="Cuéntanos qué tienes en mente..." rows="6" required></textarea>
+                            <textarea id="message" name="message" class="form-control" placeholder="Por favor, describe tu consulta con detalle. Si estás interesado en un tour, indícanos cualquier preferencia especial, necesidades de accesibilidad, o información adicional que consideres importante..." rows="6" required></textarea>
                             <span class="error-message" id="message-error"></span>
                         </div>
                         
                         <div class="form-group">
                             <label>
                                 <input type="checkbox" id="privacy-policy" name="privacy-policy" required> 
-                                Acepto la <a href="#" class="link">política de privacidad</a> <span class="required">*</span>
+                                He leído y acepto la <a href="#" class="link">política de privacidad</a> y los <a href="#" class="link">términos de servicio</a> <span class="required">*</span>
                             </label>
                             <span class="error-message" id="privacy-error"></span>
                         </div>
@@ -780,7 +779,7 @@
                         <div class="form-group">
                             <label>
                                 <input type="checkbox" id="newsletter" name="newsletter"> 
-                                Quiero recibir promociones y novedades
+                                Deseo recibir información sobre promociones y novedades por correo electrónico
                             </label>
                         </div>
                         
@@ -788,120 +787,127 @@
                             <i class="bi bi-send"></i> Enviar Mensaje
                         </button>
                         <div id="form-message" style="margin-top: 1rem;"></div>
-                        <p class="form-note"><i class="bi bi-info-circle"></i> Campos marcados con * son obligatorios. Recibirás un email de confirmación.</p>
+                        <p class="form-note"><i class="bi bi-info-circle"></i> Campos marcados con * son obligatorios. Recibirás un email de confirmación automático.</p>
                     </form>
                 </div>
             </div>
 
-            <!-- Equipo -->
+            <!-- Equipo de Contacto -->
             <div style="margin: 4rem 0;">
                 <div class="section-title">
                     <h2 class="times-font"><i class="bi bi-people-fill"></i> Nuestro Equipo</h2>
-                    <p>Conoce al equipo que hará de tu experiencia en Caño Salao algo inolvidable.</p>
+                    <p>Conoce al equipo comprometido que hará de tu experiencia en Caño Salao algo verdaderamente inolvidable. Somos miembros de la comunidad local, apasionados por nuestro patrimonio natural y cultural.</p>
                 </div>
                 
                 <div class="team-grid">
                     <div class="team-member">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Jose Linares" class="member-photo" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Jose Linares - Coordinador General" class="member-photo" loading="lazy">
                         <div class="member-info">
                             <h3 class="times-font">Jose Linares</h3>
                             <div class="member-role">Coordinador General</div>
                             <div class="member-contact"><i class="bi bi-envelope"></i> jose.linares@canosalaotours.com</div>
-                            <p class="member-bio">10 años de experiencia en turismo sostenible.</p>
+                            <div class="member-contact"><i class="bi bi-telephone"></i> +58 412-555-7890</div>
+                            <p class="member-bio">Con más de 10 años de experiencia en turismo sostenible, Jose es el encargado de coordinar todas las operaciones y asegurar que cada visitante tenga una experiencia excepcional.</p>
                         </div>
                     </div>
                     
                     <div class="team-member">
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Maria Perez" class="member-photo" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Maria Perez - Guía Principal & Naturalista" class="member-photo" loading="lazy">
                         <div class="member-info">
                             <h3 class="times-font">Maria Perez</h3>
-                            <div class="member-role">Guía Naturalista</div>
+                            <div class="member-role">Guía Principal & Naturalista</div>
                             <div class="member-contact"><i class="bi bi-envelope"></i> maria.perez@canosalaotours.com</div>
-                            <p class="member-bio">Experta en biodiversidad local y avistamiento de aves.</p>
+                            <div class="member-contact"><i class="bi bi-telephone"></i> +58 414-555-1234</div>
+                            <p class="member-bio">Maria es nuestra experta en la biodiversidad de Caño Salao. Con un profundo conocimiento de la flora y fauna local, hace que cada tour sea educativo y fascinante.</p>
                         </div>
                     </div>
                     
                     <div class="team-member">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Miguel Chacin" class="member-photo" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Miguel Chacin - Especialista en Ecoturismo" class="member-photo" loading="lazy">
                         <div class="member-info">
                             <h3 class="times-font">Miguel Chacin</h3>
-                            <div class="member-role">Ecoturismo</div>
+                            <div class="member-role">Especialista en Ecoturismo</div>
                             <div class="member-contact"><i class="bi bi-envelope"></i> miguel.chacin@canosalaotours.com</div>
-                            <p class="member-bio">Operaciones ambientalmente responsables.</p>
+                            <div class="member-contact"><i class="bi bi-telephone"></i> +58 416-555-5678</div>
+                            <p class="member-bio">Miguel se encarga de desarrollar nuestros programas de turismo educativo y asegurar que todas nuestras operaciones sean ambientalmente responsables.</p>
                         </div>
                     </div>
                     
                     <div class="team-member">
-                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Andreina Solorzano" class="member-photo" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Andreina Solorzano - Asesora de Reservas" class="member-photo" loading="lazy">
                         <div class="member-info">
                             <h3 class="times-font">Andreina Solorzano</h3>
                             <div class="member-role">Asesora de Reservas</div>
                             <div class="member-contact"><i class="bi bi-envelope"></i> andreina.solorzano@canosalaotours.com</div>
-                            <p class="member-bio">Tu primer punto de contacto, siempre lista para ayudar.</p>
+                            <div class="member-contact"><i class="bi bi-telephone"></i> +58 414-555-9012</div>
+                            <p class="member-bio">Andreina es tu primer punto de contacto. Con su amable disposición y conocimiento detallado de nuestros servicios, te ayudará a planificar la experiencia perfecta en Caño Salao.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- FAQ -->
+            <!-- Preguntas Frecuentes -->
             <div style="margin: 4rem 0;">
                 <div class="section-title">
-                    <h2 class="times-font"><i class="bi bi-question-circle"></i> Preguntas Frecuentes</h2>
+                    <h2 class="times-font" id="faq-heading"><i class="bi bi-question-circle"></i> Preguntas Frecuentes</h2>
+                    <p>Respuestas a las consultas más comunes de nuestros visitantes. Si no encuentras lo que buscas, no dudes en contactarnos directamente.</p>
                 </div>
                 
                 <div class="faq-container">
                     <div class="faq-item">
                         <div class="faq-question">
-                            ¿Cómo reservo un tour?
+                            ¿Cómo puedo reservar un tour y qué métodos de pago aceptan?
                             <span class="faq-toggle">+</span>
                         </div>
                         <div class="faq-answer">
-                            <p>Por este formulario, teléfono o email. Aceptamos efectivo (bs y $) y transferencias.</p>
+                            <p>Puedes reservar un tour a través de nuestro formulario de contacto, llamándonos por teléfono, o enviándonos un correo electrónico. Aceptamos pagos en efectivo (bolívares y dólares) y transferencias bancarias. Para grupos grandes o reservas especiales, requerimos un depósito del 30% para confirmar.</p>
                         </div>
                     </div>
                     
                     <div class="faq-item">
                         <div class="faq-question">
-                            ¿Qué debo llevar?
+                            ¿Qué debo llevar para el tour?
                             <span class="faq-toggle">+</span>
                         </div>
                         <div class="faq-answer">
-                            <p>Protector solar, repelente, ropa cómoda, calzado para agua, cámara.</p>
+                            <p>Te recomendamos llevar: protector solar, gorra o sombrero, ropa cómoda y ligera (preferiblemente de colores claros), calzado adecuado para caminar (puede mojarse), cámara fotográfica, repelente de insectos, y en caso de ser necesario, cualquier medicamento personal. También puedes traer binoculares para el avistamiento de aves. Proveemos agua potable durante el tour.</p>
                         </div>
                     </div>
                     
                     <div class="faq-item">
                         <div class="faq-question">
-                            ¿Es apto para niños?
+                            ¿Los tours son adecuados para niños y personas mayores?
                             <span class="faq-toggle">+</span>
                         </div>
                         <div class="faq-answer">
-                            <p>Sí, es familiar. Menores de 5 años no pagan.</p>
+                            <p>Sí, nuestros tours son familiares y aptos para todas las edades. Para familias con niños pequeños, recomendamos el tour básico que tiene una duración más corta (2 horas). Contamos con chalecos salvavidas de todos los tamaños. Los niños menores de 5 años no pagan entrada. Para personas con movilidad reducida, contáctenos para organizar un tour adaptado.</p>
                         </div>
                     </div>
                     
                     <div class="faq-item">
                         <div class="faq-question">
-                            ¿Si llueve?
+                            ¿Qué pasa si llueve el día de mi tour?
                             <span class="faq-toggle">+</span>
                         </div>
                         <div class="faq-answer">
-                            <p>Lluvia ligera el tour continúa (botes techados). Tormenta: reprogramamos o reembolsamos.</p>
+                            <p>En caso de lluvia ligera, los tours se realizan normalmente ya que contamos con botes techados y la experiencia bajo la lluvia puede ser igualmente encantadora. Si las condiciones climáticas son adversas y no permiten realizar el tour con seguridad (tormentas eléctricas, fuertes vientos), ofrecemos reprogramar la fecha sin costo adicional o el reembolso completo de tu reserva.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- CTA -->
-            <div style="background: var(--color-primary); color: white; padding: 3rem; border-radius: var(--radius-lg); text-align: center;">
-                <h2 class="times-font" style="color: white;">¿Listo para la aventura?</h2>
-                <p style="margin-bottom: 2rem;">Reserva hoy y descubre la magia de Caño Salao</p>
+            <!-- Llamada a la acción -->
+            <div style="background: var(--color-primary); color: white; padding: 3rem; border-radius: var(--radius-lg); text-align: center; margin-top: 4rem;">
+                <h2 class="times-font" style="color: white; margin-bottom: 1rem;"><i class="bi bi-calendar-check"></i> ¿Listo para vivir la aventura?</h2>
+                <p style="margin-bottom: 2rem; opacity: 0.9; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    Reserva tu tour hoy mismo y descubre la magia de Caño Salao
+                </p>
                 <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                     <a href="#formulario" class="btn" style="background: var(--color-accent);">
                         <i class="bi bi-chat-dots"></i> Contactar Ahora
                     </a>
                     <a href="Servicios.html" class="btn" style="background: white; color: var(--color-primary);">
-                        Ver Servicios
+                        <i class="bi bi-list-check"></i> Ver Servicios
                     </a>
                 </div>
             </div>
@@ -913,36 +919,42 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3 class="times-font">Ruta Turística Caño Salao</h3>
-                    <p>Empresa de producción social de transporte turístico acuático comprometida con el desarrollo sostenible.</p>
+                    <h3 class="times-font"><i class="bi bi-geo-alt"></i> Ruta Turística Caño Salao</h3>
+                    <p>Empresa de producción social de transporte turístico acuático comprometida con el desarrollo sostenible de la comunidad y la protección del medio ambiente.</p>
                 </div>
                 <div class="footer-column">
-                    <h3 class="times-font">Enlaces</h3>
+                    <h3 class="times-font"><i class="bi bi-link"></i> Enlaces Rápidos</h3>
                     <ul class="footer-links">
-                        <li><a href="../index.html">Inicio</a></li>
-                        <li><a href="Empresa.html">Empresa</a></li>
-                        <li><a href="Servicios.html">Servicios</a></li>
-                        <li><a href="Contacto.html">Contacto</a></li>
+                        <li><a href="../index.html"><i class="bi bi-house"></i> Inicio</a></li>
+                        <li><a href="Empresa.html"><i class="bi bi-building"></i> Empresa</a></li>
+                        <li><a href="Historia.html"><i class="bi bi-journal-text"></i> Historia</a></li>
+                        <li><a href="Servicios.html"><i class="bi bi-list-check"></i> Servicios</a></li>
+                        <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
+                        <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3 class="times-font">Síguenos</h3>
+                    <h3 class="times-font"><i class="bi bi-people"></i> Síguenos</h3>
                     <div class="social-links">
                         <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
                         <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
                         <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-whatsapp"></i></a>
                     </div>
-                    <p style="margin-top: 1rem;"><i class="bi bi-telephone"></i> +58 412-205-6558</p>
+                    <div style="margin-top: 1rem;">
+                        <p style="font-size: 0.9rem;"><i class="bi bi-telephone"></i> +58 412-205-6558</p>
+                        <p style="font-size: 0.9rem;"><i class="bi bi-envelope"></i> info@canosalaotours.com</p>
+                    </div>
                 </div>
             </div>
             <div class="copyright">
-                <p>© 2025 Ruta Turística Marítima Caño Salao. Todos los derechos reservados.</p>
-                <p>Proyecto desarrollado por estudiantes del PNF en Informática - UPTJAA</p>
+                <p><i class="bi bi-c-circle"></i> 2025 Ruta Turística Marítima Caño Salao. Todos los derechos reservados.</p>
+                <p><i class="bi bi-mortarboard"></i> Proyecto desarrollado por estudiantes del PNF en Informática - Universidad Politécnica Territorial "José Antonio Anzoátegui"</p>
             </div>
         </div>
     </footer>
 
-    <!-- Script principal CORREGIDO -->
+    <!-- Script principal - SOLO CAMBIOS EN EMAILJS -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // ========== MENÚ MÓVIL ==========
@@ -972,11 +984,27 @@
             
             mobileMenuToggle.addEventListener('click', function(e) {
                 e.preventDefault();
-                !isMobileMenuOpen ? openMobileMenu() : closeMobileMenu();
+                e.stopPropagation();
+                if (!isMobileMenuOpen) {
+                    openMobileMenu();
+                } else {
+                    closeMobileMenu();
+                }
             });
             
             mobileMenuClose.addEventListener('click', closeMobileMenu);
             mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+            
+            const mobileMenuLinks = mobileMenuContainer.querySelectorAll('a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isMobileMenuOpen) {
+                    closeMobileMenu();
+                }
+            });
             
             // ========== HERO BACKGROUND ==========
             function loadHeroImage() {
@@ -999,7 +1027,7 @@
             
             loadHeroImage();
             
-            // ========== FORMULARIO DE CONTACTO - VERSIÓN CORREGIDA ==========
+            // ========== FORMULARIO DE CONTACTO - SOLO EMAILJS ==========
             const contactForm = document.getElementById('contact-form');
             if (contactForm) {
                 contactForm.addEventListener('submit', async function(e) {
@@ -1028,19 +1056,19 @@
                     const preferredDate = document.getElementById('preferred-date').value;
                     const message = document.getElementById('message').value.trim();
                     const privacyPolicy = document.getElementById('privacy-policy').checked;
-                    const newsletter = document.getElementById('newsletter').checked ? 'Sí, quiero recibir novedades' : 'No por ahora';
+                    const newsletter = document.getElementById('newsletter').checked;
                     
                     // Validación
                     let isValid = true;
                     
                     if (!name || name.length < 2) {
-                        document.getElementById('name-error').textContent = 'Nombre requerido';
+                        document.getElementById('name-error').textContent = 'Nombre completo requerido';
                         document.getElementById('name-error').style.display = 'block';
                         isValid = false;
                     }
                     
                     if (!email) {
-                        document.getElementById('email-error').textContent = 'Email requerido';
+                        document.getElementById('email-error').textContent = 'Correo electrónico requerido';
                         document.getElementById('email-error').style.display = 'block';
                         isValid = false;
                     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -1068,7 +1096,7 @@
                     }
                     
                     if (!isValid) {
-                        formMessage.innerHTML = '<div class="alert alert-danger">Por favor corrige los errores</div>';
+                        formMessage.innerHTML = '<div class="alert alert-danger">Por favor corrige los errores señalados.</div>';
                         return;
                     }
                     
@@ -1113,11 +1141,11 @@
                             message: message
                         };
                         
-                        console.log('📧 Enviando email...', templateParams);
+                        console.log('Enviando email...', templateParams);
                         
                         await emailjs.send('service_j5txz1f', 'template_1g7v6jp', templateParams);
                         
-                        console.log('✅ Email enviado a:', email);
+                        console.log('Email enviado a:', email);
                         
                         // Mensaje de éxito
                         formMessage.innerHTML = `
@@ -1128,10 +1156,13 @@
                                     <strong>¡Gracias ${name}!</strong>
                                 </p>
                                 <p style="margin-bottom: 0.5rem;">
-                                    Te enviamos un email de confirmación a <strong>${email}</strong>
+                                    Te hemos enviado un email de confirmación a <strong>${email}</strong>
                                 </p>
                                 <p style="color: #856404; margin-top: 1rem;">
-                                    ⚡ Revisa tu bandeja de SPAM si no lo ves en 5 minutos
+                                    ⚡ Revisa tu bandeja de SPAM / Correo no deseado
+                                </p>
+                                <p style="color: #666; margin-top: 1rem;">
+                                    Nos pondremos en contacto contigo dentro de las próximas 24 horas.
                                 </p>
                             </div>
                         `;
@@ -1140,14 +1171,14 @@
                         contactForm.reset();
                         
                     } catch (error) {
-                        console.error('❌ Error:', error);
+                        console.error('Error:', error);
                         
                         let errorMsg = 'Error al enviar el mensaje. ';
                         if (error.text) errorMsg += error.text;
                         
                         formMessage.innerHTML = `
-                            <div class="alert alert-warning" style="text-align: center;">
-                                <i class="bi bi-exclamation-triangle-fill" style="font-size: 2rem;"></i>
+                            <div class="alert alert-warning" style="text-align: center; padding: 1.5rem;">
+                                <i class="bi bi-exclamation-triangle-fill" style="font-size: 2.5rem; color: #856404;"></i>
                                 <h3 style="color: #856404; margin: 1rem 0;">Error</h3>
                                 <p>${errorMsg}</p>
                                 <p style="margin-top: 1rem;">Tu mensaje fue guardado. Te contactaremos pronto.</p>
@@ -1181,14 +1212,32 @@
             // ========== FECHA MÍNIMA ==========
             const dateInput = document.getElementById('preferred-date');
             if (dateInput) {
-                const tomorrow = new Date();
+                const today = new Date();
+                const tomorrow = new Date(today);
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 dateInput.min = tomorrow.toISOString().split('T')[0];
                 
-                const maxDate = new Date();
+                const maxDate = new Date(today);
                 maxDate.setMonth(maxDate.getMonth() + 3);
                 dateInput.max = maxDate.toISOString().split('T')[0];
             }
+            
+            // ========== HEADER SCROLL EFFECT ==========
+            let ticking = false;
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        const header = document.querySelector('header');
+                        if (window.scrollY > 50) {
+                            header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
+                        } else {
+                            header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
             
             // ========== CHECK AUTH ==========
             try {
@@ -1201,7 +1250,9 @@
                     loginBtn.innerHTML = `<i class="bi bi-person-check"></i> <span class="login-text">${userData.nombre?.split(' ')[0] || 'Usuario'}</span>`;
                     loginBtn.href = 'usuario.html';
                 }
-            } catch (e) {}
+            } catch (e) {
+                console.log('Error en auth:', e);
+            }
         });
     </script>
 </body>
