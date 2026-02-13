@@ -1365,7 +1365,7 @@
                         <div class="form-group">
                             <label><i class="bi bi-link"></i> URL del Backend</label>
                             <div style="display: flex; gap: 10px;">
-                                <input type="text" id="backend-url" class="form-control" value="https://cano-salao.onrender.com" readonly>
+                                <input type="text" id="backend-url" class="form-control" value="https://ricardjf.pythonanywhere.com" readonly>
                                 <button class="btn" onclick="testBackendConnection()" style="background: var(--admin-warning);"><i class="bi bi-plug"></i> Probar</button>
                             </div>
                         </div>
@@ -1885,14 +1885,15 @@
         </div>
     </div>
 
-    <!-- SCRIPT PRINCIPAL CON TODAS LAS FUNCIONALIDADES COMPLETAS -->
+    <!-- SCRIPT PRINCIPAL CON TODAS LAS FUNCIONALIDADES COMPLETAS - CORREGIDO PARA PYTHONANYWHERE -->
     <script>
-        // ========== CONFIGURACIÓN ==========
-        const API_BASE_URL = 'https://cano-salao.onrender.com';
+        // ========== CONFIGURACIÓN - SOLO CAMBIO DE URL ==========
+        const API_BASE_URL = 'https://ricardjf.pythonanywhere.com';
         const STORAGE_KEYS = {
             TOKEN: 'cano_salao_token',
             REFRESH_TOKEN: 'cano_salao_refresh_token',
-            USER: 'cano_salao_user'
+            USER: 'cano_salao_user',
+            SESSION_EXPIRES: 'cano_salao_expires'
         };
         
         // ========== ESTADO GLOBAL ==========
@@ -1903,16 +1904,100 @@
         let toursData = [];
         let blogPostsData = [];
         let allBlogPosts = [];
+        let isRefreshingToken = false;
+        let failedRequestsQueue = [];
         
         // Variables para manejo de imágenes
-        let currentImageOption = 'upload'; // 'upload' o 'url'
+        let currentImageOption = 'upload';
         let currentBlogImageOption = 'upload';
         let currentEditImageOption = 'upload';
         let currentEditBlogImageOption = 'upload';
         
+        // ========== PROCESAR COLA DE PETICIONES ==========
+        const processFailedQueue = (error, token = null) => {
+            failedRequestsQueue.forEach(prom => {
+                if (error) {
+                    prom.reject(error);
+                } else {
+                    prom.resolve(token);
+                }
+            });
+            failedRequestsQueue = [];
+        };
+        
+        // ========== FUNCIÓN CON FETCH CON REFRESCO AUTOMÁTICO ==========
+        async function fetchWithAuth(url, options = {}) {
+            const accessToken = token || localStorage.getItem(STORAGE_KEYS.TOKEN);
+            
+            if (!accessToken) {
+                console.warn('⚠️ No hay token de acceso disponible');
+                return fetch(url, options);
+            }
+            
+            options.headers = {
+                ...options.headers,
+                'Authorization': `Bearer ${accessToken}`
+            };
+            
+            try {
+                const response = await fetch(url, options);
+                
+                if (response.status === 401) {
+                    const responseData = await response.json().catch(() => ({}));
+                    
+                    if (responseData.error === 'token_expired' || responseData.error === 'invalid_token') {
+                        console.log('🔄 Token expirado, intentando refrescar...');
+                        
+                        if (isRefreshingToken) {
+                            return new Promise((resolve, reject) => {
+                                failedRequestsQueue.push({ resolve, reject });
+                            }).then(newToken => {
+                                options.headers = {
+                                    ...options.headers,
+                                    'Authorization': `Bearer ${newToken}`
+                                };
+                                return fetch(url, options);
+                            }).catch(err => {
+                                return response;
+                            });
+                        }
+                        
+                        isRefreshingToken = true;
+                        
+                        try {
+                            const newTokens = await refreshAuthToken();
+                            
+                            if (newTokens) {
+                                options.headers = {
+                                    ...options.headers,
+                                    'Authorization': `Bearer ${newTokens.access_token}`
+                                };
+                                processFailedQueue(null, newTokens.access_token);
+                                isRefreshingToken = false;
+                                return fetch(url, options);
+                            } else {
+                                throw new Error('No se pudo refrescar el token');
+                            }
+                        } catch (refreshError) {
+                            processFailedQueue(refreshError, null);
+                            isRefreshingToken = false;
+                            return response;
+                        }
+                    }
+                }
+                
+                return response;
+                
+            } catch (error) {
+                console.error('❌ Error en fetchWithAuth:', error);
+                throw error;
+            }
+        }
+        
         // ========== INICIALIZACIÓN ==========
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 Inicializando Panel Administrativo...');
+            console.log('🚀 Inicializando Panel Administrativo - Backend PythonAnywhere');
+            console.log('🔗 API URL:', API_BASE_URL);
             
             // Configurar URL del backend
             document.getElementById('backend-url').value = API_BASE_URL;
@@ -1940,7 +2025,6 @@
         });
         
         function initImageUploads() {
-            // Inicializar eventos para subida de imágenes de tours
             const tourImageUpload = document.getElementById('tour-image-upload');
             const editTourImageUpload = document.getElementById('edit-tour-image-upload');
             const blogImageUpload = document.getElementById('blog-image-upload');
@@ -1972,7 +2056,6 @@
         }
         
         function initEventListeners() {
-            // Cerrar modales al hacer clic fuera
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.addEventListener('click', function(e) {
                     if (e.target === this) {
@@ -1981,7 +2064,6 @@
                 });
             });
             
-            // Cerrar con ESC
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     document.querySelectorAll('.modal.active').forEach(modal => {
@@ -1990,7 +2072,6 @@
                 }
             });
             
-            // Previsualización de URLs en tiempo real
             document.getElementById('blog-image-url')?.addEventListener('input', function() {
                 updateImagePreviewFromUrl(this.value, 'blog-image-preview');
             });
@@ -2077,13 +2158,11 @@
             const file = event.target.files[0];
             if (!file) return;
             
-            // Validar tamaño (5MB máximo)
             if (file.size > 5 * 1024 * 1024) {
                 showAlert('La imagen es demasiado grande. El tamaño máximo es 5MB.', 'error');
                 return;
             }
             
-            // Validar tipo
             if (!file.type.match('image.*')) {
                 showAlert('Por favor, selecciona una imagen válida (JPEG, PNG, GIF).', 'error');
                 return;
@@ -2096,7 +2175,6 @@
             const progressFill = document.getElementById(progressFillId);
             const statusElement = document.getElementById(statusId);
             
-            // Mostrar barra de progreso
             progressElement.style.display = 'block';
             progressFill.style.width = '0%';
             statusElement.textContent = '0%';
@@ -2118,14 +2196,11 @@
                 progressFill.style.width = '100%';
                 statusElement.textContent = '100%';
                 
-                // Mostrar vista previa
                 preview.src = e.target.result;
                 preview.style.display = 'block';
                 
-                // Guardar datos de la imagen
                 dataInput.value = e.target.result;
                 
-                // Ocultar barra de progreso después de un momento
                 setTimeout(() => {
                     progressElement.style.display = 'none';
                 }, 1000);
@@ -2167,10 +2242,9 @@
             }
             
             try {
-                const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
+                const response = await fetchWithAuth(`${API_BASE_URL}/api/auth/verify`, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
@@ -2210,9 +2284,14 @@
         
         async function refreshAuthToken() {
             const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
-            if (!refreshToken) return null;
+            if (!refreshToken) {
+                console.warn('⚠️ No hay refresh token disponible');
+                return null;
+            }
             
             try {
+                console.log('🔄 Refrescando token...');
+                
                 const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
                     method: 'POST',
                     headers: {
@@ -2223,14 +2302,25 @@
                 
                 if (response.ok) {
                     const data = await response.json();
+                    
+                    // ===== CORRECCIÓN CRÍTICA: El backend devuelve access_token =====
                     localStorage.setItem(STORAGE_KEYS.TOKEN, data.access_token);
                     token = data.access_token;
-                    return true;
+                    
+                    if (data.refresh_token) {
+                        localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, data.refresh_token);
+                    }
+                    
+                    console.log('✅ Token refrescado exitosamente');
+                    return { access_token: data.access_token };
+                } else {
+                    console.error('❌ Error refrescando token:', response.status);
+                    return null;
                 }
             } catch (error) {
-                console.error('Error refrescando token:', error);
+                console.error('❌ Error en refreshAuthToken:', error);
+                return null;
             }
-            return false;
         }
         
         function updateUserUI() {
@@ -2241,7 +2331,6 @@
             document.getElementById('admin-user-avatar').textContent = (currentUser.nombre?.charAt(0) || 'A').toUpperCase();
             document.getElementById('admin-subtitle').textContent = `Bienvenido, ${currentUser.nombre}`;
             
-            // Establecer autor por defecto en formularios de blog
             document.getElementById('blog-author').value = currentUser.nombre || 'Administrador';
         }
         
@@ -2347,7 +2436,6 @@
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
                 
-                // Resetear formularios y vistas previas
                 resetModalForms(modalId);
             }
         }
@@ -2460,9 +2548,8 @@
             if (!token || !isAdmin) return;
             
             try {
-                const response = await fetch(`${API_BASE_URL}/api/admin/dashboard`, {
+                const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/dashboard`, {
                     headers: {
-                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
@@ -2506,9 +2593,7 @@
             const ctx2 = document.getElementById('distributionChart')?.getContext('2d');
             
             if (ctx1 && Chart) {
-                if (ctx1.chart) {
-                    ctx1.chart.destroy();
-                }
+                if (ctx1.chart) ctx1.chart.destroy();
                 
                 ctx1.chart = new Chart(ctx1, {
                     type: 'line',
@@ -2525,17 +2610,13 @@
                     },
                     options: {
                         responsive: true,
-                        plugins: { 
-                            legend: { display: false }
-                        }
+                        plugins: { legend: { display: false } }
                     }
                 });
             }
             
             if (ctx2 && Chart) {
-                if (ctx2.chart) {
-                    ctx2.chart.destroy();
-                }
+                if (ctx2.chart) ctx2.chart.destroy();
                 
                 ctx2.chart = new Chart(ctx2, {
                     type: 'doughnut',
@@ -2555,11 +2636,7 @@
                     },
                     options: {
                         responsive: true,
-                        plugins: {
-                            legend: { 
-                                position: 'bottom'
-                            }
-                        }
+                        plugins: { legend: { position: 'bottom' } }
                     }
                 });
             }
@@ -2678,7 +2755,6 @@
             document.getElementById('new-tour-image-url').value = '';
             document.getElementById('tour-upload-progress').style.display = 'none';
             
-            // Resetear opciones de imagen
             currentImageOption = 'upload';
             const uploadSection = document.getElementById('image-upload-section');
             const urlSection = document.getElementById('image-url-section');
@@ -2715,13 +2791,10 @@
                 return;
             }
             
-            // Manejar la imagen
             let imagen_url = null;
             if (currentImageOption === 'upload') {
                 const imageData = document.getElementById('tour-image-data').value;
                 if (imageData) {
-                    // Para simplicidad, usaremos el data URL directamente
-                    // En producción, deberías subir la imagen al servidor
                     imagen_url = imageData;
                 }
             } else {
@@ -2744,11 +2817,10 @@
             showFormAlert('add-tour-alert', 'Creando tour...', 'info');
             
             try {
-                const response = await fetch(`${API_BASE_URL}/api/admin/tours`, {
+                const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/tours`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(tourData)
                 });
@@ -2791,7 +2863,6 @@
                         document.getElementById('edit-tour-image-preview').src = tour.imagen_url;
                         document.getElementById('edit-tour-image-preview').style.display = 'block';
                         
-                        // Si es una URL, mostrar esa opción
                         if (tour.imagen_url.startsWith('http')) {
                             toggleEditImageOption('url');
                             document.getElementById('edit-tour-image-url').value = tour.imagen_url;
@@ -2826,7 +2897,6 @@
                 return;
             }
             
-            // Manejar la imagen
             let imagen_url = null;
             if (currentEditImageOption === 'upload') {
                 const imageData = document.getElementById('edit-tour-image-data').value;
@@ -2853,11 +2923,10 @@
             showFormAlert('edit-tour-alert', 'Actualizando tour...', 'info');
             
             try {
-                const response = await fetch(`${API_BASE_URL}/api/admin/tours/${id}`, {
+                const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/tours/${id}`, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(tourData)
                 });
@@ -2882,10 +2951,9 @@
         function deleteTour(tourId, tourName) {
             confirmAction(`¿Eliminar el tour "${tourName}"?`, async function() {
                 try {
-                    const response = await fetch(`${API_BASE_URL}/api/admin/tours/${tourId}`, {
+                    const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/tours/${tourId}`, {
                         method: 'DELETE',
                         headers: {
-                            'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
                         }
                     });
@@ -3003,7 +3071,6 @@
             document.getElementById('blog-image-data').value = '';
             document.getElementById('blog-upload-progress').style.display = 'none';
             
-            // Resetear opciones de imagen
             currentBlogImageOption = 'upload';
             const uploadSection = document.getElementById('blog-image-upload-section');
             const urlSection = document.getElementById('blog-image-url-section');
@@ -3040,7 +3107,6 @@
                 return;
             }
             
-            // Manejar la imagen
             let imagen_url = null;
             if (currentBlogImageOption === 'upload') {
                 const imageData = document.getElementById('blog-image-data').value;
@@ -3067,11 +3133,10 @@
             showFormAlert('add-blog-alert', 'Publicando artículo...', 'info');
             
             try {
-                const response = await fetch(`${API_BASE_URL}/api/admin/blog`, {
+                const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/blog`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(blogData)
                 });
@@ -3114,7 +3179,6 @@
                         document.getElementById('edit-blog-image-preview').src = post.imagen_url;
                         document.getElementById('edit-blog-image-preview').style.display = 'block';
                         
-                        // Si es una URL, mostrar esa opción
                         if (post.imagen_url.startsWith('http')) {
                             toggleEditBlogImageOption('url');
                             document.getElementById('edit-blog-image-url').value = post.imagen_url;
@@ -3159,7 +3223,6 @@
                 return;
             }
             
-            // Manejar la imagen
             let imagen_url = null;
             if (currentEditBlogImageOption === 'upload') {
                 const imageData = document.getElementById('edit-blog-image-data').value;
@@ -3186,11 +3249,10 @@
             showFormAlert('edit-blog-alert', 'Actualizando artículo...', 'info');
             
             try {
-                const response = await fetch(`${API_BASE_URL}/api/admin/blog/${id}`, {
+                const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/blog/${id}`, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(blogData)
                 });
@@ -3244,10 +3306,9 @@
         function deleteBlogPost(postId, postTitle) {
             confirmAction(`¿Eliminar el artículo "${postTitle}"?`, async function() {
                 try {
-                    const response = await fetch(`${API_BASE_URL}/api/admin/blog/${postId}`, {
+                    const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/blog/${postId}`, {
                         method: 'DELETE',
                         headers: {
-                            'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
                         }
                     });
@@ -3295,7 +3356,6 @@
             showAlert('Usando modo demo. Algunas funcionalidades estarán limitadas.', 'warning');
         }
         
-        // Funciones placeholder para funcionalidades futuras
         function exportUsersToCSV() {
             showAlert('Funcionalidad en desarrollo - Exportar a CSV', 'info');
         }
@@ -3346,11 +3406,10 @@
             showFormAlert('profile-form-alert', 'Actualizando perfil...', 'info');
             
             try {
-                const response = await fetch(`${API_BASE_URL}/api/user/profile`, {
+                const response = await fetchWithAuth(`${API_BASE_URL}/api/user/profile`, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(profileData)
                 });
@@ -3395,7 +3454,7 @@
             showAlert('Configuración guardada correctamente', 'success');
         }
         
-        // Funciones para usuarios y reservas (mantenidas del código anterior)
+        // ========== USUARIOS ==========
         async function loadUsers() {
             if (!isAdmin) {
                 showAlert('No tienes permisos de administrador', 'error');
@@ -3413,9 +3472,8 @@
             `;
             
             try {
-                const response = await fetch(`${API_BASE_URL}/api/admin/users`, {
+                const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/users`, {
                     headers: {
-                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
@@ -3520,8 +3578,7 @@
                 const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(userData)
                 });
@@ -3584,11 +3641,10 @@
             showFormAlert('edit-user-alert', 'Actualizando usuario...', 'info');
             
             try {
-                const response = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
+                const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/users/${id}`, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(userData)
                 });
@@ -3615,10 +3671,9 @@
             
             confirmAction(`¿Eliminar al usuario "${userName}"?`, async function() {
                 try {
-                    const response = await fetch(`${API_BASE_URL}/api/admin/users/${userId}`, {
+                    const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/users/${userId}`, {
                         method: 'DELETE',
                         headers: {
-                            'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
                         }
                     });
@@ -3639,11 +3694,11 @@
             });
         }
         
+        // ========== RESERVAS ==========
         async function loadBookings() {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/user/bookings`, {
+                const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/bookings`, {
                     headers: {
-                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
@@ -3675,12 +3730,12 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${booking.id}</td>
-                    <td>${booking.user_id}</td>
+                    <td>${booking.user_nombre || `Usuario ${booking.user_id}`}</td>
                     <td>${booking.tour_nombre || `Tour ${booking.tour_id}`}</td>
                     <td>${booking.fecha ? new Date(booking.fecha).toLocaleDateString() : 'N/A'}</td>
                     <td>${booking.personas}</td>
                     <td>$${booking.total?.toFixed(2)}</td>
-                    <td><span class="status-badge ${booking.estado === 'confirmed' ? 'status-confirmed' : 'status-pending'}">${booking.estado || 'pending'}</span></td>
+                    <td><span class="status-badge status-${booking.estado}">${booking.estado || 'pending'}</span></td>
                     <td>
                         <div class="action-buttons">
                             <button class="btn-icon btn-edit" onclick="editBooking(${booking.id})"><i class="bi bi-pencil"></i></button>
@@ -3707,6 +3762,46 @@
         function editBooking(bookingId) {
             showAlert(`Editando reserva ${bookingId} (funcionalidad en desarrollo)`, 'info');
         }
+
+        // ========== EXPORTAR FUNCIONES GLOBALES ==========
+        window.CanoSalaoAdmin = {
+            testBackendConnection,
+            showSection,
+            refreshDashboard,
+            showSystemInfo,
+            showAddUserModal,
+            addNewUser,
+            editUser,
+            saveUserEdit,
+            deleteUser,
+            loadUsers,
+            showAddTourModal,
+            addNewTour,
+            editTour,
+            saveTourEdit,
+            deleteTour,
+            loadTours,
+            loadBookings,
+            showAddBlogPostModal,
+            saveBlogPost,
+            editBlogPost,
+            saveBlogEdit,
+            deleteBlogPost,
+            previewBlogPost,
+            filterBlogPosts,
+            loadProfile,
+            updateProfile,
+            saveSystemSettings,
+            toggleImageOption,
+            toggleEditImageOption,
+            toggleBlogImageOption,
+            toggleEditBlogImageOption,
+            openModal,
+            closeModal,
+            confirmAction,
+            showAlert,
+            logout
+        };
 
     </script>
 </body>
