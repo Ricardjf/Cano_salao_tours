@@ -203,7 +203,6 @@
             font-weight: bold;
         }
         
-        /* Estilo mejorado para botones dentro de las tarjetas */
         .service-card-btn {
             display: inline-flex;
             align-items: center;
@@ -297,7 +296,6 @@
             transform: scale(1.02);
         }
         
-        /* Estilos para el loading de tours */
         .tours-loading {
             text-align: center;
             padding: 3rem;
@@ -427,8 +425,8 @@
 
                 <!-- Sección de autenticación -->
                 <div class="auth-section">
-                    <a href="login.html" class="login-btn">
-                        <i class="bi bi-person-circle"></i> <span class="login-text">Iniciar Sesión</span>
+                    <a href="login.html" class="login-btn" id="auth-btn">
+                        <i class="bi bi-person-circle"></i> <span class="login-text" id="auth-text">Iniciar Sesión</span>
                     </a>
                 </div>
 
@@ -534,7 +532,6 @@
                 
                 <!-- Contenedor para los tours desde API -->
                 <div class="service-grid" id="tours-api-container">
-                    <!-- Los tours se cargarán aquí desde la API -->
                     <div class="tours-loading">
                         <div class="spinner"></div>
                         <p>Cargando tours disponibles desde nuestra base de datos...</p>
@@ -650,7 +647,6 @@
                     </div>
                 </div>
                 
-                <!-- Llamada a la acción para reservas -->
                 <div style="text-align: center; margin-top: 2.5rem; padding-top: 2rem; border-top: 2px solid var(--color-light);">
                     <h3 class="times-font" style="color: var(--color-primary); margin-bottom: 1rem;">¿Listo para tu aventura?</h3>
                     <p style="margin-bottom: 1.5rem; color: #666;">Reserva tu tour ahora y asegura tu lugar en esta experiencia única.</p>
@@ -707,110 +703,143 @@
     <!-- Scripts -->
     <script>
         (function() {
-            // ========== CONFIGURACIÓN API ==========
-            const API_BASE_URL = 'https://cano-salao.onrender.com/api';
-            let isLoadingTours = false;
+            "use strict";
             
-            // ========== VARIABLES DEL MENÚ MÓVIL ==========
+            // ========== CONFIGURACIÓN API - ACTUALIZADO PARA PYTHONANYWHERE ==========
+            const API_BASE_URL = 'https://ricardjf.pythonanywhere.com/api';
+            
+            // También puedes agregar un backup por si falla
+            const API_BACKUP_URL = 'https://ricardjf.pythonanywhere.com/api';
+            
+            // ========== VARIABLES GLOBALES ==========
+            let isLoadingTours = false;
             let isMobileMenuOpen = false;
+            let toursLoaded = false;
+            
+            // ========== ELEMENTOS DEL DOM ==========
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
             const mobileMenuClose = document.getElementById('mobile-menu-close');
             const mobileMenuContainer = document.getElementById('mobile-menu-container');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            const toursContainer = document.getElementById('tours-api-container');
+            const errorContainer = document.getElementById('tours-error');
+            const apiStatusElement = document.getElementById('api-status');
             
-            // ========== FUNCIONES PRINCIPALES ==========
+            // ========== FUNCIONES DE UTILIDAD ==========
             
-            // Función para cargar tours desde la API
-            async function loadToursFromAPI() {
-                if (isLoadingTours) return;
+            /**
+             * Actualiza el estado visual de la conexión API
+             */
+            function updateApiStatus(message, statusClass = '') {
+                if (!apiStatusElement) return;
                 
-                isLoadingTours = true;
-                updateApiStatus('🔄 Cargando tours...', '');
-                
-                const container = document.getElementById('tours-api-container');
-                const errorContainer = document.getElementById('tours-error');
-                
-                try {
-                    const response = await fetch(`${API_BASE_URL}/tours`);
-                    
-                    if (!response.ok) {
-                        throw new Error(`Error ${response.status}: ${response.statusText}`);
-                    }
-                    
-                    const tours = await response.json();
-                    
-                    // Actualizar estado API
-                    updateApiStatus('✅ API Conectada', 'connected');
-                    
-                    // Renderizar tours
-                    renderTours(tours);
-                    
-                    // Ocultar mensaje de error si estaba visible
-                    if (errorContainer) {
-                        errorContainer.style.display = 'none';
-                    }
-                    
-                } catch (error) {
-                    console.error('❌ Error cargando tours:', error);
-                    updateApiStatus('❌ Error API', 'disconnected');
-                    
-                    // Mostrar mensaje de error
-                    if (errorContainer) {
-                        errorContainer.style.display = 'block';
-                    }
-                    
-                    // Mostrar tours de respaldo después de 3 segundos
-                    setTimeout(() => {
-                        renderFallbackTours();
-                    }, 3000);
-                    
-                } finally {
-                    isLoadingTours = false;
+                apiStatusElement.textContent = message;
+                apiStatusElement.className = 'api-status';
+                if (statusClass) {
+                    apiStatusElement.classList.add(statusClass);
                 }
             }
             
-            // Función para renderizar tours
+            /**
+             * Obtiene la imagen por defecto según el índice
+             */
+            function getDefaultTourImage(index) {
+                const images = [
+                    'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+                ];
+                return images[index % images.length];
+            }
+            
+            /**
+             * Obtiene el icono según el índice
+             */
+            function getTourIcon(index) {
+                const icons = ['bi-star', 'bi-award', 'bi-stars', 'bi-compass', 'bi-geo-alt'];
+                return icons[index % icons.length];
+            }
+            
+            /**
+             * Obtiene el color del icono según el índice
+             */
+            function getTourIconColor(index) {
+                const colors = ['#FF9800', '#E91E63', '#9C27B0', '#2196F3', '#4CAF50'];
+                return colors[index % colors.length];
+            }
+            
+            /**
+             * Obtiene la duración del tour
+             */
+            function getTourDuration(tour) {
+                if (tour.duracion) return tour.duracion;
+                if (tour.precio < 30) return '2 horas';
+                if (tour.precio < 50) return '4 horas';
+                return '6 horas';
+            }
+            
+            /**
+             * Formatea el precio en USD
+             */
+            function formatPrice(price) {
+                return price.toFixed(2);
+            }
+            
+            /**
+             * Obtiene el color del precio según el monto
+             */
+            function getPriceColor(price) {
+                if (price < 30) return '#4CAF50';
+                if (price < 40) return 'var(--color-accent)';
+                if (price < 50) return '#FF9800';
+                return '#9C27B0';
+            }
+            
+            // ========== FUNCIONES DE RENDERIZADO ==========
+            
+            /**
+             * Renderiza los tours en el DOM
+             */
             function renderTours(tours) {
-                const container = document.getElementById('tours-api-container');
-                if (!container) return;
+                if (!toursContainer) return;
                 
-                container.innerHTML = '';
+                toursContainer.innerHTML = '';
                 
                 if (!tours || tours.length === 0) {
-                    container.innerHTML = `
+                    toursContainer.innerHTML = `
                         <div class="tours-loading">
                             <i class="bi bi-exclamation-circle" style="font-size: 3rem; color: #f39c12; margin-bottom: 1rem;"></i>
                             <h3>No hay tours disponibles</h3>
                             <p>Actualmente no tenemos tours programados. Por favor, contáctanos para más información.</p>
+                            <a href="Contacto.html" class="btn" style="margin-top: 1rem; background: var(--color-primary);">
+                                <i class="bi bi-envelope"></i> Contactar
+                            </a>
                         </div>
                     `;
                     return;
                 }
                 
-                // Ordenar tours por precio (opcional)
+                // Ordenar tours por precio
                 tours.sort((a, b) => a.precio - b.precio);
                 
                 // Renderizar cada tour
                 tours.forEach((tour, index) => {
-                    const isFeatured = index === 1; // Hacer el segundo tour como "Más Popular"
+                    const isFeatured = index === 1; // Segundo tour como destacado
+                    const tourId = tour.id || index + 1;
+                    const priceColor = getPriceColor(tour.precio);
+                    
                     const card = document.createElement('div');
                     card.className = `service-card ${isFeatured ? 'featured-card' : ''}`;
-                    
-                    // Determinar color basado en el precio
-                    let priceColor = 'var(--color-accent)';
-                    if (tour.precio > 40) priceColor = '#9C27B0'; // Morado para tours caros
-                    if (tour.precio < 30) priceColor = '#4CAF50'; // Verde para tours económicos
-                    
-                    // Usar ID del tour o generar uno si no existe
-                    const tourId = tour.id || index + 1;
                     
                     card.innerHTML = `
                         <div class="service-card-header">
                             <img src="${tour.imagen_url || getDefaultTourImage(index)}" 
                                  alt="${tour.nombre}" 
                                  loading="lazy"
-                                 onerror="this.src='${getDefaultTourImage(index)}'">
-                            <div class="service-card-price" style="background: ${priceColor};">$${tour.precio}/persona</div>
+                                 onerror="this.onerror=null; this.src='${getDefaultTourImage(index)}'">
+                            <div class="service-card-price" style="background: ${priceColor};">
+                                $${formatPrice(tour.precio)}/persona
+                            </div>
                             ${isFeatured ? '<div class="featured-badge">Más Popular</div>' : ''}
                         </div>
                         <div class="service-card-content">
@@ -822,128 +851,244 @@
                                 ${tour.descripcion || 'Una experiencia única en los manglares de Caño Salao.'}
                             </p>
                             <ul class="service-features">
-                                <li>${getTourDuration(tour)}</li>
-                                <li>Guía local especializado</li>
-                                <li>Seguro incluido</li>
-                                <li>Equipo de seguridad completo</li>
-                                <li>${tour.capacidad ? `Capacidad: ${tour.capacidad} personas` : 'Grupos pequeños'}</li>
-                                <li>Contribución al fondo comunitario</li>
+                                <li><strong>Duración:</strong> ${getTourDuration(tour)}</li>
+                                <li><strong>Guía:</strong> Local especializado</li>
+                                <li><strong>Seguro:</strong> Incluido</li>
+                                <li><strong>Equipo:</strong> Seguridad completo</li>
+                                <li><strong>Capacidad:</strong> ${tour.capacidad || 15} personas</li>
+                                <li><strong>Contribución:</strong> 5% al fondo comunitario</li>
                             </ul>
                             <a href="reservas.html?tour=${tourId}" 
                                class="service-card-btn ${isFeatured ? 'accent' : ''}"
                                style="${isFeatured ? 'background: var(--color-accent);' : ''}">
-                                <i class="bi bi-calendar-plus"></i> Reservar Este Tour
+                                <i class="bi bi-calendar-plus"></i> Reservar Ahora
                             </a>
                         </div>
                     `;
-                    container.appendChild(card);
+                    
+                    toursContainer.appendChild(card);
                 });
+                
+                toursLoaded = true;
             }
             
-            // Función para tours de respaldo
+            /**
+             * Renderiza tours de respaldo (fallback)
+             */
             function renderFallbackTours() {
                 const fallbackTours = [
                     {
                         id: 1,
-                        nombre: 'Tour Básico',
-                        descripcion: 'Recorrido introductorio perfecto para conocer Caño Salao y sus manglares.',
+                        nombre: 'Tour Básico por los Manglares',
+                        descripcion: 'Recorrido guiado de 2 horas por los manglares, observando la fauna y flora local. Perfecto para principiantes.',
                         precio: 25.00,
                         duracion: '2 horas',
-                        capacidad: 'Máx. 10 personas',
-                        imagen_url: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+                        capacidad: 15,
+                        imagen_url: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800'
                     },
                     {
                         id: 2,
-                        nombre: 'Tour Completo',
-                        descripcion: 'Experiencia completa que incluye manglares, ruinas históricas y gastronomía local.',
+                        nombre: 'Tour Completo de Aventura',
+                        descripcion: 'Experiencia completa de 4 horas que incluye recorrido por manglares, observación de aves y paseo en bote.',
                         precio: 45.00,
                         duracion: '4 horas',
-                        capacidad: 'Máx. 8 personas',
-                        imagen_url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+                        capacidad: 12,
+                        imagen_url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800'
                     },
                     {
                         id: 3,
-                        nombre: 'Tour Personalizado',
-                        descripcion: 'Experiencia exclusiva diseñada según tus intereses específicos y necesidades.',
-                        precio: 65.00,
-                        duracion: '6 horas',
-                        capacidad: 'Máx. 6 personas',
-                        imagen_url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+                        nombre: 'Tour Fotográfico Nocturno',
+                        descripcion: 'Tour especializado para fotografía de la vida nocturna en los manglares. Guía experto en fotografía.',
+                        precio: 35.00,
+                        duracion: '3 horas',
+                        capacidad: 8,
+                        imagen_url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800'
                     }
                 ];
                 
                 renderTours(fallbackTours);
                 
                 // Mostrar mensaje informativo
-                const container = document.getElementById('tours-api-container');
-                if (container) {
-                    const infoDiv = document.createElement('div');
-                    infoDiv.className = 'tours-loading';
-                    infoDiv.innerHTML = `
-                        <i class="bi bi-info-circle" style="font-size: 2rem; color: #3498db; margin-bottom: 1rem;"></i>
-                        <p>Mostrando información de respaldo mientras se restablece la conexión con el servidor.</p>
-                    `;
-                    container.appendChild(infoDiv);
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'tours-loading';
+                infoDiv.style.marginTop = '2rem';
+                infoDiv.innerHTML = `
+                    <i class="bi bi-info-circle" style="font-size: 2rem; color: #3498db; margin-bottom: 1rem;"></i>
+                    <p style="font-weight: 500;">Mostrando información de respaldo mientras se restablece la conexión con el servidor.</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Los precios y disponibilidad pueden variar. Contáctanos para confirmar.</p>
+                `;
+                toursContainer.appendChild(infoDiv);
+            }
+            
+            // ========== FUNCIONES DE API ==========
+            
+            /**
+             * Verifica la salud del servidor
+             */
+            async function checkServerHealth() {
+                try {
+                    const response = await fetch(`${API_BASE_URL.replace('/api', '')}/health`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' },
+                        timeout: 5000
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        return data.status === 'healthy';
+                    }
+                    return false;
+                } catch (error) {
+                    console.warn('Health check failed:', error);
+                    return false;
                 }
             }
             
-            // ========== FUNCIONES DE UTILIDAD ==========
-            
-            function updateApiStatus(message, statusClass = '') {
-                const statusElement = document.getElementById('api-status');
-                if (!statusElement) return;
+            /**
+             * Carga los tours desde la API
+             */
+            async function loadToursFromAPI() {
+                if (isLoadingTours || toursLoaded) return;
                 
-                statusElement.textContent = message;
-                statusElement.className = 'api-status ' + statusClass;
+                isLoadingTours = true;
+                updateApiStatus('🔄 Conectando con el servidor...', '');
+                
+                try {
+                    // Verificar salud del servidor primero
+                    const isHealthy = await checkServerHealth();
+                    
+                    if (!isHealthy) {
+                        throw new Error('Servidor no disponible');
+                    }
+                    
+                    updateApiStatus('🔄 Cargando tours...', '');
+                    
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 8000);
+                    
+                    const response = await fetch(`${API_BASE_URL}/tours`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        signal: controller.signal
+                    });
+                    
+                    clearTimeout(timeoutId);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Error ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const tours = await response.json();
+                    
+                    // Verificar que los tours tengan la estructura esperada
+                    if (!Array.isArray(tours)) {
+                        throw new Error('Formato de respuesta inválido');
+                    }
+                    
+                    updateApiStatus('✅ Conectado a PythonAnywhere', 'connected');
+                    renderTours(tours);
+                    
+                    if (errorContainer) {
+                        errorContainer.style.display = 'none';
+                    }
+                    
+                } catch (error) {
+                    console.error('❌ Error cargando tours:', error);
+                    
+                    if (error.name === 'AbortError') {
+                        updateApiStatus('⏱️ Tiempo de espera agotado', 'disconnected');
+                    } else {
+                        updateApiStatus('❌ Error de conexión', 'disconnected');
+                    }
+                    
+                    // Mostrar mensaje de error
+                    if (errorContainer) {
+                        errorContainer.style.display = 'block';
+                    }
+                    
+                    // Cargar tours de respaldo después de 1 segundo
+                    setTimeout(() => {
+                        if (toursContainer && toursContainer.children.length <= 1) {
+                            renderFallbackTours();
+                        }
+                    }, 1000);
+                    
+                } finally {
+                    isLoadingTours = false;
+                }
             }
             
-            function getDefaultTourImage(index) {
-                const images = [
-                    'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
-                ];
-                return images[index % images.length];
-            }
+            // ========== SISTEMA DE AUTENTICACIÓN ==========
             
-            function getTourIcon(index) {
-                const icons = ['bi-star', 'bi-award', 'bi-stars', 'bi-compass', 'bi-geo-alt'];
-                return icons[index % icons.length];
-            }
-            
-            function getTourIconColor(index) {
-                const colors = ['#FF9800', '#E91E63', '#9C27B0', '#2196F3', '#4CAF50'];
-                return colors[index % colors.length];
-            }
-            
-            function getTourDuration(tour) {
-                return tour.duracion || (tour.precio < 30 ? '2 horas' : tour.precio < 50 ? '4 horas' : '6 horas');
+            /**
+             * Verifica si el usuario está autenticado
+             */
+            function checkAuthentication() {
+                try {
+                    const token = localStorage.getItem('cano_salao_token');
+                    const user = localStorage.getItem('cano_salao_user');
+                    
+                    const authBtn = document.getElementById('auth-btn');
+                    const authText = document.getElementById('auth-text');
+                    
+                    if (!authBtn || !authText) return;
+                    
+                    if (token && user) {
+                        const userData = JSON.parse(user);
+                        const nombre = userData.nombre || userData.name || 'Usuario';
+                        authText.textContent = nombre.split(' ')[0];
+                        authBtn.href = "usuario.html";
+                        authBtn.innerHTML = `<i class="bi bi-person-check"></i> <span class="login-text" id="auth-text">${nombre.split(' ')[0]}</span>`;
+                    } else {
+                        authText.textContent = 'Iniciar Sesión';
+                        authBtn.href = "login.html";
+                        authBtn.innerHTML = `<i class="bi bi-person-circle"></i> <span class="login-text" id="auth-text">Iniciar Sesión</span>`;
+                    }
+                } catch (error) {
+                    console.error('Error en autenticación:', error);
+                    // Limpiar datos corruptos
+                    localStorage.removeItem('cano_salao_token');
+                    localStorage.removeItem('cano_salao_user');
+                }
             }
             
             // ========== SISTEMA DE MENÚ MÓVIL ==========
             
             function openMobileMenu() {
+                if (!mobileMenuContainer || !mobileMenuOverlay) return;
+                
                 mobileMenuContainer.classList.add('active');
                 mobileMenuOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
                 isMobileMenuOpen = true;
-                mobileMenuToggle.setAttribute('aria-expanded', 'true');
-                mobileMenuToggle.innerHTML = '<i class="bi bi-x-lg"></i>';
+                
+                if (mobileMenuToggle) {
+                    mobileMenuToggle.setAttribute('aria-expanded', 'true');
+                    mobileMenuToggle.innerHTML = '<i class="bi bi-x-lg"></i>';
+                }
             }
             
             function closeMobileMenu() {
+                if (!mobileMenuContainer || !mobileMenuOverlay) return;
+                
                 mobileMenuContainer.classList.remove('active');
                 mobileMenuOverlay.classList.remove('active');
                 document.body.style.overflow = '';
                 isMobileMenuOpen = false;
-                mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                mobileMenuToggle.innerHTML = '<i class="bi bi-list"></i>';
+                
+                if (mobileMenuToggle) {
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    mobileMenuToggle.innerHTML = '<i class="bi bi-list"></i>';
+                }
             }
             
-            // ========== INICIALIZACIÓN ==========
-            
-            document.addEventListener('DOMContentLoaded', function() {
-                // Configurar menú móvil
+            function initMobileMenu() {
+                if (!mobileMenuToggle || !mobileMenuClose || !mobileMenuContainer || !mobileMenuOverlay) return;
+                
+                // Abrir menú
                 mobileMenuToggle.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -954,85 +1099,79 @@
                     }
                 });
                 
-                mobileMenuToggle.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    if (!isMobileMenuOpen) {
-                        openMobileMenu();
-                    } else {
-                        closeMobileMenu();
-                    }
-                }, { passive: false });
-                
+                // Cerrar menú
                 mobileMenuClose.addEventListener('click', closeMobileMenu);
-                mobileMenuClose.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    closeMobileMenu();
-                }, { passive: false });
                 
+                // Cerrar al hacer clic en overlay
                 mobileMenuOverlay.addEventListener('click', closeMobileMenu);
-                mobileMenuOverlay.addEventListener('touchstart', function(e) {
-                    if (e.target === mobileMenuOverlay) {
-                        e.preventDefault();
-                        closeMobileMenu();
-                    }
-                }, { passive: false });
                 
+                // Cerrar al hacer clic en enlaces
                 const mobileMenuLinks = mobileMenuContainer.querySelectorAll('a');
                 mobileMenuLinks.forEach(link => {
-                    link.addEventListener('click', closeMobileMenu);
-                    link.addEventListener('touchstart', function(e) {
+                    link.addEventListener('click', function(e) {
                         setTimeout(closeMobileMenu, 100);
-                    }, { passive: true });
+                    });
                 });
                 
+                // Prevenir cierre al hacer clic dentro del menú
                 mobileMenuContainer.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
                 
-                mobileMenuContainer.addEventListener('touchstart', function(e) {
-                    e.stopPropagation();
-                }, { passive: true });
-                
+                // Cerrar con tecla Escape
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'Escape' && isMobileMenuOpen) {
                         closeMobileMenu();
                     }
                 });
+            }
+            
+            // ========== HERO IMAGE ==========
+            
+            function loadHeroImage() {
+                const heroBg = document.getElementById('heroBackgroundServices');
+                if (!heroBg) return;
                 
-                // Cargar imagen de fondo del hero
-                function loadHeroImage() {
-                    const heroBg = document.getElementById('heroBackgroundServices');
-                    if (!heroBg) return;
-                    
-                    const heroImg = new Image();
-                    heroImg.src = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80';
-                    
-                    heroImg.onload = function() {
-                        heroBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${this.src}')`;
-                        heroBg.classList.add('loaded');
-                    };
-                    
-                    heroImg.onerror = function() {
-                        heroBg.style.backgroundImage = `linear-gradient(135deg, #1a5276 0%, #2c82c9 100%)`;
-                        heroBg.classList.add('loaded');
-                    };
-                }
+                const heroImg = new Image();
+                heroImg.src = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80';
                 
-                // Iniciar carga de imagen
-                loadHeroImage();
+                heroImg.onload = function() {
+                    heroBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${this.src}')`;
+                    heroBg.classList.add('loaded');
+                };
                 
-                // Cargar tours desde API después de 1 segundo
-                setTimeout(() => {
-                    loadToursFromAPI();
-                }, 1000);
+                heroImg.onerror = function() {
+                    heroBg.style.backgroundImage = `linear-gradient(135deg, #0d3b66 0%, #1a5a8c 100%)`;
+                    heroBg.classList.add('loaded');
+                };
+            }
+            
+            // ========== SCROLL EFFECT ==========
+            
+            function initScrollEffect() {
+                let ticking = false;
                 
-                // Botón de reintentar
-                const retryButton = document.getElementById('retry-tours');
-                if (retryButton) {
-                    retryButton.addEventListener('click', loadToursFromAPI);
-                }
-                
-                // Animación de scroll para enlaces internos
+                window.addEventListener('scroll', function() {
+                    if (!ticking) {
+                        window.requestAnimationFrame(function() {
+                            const header = document.querySelector('header');
+                            if (header) {
+                                if (window.scrollY > 50) {
+                                    header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
+                                } else {
+                                    header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                                }
+                            }
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+            }
+            
+            // ========== SMOOTH SCROLL ==========
+            
+            function initSmoothScroll() {
                 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                     anchor.addEventListener('click', function(e) {
                         const href = this.getAttribute('href');
@@ -1046,79 +1185,87 @@
                                 behavior: 'smooth'
                             });
                             
-                            // Cerrar menú móvil si está abierto
                             if (isMobileMenuOpen) {
                                 closeMobileMenu();
                             }
                         }
                     });
                 });
+            }
+            
+            // ========== INTERSECTION OBSERVER ==========
+            
+            function initIntersectionObserver() {
+                if (!('IntersectionObserver' in window)) return;
                 
-                // Animaciones para elementos al hacer scroll
                 const observerOptions = {
                     threshold: 0.1,
                     rootMargin: '0px 0px -50px 0px'
                 };
                 
-                if ('IntersectionObserver' in window) {
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                entry.target.classList.add('animated');
-                            }
-                        });
-                    }, observerOptions);
-                    
-                    // Observar todas las secciones
-                    document.querySelectorAll('section').forEach(section => {
-                        observer.observe(section);
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animated');
+                        }
+                    });
+                }, observerOptions);
+                
+                document.querySelectorAll('section').forEach(section => {
+                    observer.observe(section);
+                });
+            }
+            
+            // ========== INICIALIZACIÓN ==========
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('🚀 Iniciando Servicios - Backend PythonAnywhere');
+                
+                // Inicializar componentes
+                initMobileMenu();
+                initScrollEffect();
+                initSmoothScroll();
+                initIntersectionObserver();
+                loadHeroImage();
+                
+                // Verificar autenticación
+                checkAuthentication();
+                
+                // Cargar tours después de 500ms
+                setTimeout(() => {
+                    loadToursFromAPI();
+                }, 500);
+                
+                // Botón de reintentar
+                const retryButton = document.getElementById('retry-tours');
+                if (retryButton) {
+                    retryButton.addEventListener('click', function() {
+                        toursLoaded = false;
+                        loadToursFromAPI();
                     });
                 }
                 
-                // ========== HEADER SCROLL EFFECT ==========
-                let ticking = false;
-                window.addEventListener('scroll', function() {
-                    if (!ticking) {
-                        window.requestAnimationFrame(function() {
-                            const header = document.querySelector('header');
-                            if (window.scrollY > 50) {
-                                header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
-                            } else {
-                                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-                            }
-                            ticking = false;
-                        });
-                        ticking = true;
-                    }
-                });
+                // Verificar parámetros de URL (para mensajes)
+                const urlParams = new URLSearchParams(window.location.search);
+                const bookingSuccess = urlParams.get('booking_success');
                 
-                // Verificar autenticación del usuario
-                checkAuthentication();
-            });
-            
-            // Función para verificar autenticación
-            function checkAuthentication() {
-                const token = localStorage.getItem('cano_salao_token');
-                const user = localStorage.getItem('cano_salao_user');
-                
-                if (token && user) {
-                    // Si el usuario está autenticado, actualizar el botón de login
-                    try {
-                        const userData = JSON.parse(user);
-                        const loginBtn = document.querySelector('.login-btn');
-                        if (loginBtn) {
-                            loginBtn.innerHTML = `<i class="bi bi-person-check"></i> <span class="login-text">${userData.nombre}</span>`;
-                            loginBtn.href = "usuario.html";
-                        }
-                    } catch (error) {
-                        console.error('Error parsing user data:', error);
-                    }
+                if (bookingSuccess === 'true') {
+                    const notification = document.createElement('div');
+                    notification.className = 'api-status connected';
+                    notification.style.left = '50%';
+                    notification.style.transform = 'translateX(-50%)';
+                    notification.style.width = 'auto';
+                    notification.style.padding = '10px 20px';
+                    notification.textContent = '✅ ¡Reserva creada exitosamente!';
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 5000);
                 }
-            }
+            });
             
         })();
     </script>
 </body>
 </html>
-
-
