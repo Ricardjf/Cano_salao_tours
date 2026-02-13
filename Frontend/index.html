@@ -494,7 +494,7 @@
             color: white;
             padding: 2rem 1rem;
             position: relative;
-            background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%) !important;
+            background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%);
             opacity: 1 !important;
             visibility: visible !important;
         }
@@ -1388,7 +1388,7 @@
         </nav>
     </div>
 
-    <!-- Hero Section -->
+    <!-- Hero Section - CORREGIDO -->
     <section class="hero">
         <div class="hero-bg" id="heroBackground"></div>
         <div class="container">
@@ -1775,7 +1775,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript - CORREGIDO PARA CONEXIÓN BACKEND -->
+    <!-- JavaScript - CORREGIDO PARA CONEXIÓN BACKEND Y HERO -->
     <script>
         (function() {
             "use strict";
@@ -2094,8 +2094,36 @@
                 });
             }
             
+            // ========== HERO BACKGROUND - CORREGIDO ==========
+            function setHeroBackground() {
+                const heroBg = document.getElementById('heroBackground');
+                if (!heroBg) return;
+                
+                // Usar una imagen confiable de Unsplash que siempre funcionará
+                const fallbackImage = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
+                
+                // Intentar cargar la imagen local primero
+                const img = new Image();
+                
+                img.onload = function() {
+                    heroBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${this.src}')`;
+                    console.log('✅ Hero background cargado correctamente');
+                };
+                
+                img.onerror = function() {
+                    console.warn('⚠️ No se pudo cargar la imagen local, usando fallback de Unsplash');
+                    heroBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${fallbackImage}')`;
+                };
+                
+                // Intentar cargar la imagen local
+                img.src = 'media/upscalemedia-transformed.jpeg';
+            }
+            
             // ========== EVENTOS ==========
             function setupEvents() {
+                // Configurar hero background
+                setHeroBackground();
+                
                 // Menú móvil
                 const menuToggle = document.getElementById('mobile-menu-toggle');
                 const menuClose = document.getElementById('mobile-menu-close');
@@ -2176,19 +2204,6 @@
                             }
                         });
                     }, 10);
-                }
-                
-                // Hero background
-                const heroBg = document.getElementById('heroBackground');
-                if (heroBg) {
-                    const img = new Image();
-                    img.onload = function() {
-                        heroBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${this.src}')`;
-                    };
-                    img.onerror = function() {
-                        heroBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')`;
-                    };
-                    img.src = 'media/upscalemedia-transformed.jpeg';
                 }
                 
                 // Formulario de contacto
