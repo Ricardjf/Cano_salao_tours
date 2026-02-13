@@ -2,19 +2,28 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Mi Cuenta | Ruta Turística Caño Salao | Barcelona, Venezuela</title>
     <meta name="description" content="Gestiona tu cuenta, reservas y preferencias en la Ruta Turística Marítima Caño Salao.">
     <meta name="keywords" content="cuenta usuario, mis reservas, perfil, Caño Salao, turismo Venezuela">
     <meta name="author" content="Estudiantes: Alejandra Paricaguan, Luis Nucete, Ricardo Farías | Tutora: Dulce Paraguan">
     
-    <!-- Preload de fuentes críticas -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Times+New+Roman:ital,wght@0,400;0,700;1,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Times+New+Roman:ital,wght@0,400;0,700;1,400&display=swap"></noscript>
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../media/Logo_cano_60.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../media/Logo_cano_60.png">
+    <link rel="apple-touch-icon" href="../media/Logo_cano_120.png">
+    <meta name="theme-color" content="#0d3b66">
     
-    <!-- Estilos críticos inline -->
+    <!-- FUENTES CORREGIDAS: Times New Roman y Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <style>
-        /* SOLO ESTILOS CRÍTICOS PARA RENDER INICIAL */
+        /* ===== RESET Y ESTILOS CRÍTICOS ===== */
         * {
             margin: 0;
             padding: 0;
@@ -30,13 +39,19 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, sans-serif;
             line-height: 1.5;
             background: #fff;
             opacity: 1 !important;
             visibility: visible !important;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* FUENTE TIMES NEW ROMAN PARA TÍTULOS ESPECIALES */
+        .times-font {
+            font-family: 'Times New Roman', Times, serif !important;
+            font-weight: 700;
         }
         
         .container {
@@ -46,7 +61,42 @@
             padding: 0 20px;
         }
         
-        /* Header mínimo para render inicial */
+        /* ===== LOADER ===== */
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        
+        #page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0d3b66;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* ===== HEADER IDÉNTICO A INDEX.HTML ===== */
         header {
             background: linear-gradient(135deg, #1a7fb8 0%, #0d3b66 100%);
             color: white;
@@ -74,12 +124,24 @@
             z-index: 1002;
         }
         
+        .logo-img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+            border-radius: 50%;
+            display: block;
+            flex-shrink: 0;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
         .logo h1 {
             font-size: 1.5rem;
             font-weight: bold;
             color: white;
             margin: 0;
             white-space: nowrap;
+            font-family: 'Times New Roman', Times, serif;
         }
         
         .text-orange {
@@ -108,10 +170,6 @@
             justify-content: center;
         }
         
-        nav ul li {
-            position: relative;
-        }
-        
         nav ul li a {
             color: rgba(255,255,255,0.95);
             text-decoration: none;
@@ -124,8 +182,6 @@
             transition: all 0.2s ease;
             font-size: 0.9rem;
             white-space: nowrap;
-            -webkit-tap-highlight-color: rgba(255,255,255,0.1);
-            touch-action: manipulation;
         }
         
         nav ul li a:hover {
@@ -148,8 +204,6 @@
             transition: all 0.2s ease;
             flex-shrink: 0;
             z-index: 1002;
-            -webkit-tap-highlight-color: rgba(255,255,255,0.3);
-            touch-action: manipulation;
             min-width: 44px;
             min-height: 44px;
             align-items: center;
@@ -200,6 +254,12 @@
             align-items: center;
         }
         
+        .mobile-menu-header .logo h2 {
+            font-family: 'Times New Roman', Times, serif;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
         .mobile-menu-close {
             background: none;
             border: none;
@@ -207,8 +267,6 @@
             font-size: 1.8rem;
             cursor: pointer;
             padding: 0.5rem;
-            -webkit-tap-highlight-color: rgba(255,255,255,0.3);
-            touch-action: manipulation;
             min-width: 44px;
             min-height: 44px;
             display: flex;
@@ -233,10 +291,6 @@
             width: 100%;
         }
         
-        .mobile-menu-nav li:last-child {
-            border-bottom: none;
-        }
-        
         .mobile-menu-nav a {
             display: flex;
             align-items: center;
@@ -246,8 +300,6 @@
             text-decoration: none;
             font-size: 1.1rem;
             transition: background 0.2s ease;
-            -webkit-tap-highlight-color: rgba(255,255,255,0.2);
-            touch-action: manipulation;
             width: 100%;
         }
         
@@ -256,115 +308,7 @@
             font-weight: 600;
         }
         
-        .mobile-menu-nav a:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        /* Loader minimalista */
-        #page-loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.3s ease;
-        }
-        
-        #page-loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        
-        .loader-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #0d3b66;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Estilo para spinners giratorios */
-        .spinner-small {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-        }
-        
-        /* Sistema de notificaciones */
-        .notification-system {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 9998;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 350px;
-        }
-        
-        .notification {
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: slideInRight 0.3s ease;
-            transform-origin: top right;
-        }
-        
-        .notification.success {
-            background: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
-        }
-        
-        .notification.error {
-            background: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
-        }
-        
-        .notification.info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border-left: 4px solid #17a2b8;
-        }
-        
-        .notification.warning {
-            background: #fff3cd;
-            color: #856404;
-            border-left: 4px solid #ffc107;
-        }
-        
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        /* ===== SISTEMA DE USUARIO ===== */
+        /* ===== SISTEMA DE USUARIO IDÉNTICO A INDEX.HTML ===== */
         .user-menu-container {
             position: relative;
             z-index: 1002;
@@ -378,7 +322,6 @@
             padding: 4px 8px;
             border-radius: 6px;
             transition: background-color 0.2s ease;
-            -webkit-tap-highlight-color: transparent;
             min-height: 44px;
         }
         
@@ -438,7 +381,6 @@
             font-weight: bold;
         }
         
-        /* Dropdown menu styles */
         .user-dropdown-menu {
             position: absolute;
             top: 100%;
@@ -509,17 +451,10 @@
         }
         
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Sección de autenticación */
         .auth-section {
             display: flex;
             align-items: center;
@@ -549,94 +484,74 @@
             background: rgba(255,255,255,0.25);
         }
         
-        /* Mensaje de no autenticado */
-        .unauthenticated-message {
+        /* ===== HERO SECTION (PÁGINA INTERNA) ===== */
+        .page-hero {
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            padding: 60px 20px;
-            max-width: 600px;
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%) !important;
+        }
+        
+        .page-hero .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            padding: 0 1rem;
+        }
+        
+        .page-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+            animation: fadeInDown 0.8s ease-out;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
+        }
+        
+        .page-hero .hero-subtitle {
+            font-size: 1.3rem;
+            max-width: 800px;
             margin: 0 auto;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+            line-height: 1.5;
+            font-weight: 400;
+            font-family: 'Times New Roman', Times, serif;
         }
         
-        .unauthenticated-message i {
-            font-size: 64px;
-            color: #ddd;
-            margin-bottom: 20px;
-            display: block;
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .unauthenticated-message h2 {
-            color: #333;
-            margin-bottom: 15px;
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .unauthenticated-message p {
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.6;
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex !important;
-            }
-            
-            .nav-center {
-                display: none !important;
-            }
-            
-            .header-content {
-                flex-wrap: nowrap;
-            }
-            
-            .logo {
-                flex: 1;
-            }
-            
-            .logo h1 {
-                font-size: 1.4rem;
-            }
-            
-            .auth-section {
-                order: 3;
-            }
-            
-            .user-info {
-                display: none;
-            }
-            
-            .user-dropdown-menu {
-                position: fixed;
-                top: 60px;
-                right: 10px;
-                left: 10px;
-                min-width: auto;
-            }
+        .breadcrumb a {
+            color: #1a7fb8;
+            text-decoration: none;
         }
         
-        @media (max-width: 576px) {
-            .logo h1 {
-                font-size: 1.3rem;
-            }
-            
-            .user-avatar {
-                width: 32px;
-                height: 32px;
-                font-size: 14px;
-            }
+        .breadcrumb a:hover {
+            color: #FF8C42;
         }
-    </style>
-    
-    <!-- Cargar CSS principal de forma no bloqueante -->
-    <link rel="stylesheet" href="../index.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="../index.css"></noscript>
-    
-    <!-- Bootstrap Icons diferido -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"></noscript>
-    
-    <style>
-        /* ========== ESTILOS ESPECÍFICOS PARA USUARIO ========== */
+        
+        /* ===== ESTILOS DE USUARIO ===== */
         :root {
             --user-primary: #2c82c9;
             --user-secondary: #1a5276;
@@ -648,88 +563,6 @@
             --user-dark: #2c3e50;
         }
         
-        .page-hero {
-            min-height: 40vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            padding: 4rem 0;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%);
-        }
-        
-        .page-hero .container {
-            position: relative;
-            z-index: 2;
-            max-width: 1000px;
-            padding: 0 1rem;
-        }
-        
-        .page-hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            color: white;
-            animation: fadeInDown 0.8s ease-out;
-        }
-        
-        .page-hero .hero-subtitle {
-            font-size: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto 2.5rem;
-            opacity: 0.95;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-            line-height: 1.5;
-            font-weight: 400;
-        }
-        
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .breadcrumb {
-            background: var(--user-light);
-            padding: 1rem 0;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .breadcrumb a {
-            color: var(--user-primary);
-            text-decoration: none;
-            transition: var(--transition-fast);
-        }
-        
-        .breadcrumb a:hover {
-            color: var(--user-accent);
-        }
-        
-        .breadcrumb span {
-            color: var(--user-dark);
-            font-weight: 500;
-        }
-        
-        /* Contenedor principal de usuario */
         .user-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -743,7 +576,6 @@
             gap: 30px;
         }
         
-        /* Sidebar de usuario */
         .user-sidebar {
             background: white;
             border-radius: 10px;
@@ -829,50 +661,6 @@
             text-align: center;
         }
         
-        /* NUEVO: Menú de navegación entre vista general y reservas */
-        .user-view-toggle {
-            padding: 20px 30px;
-            background: #f8f9fa;
-            border-top: 1px solid #e9ecef;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .toggle-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .toggle-btn {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 6px;
-            background: white;
-            color: var(--user-dark);
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid #dee2e6;
-        }
-        
-        .toggle-btn:hover {
-            background: var(--user-light);
-        }
-        
-        .toggle-btn.active {
-            background: var(--user-primary);
-            color: white;
-            border-color: var(--user-primary);
-        }
-        
-        .toggle-btn i {
-            font-size: 1.1rem;
-        }
-        
         .logout-btn {
             display: flex;
             align-items: center;
@@ -893,7 +681,6 @@
             background: rgba(231, 76, 60, 0.1);
         }
         
-        /* Contenido principal */
         .user-content {
             background: white;
             border-radius: 10px;
@@ -927,6 +714,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
         
         .btn-user {
@@ -943,6 +732,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            font-family: 'Roboto', sans-serif;
         }
         
         .btn-user:hover {
@@ -976,485 +766,6 @@
             background: #219653;
         }
         
-        /* Estadísticas rápidas - VERSIÓN ADMIN */
-        .admin-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .admin-stat-card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            text-align: center;
-            transition: transform 0.3s ease;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        
-        .admin-stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .admin-stat-card i {
-            font-size: 36px;
-            margin-bottom: 15px;
-            color: var(--user-primary);
-        }
-        
-        .admin-stat-number {
-            font-size: 32px;
-            font-weight: bold;
-            color: var(--user-dark);
-            margin: 10px 0;
-        }
-        
-        .admin-stat-label {
-            color: #666;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        /* Acciones rápidas para admin */
-        .admin-quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .quick-action-card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            text-align: center;
-            border: 2px solid #f0f0f0;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .quick-action-card:hover {
-            border-color: var(--user-primary);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(44, 130, 201, 0.1);
-        }
-        
-        .quick-action-card i {
-            font-size: 40px;
-            margin-bottom: 15px;
-            color: var(--user-primary);
-        }
-        
-        .quick-action-card h3 {
-            margin: 10px 0;
-            color: var(--user-dark);
-        }
-        
-        .quick-action-card p {
-            color: #666;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-        
-        /* Tablas de usuario */
-        .user-table-container {
-            overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid #eee;
-        }
-        
-        .user-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-        
-        .user-table thead {
-            background: var(--user-light);
-        }
-        
-        .user-table th {
-            padding: 15px;
-            text-align: left;
-            color: var(--user-dark);
-            font-weight: 600;
-            border-bottom: 2px solid #ddd;
-        }
-        
-        .user-table td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            color: #333;
-        }
-        
-        .user-table tbody tr:hover {
-            background: var(--user-light);
-        }
-        
-        /* Badges de estado */
-        .status-badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-        
-        .status-confirmed {
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .status-cancelled {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        
-        .status-completed {
-            background: #cce5ff;
-            color: #004085;
-        }
-        
-        /* Formularios de usuario */
-        .user-form {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--user-dark);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--user-primary);
-            box-shadow: 0 0 0 3px rgba(44, 130, 201, 0.1);
-        }
-        
-        .form-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        
-        /* Alertas */
-        .alert {
-            padding: 15px 20px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: none;
-            animation: slideDown 0.3s ease;
-        }
-        
-        .alert-success {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
-        
-        .alert-error {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-        
-        .alert-info {
-            background: #d1ecf1;
-            border: 1px solid #bee5eb;
-            color: #0c5460;
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Reservas vacías */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-        
-        .empty-state i {
-            font-size: 60px;
-            margin-bottom: 20px;
-            color: #ddd;
-        }
-        
-        /* Paginación */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 30px;
-        }
-        
-        .page-btn {
-            padding: 8px 15px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .page-btn:hover:not(:disabled) {
-            background: var(--user-light);
-        }
-        
-        .page-btn.active {
-            background: var(--user-primary);
-            color: white;
-            border-color: var(--user-primary);
-        }
-        
-        .page-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        /* Sección de cambio de contraseña */
-        .password-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            margin-top: 30px;
-            border-left: 4px solid var(--user-primary);
-        }
-        
-        .password-section h3 {
-            color: var(--user-dark);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        /* Responsive */
-        @media (max-width: 992px) {
-            .user-layout {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .user-sidebar {
-                order: 2;
-            }
-            
-            .page-hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .page-hero .hero-subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .admin-quick-actions {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .toggle-buttons {
-                flex-direction: column;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .user-container {
-                padding: 20px 15px;
-            }
-            
-            .section-header {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .user-stats, .admin-stats {
-                grid-template-columns: 1fr;
-            }
-            
-            .user-table {
-                font-size: 0.8rem;
-            }
-            
-            .user-table th,
-            .user-table td {
-                padding: 10px;
-            }
-            
-            .admin-quick-actions {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .page-hero h1 {
-                font-size: 2rem;
-            }
-            
-            .page-hero .hero-subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .user-profile-card {
-                padding: 20px;
-            }
-            
-            .user-avatar-large {
-                width: 80px;
-                height: 80px;
-                font-size: 28px;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-            }
-            
-            .btn-user {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .toggle-btn span {
-                display: none;
-            }
-            
-            .toggle-btn i {
-                margin: 0;
-                font-size: 1.2rem;
-            }
-        }
-        
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        /* Modal de confirmación */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            padding: 30px;
-            animation: slideDown 0.3s ease;
-        }
-        
-        .modal-header {
-            margin-bottom: 20px;
-        }
-        
-        .modal-header h3 {
-            margin: 0;
-            color: var(--user-dark);
-        }
-        
-        .modal-body {
-            margin-bottom: 30px;
-        }
-        
-        .modal-footer {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        
-        /* Separador de secciones */
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, #ddd, transparent);
-            margin: 40px 0;
-        }
-        
-        /* Tabla de usuarios para admin */
-        .admin-users-table th {
-            background: rgba(44, 130, 201, 0.1);
-            color: var(--user-primary);
-        }
-        
-        .role-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .role-admin {
-            background: rgba(44, 130, 201, 0.2);
-            color: var(--user-primary);
-        }
-        
-        .role-user {
-            background: rgba(44, 130, 201, 0.1);
-            color: var(--user-secondary);
-        }
-        
-        /* Estadísticas de usuario normal */
         .user-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1495,48 +806,543 @@
             font-size: 0.9rem;
             font-weight: 500;
         }
+        
+        .user-table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        .user-table thead {
+            background: var(--user-light);
+        }
+        
+        .user-table th {
+            padding: 15px;
+            text-align: left;
+            color: var(--user-dark);
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .user-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+        
+        .user-table tbody tr:hover {
+            background: var(--user-light);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-completed {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .user-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--user-dark);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--user-primary);
+            box-shadow: 0 0 0 3px rgba(44, 130, 201, 0.1);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+        
+        .password-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 4px solid var(--user-primary);
+        }
+        
+        .password-section h3 {
+            color: var(--user-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
+        }
+        
+        .spinner-small {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, #0d3b66 0%, #1a5276 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
+        }
+        
+        .footer-column p {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .user-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .user-sidebar {
+                order: 2;
+            }
+            
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page-hero .hero-subtitle {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex !important;
+            }
+            
+            .nav-center {
+                display: none !important;
+            }
+            
+            .header-content {
+                flex-wrap: nowrap;
+            }
+            
+            .logo {
+                flex: 1;
+            }
+            
+            .logo h1 {
+                font-size: 1.4rem;
+            }
+            
+            .auth-section {
+                order: 3;
+            }
+            
+            .user-info {
+                display: none;
+            }
+            
+            .user-container {
+                padding: 20px 15px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-table {
+                font-size: 0.8rem;
+            }
+            
+            .user-table th,
+            .user-table td {
+                padding: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo-img {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+            
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .page-hero .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            
+            .user-profile-card {
+                padding: 20px;
+            }
+            
+            .user-avatar-large {
+                width: 80px;
+                height: 80px;
+                font-size: 28px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn-user {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .notification-system {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+        }
+        
+        .notification {
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 0.3s ease;
+            transform-origin: top right;
+        }
+        
+        .notification.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .notification.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .notification.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .notification.warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .unauthenticated-message {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .unauthenticated-message i {
+            font-size: 64px;
+            color: #ddd;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .unauthenticated-message h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
+        }
+        
+        .unauthenticated-message p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-family: 'Roboto', sans-serif;
+        }
     </style>
 </head>
 <body>
     <!-- Sistema de notificaciones -->
     <div class="notification-system" id="notification-system"></div>
     
-    <!-- Loader para experiencia inicial -->
+    <!-- Loader -->
     <div id="page-loader">
         <div class="loader-spinner"></div>
     </div>
 
-    <!-- Header ACTUALIZADO igual que index.html -->
+    <!-- HEADER IDÉNTICO A INDEX.HTML - SIN OPCIONES REDUNDANTES -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
+                    <img 
+                        src="../media/Logo_cano_60.png" 
+                        srcset="../media/Logo_cano_60.png 1x, ../media/Logo_cano_120.png 2x" 
+                        alt="Logo Caño Salao" 
+                        class="logo-img"
+                        width="35" 
+                        height="35"
+                        loading="eager"
+                    >
                     <h1 class="times-font">Caño <span class="text-orange">Salao</span></h1>
                 </div>
 
-                <!-- Navegación desktop -->
+                <!-- Navegación desktop - SIN OPCIONES DE USUARIO/RESERVAS -->
                 <div class="nav-center">
                     <nav>
                         <ul id="main-navigation">
-                            <li><a href="../index.html"><i class="bi bi-house"></i> <span>Inicio</span></a></li>
-                            <li><a href="Empresa.html"><i class="bi bi-building"></i> <span>Empresa</span></a></li>
-                            <li><a href="Historia.html"><i class="bi bi-journal-text"></i> <span>Historia</span></a></li>
-                            <li><a href="Servicios.html"><i class="bi bi-list-check"></i> <span>Servicios</span></a></li>
-                            <li><a href="Atracciones.html"><i class="bi bi-star"></i> <span>Atracciones</span></a></li>
-                            <li><a href="Contacto.html"><i class="bi bi-telephone"></i> <span>Contacto</span></a></li>
+                            <li><a href="../index.html"><i class="bi bi-house"></i> Inicio</a></li>
+                            <li><a href="Empresa.html"><i class="bi bi-building"></i> Empresa</a></li>
+                            <li><a href="Historia.html"><i class="bi bi-journal-text"></i> Historia</a></li>
+                            <li><a href="Servicios.html"><i class="bi bi-list-check"></i> Servicios</a></li>
+                            <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
+                            <li><a href="blog.html"><i class="bi bi-newspaper"></i> Blog</a></li>
+                            <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
                         </ul>
                     </nav>
                 </div>
 
-                <!-- Sistema de usuario -->
+                <!-- Sistema de usuario - IGUAL QUE INDEX -->
                 <div class="auth-section">
                     <div class="user-menu-container" id="user-menu-container">
                         <a href="../index.html" class="login-btn" id="login-btn" style="display: none;">
-                            <i class="bi bi-person-circle"></i> <span class="login-text">Iniciar Sesión</span>
+                            <i class="bi bi-person-circle"></i> <span id="login-text">Iniciar Sesión</span>
                         </a>
                         
-                        <div class="logged-user" id="logged-user" style="display: none;">
-                            <div class="user-avatar" id="header-user-avatar" aria-label="Menú de usuario" role="button" tabindex="0" title="Menú de usuario">U</div>
+                        <div class="logged-user" id="logged-user" style="display: flex;">
+                            <div class="user-avatar" id="header-user-avatar" aria-label="Menú de usuario" role="button" tabindex="0">U</div>
                             <div class="user-info">
                                 <div class="user-name" id="header-user-name">Usuario</div>
                                 <div class="user-role" id="header-user-role">user</div>
@@ -1545,22 +1351,21 @@
                     </div>
                 </div>
 
-                <!-- Menú móvil -->
-                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+                <!-- Botón menú móvil -->
+                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menú">
                     <i class="bi bi-list"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Menú móvil overlay -->
+    <!-- Menú móvil - SIN OPCIONES REDUNDANTES -->
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
-
-    <!-- Menú móvil container -->
     <div class="mobile-menu-container" id="mobile-menu-container">
         <div class="mobile-menu-header">
             <div class="logo">
-                <h2 class="times-font" style="color: white; font-size: 1.2rem;">Caño <span class="text-orange">Salao</span></h2>
+                <img src="../media/Logo_cano_60.png" alt="Logo Caño Salao" class="logo-img" width="35" height="35">
+                <h2 class="times-font">Caño <span class="text-orange">Salao</span></h2>
             </div>
             <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Cerrar menú">
                 <i class="bi bi-x-lg"></i>
@@ -1574,20 +1379,19 @@
                 <li><a href="Historia.html"><i class="bi bi-journal-text"></i> Historia</a></li>
                 <li><a href="Servicios.html"><i class="bi bi-list-check"></i> Servicios</a></li>
                 <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
+                <li><a href="blog.html"><i class="bi bi-newspaper"></i> Blog</a></li>
                 <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
-                <li id="mobile-user-menu" style="display: none;">
-                    <a href="usuario.html"><i class="bi bi-person-circle"></i> Mi Cuenta</a>
-                </li>
+                <!-- SIN OPCIÓN "Mi Cuenta" EN EL MENÚ MÓVIL -->
             </ul>
         </nav>
     </div>
 
-    <!-- Hero Section - Se actualizará dinámicamente según el rol -->
+    <!-- Hero Section -->
     <section class="page-hero" id="page-hero">
         <div class="container">
             <h1 class="times-font" id="hero-title">Mi Cuenta</h1>
             <p class="times-font hero-subtitle" id="hero-subtitle">
-                Gestiona tu perfil y preferencias en Caño Salao
+                Gestiona tu perfil, reservas y preferencias en Caño Salao
             </p>
         </div>
     </section>
@@ -1606,7 +1410,7 @@
         <!-- Mensaje cuando no hay sesión -->
         <div id="unauthenticated-message" class="unauthenticated-message" style="display: none;">
             <i class="bi bi-shield-lock"></i>
-            <h2>Acceso Restringido</h2>
+            <h2 class="times-font">Acceso Restringido</h2>
             <p>Debes iniciar sesión para acceder a tu cuenta. Serás redirigido automáticamente a la página de inicio...</p>
             <a href="../index.html" class="btn-user">
                 <i class="bi bi-arrow-left"></i> Volver al Inicio
@@ -1616,7 +1420,7 @@
         <!-- Contenido de usuario autenticado -->
         <div id="authenticated-content" style="display: none;">
             <div class="user-layout">
-                <!-- Sidebar - Se actualizará dinámicamente según el rol -->
+                <!-- Sidebar de usuario -->
                 <aside class="user-sidebar">
                     <div class="user-profile-card" id="profile-card">
                         <div class="user-avatar-large" id="user-avatar">U</div>
@@ -1627,7 +1431,7 @@
                     
                     <nav class="user-menu" id="user-menu">
                         <!-- Menú para usuario normal -->
-                        <div id="normal-user-menu" style="display: none;">
+                        <div id="normal-user-menu">
                             <a href="#" class="user-menu-item active" data-section="dashboard">
                                 <i class="bi bi-speedometer2"></i> Panel Principal
                             </a>
@@ -1661,20 +1465,6 @@
                             </a>
                         </div>
                         
-                        <!-- NUEVO: Toggle entre vista general y reservas (solo para usuario normal) -->
-                        <div id="user-view-toggle" class="user-view-toggle" style="display: none;">
-                            <div class="toggle-buttons">
-                                <button class="toggle-btn active" id="general-view-btn">
-                                    <i class="bi bi-grid"></i>
-                                    <span>Vista General</span>
-                                </button>
-                                <button class="toggle-btn" id="reservas-view-btn">
-                                    <i class="bi bi-calendar-check"></i>
-                                    <span>Mis Reservas</span>
-                                </button>
-                            </div>
-                        </div>
-                        
                         <button class="logout-btn" id="logout-btn">
                             <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
                         </button>
@@ -1686,10 +1476,8 @@
                     <!-- Alertas -->
                     <div id="user-alert" class="alert" style="display: none;"></div>
                     
-                    <!-- ========== SECCIONES PARA USUARIO NORMAL ========== -->
-                    
                     <!-- Sección: Dashboard (Usuario Normal) -->
-                    <div id="dashboard" class="user-section">
+                    <div id="dashboard" class="user-section active">
                         <div class="section-header">
                             <h2><i class="bi bi-speedometer2"></i> Panel Principal</h2>
                             <button class="btn-user" onclick="refreshDashboard()">
@@ -1697,7 +1485,6 @@
                             </button>
                         </div>
                         
-                        <!-- Estadísticas -->
                         <div class="user-stats" id="user-stats">
                             <div class="stat-card">
                                 <i class="bi bi-calendar-check"></i>
@@ -1724,10 +1511,9 @@
                             </div>
                         </div>
                         
-                        <!-- Reservas Recientes -->
                         <div class="section-header">
                             <h2><i class="bi bi-clock-history"></i> Reservas Recientes</h2>
-                            <button class="btn-user" onclick="verMisReservas()">
+                            <button class="btn-user" onclick="showSection('bookings')">
                                 <i class="bi bi-eye"></i> Ver Todas
                             </button>
                         </div>
@@ -1755,7 +1541,6 @@
                             </table>
                         </div>
                         
-                        <!-- Acciones Rápidas -->
                         <div class="section-header" style="margin-top: 40px;">
                             <h2><i class="bi bi-lightning"></i> Acciones Rápidas</h2>
                         </div>
@@ -1767,16 +1552,13 @@
                             <button class="btn-user btn-user-secondary" onclick="showSection('profile')">
                                 <i class="bi bi-pencil"></i> Editar Perfil
                             </button>
-                            <button class="btn-user btn-user-secondary" onclick="verMisReservas()">
-                                <i class="bi bi-list-check"></i> Ver Todas las Reservas
-                            </button>
                             <button class="btn-user btn-user-success" onclick="contactarSoporte()">
                                 <i class="bi bi-chat-dots"></i> Contactar Soporte
                             </button>
                         </div>
                     </div>
                     
-                    <!-- Sección: Mis Reservas (Usuario Normal) -->
+                    <!-- Sección: Mis Reservas -->
                     <div id="bookings" class="user-section">
                         <div class="section-header">
                             <h2><i class="bi bi-calendar-check"></i> Mis Reservas</h2>
@@ -1785,7 +1567,6 @@
                             </button>
                         </div>
                         
-                        <!-- Filtros -->
                         <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
                             <select id="booking-filter" class="form-control" style="max-width: 200px;" onchange="filterBookings()">
                                 <option value="all">Todas las reservas</option>
@@ -1798,7 +1579,6 @@
                             <input type="text" id="booking-search" class="form-control" placeholder="Buscar por código o tour..." style="flex: 1;" onkeyup="searchBookings()">
                         </div>
                         
-                        <!-- Tabla de reservas -->
                         <div class="user-table-container">
                             <table class="user-table">
                                 <thead>
@@ -1824,7 +1604,6 @@
                             </table>
                         </div>
                         
-                        <!-- Paginación -->
                         <div class="pagination" id="bookings-pagination" style="display: none;">
                             <button class="page-btn" onclick="prevBookingsPage()"><i class="bi bi-chevron-left"></i></button>
                             <span id="bookings-page-info" style="padding: 8px 15px;">Página 1</span>
@@ -1832,7 +1611,7 @@
                         </div>
                     </div>
                     
-                    <!-- Sección: Mi Perfil (Usuario Normal) -->
+                    <!-- Sección: Mi Perfil -->
                     <div id="profile" class="user-section">
                         <div class="section-header">
                             <h2><i class="bi bi-person"></i> Mi Perfil</h2>
@@ -1883,7 +1662,6 @@
                             </div>
                         </form>
                         
-                        <!-- Sección de Cambio de Contraseña -->
                         <div class="password-section">
                             <h3><i class="bi bi-shield-lock"></i> Cambiar Contraseña</h3>
                             
@@ -1902,7 +1680,6 @@
                                 <div class="form-group">
                                     <label><i class="bi bi-key-fill"></i> Confirmar Nueva Contraseña *</label>
                                     <input type="password" id="confirm-password" class="form-control" required>
-                                    <small style="color: #666; display: block; margin-top: 5px;">Repite la nueva contraseña</small>
                                 </div>
                                 
                                 <div class="form-actions">
@@ -1914,7 +1691,7 @@
                         </div>
                     </div>
                     
-                    <!-- Sección: Preferencias (Usuario Normal) -->
+                    <!-- Sección: Preferencias -->
                     <div id="preferences" class="user-section">
                         <div class="section-header">
                             <h2><i class="bi bi-gear"></i> Preferencias</h2>
@@ -1976,14 +1753,14 @@
                         </form>
                     </div>
                     
-                    <!-- Sección: Ayuda (Usuario Normal) -->
+                    <!-- Sección: Ayuda -->
                     <div id="help" class="user-section">
                         <div class="section-header">
                             <h2><i class="bi bi-question-circle"></i> Ayuda y Soporte</h2>
                         </div>
                         
                         <div style="margin-bottom: 30px;">
-                            <h3><i class="bi bi-chat-dots"></i> Preguntas Frecuentes</h3>
+                            <h3 style="font-family: 'Times New Roman', Times, serif; font-weight: 700; margin-bottom: 20px;"><i class="bi bi-chat-dots"></i> Preguntas Frecuentes</h3>
                             
                             <div style="margin-top: 20px;">
                                 <div style="background: var(--user-light); padding: 15px; border-radius: 8px; margin-bottom: 10px;">
@@ -2004,7 +1781,7 @@
                         </div>
                         
                         <div>
-                            <h3><i class="bi bi-headset"></i> Contactar Soporte</h3>
+                            <h3 style="font-family: 'Times New Roman', Times, serif; font-weight: 700; margin-bottom: 20px;"><i class="bi bi-headset"></i> Contactar Soporte</h3>
                             
                             <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
                                 <div style="text-align: center; padding: 20px; background: var(--user-light); border-radius: 8px;">
@@ -2030,7 +1807,7 @@
                             </div>
                             
                             <div style="margin-top: 30px;">
-                                <h4><i class="bi bi-chat-text"></i> Enviar Mensaje Directo</h4>
+                                <h4 style="font-family: 'Times New Roman', Times, serif; font-weight: 700;"><i class="bi bi-chat-text"></i> Enviar Mensaje Directo</h4>
                                 <textarea id="support-message" class="form-control" rows="4" placeholder="Describe tu consulta o problema..." style="margin-top: 10px;"></textarea>
                                 <button class="btn-user" onclick="enviarMensajeSoporte()" style="margin-top: 15px;">
                                     <i class="bi bi-send"></i> Enviar Mensaje
@@ -2038,8 +1815,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- ========== SECCIONES PARA ADMINISTRADOR ========== -->
                     
                     <!-- Sección: Dashboard Administrativo -->
                     <div id="admin-dashboard" class="user-section">
@@ -2055,65 +1830,58 @@
                             </div>
                         </div>
                         
-                        <!-- Estadísticas del Sistema -->
-                        <div class="admin-stats">
-                            <div class="admin-stat-card">
+                        <div class="admin-stats" id="admin-stats">
+                            <div class="stat-card">
                                 <i class="bi bi-people"></i>
-                                <div class="admin-stat-number" id="admin-total-users">0</div>
-                                <div class="admin-stat-label">Usuarios Registrados</div>
+                                <div class="stat-number" id="admin-total-users">0</div>
+                                <div class="stat-label">Usuarios Registrados</div>
                             </div>
                             
-                            <div class="admin-stat-card">
+                            <div class="stat-card">
                                 <i class="bi bi-calendar-check"></i>
-                                <div class="admin-stat-number" id="admin-total-bookings">0</div>
-                                <div class="admin-stat-label">Reservas Totales</div>
+                                <div class="stat-number" id="admin-total-bookings">0</div>
+                                <div class="stat-label">Reservas Totales</div>
                             </div>
                             
-                            <div class="admin-stat-card">
+                            <div class="stat-card">
                                 <i class="bi bi-currency-dollar"></i>
-                                <div class="admin-stat-number" id="admin-total-revenue">$0</div>
-                                <div class="admin-stat-label">Ingresos Totales</div>
+                                <div class="stat-number" id="admin-total-revenue">$0</div>
+                                <div class="stat-label">Ingresos Totales</div>
                             </div>
                             
-                            <div class="admin-stat-card">
+                            <div class="stat-card">
                                 <i class="bi bi-clock-history"></i>
-                                <div class="admin-stat-number" id="admin-pending-bookings">0</div>
-                                <div class="admin-stat-label">Reservas Pendientes</div>
+                                <div class="stat-number" id="admin-pending-bookings">0</div>
+                                <div class="stat-label">Reservas Pendientes</div>
                             </div>
                         </div>
                         
-                        <!-- Acciones Rápidas para Admin -->
                         <div class="section-header">
                             <h2><i class="bi bi-lightning"></i> Acciones Rápidas</h2>
                         </div>
                         
-                        <div class="admin-quick-actions">
-                            <a href="admin.html?section=bookings" class="quick-action-card">
-                                <i class="bi bi-calendar-check"></i>
-                                <h3>Gestionar Reservas</h3>
-                                <p>Revisa, confirma o cancela reservas de usuarios</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: 30px 0;">
+                            <a href="admin.html?section=bookings" class="btn-user" style="justify-content: center; padding: 20px; flex-direction: column; height: auto; text-decoration: none;">
+                                <i class="bi bi-calendar-check" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>Gestionar Reservas</span>
                             </a>
                             
-                            <a href="admin.html?section=tours" class="quick-action-card">
-                                <i class="bi bi-map"></i>
-                                <h3>Gestionar Tours</h3>
-                                <p>Agrega, edita o elimina tours disponibles</p>
+                            <a href="admin.html?section=tours" class="btn-user" style="justify-content: center; padding: 20px; flex-direction: column; height: auto; text-decoration: none;">
+                                <i class="bi bi-map" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>Gestionar Tours</span>
                             </a>
                             
-                            <a href="#" class="quick-action-card" onclick="showSection('admin-users')">
-                                <i class="bi bi-people"></i>
-                                <h3>Ver Usuarios</h3>
-                                <p>Consulta la lista de usuarios registrados</p>
-                            </a>
+                            <button class="btn-user" onclick="showSection('admin-users')" style="justify-content: center; padding: 20px; flex-direction: column; height: auto;">
+                                <i class="bi bi-people" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>Ver Usuarios</span>
+                            </button>
                             
-                            <a href="#" class="quick-action-card" onclick="generarReporte()">
-                                <i class="bi bi-graph-up"></i>
-                                <h3>Generar Reporte</h3>
-                                <p>Crea reportes de ingresos y estadísticas</p>
-                            </a>
+                            <button class="btn-user" onclick="generarReporte()" style="justify-content: center; padding: 20px; flex-direction: column; height: auto;">
+                                <i class="bi bi-graph-up" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>Generar Reporte</span>
+                            </button>
                         </div>
                         
-                        <!-- Últimas Reservas del Sistema -->
                         <div class="section-header">
                             <h2><i class="bi bi-clock-history"></i> Últimas Reservas</h2>
                             <button class="btn-user" onclick="verTodasLasReservas()">
@@ -2152,10 +1920,10 @@
                         </div>
                         
                         <div style="background: rgba(44, 130, 201, 0.05); padding: 25px; border-radius: 10px; margin-bottom: 30px; border-left: 4px solid var(--user-primary);">
-                            <h3 style="color: var(--user-primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            <h3 style="color: var(--user-primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-family: 'Times New Roman', Times, serif; font-weight: 700;">
                                 <i class="bi bi-shield-check"></i> Cuenta de Administrador
                             </h3>
-                            <p>Esta es una cuenta de administrador con acceso completo al sistema. Puedes gestionar todos los aspectos de la plataforma Caño Salao.</p>
+                            <p style="font-family: 'Roboto', sans-serif;">Esta es una cuenta de administrador con acceso completo al sistema. Puedes gestionar todos los aspectos de la plataforma Caño Salao.</p>
                         </div>
                         
                         <form id="admin-profile-form" class="user-form">
@@ -2174,7 +1942,6 @@
                             <div class="form-group">
                                 <label><i class="bi bi-telephone"></i> Teléfono de Contacto</label>
                                 <input type="tel" id="admin-profile-phone" class="form-control">
-                                <small style="color: #666; display: block; margin-top: 5px;">Para emergencias del sistema</small>
                             </div>
                             
                             <div class="form-group">
@@ -2192,7 +1959,6 @@
                             </div>
                         </form>
                         
-                        <!-- Sección de Cambio de Contraseña para Admin -->
                         <div class="password-section">
                             <h3><i class="bi bi-shield-lock"></i> Cambiar Contraseña de Administrador</h3>
                             
@@ -2205,7 +1971,7 @@
                                 <div class="form-group">
                                     <label><i class="bi bi-key-fill"></i> Nueva Contraseña *</label>
                                     <input type="password" id="admin-new-password" class="form-control" required minlength="8">
-                                    <small style="color: #666; display: block; margin-top: 5px;">Mínimo 8 caracteres (recomendado: 12+ con mayúsculas, números y símbolos)</small>
+                                    <small style="color: #666; display: block; margin-top: 5px;">Mínimo 8 caracteres</small>
                                 </div>
                                 
                                 <div class="form-group">
@@ -2235,7 +2001,7 @@
                         </div>
                         
                         <div class="user-table-container">
-                            <table class="user-table admin-users-table">
+                            <table class="user-table">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
@@ -2284,8 +2050,9 @@
                         <li><a href="Historia.html"><i class="bi bi-journal-text"></i> Historia</a></li>
                         <li><a href="Servicios.html"><i class="bi bi-list-check"></i> Servicios</a></li>
                         <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
+                        <li><a href="blog.html"><i class="bi bi-newspaper"></i> Blog</a></li>
                         <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
-                        <li><a href="usuario.html" class="active"><i class="bi bi-person-circle"></i> Mi Cuenta</a></li>
+                        <!-- SIN OPCIÓN "Mi Cuenta" EN EL FOOTER -->
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -2309,351 +2076,85 @@
         </div>
     </footer>
 
-    <!-- Modal de Confirmación -->
-    <div id="confirm-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="bi bi-exclamation-triangle"></i> Confirmar Acción</h3>
-            </div>
-            <div class="modal-body">
-                <p id="confirm-message">¿Estás seguro de realizar esta acción?</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-user btn-user-secondary" onclick="closeModal()">
-                    <i class="bi bi-x-circle"></i> Cancelar
-                </button>
-                <button class="btn-user btn-user-danger" id="confirm-action-btn">
-                    <i class="bi bi-check-circle"></i> Confirmar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts optimizados -->
     <script>
         (function() {
             // ========== CONFIGURACIÓN ==========
-            const API_BASE_URL = 'https://cano-salao.onrender.com/api';
+            const API_BASE_URL = 'https://ricardjf.pythonanywhere.com';
+            // const API_BASE_URL = 'https://cano-salao.onrender.com/api';
+            
             const STORAGE_KEYS = {
                 TOKEN: 'cano_salao_token',
                 REFRESH_TOKEN: 'cano_salao_refresh_token',
-                USER: 'cano_salao_user',
-                SESSION_EXPIRES: 'cano_salao_expires',
-                LAST_ACTIVITY: 'cano_salao_last_activity'
+                USER: 'cano_salao_user'
             };
             
-            // Estado global
             let currentUser = null;
             let isAuthenticated = false;
             let isAdmin = false;
-            let userData = null;
-            let isMobileMenuOpen = false;
             
-            // ========== SISTEMA DE NOTIFICACIONES ==========
-            class NotificationSystem {
-                constructor() {
-                    this.container = document.getElementById('notification-system');
-                    if (!this.container) {
-                        this.container = document.createElement('div');
-                        this.container.className = 'notification-system';
-                        document.body.appendChild(this.container);
-                    }
-                }
+            // ========== INICIALIZACIÓN ==========
+            async function init() {
+                console.log('🚀 Inicializando página de usuario...');
                 
-                show(message, type = 'info', duration = 5000) {
-                    const notification = document.createElement('div');
-                    notification.className = `notification ${type}`;
-                    
-                    let icon = 'bi-info-circle';
-                    if (type === 'success') icon = 'bi-check-circle';
-                    if (type === 'error') icon = 'bi-exclamation-triangle';
-                    if (type === 'warning') icon = 'bi-exclamation-circle';
-                    
-                    notification.innerHTML = `
-                        <i class="bi ${icon}" style="font-size: 1.2rem;"></i>
-                        <div style="flex: 1;">${message}</div>
-                        <button class="close-btn" style="background: none; border: none; color: inherit; cursor: pointer;">
-                            <i class="bi bi-x"></i>
-                        </button>
-                    `;
-                    
-                    this.container.appendChild(notification);
-                    
-                    const closeBtn = notification.querySelector('.close-btn');
-                    closeBtn.addEventListener('click', () => {
-                        this.remove(notification);
-                    });
-                    
-                    if (duration > 0) {
-                        setTimeout(() => {
-                            this.remove(notification);
-                        }, duration);
-                    }
-                    
-                    return notification;
-                }
-                
-                remove(notification) {
-                    notification.style.animation = 'slideInRight 0.3s ease reverse';
-                    setTimeout(() => {
-                        if (notification.parentNode === this.container) {
-                            this.container.removeChild(notification);
-                        }
-                    }, 300);
-                }
-                
-                clear() {
-                    this.container.innerHTML = '';
-                }
-            }
-            
-            const notifications = new NotificationSystem();
-            
-            // ========== FUNCIONES DE UTILIDAD ==========
-            function showAlert(message, type = 'info') {
-                const alertDiv = document.getElementById('user-alert');
-                if (!alertDiv) return;
-                
-                alertDiv.textContent = message;
-                alertDiv.className = `alert alert-${type}`;
-                alertDiv.style.display = 'block';
-                
-                notifications.show(message, type);
-                
-                if (type !== 'success') {
-                    setTimeout(() => {
-                        alertDiv.style.display = 'none';
-                    }, 5000);
-                }
-            }
-            
-            function validateEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
-            }
-            
-            function formatDate(dateString) {
-                try {
-                    const date = new Date(dateString);
-                    return date.toLocaleDateString('es-ES', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    });
-                } catch (error) {
-                    return 'Fecha inválida';
-                }
-            }
-            
-            function hideLoader() {
+                // Ocultar loader
                 const loader = document.getElementById('page-loader');
-                if (loader) {
-                    loader.classList.add('hidden');
+                if (loader) loader.classList.add('hidden');
+                
+                // Cargar usuario
+                await loadUser();
+                
+                // Configurar eventos
+                setupEvents();
+                
+                // Mostrar sección correspondiente
+                if (isAuthenticated) {
+                    if (isAdmin) {
+                        setupAdminUI();
+                        showSection('admin-dashboard');
+                        loadAdminDashboardData();
+                    } else {
+                        setupNormalUserUI();
+                        showSection('dashboard');
+                        loadUserDashboardData();
+                    }
+                } else {
+                    showUnauthenticatedMessage();
                 }
             }
             
-            // ========== SISTEMA DE SESIÓN ==========
-            function getStorageItem(key) {
-                return localStorage.getItem(key);
+            // ========== SISTEMA DE USUARIO ==========
+            async function loadUser() {
+                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+                const userData = localStorage.getItem(STORAGE_KEYS.USER);
+                
+                if (token && userData) {
+                    try {
+                        currentUser = JSON.parse(userData);
+                        isAuthenticated = true;
+                        isAdmin = currentUser.rol === 'admin';
+                        console.log('✅ Usuario cargado:', currentUser.email, 'Admin:', isAdmin);
+                        updateHeaderUI();
+                        updateUserUI();
+                    } catch (e) {
+                        clearSession();
+                    }
+                } else {
+                    console.log('❌ No hay sesión activa');
+                    isAuthenticated = false;
+                }
             }
             
-            function setStorageItem(key, value) {
-                localStorage.setItem(key, value);
-            }
-            
-            function saveUserData(user) {
-                setStorageItem(STORAGE_KEYS.USER, JSON.stringify(user));
-            }
-            
-            function clearUserSession() {
-                Object.values(STORAGE_KEYS).forEach(key => {
-                    localStorage.removeItem(key);
-                });
+            function clearSession() {
+                Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
                 currentUser = null;
                 isAuthenticated = false;
                 isAdmin = false;
-                console.log('✅ Sesión limpiada');
-            }
-            
-            function redirectToHome() {
-                showAlert('No tienes sesión activa. Serás redirigido...', 'warning');
-                setTimeout(() => {
-                    window.location.href = '../index.html';
-                }, 2000);
-            }
-            
-            function showUnauthenticatedMessage() {
-                const unauthenticatedMsg = document.getElementById('unauthenticated-message');
-                const authenticatedContent = document.getElementById('authenticated-content');
-                
-                if (unauthenticatedMsg) unauthenticatedMsg.style.display = 'block';
-                if (authenticatedContent) authenticatedContent.style.display = 'none';
-                
-                // Redirigir después de 5 segundos
-                setTimeout(() => {
-                    window.location.href = '../index.html';
-                }, 5000);
-            }
-            
-            function showAuthenticatedContent() {
-                const unauthenticatedMsg = document.getElementById('unauthenticated-message');
-                const authenticatedContent = document.getElementById('authenticated-content');
-                
-                if (unauthenticatedMsg) unauthenticatedMsg.style.display = 'none';
-                if (authenticatedContent) authenticatedContent.style.display = 'block';
-            }
-            
-            // ========== MANEJO DE SESIÓN ==========
-            async function checkAuthentication() {
-                console.log('🔐 Verificando autenticación...');
-                
-                // Verificar si hay datos de usuario en localStorage
-                const userDataStr = getStorageItem(STORAGE_KEYS.USER);
-                const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                
-                if (!userDataStr || !token) {
-                    console.log('❌ No hay datos de sesión');
-                    showUnauthenticatedMessage();
-                    return false;
-                }
-                
-                try {
-                    // Intentar parsear los datos del usuario
-                    currentUser = JSON.parse(userDataStr);
-                    isAuthenticated = true;
-                    isAdmin = currentUser.rol === 'admin';
-                    
-                    console.log('✅ Usuario encontrado:', currentUser.nombre, 'Rol:', currentUser.rol);
-                    
-                    // Mostrar contenido autenticado
-                    showAuthenticatedContent();
-                    
-                    // Configurar la UI según el rol
-                    setupUIByRole();
-                    
-                    // Actualizar información del usuario
-                    updateUserUI();
-                    
-                    // Verificar sesión con el servidor
-                    await validateSessionWithServer();
-                    
-                    return true;
-                    
-                } catch (error) {
-                    console.error('❌ Error cargando datos de usuario:', error);
-                    showUnauthenticatedMessage();
-                    return false;
-                }
-            }
-            
-            async function validateSessionWithServer() {
-                if (!currentUser) return;
-                
-                const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                if (!token) {
-                    console.warn('⚠️ No hay token almacenado');
-                    return;
-                }
-                
-                try {
-                    console.log('🔄 Validando sesión con servidor...');
-                    
-                    const response = await fetch(`${API_BASE_URL}/auth/verify`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        console.log('✅ Sesión válida en servidor:', data);
-                        
-                        if (data.success && data.valid && data.user) {
-                            // Actualizar datos del usuario
-                            currentUser = { ...currentUser, ...data.user };
-                            saveUserData(currentUser);
-                            updateUserUI();
-                            
-                            // Actualizar interfaz si es admin
-                            if (data.user.rol === 'admin') {
-                                isAdmin = true;
-                                setupAdminUI();
-                            }
-                        }
-                        
-                    } else if (response.status === 401) {
-                        console.warn('⚠️ Token inválido o expirado');
-                        const errorData = await response.json();
-                        
-                        if (errorData.can_refresh) {
-                            // Intentar refresh
-                            const refreshed = await tryRefreshToken();
-                            if (refreshed) {
-                                await validateSessionWithServer(); // Reintentar
-                            }
-                        } else {
-                            showAlert('Tu sesión ha expirado. Por favor inicia sesión nuevamente.', 'warning');
-                            setTimeout(() => {
-                                logout();
-                            }, 3000);
-                        }
-                        
-                    } else {
-                        console.warn('⚠️ Error validando sesión:', response.status);
-                        // Continuar con datos locales
-                        showAlert('Usando datos locales (modo offline)', 'info');
-                    }
-                    
-                } catch (error) {
-                    console.error('❌ Error validando sesión:', error);
-                    showAlert('No se pudo conectar con el servidor. Usando datos locales.', 'warning');
-                    // Continuar en modo offline con datos locales
-                }
-            }
-            
-            async function tryRefreshToken() {
-                const refreshToken = getStorageItem(STORAGE_KEYS.REFRESH_TOKEN);
-                if (!refreshToken) {
-                    console.warn('⚠️ No hay refresh token disponible');
-                    return false;
-                }
-                
-                try {
-                    console.log('🔄 Intentando refrescar token...');
-                    
-                    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${refreshToken}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        
-                        // Guardar nuevo token
-                        setStorageItem(STORAGE_KEYS.TOKEN, data.access_token || data.token);
-                        
-                        console.log('✅ Token refrescado exitosamente');
-                        return true;
-                    } else {
-                        console.warn('❌ No se pudo refrescar el token');
-                        return false;
-                    }
-                    
-                } catch (error) {
-                    console.error('❌ Error refrescando token:', error);
-                    return false;
-                }
             }
             
             function logout() {
                 if (confirm('¿Estás seguro de cerrar sesión?')) {
-                    clearUserSession();
-                    showAlert('Sesión cerrada correctamente', 'success');
+                    clearSession();
+                    showNotification('Sesión cerrada correctamente', 'success');
                     setTimeout(() => {
                         window.location.href = '../index.html';
                     }, 1000);
@@ -2661,259 +2162,369 @@
             }
             
             // ========== UI FUNCTIONS ==========
-            function setupUIByRole() {
-                if (isAdmin) {
-                    setupAdminUI();
-                } else {
-                    setupNormalUserUI();
-                }
-                updateHeaderUI();
-                initMobileMenu();
-            }
-            
-            function setupAdminUI() {
-                console.log('👑 Configurando UI de administrador');
-                
-                document.getElementById('hero-title').textContent = 'Panel de Administrador';
-                document.getElementById('hero-subtitle').textContent = 'Gestiona el sistema Caño Salao desde tu panel administrativo';
-                document.getElementById('breadcrumb-text').textContent = 'Panel de Administrador';
-                
-                document.getElementById('normal-user-menu').style.display = 'none';
-                document.getElementById('admin-menu').style.display = 'block';
-                document.getElementById('user-view-toggle').style.display = 'none';
-                
-                document.querySelectorAll('.user-section').forEach(section => {
-                    if (!section.id.startsWith('admin-')) {
-                        section.style.display = 'none';
-                    }
-                });
-                
-                showSection('admin-dashboard');
-            }
-            
-            function setupNormalUserUI() {
-                console.log('👤 Configurando UI de usuario normal');
-                
-                document.getElementById('admin-menu').style.display = 'none';
-                document.getElementById('normal-user-menu').style.display = 'block';
-                document.getElementById('user-view-toggle').style.display = 'block';
-                
-                document.querySelectorAll('.user-section').forEach(section => {
-                    if (section.id.startsWith('admin-')) {
-                        section.style.display = 'none';
-                    }
-                });
-                
-                // Configurar toggle buttons
-                initViewToggleButtons();
-                
-                showSection('dashboard');
-            }
-            
-            // NUEVO: Función para inicializar los botones de toggle
-            function initViewToggleButtons() {
-                const generalBtn = document.getElementById('general-view-btn');
-                const reservasBtn = document.getElementById('reservas-view-btn');
-                
-                if (generalBtn && reservasBtn) {
-                    generalBtn.addEventListener('click', function() {
-                        // Activar vista general
-                        generalBtn.classList.add('active');
-                        reservasBtn.classList.remove('active');
-                        
-                        // Ocultar todas las secciones de reservas
-                        document.querySelectorAll('.user-section').forEach(section => {
-                            section.classList.remove('active');
-                        });
-                        
-                        // Mostrar dashboard
-                        document.getElementById('dashboard').classList.add('active');
-                        
-                        // Actualizar menú activo
-                        document.querySelectorAll('.user-menu-item').forEach(item => {
-                            item.classList.remove('active');
-                        });
-                        document.querySelector('[data-section="dashboard"]').classList.add('active');
-                        
-                        // Cargar datos del dashboard
-                        loadUserDashboardData();
-                    });
-                    
-                    reservasBtn.addEventListener('click', function() {
-                        // Activar vista de reservas
-                        reservasBtn.classList.add('active');
-                        generalBtn.classList.remove('active');
-                        
-                        // Ocultar todas las secciones
-                        document.querySelectorAll('.user-section').forEach(section => {
-                            section.classList.remove('active');
-                        });
-                        
-                        // Mostrar reservas
-                        document.getElementById('bookings').classList.add('active');
-                        
-                        // Actualizar menú activo
-                        document.querySelectorAll('.user-menu-item').forEach(item => {
-                            item.classList.remove('active');
-                        });
-                        document.querySelector('[data-section="bookings"]').classList.add('active');
-                        
-                        // Cargar reservas
-                        loadUserBookings();
-                    });
-                }
-            }
-            
             function updateHeaderUI() {
                 if (!currentUser) return;
                 
                 const headerUserName = document.getElementById('header-user-name');
-                const headerUserRole = document.getElementById('header-user-avatar');
+                const headerUserRole = document.getElementById('header-user-role');
+                const headerAvatar = document.getElementById('header-user-avatar');
                 const loggedUser = document.getElementById('logged-user');
                 const loginBtn = document.getElementById('login-btn');
-                const mobileUserMenu = document.getElementById('mobile-user-menu');
                 
                 if (headerUserName) {
                     headerUserName.textContent = currentUser.nombre || currentUser.email.split('@')[0];
                 }
                 
                 if (headerUserRole) {
-                    const letter = currentUser.nombre 
-                        ? currentUser.nombre.charAt(0).toUpperCase() 
-                        : currentUser.email.charAt(0).toUpperCase();
-                    
-                    headerUserRole.textContent = letter;
-                    
-                    if (currentUser.rol === 'admin') {
-                        headerUserRole.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-                    } else {
-                        headerUserRole.style.background = 'linear-gradient(135deg, #3498db, #2c3e50)';
-                    }
+                    headerUserRole.textContent = currentUser.rol === 'admin' ? 'Administrador' : 'Usuario';
+                    headerUserRole.className = 'user-role ' + (currentUser.rol === 'admin' ? 'admin' : '');
+                }
+                
+                if (headerAvatar) {
+                    const letter = (currentUser.nombre || currentUser.email).charAt(0).toUpperCase();
+                    headerAvatar.textContent = letter;
+                    headerAvatar.style.background = currentUser.rol === 'admin' 
+                        ? 'linear-gradient(135deg, #e74c3c, #c0392b)'
+                        : 'linear-gradient(135deg, #3498db, #2c3e50)';
                 }
                 
                 if (loggedUser) loggedUser.style.display = 'flex';
                 if (loginBtn) loginBtn.style.display = 'none';
-                if (mobileUserMenu) mobileUserMenu.style.display = 'block';
             }
             
             function updateUserUI() {
                 if (!currentUser) return;
                 
-                console.log('🔄 Actualizando UI del usuario:', currentUser.nombre);
-                
                 const userName = document.getElementById('user-name');
                 const userEmail = document.getElementById('user-email');
                 const userAvatar = document.getElementById('user-avatar');
                 const userRoleBadge = document.getElementById('user-role-badge');
+                const heroTitle = document.getElementById('hero-title');
+                const heroSubtitle = document.getElementById('hero-subtitle');
+                const breadcrumbText = document.getElementById('breadcrumb-text');
                 
-                if (userName) {
-                    userName.textContent = currentUser.nombre || 'Usuario';
-                }
-                
-                if (userEmail) {
-                    userEmail.textContent = currentUser.email || 'usuario@ejemplo.com';
-                }
+                if (userName) userName.textContent = currentUser.nombre || 'Usuario';
+                if (userEmail) userEmail.textContent = currentUser.email || '';
                 
                 if (userAvatar) {
-                    const letter = currentUser.nombre 
-                        ? currentUser.nombre.charAt(0).toUpperCase() 
-                        : currentUser.email.charAt(0).toUpperCase();
-                    
+                    const letter = (currentUser.nombre || currentUser.email).charAt(0).toUpperCase();
                     userAvatar.textContent = letter;
-                    
-                    if (currentUser.rol === 'admin') {
-                        userAvatar.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-                    }
                 }
                 
                 if (userRoleBadge) {
                     userRoleBadge.textContent = isAdmin ? 'Administrador' : 'Usuario';
                 }
                 
+                if (heroTitle) {
+                    heroTitle.textContent = isAdmin ? 'Panel de Administrador' : 'Mi Cuenta';
+                }
+                
+                if (heroSubtitle) {
+                    heroSubtitle.textContent = isAdmin 
+                        ? 'Gestiona el sistema Caño Salao desde tu panel administrativo'
+                        : 'Gestiona tu perfil, reservas y preferencias en Caño Salao';
+                }
+                
+                if (breadcrumbText) {
+                    breadcrumbText.textContent = isAdmin ? 'Panel de Administrador' : 'Mi Cuenta';
+                }
+                
                 // Actualizar formularios
-                if (isAdmin) {
-                    document.getElementById('admin-profile-name').value = currentUser.nombre || '';
-                    document.getElementById('admin-profile-email').value = currentUser.email || '';
-                    document.getElementById('admin-profile-phone').value = currentUser.telefono || '';
-                    document.getElementById('admin-profile-notes').value = currentUser.notas || '';
+                if (!isAdmin) {
+                    const profileName = document.getElementById('profile-name');
+                    const profileEmail = document.getElementById('profile-email');
+                    const profilePhone = document.getElementById('profile-phone');
+                    const profileBirthdate = document.getElementById('profile-birthdate');
+                    const profileAddress = document.getElementById('profile-address');
+                    const profileBio = document.getElementById('profile-bio');
+                    
+                    if (profileName) profileName.value = currentUser.nombre || '';
+                    if (profileEmail) profileEmail.value = currentUser.email || '';
+                    if (profilePhone) profilePhone.value = currentUser.telefono || '';
+                    if (profileBirthdate) profileBirthdate.value = currentUser.fecha_nacimiento || '';
+                    if (profileAddress) profileAddress.value = currentUser.direccion || '';
+                    if (profileBio) profileBio.value = currentUser.bio || '';
                 } else {
-                    document.getElementById('profile-name').value = currentUser.nombre || '';
-                    document.getElementById('profile-email').value = currentUser.email || '';
-                    document.getElementById('profile-phone').value = currentUser.telefono || '';
-                    document.getElementById('profile-birthdate').value = currentUser.fecha_nacimiento || '';
-                    document.getElementById('profile-address').value = currentUser.direccion || '';
-                    document.getElementById('profile-bio').value = currentUser.bio || '';
+                    const adminName = document.getElementById('admin-profile-name');
+                    const adminEmail = document.getElementById('admin-profile-email');
+                    const adminPhone = document.getElementById('admin-profile-phone');
+                    const adminNotes = document.getElementById('admin-profile-notes');
+                    
+                    if (adminName) adminName.value = currentUser.nombre || '';
+                    if (adminEmail) adminEmail.value = currentUser.email || '';
+                    if (adminPhone) adminPhone.value = currentUser.telefono || '';
+                    if (adminNotes) adminNotes.value = currentUser.notas || '';
                 }
             }
             
-            function showSection(sectionId) {
-                console.log('📱 Mostrando sección:', sectionId);
+            function setupNormalUserUI() {
+                document.getElementById('normal-user-menu').style.display = 'block';
+                document.getElementById('admin-menu').style.display = 'none';
                 
-                // Ocultar todas las secciones
+                document.querySelectorAll('.user-section').forEach(section => {
+                    if (section.id.startsWith('admin-')) {
+                        section.style.display = 'none';
+                    } else {
+                        section.style.display = 'block';
+                    }
+                });
+            }
+            
+            function setupAdminUI() {
+                document.getElementById('normal-user-menu').style.display = 'none';
+                document.getElementById('admin-menu').style.display = 'block';
+                
+                document.querySelectorAll('.user-section').forEach(section => {
+                    if (!section.id.startsWith('admin-')) {
+                        section.style.display = 'none';
+                    } else {
+                        section.style.display = 'block';
+                    }
+                });
+            }
+            
+            function showUnauthenticatedMessage() {
+                document.getElementById('unauthenticated-message').style.display = 'block';
+                document.getElementById('authenticated-content').style.display = 'none';
+                document.getElementById('logged-user').style.display = 'none';
+                document.getElementById('login-btn').style.display = 'flex';
+                
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 3000);
+            }
+            
+            function showSection(sectionId) {
                 document.querySelectorAll('.user-section').forEach(section => {
                     section.classList.remove('active');
                 });
                 
-                // Actualizar menú activo
                 document.querySelectorAll('.user-menu-item').forEach(item => {
                     item.classList.remove('active');
                 });
                 
-                // Activar menú correspondiente
                 const menuItem = document.querySelector(`[data-section="${sectionId}"]`);
                 if (menuItem) menuItem.classList.add('active');
                 
-                // Mostrar sección seleccionada
                 const targetSection = document.getElementById(sectionId);
                 if (targetSection) {
                     targetSection.classList.add('active');
-                    
-                    // Actualizar toggle buttons si es usuario normal
-                    if (!isAdmin) {
-                        const generalBtn = document.getElementById('general-view-btn');
-                        const reservasBtn = document.getElementById('reservas-view-btn');
-                        
-                        if (sectionId === 'dashboard' || sectionId === 'profile' || sectionId === 'preferences' || sectionId === 'help') {
-                            if (generalBtn) generalBtn.classList.add('active');
-                            if (reservasBtn) reservasBtn.classList.remove('active');
-                        } else if (sectionId === 'bookings') {
-                            if (reservasBtn) reservasBtn.classList.add('active');
-                            if (generalBtn) generalBtn.classList.remove('active');
-                        }
-                    }
-                    
-                    // Cargar datos específicos si es necesario
-                    switch(sectionId) {
-                        case 'dashboard':
-                            loadUserDashboardData();
-                            break;
-                        case 'bookings':
-                            loadUserBookings();
-                            break;
-                        case 'admin-dashboard':
-                            loadAdminDashboardData();
-                            break;
-                        case 'admin-users':
-                            loadSystemUsers();
-                            break;
-                    }
                 }
             }
             
-            // ========== MOBILE MENU FUNCTIONS ==========
-            function initMobileMenu() {
+            // ========== NOTIFICACIONES ==========
+            function showNotification(message, type = 'info') {
+                const container = document.getElementById('notification-system');
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                
+                let icon = 'bi-info-circle';
+                if (type === 'success') icon = 'bi-check-circle';
+                if (type === 'error') icon = 'bi-exclamation-triangle';
+                if (type === 'warning') icon = 'bi-exclamation-circle';
+                
+                notification.innerHTML = `
+                    <i class="bi ${icon}" style="font-size: 1.2rem;"></i>
+                    <div style="flex: 1;">${message}</div>
+                    <button class="close-btn" style="background: none; border: none; color: inherit; cursor: pointer;">
+                        <i class="bi bi-x"></i>
+                    </button>
+                `;
+                
+                container.appendChild(notification);
+                
+                const closeBtn = notification.querySelector('.close-btn');
+                closeBtn.addEventListener('click', () => {
+                    notification.remove();
+                });
+                
+                setTimeout(() => {
+                    if (notification.parentNode) notification.remove();
+                }, 5000);
+            }
+            
+            // ========== DATOS DE USUARIO ==========
+            async function loadUserDashboardData() {
+                // Datos de ejemplo para demostración
+                document.getElementById('total-bookings').textContent = '3';
+                document.getElementById('pending-bookings').textContent = '1';
+                document.getElementById('confirmed-bookings').textContent = '2';
+                document.getElementById('total-spent').textContent = '$95.00';
+                
+                const tbody = document.getElementById('recent-bookings');
+                tbody.innerHTML = `
+                    <tr>
+                        <td>#CS-001</td>
+                        <td>Tour Básico por Manglares</td>
+                        <td>15/03/2025</td>
+                        <td>2</td>
+                        <td>$50.00</td>
+                        <td><span class="status-badge status-confirmed">Confirmada</span></td>
+                    </tr>
+                    <tr>
+                        <td>#CS-002</td>
+                        <td>Tour Completo de Aventura</td>
+                        <td>22/03/2025</td>
+                        <td>4</td>
+                        <td>$45.00</td>
+                        <td><span class="status-badge status-pending">Pendiente</span></td>
+                    </tr>
+                `;
+            }
+            
+            async function loadUserBookings() {
+                const tbody = document.getElementById('bookings-table-body');
+                tbody.innerHTML = `
+                    <tr>
+                        <td>#CS-001</td>
+                        <td>Tour Básico por Manglares</td>
+                        <td>15/03/2025</td>
+                        <td>10:00 AM</td>
+                        <td>2</td>
+                        <td>$50.00</td>
+                        <td><span class="status-badge status-confirmed">Confirmada</span></td>
+                        <td>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn-user" style="padding: 5px 10px; font-size: 0.8rem;" onclick="showNotification('Ver detalles de reserva', 'info')">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#CS-002</td>
+                        <td>Tour Completo de Aventura</td>
+                        <td>22/03/2025</td>
+                        <td>09:00 AM</td>
+                        <td>4</td>
+                        <td>$45.00</td>
+                        <td><span class="status-badge status-pending">Pendiente</span></td>
+                        <td>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn-user" style="padding: 5px 10px; font-size: 0.8rem;" onclick="showNotification('Ver detalles de reserva', 'info')">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn-user btn-user-danger" style="padding: 5px 10px; font-size: 0.8rem;" onclick="if(confirm('¿Cancelar reserva?')) showNotification('Reserva cancelada', 'success')">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#CS-003</td>
+                        <td>Tour Fotográfico Nocturno</td>
+                        <td>05/04/2025</td>
+                        <td>18:00 PM</td>
+                        <td>2</td>
+                        <td>$35.00</td>
+                        <td><span class="status-badge status-completed">Completada</span></td>
+                        <td>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn-user" style="padding: 5px 10px; font-size: 0.8rem;" onclick="showNotification('Ver detalles de reserva', 'info')">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            async function loadAdminDashboardData() {
+                document.getElementById('admin-total-users').textContent = '24';
+                document.getElementById('admin-total-bookings').textContent = '42';
+                document.getElementById('admin-pending-bookings').textContent = '8';
+                document.getElementById('admin-total-revenue').textContent = '$1,250.00';
+                
+                const tbody = document.getElementById('admin-recent-bookings');
+                tbody.innerHTML = `
+                    <tr>
+                        <td>#CS-001</td>
+                        <td>María González</td>
+                        <td>Tour Básico</td>
+                        <td>15/03/2025</td>
+                        <td>$50.00</td>
+                        <td><span class="status-badge status-confirmed">Confirmada</span></td>
+                    </tr>
+                    <tr>
+                        <td>#CS-002</td>
+                        <td>Juan Pérez</td>
+                        <td>Tour Completo</td>
+                        <td>22/03/2025</td>
+                        <td>$45.00</td>
+                        <td><span class="status-badge status-pending">Pendiente</span></td>
+                    </tr>
+                    <tr>
+                        <td>#CS-003</td>
+                        <td>Ana Rodríguez</td>
+                        <td>Tour Fotográfico</td>
+                        <td>05/04/2025</td>
+                        <td>$35.00</td>
+                        <td><span class="status-badge status-completed">Completada</span></td>
+                    </tr>
+                `;
+            }
+            
+            async function loadSystemUsers() {
+                const tbody = document.getElementById('admin-users-table-body');
+                tbody.innerHTML = `
+                    <tr>
+                        <td>Administrador</td>
+                        <td>admin@canosalao.com</td>
+                        <td><span class="status-badge status-confirmed" style="background: rgba(44,130,201,0.2); color: #2c82c9;">Administrador</span></td>
+                        <td>01/01/2025</td>
+                        <td><span class="status-badge status-confirmed">Activo</span></td>
+                        <td>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn-user" style="padding: 5px 10px; font-size: 0.8rem;" onclick="showNotification('Ver detalles de usuario', 'info')">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>María González</td>
+                        <td>maria@email.com</td>
+                        <td><span class="status-badge" style="background: rgba(0,0,0,0.05); color: #666;">Usuario</span></td>
+                        <td>10/02/2025</td>
+                        <td><span class="status-badge status-confirmed">Activo</span></td>
+                        <td>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn-user" style="padding: 5px 10px; font-size: 0.8rem;" onclick="showNotification('Ver detalles de usuario', 'info')">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Juan Pérez</td>
+                        <td>juan@email.com</td>
+                        <td><span class="status-badge" style="background: rgba(0,0,0,0.05); color: #666;">Usuario</span></td>
+                        <td>15/02/2025</td>
+                        <td><span class="status-badge status-confirmed">Activo</span></td>
+                        <td>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn-user" style="padding: 5px 10px; font-size: 0.8rem;" onclick="showNotification('Ver detalles de usuario', 'info')">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            // ========== EVENTOS ==========
+            function setupEvents() {
+                // Menú móvil
                 const menuToggle = document.getElementById('mobile-menu-toggle');
                 const menuClose = document.getElementById('mobile-menu-close');
                 const menuOverlay = document.getElementById('mobile-menu-overlay');
                 const menuContainer = document.getElementById('mobile-menu-container');
                 
                 if (menuToggle) {
-                    menuToggle.addEventListener('click', function() {
-                        if (!isMobileMenuOpen) {
-                            openMobileMenu();
-                        } else {
-                            closeMobileMenu();
-                        }
+                    menuToggle.addEventListener('click', () => {
+                        menuContainer?.classList.add('active');
+                        menuOverlay?.classList.add('active');
+                        document.body.style.overflow = 'hidden';
                     });
                 }
                 
@@ -2925,573 +2536,63 @@
                     menuOverlay.addEventListener('click', closeMobileMenu);
                 }
                 
-                // Cerrar menú al hacer clic en enlaces
-                const mobileLinks = document.querySelectorAll('.mobile-menu-nav a');
-                mobileLinks.forEach(link => {
-                    link.addEventListener('click', closeMobileMenu);
-                });
-                
-                // Cerrar con Escape
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape' && isMobileMenuOpen) {
-                        closeMobileMenu();
-                    }
-                });
-            }
-            
-            function openMobileMenu() {
-                const menuContainer = document.getElementById('mobile-menu-container');
-                const menuOverlay = document.getElementById('mobile-menu-overlay');
-                
-                if (menuContainer && menuOverlay) {
-                    menuContainer.classList.add('active');
-                    menuOverlay.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                    isMobileMenuOpen = true;
-                }
-            }
-            
-            function closeMobileMenu() {
-                const menuContainer = document.getElementById('mobile-menu-container');
-                const menuOverlay = document.getElementById('mobile-menu-overlay');
-                
-                if (menuContainer && menuOverlay) {
-                    menuContainer.classList.remove('active');
-                    menuOverlay.classList.remove('active');
+                function closeMobileMenu() {
+                    menuContainer?.classList.remove('active');
+                    menuOverlay?.classList.remove('active');
                     document.body.style.overflow = '';
-                    isMobileMenuOpen = false;
-                }
-            }
-            
-            // ========== ADMIN FUNCTIONS ==========
-            async function loadAdminDashboardData() {
-                if (!isAdmin) return;
-                
-                console.log('📊 Cargando datos del dashboard administrativo...');
-                
-                try {
-                    const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                    if (!token) {
-                        showAlert('No hay token de sesión', 'error');
-                        return;
-                    }
-                    
-                    // Cargar estadísticas
-                    const statsResponse = await fetch(`${API_BASE_URL}/admin/dashboard`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    
-                    if (statsResponse.ok) {
-                        const stats = await statsResponse.json();
-                        
-                        // Actualizar UI con los datos reales
-                        document.getElementById('admin-total-users').textContent = stats.total_users || '0';
-                        document.getElementById('admin-total-bookings').textContent = stats.total_bookings || '0';
-                        document.getElementById('admin-pending-bookings').textContent = stats.pending_bookings || '0';
-                        
-                        if (stats.total_revenue !== undefined) {
-                            document.getElementById('admin-total-revenue').textContent = `$${stats.total_revenue.toFixed(2)}`;
-                        } else {
-                            // Calcular ingresos si no viene del backend
-                            const bookingsResponse = await fetch(`${API_BASE_URL}/user/bookings`, {
-                                headers: {
-                                    'Authorization': `Bearer ${token}`,
-                                    'Content-Type': 'application/json'
-                                }
-                            });
-                            
-                            if (bookingsResponse.ok) {
-                                const bookingsData = await bookingsResponse.json();
-                                if (bookingsData.success && bookingsData.bookings) {
-                                    const total = bookingsData.bookings.reduce((sum, booking) => sum + (booking.total || 0), 0);
-                                    document.getElementById('admin-total-revenue').textContent = `$${total.toFixed(2)}`;
-                                }
-                            }
-                        }
-                        
-                        // Cargar reservas recientes
-                        await loadAdminRecentBookings();
-                        
-                        console.log('✅ Estadísticas cargadas:', stats);
-                    } else {
-                        console.warn('⚠️ No se pudieron cargar las estadísticas');
-                        // Mostrar datos de ejemplo
-                        showSampleAdminData();
-                    }
-                    
-                } catch (error) {
-                    console.error('❌ Error cargando dashboard administrativo:', error);
-                    showAlert('Error cargando datos del dashboard', 'error');
-                    showSampleAdminData();
-                }
-            }
-            
-            async function loadAdminRecentBookings() {
-                try {
-                    const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                    if (!token) return;
-                    
-                    const response = await fetch(`${API_BASE_URL}/user/bookings?limit=5`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        const tbody = document.getElementById('admin-recent-bookings');
-                        
-                        if (data.success && data.bookings && data.bookings.length > 0) {
-                            tbody.innerHTML = '';
-                            data.bookings.forEach(booking => {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                                    <td>${booking.codigo || 'N/A'}</td>
-                                    <td>${booking.user_name || 'Usuario'}</td>
-                                    <td>${booking.tour_nombre || 'Tour'}</td>
-                                    <td>${formatDate(booking.fecha)}</td>
-                                    <td>$${booking.total?.toFixed(2) || '0.00'}</td>
-                                    <td><span class="status-badge status-${booking.estado || 'pending'}">${booking.estado || 'Pendiente'}</span></td>
-                                `;
-                                tbody.appendChild(row);
-                            });
-                        } else {
-                            tbody.innerHTML = `
-                                <tr>
-                                    <td colspan="6" class="empty-state">
-                                        <i class="bi bi-calendar-x"></i>
-                                        <p>No hay reservas recientes</p>
-                                    </td>
-                                </tr>
-                            `;
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error cargando reservas recientes:', error);
-                }
-            }
-            
-            async function loadSystemUsers() {
-                if (!isAdmin) return;
-                
-                console.log('👥 Cargando usuarios del sistema...');
-                
-                try {
-                    const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                    if (!token) return;
-                    
-                    const response = await fetch(`${API_BASE_URL}/admin/users`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        renderSystemUsers(data.users || []);
-                    } else {
-                        console.warn('⚠️ No se pudieron cargar los usuarios');
-                        renderSystemUsers([]);
-                    }
-                    
-                } catch (error) {
-                    console.error('❌ Error cargando usuarios:', error);
-                    renderSystemUsers([]);
-                }
-            }
-            
-            function renderSystemUsers(users) {
-                const tbody = document.getElementById('admin-users-table-body');
-                if (!tbody) return;
-                
-                if (!users || users.length === 0) {
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="6" class="empty-state">
-                                <i class="bi bi-people" style="font-size: 48px;"></i>
-                                <h3>No hay usuarios</h3>
-                                <p>No se encontraron usuarios en el sistema</p>
-                            </td>
-                        </tr>
-                    `;
-                    document.getElementById('users-pagination').style.display = 'none';
-                } else {
-                    tbody.innerHTML = '';
-                    users.forEach(user => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${user.nombre || 'Sin nombre'}</td>
-                            <td>${user.email || 'Sin email'}</td>
-                            <td><span class="role-badge ${user.rol === 'admin' ? 'role-admin' : 'role-user'}">${user.rol === 'admin' ? 'Administrador' : 'Usuario'}</span></td>
-                            <td>${formatDate(user.created_at || user.fecha_registro)}</td>
-                            <td><span class="status-badge ${user.activo ? 'status-confirmed' : 'status-cancelled'}">${user.activo ? 'Activo' : 'Inactivo'}</span></td>
-                            <td>
-                                <div style="display: flex; gap: 5px;">
-                                    <button class="btn-user" style="padding: 5px 10px; font-size: 0.8rem;" onclick="verUsuario('${user.id}')" title="Ver detalles">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
-                                    ${user.rol !== 'admin' ? `
-                                        <button class="btn-user btn-user-danger" style="padding: 5px 10px; font-size: 0.8rem;" onclick="eliminarUsuario('${user.id}')" title="Eliminar usuario">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    ` : ''}
-                                </div>
-                            </td>
-                        `;
-                        tbody.appendChild(row);
-                    });
-                    
-                    document.getElementById('users-pagination').style.display = 'flex';
-                }
-            }
-            
-            function showSampleAdminData() {
-                // Datos de ejemplo para desarrollo
-                document.getElementById('admin-total-users').textContent = '15';
-                document.getElementById('admin-total-bookings').textContent = '42';
-                document.getElementById('admin-pending-bookings').textContent = '8';
-                document.getElementById('admin-total-revenue').textContent = '$1,250.00';
-                
-                // Mostrar notificación
-                showAlert('Usando datos de ejemplo para desarrollo', 'info');
-            }
-            
-            // ========== USER FUNCTIONS ==========
-            async function loadUserDashboardData() {
-                console.log('📊 Cargando datos del dashboard del usuario...');
-                
-                try {
-                    const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                    if (!token) {
-                        showAlert('No hay token de sesión', 'error');
-                        return;
-                    }
-                    
-                    // Cargar reservas del usuario
-                    const response = await fetch(`${API_BASE_URL}/user/bookings`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        
-                        if (data.success && data.bookings) {
-                            const bookings = data.bookings;
-                            
-                            // Calcular estadísticas
-                            const totalBookings = bookings.length;
-                            const pendingBookings = bookings.filter(b => b.estado === 'pending').length;
-                            const confirmedBookings = bookings.filter(b => b.estado === 'confirmed').length;
-                            const totalSpent = bookings.reduce((sum, booking) => sum + (booking.total || 0), 0);
-                            
-                            // Actualizar UI
-                            document.getElementById('total-bookings').textContent = totalBookings;
-                            document.getElementById('pending-bookings').textContent = pendingBookings;
-                            document.getElementById('confirmed-bookings').textContent = confirmedBookings;
-                            document.getElementById('total-spent').textContent = `$${totalSpent.toFixed(2)}`;
-                            
-                            // Mostrar reservas recientes (últimas 5)
-                            const recentBookings = bookings.slice(0, 5);
-                            renderRecentBookings(recentBookings);
-                        }
-                    }
-                    
-                } catch (error) {
-                    console.error('❌ Error cargando datos del usuario:', error);
-                    showAlert('Error cargando datos del dashboard', 'error');
-                }
-            }
-            
-            async function loadUserBookings() {
-                try {
-                    const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                    if (!token) {
-                        showAlert('No hay token de sesión', 'error');
-                        return;
-                    }
-                    
-                    const response = await fetch(`${API_BASE_URL}/user/bookings`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        renderUserBookings(data.bookings || []);
-                    } else {
-                        console.warn('⚠️ No se pudieron cargar las reservas');
-                        renderUserBookings([]);
-                    }
-                    
-                } catch (error) {
-                    console.error('❌ Error cargando reservas:', error);
-                    showAlert('Error cargando tus reservas', 'error');
-                    renderUserBookings([]);
-                }
-            }
-            
-            function renderRecentBookings(bookings) {
-                const tbody = document.getElementById('recent-bookings');
-                if (!tbody) return;
-                
-                if (!bookings || bookings.length === 0) {
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="6" class="empty-state">
-                                <i class="bi bi-calendar-x"></i>
-                                <p>No tienes reservas recientes</p>
-                            </td>
-                        </tr>
-                    `;
-                } else {
-                    tbody.innerHTML = '';
-                    bookings.forEach(booking => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${booking.codigo || 'N/A'}</td>
-                            <td>${booking.tour_nombre || 'Tour'}</td>
-                            <td>${formatDate(booking.fecha)}</td>
-                            <td>${booking.personas || 1}</td>
-                            <td>$${booking.total?.toFixed(2) || '0.00'}</td>
-                            <td><span class="status-badge status-${booking.estado || 'pending'}">${booking.estado || 'Pendiente'}</span></td>
-                        `;
-                        tbody.appendChild(row);
-                    });
-                }
-            }
-            
-            function renderUserBookings(bookings) {
-                const tbody = document.getElementById('bookings-table-body');
-                if (!tbody) return;
-                
-                if (!bookings || bookings.length === 0) {
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="8" class="empty-state">
-                                <i class="bi bi-calendar-x"></i>
-                                <h3>No tienes reservas</h3>
-                                <p>¡Aún no has realizado ninguna reserva!</p>
-                                <button class="btn-user" onclick="nuevaReserva()" style="margin-top: 15px;">
-                                    <i class="bi bi-calendar-plus"></i> Crear mi primera reserva
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                    document.getElementById('bookings-pagination').style.display = 'none';
-                } else {
-                    tbody.innerHTML = '';
-                    bookings.forEach(booking => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${booking.codigo || 'N/A'}</td>
-                            <td>${booking.tour_nombre || 'Tour'}</td>
-                            <td>${formatDate(booking.fecha)}</td>
-                            <td>${booking.hora || '--:--'}</td>
-                            <td>${booking.personas || 1}</td>
-                            <td>$${booking.total?.toFixed(2) || '0.00'}</td>
-                            <td><span class="status-badge status-${booking.estado || 'pending'}">${booking.estado || 'Pendiente'}</span></td>
-                            <td>
-                                <div style="display: flex; gap: 5px;">
-                                    <button class="btn-user" style="padding: 5px 10px; font-size: 0.8rem;" onclick="verReserva('${booking.id}')" title="Ver detalles">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
-                                    ${booking.estado === 'pending' ? `
-                                        <button class="btn-user btn-user-danger" style="padding: 5px 10px; font-size: 0.8rem;" onclick="cancelarReserva('${booking.id}')" title="Cancelar reserva">
-                                            <i class="bi bi-x-circle"></i>
-                                        </button>
-                                    ` : ''}
-                                </div>
-                            </td>
-                        `;
-                        tbody.appendChild(row);
-                    });
-                    
-                    document.getElementById('bookings-pagination').style.display = 'flex';
-                }
-            }
-            
-            // ========== FORM FUNCTIONS ==========
-            async function saveProfile() {
-                const name = document.getElementById('profile-name').value.trim();
-                const email = document.getElementById('profile-email').value.trim().toLowerCase();
-                const phone = document.getElementById('profile-phone').value.trim();
-                const birthdate = document.getElementById('profile-birthdate').value;
-                const address = document.getElementById('profile-address').value.trim();
-                const bio = document.getElementById('profile-bio').value.trim();
-                const saveBtn = document.getElementById('save-profile-btn');
-                
-                if (!name || !email) {
-                    showAlert('Por favor completa los campos obligatorios', 'error');
-                    return;
                 }
                 
-                if (!validateEmail(email)) {
-                    showAlert('Email inválido', 'error');
-                    return;
-                }
-                
-                saveBtn.disabled = true;
-                const originalText = saveBtn.innerHTML;
-                saveBtn.innerHTML = '<div class="spinner-small"></div>';
-                
-                try {
-                    const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                    if (!token) throw new Error('No hay token de sesión');
-                    
-                    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            nombre: name,
-                            email: email,
-                            telefono: phone,
-                            fecha_nacimiento: birthdate,
-                            direccion: address,
-                            bio: bio
-                        })
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.profile) {
-                            currentUser = { ...currentUser, ...data.profile };
-                            saveUserData(currentUser);
-                            updateUserUI();
-                            showAlert('✅ Perfil actualizado exitosamente', 'success');
-                        }
-                    } else {
-                        const error = await response.json();
-                        throw new Error(error.message || 'Error actualizando perfil');
-                    }
-                    
-                } catch (error) {
-                    console.error('Error actualizando perfil:', error);
-                    showAlert(`Error: ${error.message}`, 'error');
-                } finally {
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = originalText;
-                }
-            }
-            
-            async function saveAdminProfile() {
-                const name = document.getElementById('admin-profile-name').value.trim();
-                const email = document.getElementById('admin-profile-email').value.trim().toLowerCase();
-                const phone = document.getElementById('admin-profile-phone').value.trim();
-                const notes = document.getElementById('admin-profile-notes').value.trim();
-                const saveBtn = document.getElementById('save-admin-profile-btn');
-                
-                if (!name || !email) {
-                    showAlert('Por favor completa los campos obligatorios', 'error');
-                    return;
-                }
-                
-                if (!validateEmail(email)) {
-                    showAlert('Email inválido', 'error');
-                    return;
-                }
-                
-                saveBtn.disabled = true;
-                const originalText = saveBtn.innerHTML;
-                saveBtn.innerHTML = '<div class="spinner-small"></div>';
-                
-                try {
-                    const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                    if (!token) throw new Error('No hay token de sesión');
-                    
-                    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            nombre: name,
-                            email: email,
-                            telefono: phone,
-                            notas: notes
-                        })
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.profile) {
-                            currentUser = { ...currentUser, ...data.profile };
-                            saveUserData(currentUser);
-                            updateUserUI();
-                            showAlert('✅ Perfil de administrador actualizado exitosamente', 'success');
-                        }
-                    } else {
-                        const error = await response.json();
-                        throw new Error(error.message || 'Error actualizando perfil');
-                    }
-                    
-                } catch (error) {
-                    console.error('Error actualizando perfil admin:', error);
-                    showAlert(`Error: ${error.message}`, 'error');
-                } finally {
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = originalText;
-                }
-            }
-            
-            // ========== DROPDOWN FUNCTIONS ==========
-            function initUserDropdown() {
+                // Dropdown de usuario
                 const avatar = document.getElementById('header-user-avatar');
-                const dropdown = document.querySelector('.user-dropdown-menu');
-                
-                if (avatar && dropdown) {
-                    // Crear dropdown si no existe
-                    if (!dropdown.innerHTML.trim()) {
-                        dropdown.innerHTML = `
-                            <div class="user-dropdown-header">
-                                <strong id="dropdown-user-name">${currentUser?.nombre || 'Usuario'}</strong>
-                                <div class="user-dropdown-email" id="dropdown-user-email">${currentUser?.email || ''}</div>
-                            </div>
-                            <a href="#" onclick="showSection('dashboard')"><i class="bi bi-speedometer2"></i> Mi Panel</a>
-                            <a href="#" onclick="showSection('profile')"><i class="bi bi-person"></i> Mi Perfil</a>
-                            <a href="#" onclick="showSection('bookings')"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
-                            ${isAdmin ? '<a href="admin.html"><i class="bi bi-gear"></i> Panel Admin</a>' : ''}
-                            <a href="#" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
-                        `;
-                    }
-                    
-                    // Click en avatar
+                if (avatar) {
                     avatar.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        dropdown.classList.toggle('show');
-                    });
-                    
-                    // Click fuera para cerrar
-                    document.addEventListener('click', function(e) {
-                        if (!avatar.contains(e.target) && !dropdown.contains(e.target)) {
-                            dropdown.classList.remove('show');
-                        }
-                    });
-                    
-                    // Cerrar con ESC
-                    document.addEventListener('keydown', function(e) {
-                        if (e.key === 'Escape') {
-                            dropdown.classList.remove('show');
-                        }
+                        toggleDropdown();
                     });
                 }
-            }
-            
-            // ========== EVENT LISTENERS ==========
-            function initEventListeners() {
+                
+                function toggleDropdown() {
+                    let dropdown = document.getElementById('user-dropdown-menu');
+                    
+                    if (dropdown) {
+                        dropdown.remove();
+                        return;
+                    }
+                    
+                    if (!currentUser) return;
+                    
+                    dropdown = document.createElement('div');
+                    dropdown.id = 'user-dropdown-menu';
+                    dropdown.className = 'user-dropdown-menu show';
+                    
+                    dropdown.innerHTML = `
+                        <div class="user-dropdown-header">
+                            <div style="font-weight: bold; font-size: 16px; font-family: 'Times New Roman', Times, serif;">${currentUser.nombre || 'Usuario'}</div>
+                            <div class="user-dropdown-email" style="font-family: 'Roboto', sans-serif;">${currentUser.email}</div>
+                            ${currentUser.rol === 'admin' ? '<div style="font-size: 12px; margin-top: 4px; padding: 2px 8px; background: rgba(255,255,255,0.2); border-radius: 4px; display: inline-block; font-family: \'Roboto\', sans-serif;">Administrador</div>' : ''}
+                        </div>
+                        ${isAdmin ? 
+                            '<a href="admin.html" style="font-family: \'Roboto\', sans-serif;"><i class="bi bi-shield-check"></i> Panel de Administración</a>' : ''}
+                        <a href="#" id="logout-link" style="font-family: \'Roboto\', sans-serif;"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+                    `;
+                    
+                    document.getElementById('user-menu-container').appendChild(dropdown);
+                    
+                    document.getElementById('logout-link')?.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        logout();
+                    });
+                    
+                    setTimeout(() => {
+                        document.addEventListener('click', function closeDropdown(e) {
+                            if (!dropdown.contains(e.target) && e.target !== avatar) {
+                                dropdown.remove();
+                                document.removeEventListener('click', closeDropdown);
+                            }
+                        });
+                    }, 10);
+                }
+                
                 // Navegación del menú
                 document.querySelectorAll('.user-menu-item').forEach(item => {
                     item.addEventListener('click', function(e) {
@@ -3499,6 +2600,10 @@
                         const sectionId = this.getAttribute('data-section');
                         if (sectionId) {
                             showSection(sectionId);
+                            
+                            // Cargar datos según la sección
+                            if (sectionId === 'bookings') loadUserBookings();
+                            if (sectionId === 'admin-users') loadSystemUsers();
                         }
                     });
                 });
@@ -3506,117 +2611,84 @@
                 // Botón de logout
                 document.getElementById('logout-btn').addEventListener('click', logout);
                 
-                // Formulario de perfil normal
-                if (document.getElementById('profile-form')) {
-                    document.getElementById('profile-form').addEventListener('submit', function(e) {
+                // Formulario de perfil
+                const profileForm = document.getElementById('profile-form');
+                if (profileForm) {
+                    profileForm.addEventListener('submit', function(e) {
                         e.preventDefault();
-                        saveProfile();
+                        showNotification('Perfil actualizado correctamente', 'success');
+                    });
+                }
+                
+                // Formulario de contraseña
+                const passwordForm = document.getElementById('password-form');
+                if (passwordForm) {
+                    passwordForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        const newPass = document.getElementById('new-password').value;
+                        const confirmPass = document.getElementById('confirm-password').value;
+                        
+                        if (newPass !== confirmPass) {
+                            showNotification('Las contraseñas no coinciden', 'error');
+                            return;
+                        }
+                        
+                        showNotification('Contraseña cambiada correctamente', 'success');
+                        this.reset();
+                    });
+                }
+                
+                // Formulario de preferencias
+                const preferencesForm = document.getElementById('preferences-form');
+                if (preferencesForm) {
+                    preferencesForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        showNotification('Preferencias guardadas correctamente', 'success');
                     });
                 }
                 
                 // Formulario de perfil admin
-                if (document.getElementById('admin-profile-form')) {
-                    document.getElementById('admin-profile-form').addEventListener('submit', function(e) {
+                const adminProfileForm = document.getElementById('admin-profile-form');
+                if (adminProfileForm) {
+                    adminProfileForm.addEventListener('submit', function(e) {
                         e.preventDefault();
-                        saveAdminProfile();
+                        showNotification('Perfil de administrador actualizado', 'success');
                     });
                 }
                 
-                // Inicializar dropdown
-                initUserDropdown();
-            }
-            
-            // ========== FUNCIONES DE FILTRO Y BÚSQUEDA ==========
-            function filterBookings() {
-                const filterValue = document.getElementById('booking-filter').value;
-                console.log('Filtrando por:', filterValue);
-                showAlert(`Filtrando reservas por: ${getFilterText(filterValue)}`, 'info');
-                // Aquí iría la lógica real de filtrado
-            }
-            
-            function getFilterText(value) {
-                const filters = {
-                    'all': 'Todas las reservas',
-                    'pending': 'Pendientes',
-                    'confirmed': 'Confirmadas',
-                    'cancelled': 'Canceladas',
-                    'completed': 'Completadas'
-                };
-                return filters[value] || value;
-            }
-            
-            function searchBookings() {
-                const searchTerm = document.getElementById('booking-search').value;
-                if (searchTerm.length > 2) {
-                    console.log('Buscando:', searchTerm);
-                    showAlert(`Buscando: "${searchTerm}"`, 'info');
+                // Formulario de contraseña admin
+                const adminPasswordForm = document.getElementById('admin-password-form');
+                if (adminPasswordForm) {
+                    adminPasswordForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        const newPass = document.getElementById('admin-new-password').value;
+                        const confirmPass = document.getElementById('admin-confirm-password').value;
+                        
+                        if (newPass !== confirmPass) {
+                            showNotification('Las contraseñas no coinciden', 'error');
+                            return;
+                        }
+                        
+                        showNotification('Contraseña de administrador cambiada', 'success');
+                        this.reset();
+                    });
                 }
-            }
-            
-            function searchUsers() {
-                const searchTerm = document.getElementById('user-search').value;
-                if (searchTerm.length > 2) {
-                    console.log('Buscando usuario:', searchTerm);
-                    showAlert(`Buscando usuario: "${searchTerm}"`, 'info');
-                }
-            }
-            
-            // ========== FUNCIONES DE PAGINACIÓN ==========
-            function prevBookingsPage() {
-                showAlert('Página anterior de reservas', 'info');
-            }
-            
-            function nextBookingsPage() {
-                showAlert('Página siguiente de reservas', 'info');
-            }
-            
-            function prevUsersPage() {
-                showAlert('Página anterior de usuarios', 'info');
-            }
-            
-            function nextUsersPage() {
-                showAlert('Página siguiente de usuarios', 'info');
             }
             
             // ========== FUNCIONES DE ACCIÓN ==========
-            function verUsuario(userId) {
-                showAlert(`Ver detalles del usuario ID: ${userId}`, 'info');
-                // Aquí iría la navegación a detalles del usuario
-            }
-            
-            function eliminarUsuario(userId) {
-                if (confirm(`¿Estás seguro de eliminar al usuario ${userId}?\nEsta acción no se puede deshacer.`)) {
-                    showAlert(`Usuario ${userId} eliminado (demo)`, 'success');
-                    // Aquí iría la llamada a la API para eliminar
-                }
-            }
-            
-            function verReserva(bookingId) {
-                showAlert(`Ver detalles de reserva ID: ${bookingId}`, 'info');
-                // Aquí iría la navegación a detalles de reserva
-            }
-            
-            function cancelarReserva(bookingId) {
-                if (confirm('¿Estás seguro de cancelar esta reserva?\nPuede aplicar una penalización según la política de cancelación.')) {
-                    showAlert(`Reserva ${bookingId} cancelada (demo)`, 'success');
-                    // Aquí iría la llamada a la API para cancelar
-                }
-            }
-            
-            // ========== ACCIONES RÁPIDAS ==========
             function refreshDashboard() {
                 if (isAdmin) {
                     loadAdminDashboardData();
-                    showAlert('Panel administrativo actualizado', 'success');
+                    showNotification('Panel administrativo actualizado', 'success');
                 } else {
                     loadUserDashboardData();
-                    showAlert('Dashboard actualizado', 'success');
+                    showNotification('Dashboard actualizado', 'success');
                 }
             }
             
             function refreshAdminDashboard() {
                 loadAdminDashboardData();
-                showAlert('Panel administrativo actualizado', 'success');
+                showNotification('Panel administrativo actualizado', 'success');
             }
             
             function irAlPanelCompleto() {
@@ -3627,10 +2699,6 @@
                 window.location.href = 'Servicios.html';
             }
             
-            function verMisReservas() {
-                showSection('bookings');
-            }
-            
             function contactarSoporte() {
                 showSection('help');
             }
@@ -3638,24 +2706,21 @@
             function enviarMensajeSoporte() {
                 const message = document.getElementById('support-message').value.trim();
                 if (!message) {
-                    showAlert('Por favor escribe un mensaje', 'error');
+                    showNotification('Por favor escribe un mensaje', 'error');
                     return;
                 }
-                
-                showAlert('Mensaje enviado al soporte. Te contactaremos pronto.', 'success');
+                showNotification('Mensaje enviado al soporte. Te contactaremos pronto.', 'success');
                 document.getElementById('support-message').value = '';
             }
             
             function cancelarEdicion() {
-                showAlert('Edición cancelada', 'info');
-                // Restaurar valores originales
                 updateUserUI();
+                showNotification('Edición cancelada', 'info');
             }
             
             function cancelarEdicionAdmin() {
-                showAlert('Edición cancelada', 'info');
-                // Restaurar valores originales
                 updateUserUI();
+                showNotification('Edición cancelada', 'info');
             }
             
             function verTodasLasReservas() {
@@ -3663,37 +2728,45 @@
             }
             
             function generarReporte() {
-                showAlert('Función de generación de reportes en desarrollo', 'info');
+                showNotification('Función de generación de reportes en desarrollo', 'info');
             }
             
             function exportarUsuarios() {
-                showAlert('Función de exportación de usuarios en desarrollo', 'info');
+                showNotification('Función de exportación de usuarios en desarrollo', 'info');
             }
             
-            // ========== INICIALIZACIÓN ==========
-            function init() {
-                console.log('🚀 Inicializando página de usuario...');
-                
-                hideLoader();
-                initEventListeners();
-                
-                // Verificar autenticación
-                checkAuthentication().then(authenticated => {
-                    if (!authenticated) {
-                        console.log('❌ Usuario no autenticado');
-                    } else {
-                        console.log('✅ Usuario autenticado correctamente');
-                    }
-                });
-                
-                console.log('✅ Página de usuario inicializada');
+            function filterBookings() {
+                showNotification('Filtrando reservas...', 'info');
             }
             
-            // Inicializar cuando el DOM esté listo
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', init);
-            } else {
-                init();
+            function searchBookings() {
+                const searchTerm = document.getElementById('booking-search').value;
+                if (searchTerm.length > 2) {
+                    showNotification(`Buscando: "${searchTerm}"`, 'info');
+                }
+            }
+            
+            function searchUsers() {
+                const searchTerm = document.getElementById('user-search').value;
+                if (searchTerm.length > 2) {
+                    showNotification(`Buscando usuarios: "${searchTerm}"`, 'info');
+                }
+            }
+            
+            function prevBookingsPage() {
+                showNotification('Página anterior', 'info');
+            }
+            
+            function nextBookingsPage() {
+                showNotification('Página siguiente', 'info');
+            }
+            
+            function prevUsersPage() {
+                showNotification('Página anterior', 'info');
+            }
+            
+            function nextUsersPage() {
+                showNotification('Página siguiente', 'info');
             }
             
             // ========== EXPORTAR FUNCIONES GLOBALES ==========
@@ -3701,7 +2774,6 @@
             window.refreshDashboard = refreshDashboard;
             window.refreshAdminDashboard = refreshAdminDashboard;
             window.nuevaReserva = nuevaReserva;
-            window.verMisReservas = verMisReservas;
             window.contactarSoporte = contactarSoporte;
             window.enviarMensajeSoporte = enviarMensajeSoporte;
             window.cancelarEdicion = cancelarEdicion;
@@ -3717,11 +2789,10 @@
             window.nextBookingsPage = nextBookingsPage;
             window.prevUsersPage = prevUsersPage;
             window.nextUsersPage = nextUsersPage;
-            window.verUsuario = verUsuario;
-            window.eliminarUsuario = eliminarUsuario;
-            window.verReserva = verReserva;
-            window.cancelarReserva = cancelarReserva;
+            window.showNotification = showNotification;
             
+            // Iniciar
+            document.addEventListener('DOMContentLoaded', init);
         })();
     </script>
 </body>
