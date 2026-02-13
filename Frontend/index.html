@@ -484,9 +484,9 @@
             background: rgba(255,255,255,0.25);
         }
         
-        /* ===== HERO SECTION ===== */
+        /* ===== HERO SECTION - FONDO AZUL SIN NADA BLANCO ===== */
         .hero {
-             min-height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -497,19 +497,6 @@
             background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%);
             opacity: 1 !important;
             visibility: visible !important;
-        }
-        
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.4;
-            z-index: 1;
         }
         
         .hero .container {
@@ -530,6 +517,7 @@
             font-size: 1.5rem;
             max-width: 800px;
             margin: 0 auto 2.5rem;
+            color: white;
             opacity: 0.95;
             animation: fadeInUp 0.8s ease-out 0.2s both;
             line-height: 1.5;
@@ -1388,7 +1376,7 @@
         </nav>
     </div>
 
-    <!-- Hero Section - CORREGIDO -->
+    <!-- Hero Section - FONDO AZUL SIN NADA BLANCO -->
     <section class="hero">
         <div class="container">
             <h2 class="times-font hero-title">¡Descubre la Belleza Natural de <span class="text-orange">Caño</span> Salao!</h2>
@@ -1423,7 +1411,7 @@
                     </a>
                 </div>
                 <div class="history-image">
-                    <media/atardecer.jpeg" alt="Nuestra empresa" loading="lazy">
+                    <img src="media/atardecer.jpeg" alt="Nuestra empresa" loading="lazy">
                 </div>
             </div>
             
@@ -1564,7 +1552,7 @@
             <div class="attractions-grid">
                 <div class="attraction-card">
                     <div class="attraction-img">
-                        <img src="roca.jpeg" loading="lazy">
+                        <img src="media/roca.jpeg" loading="lazy">
                     </div>
                     <div class="attraction-info">
                         <h3 class="times-font"><i class="bi bi-tree"></i> Recorrido por Manglares</h3>
@@ -1774,7 +1762,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript - CORREGIDO PARA CONEXIÓN BACKEND Y HERO -->
+    <!-- JavaScript - CORREGIDO PARA CONEXIÓN BACKEND -->
     <script>
         (function() {
             "use strict";
@@ -2095,8 +2083,6 @@
             
             // ========== EVENTOS ==========
             function setupEvents() {
-                // Configurar hero background
-                
                 // Menú móvil
                 const menuToggle = document.getElementById('mobile-menu-toggle');
                 const menuClose = document.getElementById('mobile-menu-close');
@@ -2157,8 +2143,8 @@
                         <a href="Pages/usuario.html" style="font-family: 'Roboto', sans-serif;"><i class="bi bi-person"></i> Mi Cuenta</a>
                         ${currentUser.rol === 'admin' ? 
                             '<a href="Pages/admin.html" style="font-family: \'Roboto\', sans-serif;"><i class="bi bi-shield-check"></i> Panel de Administración</a>' : ''}
-                        <a href="Pages/reservas.html" style="font-family: \'Roboto\', sans-serif;"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
-                        <a href="#" id="logout-link" style="font-family: \'Roboto\', sans-serif;"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+                        <a href="Pages/reservas.html" style="font-family: 'Roboto', sans-serif;"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
+                        <a href="#" id="logout-link" style="font-family: 'Roboto', sans-serif;"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
                     `;
                     
                     document.getElementById('user-menu-container').appendChild(dropdown);
