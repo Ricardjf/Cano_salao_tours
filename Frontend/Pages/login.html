@@ -26,8 +26,8 @@
             line-height: 1.5;
             overflow-x: hidden;
             background: #fff;
-            opacity: 1 !important; /* IMPORTANTE: Forzar visibilidad */
-            visibility: visible !important; /* IMPORTANTE: Asegurar que sea visible */
+            opacity: 1 !important;
+            visibility: visible !important;
         }
         
         .container {
@@ -66,7 +66,361 @@
             color: #FF8C42;
         }
         
-        /* Loader minimalista - MODIFICADO */
+        /* ===== NAVEGACIÓN DESKTOP ===== */
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        nav {
+            width: 100%;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+        }
+        
+        nav ul li {
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: rgba(255,255,255,0.95);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        nav ul li a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        nav ul li a.active {
+            background: rgba(255,255,255,0.15);
+        }
+        
+        /* ===== SISTEMA DE USUARIO ===== */
+        .user-menu-container {
+            position: relative;
+            z-index: 1002;
+        }
+        
+        .logged-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+            min-height: 44px;
+        }
+        
+        .logged-user:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .user-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .user-role {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1px 6px;
+            border-radius: 10px;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+        
+        .user-role.admin {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .user-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 220px;
+            z-index: 1001;
+            overflow: hidden;
+            margin-top: 5px;
+            display: none;
+            animation: fadeInDown 0.2s ease;
+            border: 1px solid #eee;
+        }
+        
+        .user-dropdown-menu.show {
+            display: block;
+        }
+        
+        .user-dropdown-header {
+            padding: 12px 15px;
+            background: linear-gradient(135deg, #1a7fb8, #0d3b66);
+            color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .user-dropdown-email {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.9);
+            margin-top: 2px;
+        }
+        
+        .user-dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .user-dropdown-menu a:hover {
+            background: #f5f5f5;
+        }
+        
+        .user-dropdown-menu a:last-child {
+            border-bottom: none;
+            color: #e74c3c;
+        }
+        
+        .user-dropdown-menu a:last-child:hover {
+            background: #ffeaea;
+        }
+        
+        .admin-badge {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: auto;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .auth-section {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-shrink: 0;
+            z-index: 1002;
+        }
+        
+        .login-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            min-height: 44px;
+        }
+        
+        .login-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        
+        /* ===== MENÚ MÓVIL ===== */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            z-index: 1002;
+            -webkit-tap-highlight-color: rgba(255,255,255,0.3);
+            touch-action: manipulation;
+            min-width: 44px;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .mobile-menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        .mobile-menu-container {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 300px;
+            height: 100%;
+            background: linear-gradient(135deg, #1a7fb8 0%, #0d3b66 100%);
+            z-index: 1000;
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.3);
+        }
+        
+        .mobile-menu-container.active {
+            right: 0;
+        }
+        
+        .mobile-menu-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            -webkit-tap-highlight-color: rgba(255,255,255,0.3);
+            touch-action: manipulation;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mobile-menu-nav {
+            padding: 1rem 0;
+        }
+        
+        .mobile-menu-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mobile-menu-nav li {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
+        }
+        
+        .mobile-menu-nav li:last-child {
+            border-bottom: none;
+        }
+        
+        .mobile-menu-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: background 0.2s ease;
+            -webkit-tap-highlight-color: rgba(255,255,255,0.2);
+            touch-action: manipulation;
+            width: 100%;
+        }
+        
+        .mobile-menu-nav a.active {
+            background: rgba(255,255,255,0.15);
+            font-weight: 600;
+        }
+        
+        .mobile-menu-nav a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Loader minimalista */
         #page-loader {
             position: fixed;
             top: 0;
@@ -109,14 +463,12 @@
             height: 100vh;
         }
         
-        /* Mostrar contenido siempre - MODIFICADO */
-        body:not(.loading) {
-            opacity: 1 !important;
-            visibility: visible !important;
-            overflow: visible;
+        /* Estilo para spinners giratorios */
+        .spin {
+            animation: spin 1s linear infinite;
         }
         
-        /* Estilos para el sistema de mensajes */
+        /* Sistema de notificaciones */
         .notification-system {
             position: fixed;
             top: 80px;
@@ -136,7 +488,6 @@
             align-items: center;
             gap: 12px;
             animation: slideInRight 0.3s ease;
-            transform-origin: top right;
         }
         
         .notification.success {
@@ -163,6 +514,23 @@
             border-left: 4px solid #ffc107;
         }
         
+        .notification .close-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        .notification .close-btn:hover {
+            opacity: 1;
+        }
+        
         @keyframes slideInRight {
             from {
                 opacity: 0;
@@ -171,6 +539,80 @@
             to {
                 opacity: 1;
                 transform: translateX(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex !important;
+            }
+            
+            .nav-center {
+                display: none !important;
+            }
+            
+            .header-content {
+                flex-wrap: nowrap;
+            }
+            
+            .logo {
+                flex: 1;
+            }
+            
+            .logo h1 {
+                font-size: 1.4rem;
+            }
+            
+            .auth-section {
+                order: 3;
+            }
+            
+            .user-info {
+                display: none;
+            }
+            
+            .user-dropdown-menu {
+                position: fixed;
+                top: 60px;
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+            }
+            
+            .mobile-menu-container {
+                z-index: 1000;
+            }
+            
+            .mobile-menu-overlay {
+                z-index: 999;
+            }
+            
+            .notification-system {
+                top: 60px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+            
+            .notification {
+                padding: 12px 15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo-img {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+            
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
             }
         }
     </style>
@@ -196,7 +638,7 @@
             position: relative;
             overflow: hidden;
             background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%);
-            opacity: 1 !important; /* Asegurar visibilidad */
+            opacity: 1 !important;
         }
         
         .page-hero .container {
@@ -211,7 +653,6 @@
             margin-bottom: 1.5rem;
             color: white;
             animation: fadeInDown 0.8s ease-out;
-            opacity: 1 !important; /* Asegurar visibilidad */
         }
         
         .page-hero .hero-subtitle {
@@ -222,7 +663,6 @@
             animation: fadeInUp 0.8s ease-out 0.2s both;
             line-height: 1.5;
             font-weight: 400;
-            opacity: 1 !important; /* Asegurar visibilidad */
         }
         
         @keyframes fadeInDown {
@@ -252,7 +692,7 @@
             padding: 1rem 0;
             font-size: 0.9rem;
             border-bottom: 1px solid rgba(0,0,0,0.05);
-            opacity: 1 !important; /* Asegurar visibilidad */
+            opacity: 1 !important;
         }
         
         .breadcrumb a {
@@ -275,7 +715,7 @@
             padding: 4rem 0;
             background: #f8f9fa;
             min-height: 60vh;
-            opacity: 1 !important; /* Asegurar visibilidad */
+            opacity: 1 !important;
         }
         
         .auth-container {
@@ -331,6 +771,15 @@
         
         .auth-form.active {
             display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
         
         .form-group {
@@ -389,6 +838,33 @@
             padding: 1rem;
             margin-top: 1rem;
             font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--color-accent, #FF8C42);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
         }
         
         .auth-switch {
@@ -615,12 +1091,12 @@
         }
     </style>
 </head>
-<body>
+<body class="loading">
     <!-- Sistema de notificaciones -->
     <div class="notification-system" id="notification-system"></div>
     
     <!-- Loader para experiencia inicial -->
-    <div id="page-loader" class="hidden">
+    <div id="page-loader">
         <div class="loader-spinner"></div>
     </div>
 
@@ -629,37 +1105,89 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
+                    <img 
+                        src="../media/Logo_cano_60.png" 
+                        srcset="../media/Logo_cano_60.png 1x, ../media/Logo_cano_120.png 2x" 
+                        alt="Logo Caño Salao - Ruta Turística Marítima" 
+                        class="logo-img"
+                        width="35" 
+                        height="35"
+                        loading="eager"
+                        aria-hidden="true"
+                    >
                     <h1 class="times-font">Caño <span class="text-orange">Salao</span></h1>
                 </div>
 
-                <!-- Contenedor para centrar la navegación -->
+                <!-- Navegación desktop -->
                 <div class="nav-center">
                     <nav>
                         <ul id="main-navigation">
-                            <li><a href="../index.html"><i class="bi bi-house"></i> Inicio</a></li>
-                            <li><a href="Empresa.html"><i class="bi bi-building"></i> Empresa</a></li>
-                            <li><a href="Historia.html"><i class="bi bi-journal-text"></i> Historia</a></li>
-                            <li><a href="Servicios.html"><i class="bi bi-list-check"></i> Servicios</a></li>
-                            <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
-                            <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
-                            <li><a href="login.html" class="active"><i class="bi bi-person-circle"></i> Login</a></li>
+                            <li><a href="../index.html"><i class="bi bi-house"></i> <span>Inicio</span></a></li>
+                            <li><a href="Empresa.html"><i class="bi bi-building"></i> <span>Empresa</span></a></li>
+                            <li><a href="Historia.html"><i class="bi bi-journal-text"></i> <span>Historia</span></a></li>
+                            <li><a href="Servicios.html"><i class="bi bi-list-check"></i> <span>Servicios</span></a></li>
+                            <li><a href="Atracciones.html"><i class="bi bi-star"></i> <span>Atracciones</span></a></li>
+                            <li><a href="Contacto.html"><i class="bi bi-telephone"></i> <span>Contacto</span></a></li>
+                            <li><a href="login.html" class="active"><i class="bi bi-person-circle"></i> <span>Login</span></a></li>
                         </ul>
                     </nav>
                 </div>
 
-                <!-- Botón Iniciar Sesión a la derecha -->
+                <!-- Sistema de usuario -->
                 <div class="auth-section">
-                    <a href="login.html" class="login-btn">
-                        <i class="bi bi-person-circle"></i> Iniciar Sesión
-                    </a>
+                    <div class="user-menu-container" id="user-menu-container">
+                        <a href="login.html" class="login-btn" id="login-btn">
+                            <i class="bi bi-person-circle"></i> <span class="login-text" id="login-text">Iniciar Sesión</span>
+                        </a>
+                        
+                        <div class="logged-user" id="logged-user" style="display: none;">
+                            <div class="user-avatar" id="user-avatar" aria-label="Menú de usuario" role="button" tabindex="0" title="Menú de usuario">U</div>
+                            <div class="user-info">
+                                <div class="user-name" id="user-name">Usuario</div>
+                                <div class="user-role" id="user-role">user</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <button class="menu-toggle" aria-label="Menú">
+                <!-- Menú móvil -->
+                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
                     <i class="bi bi-list"></i>
                 </button>
             </div>
         </div>
     </header>
+
+    <!-- Menú móvil overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+
+    <!-- Menú móvil container -->
+    <div class="mobile-menu-container" id="mobile-menu-container">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <img src="../media/Logo_cano_60.png" alt="Logo Caño Salao" class="logo-img" width="35" height="35">
+                <h2 class="times-font" style="color: white; font-size: 1.2rem;">Caño <span class="text-orange">Salao</span></h2>
+            </div>
+            <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Cerrar menú">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        
+        <nav class="mobile-menu-nav">
+            <ul>
+                <li><a href="../index.html"><i class="bi bi-house"></i> Inicio</a></li>
+                <li><a href="Empresa.html"><i class="bi bi-building"></i> Empresa</a></li>
+                <li><a href="Historia.html"><i class="bi bi-journal-text"></i> Historia</a></li>
+                <li><a href="Servicios.html"><i class="bi bi-list-check"></i> Servicios</a></li>
+                <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
+                <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
+                <li id="mobile-user-menu" style="display: none;">
+                    <a href="usuario.html"><i class="bi bi-person-circle"></i> Mi Cuenta</a>
+                </li>
+                <li><a href="login.html" class="active"><i class="bi bi-person-circle"></i> Iniciar Sesión</a></li>
+            </ul>
+        </nav>
+    </div>
 
     <!-- Hero Section -->
     <section class="page-hero">
@@ -812,6 +1340,14 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Mensaje informativo de credenciales demo -->
+            <div style="max-width: 500px; margin: 2rem auto 0; text-align: center; padding: 1rem; background: #e3f2fd; border-radius: 8px; border-left: 4px solid #2196f3;">
+                <p style="margin: 0; color: #0c5460; display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                    <i class="bi bi-info-circle" style="font-size: 1.2rem;"></i>
+                    <span><strong>Credenciales de prueba:</strong> admin@canosalao.com / admin123</span>
+                </p>
+            </div>
         </div>
     </section>
 
@@ -856,21 +1392,29 @@
         </div>
     </footer>
 
-    <!-- Scripts optimizados -->
+    <!-- Script COMPLETO Y CORREGIDO SOLO CON LOS CAMBIOS NECESARIOS -->
     <script>
         (function() {
-            // ========== CONFIGURACIÓN ==========
-            const API_BASE_URL = 'https://cano-salao.onrender.com/api';
+            "use strict";
+            
+            // ========== CONFIGURACIÓN - SOLO CAMBIO DE URL Y CORRECCIÓN DE ACCESS_TOKEN ==========
+            const API_BASE_URL = 'https://ricardjf.pythonanywhere.com/api';
             const STORAGE_KEYS = {
                 TOKEN: 'cano_salao_token',
                 REFRESH_TOKEN: 'cano_salao_refresh_token',
                 USER: 'cano_salao_user',
-                SESSION_EXPIRES: 'cano_salao_expires'
+                SESSION_EXPIRES: 'cano_salao_expires',
+                LAST_ACTIVITY: 'cano_salao_last_activity'
             };
             
             // Estado global
             let currentUser = null;
             let isAuthenticated = false;
+            let userDropdown = null;
+            let userDropdownOpen = false;
+            let isMobileMenuOpen = false;
+            let isRefreshingToken = false;
+            let failedRequestsQueue = [];
             
             // ========== SISTEMA DE NOTIFICACIONES ==========
             class NotificationSystem {
@@ -887,7 +1431,6 @@
                     const notification = document.createElement('div');
                     notification.className = `notification ${type}`;
                     
-                    // Icono según tipo
                     let icon = 'bi-info-circle';
                     if (type === 'success') icon = 'bi-check-circle';
                     if (type === 'error') icon = 'bi-exclamation-triangle';
@@ -903,13 +1446,11 @@
                     
                     this.container.appendChild(notification);
                     
-                    // Configurar botón de cerrar
                     const closeBtn = notification.querySelector('.close-btn');
                     closeBtn.addEventListener('click', () => {
                         this.remove(notification);
                     });
                     
-                    // Auto-remover después de duración
                     if (duration > 0) {
                         setTimeout(() => {
                             this.remove(notification);
@@ -937,14 +1478,17 @@
             
             // ========== FUNCIONES DE UTILIDAD ==========
             function showAlert(alertDiv, message, type) {
+                if (typeof alertDiv === 'string') {
+                    alertDiv = document.getElementById(alertDiv);
+                }
+                if (!alertDiv) return;
+                
                 alertDiv.textContent = message;
                 alertDiv.className = `alert alert-${type}`;
                 alertDiv.style.display = 'block';
                 
-                // También mostrar notificación
                 notifications.show(message, type);
                 
-                // Auto-ocultar después de 5 segundos
                 if (type !== 'success') {
                     setTimeout(() => {
                         alertDiv.style.display = 'none';
@@ -957,7 +1501,28 @@
                 return re.test(email);
             }
             
-            // ========== MANEJO DE SESIÓN ==========
+            function validatePassword(password) {
+                return password && password.length >= 6;
+            }
+            
+            function validateName(name) {
+                return name && name.trim().length >= 2;
+            }
+            
+            // ========== FUNCIONES DE ALMACENAMIENTO ==========
+            function getStorageItem(key) {
+                return localStorage.getItem(key);
+            }
+            
+            function setStorageItem(key, value) {
+                localStorage.setItem(key, value);
+            }
+            
+            function removeStorageItem(key) {
+                localStorage.removeItem(key);
+            }
+            
+            // ========== SISTEMA DE SESIÓN PERSISTENTE ==========
             function saveSession(token, userData, refreshToken = null) {
                 try {
                     console.log('💾 Guardando sesión:', { 
@@ -966,18 +1531,18 @@
                         refreshToken: refreshToken ? 'presente' : 'ausente'
                     });
                     
-                    localStorage.setItem(STORAGE_KEYS.TOKEN, token);
-                    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(userData));
+                    setStorageItem(STORAGE_KEYS.TOKEN, token);
+                    setStorageItem(STORAGE_KEYS.USER, JSON.stringify(userData));
                     
-                    // También guardar refresh token si está disponible
                     if (refreshToken) {
-                        localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
+                        setStorageItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
                     }
                     
-                    // Establecer expiración a 30 días
                     const expires = new Date();
                     expires.setDate(expires.getDate() + 30);
-                    localStorage.setItem(STORAGE_KEYS.SESSION_EXPIRES, expires.toISOString());
+                    setStorageItem(STORAGE_KEYS.SESSION_EXPIRES, expires.toISOString());
+                    
+                    setStorageItem(STORAGE_KEYS.LAST_ACTIVITY, new Date().toISOString());
                     
                     currentUser = userData;
                     isAuthenticated = true;
@@ -985,8 +1550,8 @@
                     console.log('✅ Sesión guardada exitosamente');
                     notifications.show(`Sesión guardada para ${userData.nombre}`, 'success');
                     
-                    // Actualizar UI
                     updateSessionUI();
+                    updateUserInterface();
                     
                     return true;
                 } catch (error) {
@@ -996,30 +1561,11 @@
                 }
             }
             
-            function clearSession() {
-                Object.values(STORAGE_KEYS).forEach(key => {
-                    localStorage.removeItem(key);
-                });
-                
-                currentUser = null;
-                isAuthenticated = false;
-                
-                console.log('✅ Sesión completamente limpiada');
-                notifications.show('Sesión limpiada correctamente', 'info');
-                
-                // Actualizar UI
-                updateSessionUI();
-                
-                // Recargar para actualizar estado
-                setTimeout(() => location.reload(), 1000);
-            }
-            
             function loadSession() {
-                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-                const userData = localStorage.getItem(STORAGE_KEYS.USER);
-                const expires = localStorage.getItem(STORAGE_KEYS.SESSION_EXPIRES);
+                const token = getStorageItem(STORAGE_KEYS.TOKEN);
+                const userData = getStorageItem(STORAGE_KEYS.USER);
+                const expires = getStorageItem(STORAGE_KEYS.SESSION_EXPIRES);
                 
-                // Verificar expiración
                 if (expires) {
                     const now = new Date();
                     const expiresDate = new Date(expires);
@@ -1032,13 +1578,14 @@
                 
                 if (token && userData) {
                     try {
-                        currentUser = JSON.parse(userData);
+                        const user = JSON.parse(userData);
+                        currentUser = user;
                         isAuthenticated = true;
                         
                         console.log('✅ Sesión cargada:', currentUser.nombre);
-                        return { success: true, user: currentUser };
+                        return { success: true, user };
                     } catch (error) {
-                        console.error('Error parseando datos de usuario:', error);
+                        console.error('❌ Error parseando datos de usuario:', error);
                         clearSession();
                         return { success: false, error: 'Datos corruptos' };
                     }
@@ -1047,11 +1594,49 @@
                 return { success: false, error: 'No hay sesión' };
             }
             
-            async function validateSession() {
-                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+            function clearSession() {
+                Object.values(STORAGE_KEYS).forEach(key => {
+                    removeStorageItem(key);
+                });
                 
-                if (!token) {
-                    return { valid: false, reason: 'No hay token' };
+                currentUser = null;
+                isAuthenticated = false;
+                
+                console.log('✅ Sesión completamente limpiada');
+                notifications.show('Sesión limpiada correctamente', 'info');
+                
+                updateSessionUI();
+                updateUserInterface();
+            }
+            
+            function isSessionExpired() {
+                const expiresStr = getStorageItem(STORAGE_KEYS.SESSION_EXPIRES);
+                if (!expiresStr) return true;
+                
+                try {
+                    const expires = new Date(expiresStr);
+                    const now = new Date();
+                    return now > expires;
+                } catch (error) {
+                    return true;
+                }
+            }
+            
+            function updateSessionExpiration() {
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 30);
+                setStorageItem(STORAGE_KEYS.SESSION_EXPIRES, expires.toISOString());
+            }
+            
+            function updateLastActivity() {
+                setStorageItem(STORAGE_KEYS.LAST_ACTIVITY, new Date().toISOString());
+            }
+            
+            async function validateSessionWithServer() {
+                const token = getStorageItem(STORAGE_KEYS.TOKEN);
+                
+                if (!token || !currentUser) {
+                    return { valid: false };
                 }
                 
                 try {
@@ -1064,98 +1649,334 @@
                     if (response.ok) {
                         const data = await response.json();
                         if (data.valid && data.user) {
-                            // Actualizar datos de usuario
-                            saveSession(token, data.user);
+                            updateSessionExpiration();
+                            updateLastActivity();
                             return { valid: true, user: data.user };
                         }
                     }
                     
-                    // Token inválido
-                    clearSession();
-                    return { valid: false, reason: 'Token inválido' };
+                    if (response.status === 401) {
+                        const refreshSuccess = await refreshTokens();
+                        if (refreshSuccess) {
+                            return { valid: true, user: currentUser };
+                        }
+                    }
+                    
+                    return { valid: false };
                     
                 } catch (error) {
-                    console.error('Error validando sesión:', error);
-                    // Si hay error de red pero hay datos locales, mantener sesión
-                    const localData = loadSession();
-                    if (localData.success) {
-                        return { valid: true, user: localData.user, cached: true };
-                    }
-                    return { valid: false, reason: 'Error de red' };
+                    console.error('⚠️ Error validando sesión:', error);
+                    return { valid: false, error: 'Error de red' };
                 }
             }
             
+            async function refreshTokens() {
+                const refreshToken = getStorageItem(STORAGE_KEYS.REFRESH_TOKEN);
+                
+                if (!refreshToken) {
+                    console.warn('⚠️ No hay refresh token disponible');
+                    return false;
+                }
+                
+                try {
+                    console.log('🔄 Refrescando tokens...');
+                    
+                    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${refreshToken}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        
+                        setStorageItem(STORAGE_KEYS.TOKEN, data.access_token);
+                        if (data.refresh_token) {
+                            setStorageItem(STORAGE_KEYS.REFRESH_TOKEN, data.refresh_token);
+                        }
+                        
+                        if (data.user) {
+                            setStorageItem(STORAGE_KEYS.USER, JSON.stringify(data.user));
+                            currentUser = data.user;
+                        }
+                        
+                        updateSessionExpiration();
+                        console.log('✅ Tokens refrescados');
+                        return true;
+                    } else {
+                        console.error('❌ Error refrescando token:', response.status);
+                        clearSession();
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('❌ Error en refreshTokens:', error);
+                    return false;
+                }
+            }
+            
+            function startSessionMonitoring() {
+                setInterval(() => {
+                    if (currentUser && !isSessionExpired()) {
+                        const expiresStr = getStorageItem(STORAGE_KEYS.SESSION_EXPIRES);
+                        if (expiresStr) {
+                            const expires = new Date(expiresStr);
+                            const now = new Date();
+                            const hoursLeft = (expires - now) / (1000 * 60 * 60);
+                            
+                            if (hoursLeft < 24 && !isRefreshingToken) {
+                                console.log('🔄 Refresco preventivo...');
+                                isRefreshingToken = true;
+                                refreshTokens().finally(() => {
+                                    isRefreshingToken = false;
+                                });
+                            }
+                        }
+                    }
+                }, 60 * 1000);
+            }
+            
+            // ========== FUNCIONES DE UI ==========
             function updateSessionUI() {
                 const sessionInfo = document.getElementById('session-info');
-                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-                const userData = localStorage.getItem(STORAGE_KEYS.USER);
+                const token = getStorageItem(STORAGE_KEYS.TOKEN);
+                const userData = getStorageItem(STORAGE_KEYS.USER);
                 
-                if (token && userData) {
-                    // Mostrar información de sesión
-                    sessionInfo.style.display = 'block';
-                    
-                    try {
-                        const user = JSON.parse(userData);
-                        document.getElementById('session-user').textContent = user.nombre || 'N/A';
-                        document.getElementById('session-email').textContent = user.email || 'N/A';
-                        document.getElementById('session-token').textContent = 
-                            token.substring(0, 20) + '...' + token.substring(token.length - 10);
+                if (sessionInfo) {
+                    if (token && userData) {
+                        sessionInfo.style.display = 'block';
                         
-                        // Actualizar formularios
-                        document.getElementById('login-email').value = user.email || '';
-                    } catch (error) {
-                        console.error('Error mostrando información de sesión:', error);
+                        try {
+                            const user = JSON.parse(userData);
+                            document.getElementById('session-user').textContent = user.nombre || 'N/A';
+                            document.getElementById('session-email').textContent = user.email || 'N/A';
+                            document.getElementById('session-token').textContent = 
+                                token.substring(0, 20) + '...' + token.substring(token.length - 10);
+                            
+                            document.getElementById('login-email').value = user.email || '';
+                        } catch (error) {
+                            console.error('Error mostrando información de sesión:', error);
+                        }
+                    } else {
+                        sessionInfo.style.display = 'none';
+                    }
+                }
+            }
+            
+            function updateUserInterface() {
+                const loginBtn = document.getElementById('login-btn');
+                const loggedUser = document.getElementById('logged-user');
+                const mobileUserMenu = document.getElementById('mobile-user-menu');
+                const mobileMenuLinks = document.querySelectorAll('.mobile-menu-nav a');
+                
+                if (currentUser) {
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    if (loggedUser) loggedUser.style.display = 'flex';
+                    if (mobileUserMenu) mobileUserMenu.style.display = 'block';
+                    
+                    const userName = document.getElementById('user-name');
+                    const userRole = document.getElementById('user-role');
+                    const loginText = document.getElementById('login-text');
+                    const avatar = document.getElementById('user-avatar');
+                    
+                    if (userName) {
+                        userName.textContent = currentUser.nombre || currentUser.email.split('@')[0];
+                    }
+                    
+                    if (userRole) {
+                        userRole.textContent = currentUser.rol === 'admin' ? 'Administrador' : 'Usuario';
+                        userRole.className = 'user-role ' + (currentUser.rol === 'admin' ? 'admin' : '');
+                    }
+                    
+                    if (loginText) {
+                        loginText.textContent = currentUser.nombre || 'Usuario';
+                    }
+                    
+                    if (avatar) {
+                        const letter = currentUser.nombre 
+                            ? currentUser.nombre.charAt(0).toUpperCase() 
+                            : currentUser.email.charAt(0).toUpperCase();
+                        
+                        avatar.textContent = letter;
+                        
+                        if (currentUser.rol === 'admin') {
+                            avatar.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                            avatar.title = `Administrador: ${currentUser.nombre}`;
+                        } else {
+                            avatar.style.background = 'linear-gradient(135deg, #3498db, #2c3e50)';
+                            avatar.title = `Usuario: ${currentUser.nombre}`;
+                        }
+                        
+                        avatar.onclick = toggleUserDropdown;
+                        avatar.onkeydown = function(e) {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                toggleUserDropdown();
+                            }
+                        };
                     }
                 } else {
-                    // Ocultar información de sesión
-                    sessionInfo.style.display = 'none';
+                    if (loginBtn) loginBtn.style.display = 'flex';
+                    if (loggedUser) loggedUser.style.display = 'none';
+                    if (mobileUserMenu) mobileUserMenu.style.display = 'none';
+                    
+                    mobileMenuLinks.forEach(link => {
+                        if (link.getAttribute('href') === 'login.html') {
+                            link.style.display = 'flex';
+                        }
+                    });
                 }
             }
             
-            function showSessionInfo() {
-                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-                const userData = localStorage.getItem(STORAGE_KEYS.USER);
-                const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
-                const expires = localStorage.getItem(STORAGE_KEYS.SESSION_EXPIRES);
+            function toggleUserDropdown() {
+                if (!currentUser) return;
                 
-                let info = '=== INFORMACIÓN DE SESIÓN ===\n\n';
-                info += `Token: ${token ? 'PRESENTE' : 'AUSENTE'}\n`;
-                info += `Refresh Token: ${refreshToken ? 'PRESENTE' : 'AUSENTE'}\n`;
-                info += `Expira: ${expires ? new Date(expires).toLocaleString() : 'N/A'}\n`;
-                
-                if (token) {
-                    info += `Token (inicio): ${token.substring(0, 30)}...\n`;
-                    info += `Token (longitud): ${token.length} caracteres\n`;
+                if (!userDropdown) {
+                    createUserDropdown();
                 }
                 
-                if (refreshToken) {
-                    info += `Refresh (inicio): ${refreshToken.substring(0, 30)}...\n`;
+                if (userDropdownOpen) {
+                    closeUserDropdown();
+                } else {
+                    openUserDropdown();
+                }
+            }
+            
+            function createUserDropdown() {
+                const existing = document.getElementById('user-dropdown-menu');
+                if (existing) existing.remove();
+                
+                userDropdown = document.createElement('div');
+                userDropdown.id = 'user-dropdown-menu';
+                userDropdown.className = 'user-dropdown-menu';
+                
+                const isAdmin = currentUser.rol === 'admin';
+                
+                userDropdown.innerHTML = `
+                    <div class="user-dropdown-header">
+                        <div style="font-weight: bold; font-size: 16px;">${currentUser.nombre || 'Usuario'}</div>
+                        <div class="user-dropdown-email">${currentUser.email}</div>
+                        ${isAdmin ? '<div style="font-size: 12px; margin-top: 4px; padding: 2px 8px; background: rgba(255,255,255,0.2); border-radius: 4px; display: inline-block;">Administrador</div>' : ''}
+                    </div>
+                    <a href="usuario.html" class="user-dropdown-link" id="user-account-link">
+                        <i class="bi bi-person"></i> Mi Cuenta
+                        ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}
+                    </a>
+                    ${isAdmin ? `
+                    <a href="admin.html" class="user-dropdown-link">
+                        <i class="bi bi-shield-check"></i> Panel de Administración
+                    </a>
+                    ` : ''}
+                    <a href="reservas.html" class="user-dropdown-link">
+                        <i class="bi bi-calendar-check"></i> Mis Reservas
+                    </a>
+                    <a href="#" class="user-dropdown-link" id="logout-link">
+                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                    </a>
+                `;
+                
+                document.getElementById('user-menu-container').appendChild(userDropdown);
+                
+                const accountLink = document.getElementById('user-account-link');
+                if (accountLink) {
+                    accountLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        sessionStorage.setItem('redirecting_to_user', 'true');
+                        window.location.href = 'usuario.html';
+                    });
                 }
                 
-                if (userData) {
-                    try {
-                        const user = JSON.parse(userData);
-                        info += `\nUsuario:\n`;
-                        info += `  Nombre: ${user.nombre || 'N/A'}\n`;
-                        info += `  Email: ${user.email || 'N/A'}\n`;
-                        info += `  Rol: ${user.rol || 'user'}\n`;
-                        info += `  ID: ${user.id || 'N/A'}\n`;
-                    } catch (e) {
-                        info += `\nError parseando datos de usuario\n`;
+                const logoutLink = document.getElementById('logout-link');
+                if (logoutLink) {
+                    logoutLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        logout();
+                    });
+                }
+                
+                const links = userDropdown.querySelectorAll('.user-dropdown-link');
+                links.forEach(link => {
+                    link.addEventListener('mouseenter', function() {
+                        this.style.background = '#f5f5f5';
+                    });
+                    link.addEventListener('mouseleave', function() {
+                        this.style.background = '';
+                    });
+                });
+            }
+            
+            function openUserDropdown() {
+                if (!userDropdown) return;
+                
+                userDropdown.classList.add('show');
+                userDropdownOpen = true;
+                
+                setTimeout(() => {
+                    document.addEventListener('click', closeUserDropdownOnClickOutside);
+                    document.addEventListener('keydown', closeUserDropdownOnEscape);
+                }, 10);
+            }
+            
+            function closeUserDropdown() {
+                if (userDropdown) {
+                    userDropdown.classList.remove('show');
+                    userDropdownOpen = false;
+                    
+                    document.removeEventListener('click', closeUserDropdownOnClickOutside);
+                    document.removeEventListener('keydown', closeUserDropdownOnEscape);
+                }
+            }
+            
+            function closeUserDropdownOnClickOutside(e) {
+                if (userDropdown && 
+                    !userDropdown.contains(e.target) && 
+                    document.getElementById('user-avatar') && 
+                    !document.getElementById('user-avatar').contains(e.target)) {
+                    closeUserDropdown();
+                }
+            }
+            
+            function closeUserDropdownOnEscape(e) {
+                if (e.key === 'Escape' && userDropdownOpen) {
+                    closeUserDropdown();
+                }
+            }
+            
+            function logout() {
+                if (confirm('¿Estás seguro de cerrar sesión?')) {
+                    clearSession();
+                    notifications.show('Sesión cerrada correctamente', 'success');
+                    
+                    const currentPath = window.location.pathname;
+                    if (currentPath.includes('usuario.html') || 
+                        currentPath.includes('admin.html') ||
+                        currentPath.includes('reservas.html')) {
+                        setTimeout(() => {
+                            window.location.href = '../index.html';
+                        }, 1000);
                     }
                 }
-                
-                console.log(info);
-                notifications.show('Información de sesión mostrada en consola', 'info');
             }
             
-            // ========== FUNCIONES DE API ==========
+            function hideLoader() {
+                const loader = document.getElementById('page-loader');
+                if (loader) {
+                    document.body.classList.remove('loading');
+                    loader.classList.add('hidden');
+                    document.body.style.opacity = '1';
+                    document.body.style.visibility = 'visible';
+                    document.body.style.overflow = 'visible';
+                    console.log('✅ Loader ocultado');
+                }
+            }
+            
+            // ========== FUNCIONES DE API - SOLO CAMBIOS DE ACCESS_TOKEN ==========
             async function loginWithAPI(email, password) {
                 try {
                     notifications.show('Conectando con el servidor...', 'info');
                     
                     console.log('📤 Enviando login a:', `${API_BASE_URL}/auth/login`);
-                    console.log('📝 Datos:', { email, password });
                     
                     const response = await fetch(`${API_BASE_URL}/auth/login`, {
                         method: 'POST',
@@ -1168,7 +1989,6 @@
                     
                     console.log('📨 Status de respuesta:', response.status);
                     
-                    // Primero intentar obtener el texto de la respuesta
                     const responseText = await response.text();
                     console.log('📋 Texto de respuesta:', responseText);
                     
@@ -1178,7 +1998,6 @@
                         console.log('✅ JSON parseado:', data);
                     } catch (parseError) {
                         console.error('❌ Error parseando JSON:', parseError);
-                        console.error('Texto que no se pudo parsear:', responseText);
                         throw new Error('Respuesta inválida del servidor');
                     }
                     
@@ -1186,7 +2005,7 @@
                         throw new Error(data.error || data.message || `Error ${response.status}`);
                     }
                     
-                    // CORRECCIÓN PRINCIPAL: El backend devuelve 'access_token' no 'token'
+                    // ===== CORRECCIÓN CRÍTICA: El backend devuelve access_token, no token =====
                     if (!data.access_token || !data.user) {
                         console.error('❌ Faltan datos en respuesta:', data);
                         throw new Error('Respuesta incompleta: falta access_token o user');
@@ -1199,9 +2018,9 @@
                         userName: data.user?.nombre
                     });
                     
-                    // Retornar en el formato esperado por el frontend
+                    // Convertir access_token a token para compatibilidad con el frontend
                     return {
-                        token: data.access_token,      // <-- IMPORTANTE: Convertir access_token a token
+                        token: data.access_token,      // <-- CORRECCIÓN: access_token -> token
                         refresh_token: data.refresh_token,
                         user: data.user,
                         message: data.message
@@ -1250,9 +2069,9 @@
                         hasUser: !!data.user
                     });
                     
-                    // El backend devuelve access_token, no token
+                    // ===== CORRECCIÓN CRÍTICA: El backend devuelve access_token, no token =====
                     return {
-                        token: data.access_token,      // <-- IMPORTANTE: Convertir access_token a token
+                        token: data.access_token,      // <-- CORRECCIÓN: access_token -> token
                         refresh_token: data.refresh_token,
                         user: data.user,
                         message: data.message
@@ -1264,11 +2083,95 @@
                 }
             }
             
+            async function fetchWithAuth(url, options = {}) {
+                const accessToken = getStorageItem(STORAGE_KEYS.TOKEN);
+                
+                if (!accessToken) {
+                    return fetch(url, options);
+                }
+                
+                options.headers = {
+                    ...options.headers,
+                    'Authorization': `Bearer ${accessToken}`
+                };
+                
+                try {
+                    const response = await fetch(url, options);
+                    
+                    if (response.status === 401) {
+                        const responseData = await response.json().catch(() => ({}));
+                        
+                        if (responseData.error === 'token_expired' || responseData.error === 'invalid_token') {
+                            console.log('🔄 Token expirado, intentando refrescar...');
+                            
+                            if (isRefreshingToken) {
+                                return new Promise((resolve, reject) => {
+                                    failedRequestsQueue.push({ resolve, reject });
+                                }).then(newToken => {
+                                    options.headers = {
+                                        ...options.headers,
+                                        'Authorization': `Bearer ${newToken}`
+                                    };
+                                    return fetch(url, options);
+                                }).catch(err => {
+                                    return response;
+                                });
+                            }
+                            
+                            isRefreshingToken = true;
+                            
+                            try {
+                                const newTokens = await refreshTokens();
+                                
+                                if (newTokens) {
+                                    options.headers = {
+                                        ...options.headers,
+                                        'Authorization': `Bearer ${newTokens.access_token}`
+                                    };
+                                    
+                                    processFailedQueue(null, newTokens.access_token);
+                                    isRefreshingToken = false;
+                                    return fetch(url, options);
+                                } else {
+                                    throw new Error('No se pudo refrescar el token');
+                                }
+                            } catch (refreshError) {
+                                processFailedQueue(refreshError, null);
+                                isRefreshingToken = false;
+                                clearSession();
+                                return response;
+                            }
+                        }
+                    }
+                    
+                    if (response.ok && currentUser) {
+                        updateLastActivity();
+                    }
+                    
+                    return response;
+                    
+                } catch (error) {
+                    console.error('❌ Error en fetchWithAuth:', error);
+                    throw error;
+                }
+            }
+            
+            const processFailedQueue = (error, token = null) => {
+                failedRequestsQueue.forEach(prom => {
+                    if (error) {
+                        prom.reject(error);
+                    } else {
+                        prom.resolve(token);
+                    }
+                });
+                failedRequestsQueue = [];
+            };
+            
             async function testAPIConnection() {
                 try {
                     notifications.show('Probando conexión con API...', 'info');
                     
-                    const response = await fetch(`${API_BASE_URL}/health`);
+                    const response = await fetch(`${API_BASE_URL.replace('/api', '')}/health`);
                     const data = await response.json();
                     
                     if (response.ok) {
@@ -1301,8 +2204,7 @@
                     
                     console.log('🔍 Respuesta directa:', {
                         status: response.status,
-                        ok: response.ok,
-                        headers: Object.fromEntries(response.headers.entries())
+                        ok: response.ok
                     });
                     
                     const text = await response.text();
@@ -1312,15 +2214,8 @@
                         const data = JSON.parse(text);
                         console.log('✅ JSON parseado:', data);
                         
-                        // Verificar estructura específica
-                        console.log('🔍 Estructura de respuesta:');
-                        console.log('- access_token:', data.access_token ? 'PRESENTE' : 'AUSENTE');
-                        console.log('- refresh_token:', data.refresh_token ? 'PRESENTE' : 'AUSENTE');
-                        console.log('- user:', data.user ? 'PRESENTE' : 'AUSENTE');
-                        console.log('- success:', data.success);
-                        
-                        notifications.show(`✅ Login test: ${data.success ? 'ÉXITO' : 'FALLO'} - Access Token: ${data.access_token ? 'SI' : 'NO'}`, 
-                            data.success ? 'success' : 'error');
+                        notifications.show(`✅ Login test: ${data.access_token ? 'ÉXITO' : 'FALLO'}`, 
+                            data.access_token ? 'success' : 'error');
                             
                     } catch (e) {
                         console.error('❌ No es JSON:', text);
@@ -1335,37 +2230,34 @@
             
             // ========== MANEJO DE FORMULARIOS ==========
             function initAuthForms() {
-                // Cambiar entre pestañas de login/registro
+                // Pestañas
                 document.querySelectorAll('.auth-tab').forEach(tab => {
                     tab.addEventListener('click', function() {
                         const tabId = this.getAttribute('data-tab');
                         
-                        // Actualizar pestañas activas
                         document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
                         this.classList.add('active');
                         
-                        // Actualizar formularios activos
                         document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
                         document.getElementById(`${tabId}-form`).classList.add('active');
                         
-                        // Limpiar alertas
                         document.getElementById('login-alert').style.display = 'none';
                         document.getElementById('register-alert').style.display = 'none';
                     });
                 });
                 
-                // Enlaces para cambiar entre formularios
-                document.getElementById('show-register').addEventListener('click', function(e) {
+                // Enlaces
+                document.getElementById('show-register')?.addEventListener('click', function(e) {
                     e.preventDefault();
                     document.querySelector('[data-tab="register"]').click();
                 });
                 
-                document.getElementById('show-login').addEventListener('click', function(e) {
+                document.getElementById('show-login')?.addEventListener('click', function(e) {
                     e.preventDefault();
                     document.querySelector('[data-tab="login"]').click();
                 });
                 
-                // ========== FORMULARIO DE LOGIN ==========
+                // ===== FORMULARIO DE LOGIN =====
                 document.getElementById('login-form').addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
@@ -1375,7 +2267,6 @@
                     const loginBtn = document.getElementById('login-btn');
                     const alertDiv = document.getElementById('login-alert');
                     
-                    // Validaciones básicas
                     if (!email || !password) {
                         showAlert(alertDiv, 'Por favor, completa todos los campos', 'error');
                         return;
@@ -1386,13 +2277,16 @@
                         return;
                     }
                     
-                    // Deshabilitar botón y mostrar loading
+                    if (!validatePassword(password)) {
+                        showAlert(alertDiv, 'La contraseña debe tener al menos 6 caracteres', 'error');
+                        return;
+                    }
+                    
                     loginBtn.disabled = true;
                     const originalText = loginBtn.innerHTML;
                     loginBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Conectando...';
                     
                     try {
-                        // Intentar login con API
                         const loginData = await loginWithAPI(email, password);
                         
                         console.log('🎉 Login exitoso, datos recibidos:', {
@@ -1401,19 +2295,17 @@
                             refreshToken: loginData.refresh_token ? 'PRESENTE' : 'AUSENTE'
                         });
                         
-                        // Guardar sesión (pasar todos los datos necesarios)
                         const saved = saveSession(
                             loginData.token, 
                             loginData.user, 
-                            loginData.refresh_token
+                            rememberMe ? loginData.refresh_token : null
                         );
                         
                         if (saved) {
                             showAlert(alertDiv, `¡Inicio de sesión exitoso! Bienvenido/a, ${loginData.user.nombre}`, 'success');
                             
-                            // Esperar 2 segundos antes de redirigir
                             setTimeout(() => {
-                                redirectToIndex();
+                                window.location.href = '../index.html?loginSuccess=true&fromLogin=true';
                             }, 2000);
                         } else {
                             showAlert(alertDiv, 'Error guardando la sesión', 'error');
@@ -1424,27 +2316,21 @@
                     } catch (error) {
                         console.error('❌ Error en login:', error);
                         
-                        // Mostrar error específico
-                        let errorMessage = error.message || 'Error desconocido';
-                        
-                        // Mejorar mensajes de error
-                        if (errorMessage.includes('Network') || errorMessage.includes('Failed to fetch')) {
-                            errorMessage = 'No se puede conectar al servidor. Verifica tu conexión a internet.';
-                        } else if (errorMessage.includes('401') || errorMessage.includes('Credenciales')) {
+                        let errorMessage = error.message;
+                        if (errorMessage.includes('401') || errorMessage.includes('Credenciales')) {
                             errorMessage = 'Credenciales incorrectas. Usa: admin@canosalao.com / admin123';
-                        } else if (errorMessage.includes('Respuesta incompleta')) {
-                            errorMessage = 'El servidor no respondió correctamente. Verifica la consola para más detalles.';
+                        } else if (errorMessage.includes('Failed to fetch')) {
+                            errorMessage = 'No se puede conectar al servidor. Verifica tu conexión a internet.';
                         }
                         
                         showAlert(alertDiv, `Error: ${errorMessage}`, 'error');
                         
-                        // Reactivar botón
                         loginBtn.disabled = false;
                         loginBtn.innerHTML = originalText;
                     }
                 });
                 
-                // ========== FORMULARIO DE REGISTRO ==========
+                // ===== FORMULARIO DE REGISTRO =====
                 document.getElementById('register-form').addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
@@ -1456,13 +2342,22 @@
                     const registerBtn = document.getElementById('register-btn');
                     const alertDiv = document.getElementById('register-alert');
                     
-                    // Validaciones
                     if (!name || !email || !password || !confirmPassword) {
                         showAlert(alertDiv, 'Por favor, completa todos los campos', 'error');
                         return;
                     }
                     
-                    if (password.length < 6) {
+                    if (!validateName(name)) {
+                        showAlert(alertDiv, 'El nombre debe tener al menos 2 caracteres', 'error');
+                        return;
+                    }
+                    
+                    if (!validateEmail(email)) {
+                        showAlert(alertDiv, 'Por favor, ingresa un email válido', 'error');
+                        return;
+                    }
+                    
+                    if (!validatePassword(password)) {
                         showAlert(alertDiv, 'La contraseña debe tener al menos 6 caracteres', 'error');
                         return;
                     }
@@ -1472,23 +2367,16 @@
                         return;
                     }
                     
-                    if (!validateEmail(email)) {
-                        showAlert(alertDiv, 'Por favor, ingresa un email válido', 'error');
-                        return;
-                    }
-                    
                     if (!acceptTerms) {
                         showAlert(alertDiv, 'Debes aceptar los términos de servicio', 'error');
                         return;
                     }
                     
-                    // Deshabilitar botón y mostrar loading
                     registerBtn.disabled = true;
                     const originalText = registerBtn.innerHTML;
                     registerBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Creando cuenta...';
                     
                     try {
-                        // Intentar registro con API
                         const registerData = await registerWithAPI(name, email, password);
                         
                         console.log('✅ Registro exitoso:', {
@@ -1496,18 +2384,20 @@
                             user: registerData.user?.nombre
                         });
                         
-                        // Guardar sesión automáticamente después del registro
-                        const saved = saveSession(registerData.token, registerData.user, registerData.refresh_token);
+                        const saved = saveSession(
+                            registerData.token, 
+                            registerData.user, 
+                            registerData.refresh_token
+                        );
                         
                         if (saved) {
-                            showAlert(alertDiv, `¡Cuenta creada exitosamente! Bienvenido/a, ${name}. Te hemos logeado automáticamente.`, 'success');
+                            showAlert(alertDiv, `¡Cuenta creada exitosamente! Bienvenido/a, ${name}.`, 'success');
                             
-                            // Esperar 2 segundos antes de redirigir
                             setTimeout(() => {
-                                redirectToIndex();
+                                window.location.href = '../index.html?registerSuccess=true';
                             }, 2000);
                         } else {
-                            showAlert(alertDiv, 'Error guardando la sesión después del registro', 'error');
+                            showAlert(alertDiv, 'Error guardando la sesión', 'error');
                             registerBtn.disabled = false;
                             registerBtn.innerHTML = originalText;
                         }
@@ -1515,17 +2405,15 @@
                     } catch (error) {
                         console.error('❌ Error en registro:', error);
                         
-                        // Mostrar error
-                        let errorMessage = error.message || 'Error desconocido';
-                        
-                        // Si es error de red, sugerir usar login con demo
-                        if (error.message.includes('Network') || error.message.includes('Failed to fetch')) {
-                            errorMessage = 'No se puede conectar al servidor. Intenta más tarde o usa credenciales demo.';
+                        let errorMessage = error.message;
+                        if (errorMessage.includes('409')) {
+                            errorMessage = 'El email ya está registrado. Por favor, inicia sesión.';
+                        } else if (errorMessage.includes('Failed to fetch')) {
+                            errorMessage = 'No se puede conectar al servidor. Intenta más tarde.';
                         }
                         
                         showAlert(alertDiv, `Error en el registro: ${errorMessage}`, 'error');
                         
-                        // Reactivar botón
                         registerBtn.disabled = false;
                         registerBtn.innerHTML = originalText;
                     }
@@ -1548,17 +2436,154 @@
                 }
             }
             
-            // ========== FUNCIONES DE DEBUG/HELPERS ==========
+            // ========== MENÚ MÓVIL ==========
+            function initMobileMenu() {
+                const menuToggle = document.getElementById('mobile-menu-toggle');
+                const menuClose = document.getElementById('mobile-menu-close');
+                const menuOverlay = document.getElementById('mobile-menu-overlay');
+                const menuContainer = document.getElementById('mobile-menu-container');
+                
+                if (menuToggle) {
+                    menuToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!isMobileMenuOpen) {
+                            openMobileMenu();
+                        } else {
+                            closeMobileMenu();
+                        }
+                    });
+                    
+                    menuToggle.addEventListener('touchstart', function(e) {
+                        e.preventDefault();
+                        if (!isMobileMenuOpen) {
+                            openMobileMenu();
+                        } else {
+                            closeMobileMenu();
+                        }
+                    }, { passive: false });
+                }
+                
+                if (menuClose) {
+                    menuClose.addEventListener('click', closeMobileMenu);
+                    menuClose.addEventListener('touchstart', function(e) {
+                        e.preventDefault();
+                        closeMobileMenu();
+                    }, { passive: false });
+                }
+                
+                if (menuOverlay) {
+                    menuOverlay.addEventListener('click', closeMobileMenu);
+                    menuOverlay.addEventListener('touchstart', function(e) {
+                        if (e.target === menuOverlay) {
+                            e.preventDefault();
+                            closeMobileMenu();
+                        }
+                    }, { passive: false });
+                }
+                
+                const mobileLinks = document.querySelectorAll('.mobile-menu-nav a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                    link.addEventListener('touchstart', function(e) {
+                        setTimeout(closeMobileMenu, 100);
+                    }, { passive: true });
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && isMobileMenuOpen) {
+                        closeMobileMenu();
+                    }
+                });
+                
+                if (menuContainer) {
+                    menuContainer.addEventListener('touchmove', function(e) {
+                        if (isMobileMenuOpen) {
+                            e.preventDefault();
+                        }
+                    }, { passive: false });
+                }
+            }
+            
+            function openMobileMenu() {
+                const menuContainer = document.getElementById('mobile-menu-container');
+                const menuOverlay = document.getElementById('mobile-menu-overlay');
+                
+                if (menuContainer && menuOverlay) {
+                    menuContainer.classList.add('active');
+                    menuOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    isMobileMenuOpen = true;
+                    
+                    closeUserDropdown();
+                    
+                    const menuToggle = document.getElementById('mobile-menu-toggle');
+                    if (menuToggle) {
+                        menuToggle.setAttribute('aria-expanded', 'true');
+                        menuToggle.innerHTML = '<i class="bi bi-x-lg"></i>';
+                    }
+                }
+            }
+            
+            function closeMobileMenu() {
+                const menuContainer = document.getElementById('mobile-menu-container');
+                const menuOverlay = document.getElementById('mobile-menu-overlay');
+                
+                if (menuContainer && menuOverlay) {
+                    menuContainer.classList.remove('active');
+                    menuOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    isMobileMenuOpen = false;
+                    
+                    const menuToggle = document.getElementById('mobile-menu-toggle');
+                    if (menuToggle) {
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                        menuToggle.innerHTML = '<i class="bi bi-list"></i>';
+                    }
+                }
+            }
+            
+            // ========== FUNCIONES DE DEBUG ==========
             function loadDemoCredentials() {
                 document.getElementById('login-email').value = 'admin@canosalao.com';
                 document.getElementById('login-password').value = 'admin123';
+                
                 document.getElementById('register-email').value = 'demo@canosalao.com';
                 document.getElementById('register-name').value = 'Usuario Demo';
                 document.getElementById('register-password').value = 'demodemo';
                 document.getElementById('register-confirm').value = 'demodemo';
                 document.getElementById('accept-terms').checked = true;
                 
-                notifications.show('Credenciales demo cargadas en ambos formularios', 'info');
+                notifications.show('Credenciales demo cargadas', 'info');
+            }
+            
+            function showSessionInfo() {
+                const token = getStorageItem(STORAGE_KEYS.TOKEN);
+                const userData = getStorageItem(STORAGE_KEYS.USER);
+                const refreshToken = getStorageItem(STORAGE_KEYS.REFRESH_TOKEN);
+                const expires = getStorageItem(STORAGE_KEYS.SESSION_EXPIRES);
+                
+                let info = '=== INFORMACIÓN DE SESIÓN ===\n\n';
+                info += `Token: ${token ? 'PRESENTE' : 'AUSENTE'}\n`;
+                info += `Refresh Token: ${refreshToken ? 'PRESENTE' : 'AUSENTE'}\n`;
+                info += `Expira: ${expires ? new Date(expires).toLocaleString() : 'N/A'}\n`;
+                
+                if (token) {
+                    info += `Token (inicio): ${token.substring(0, 30)}...\n`;
+                }
+                
+                if (userData) {
+                    try {
+                        const user = JSON.parse(userData);
+                        info += `\nUsuario:\n`;
+                        info += `  Nombre: ${user.nombre || 'N/A'}\n`;
+                        info += `  Email: ${user.email || 'N/A'}\n`;
+                        info += `  Rol: ${user.rol || 'user'}\n`;
+                    } catch (e) {}
+                }
+                
+                console.log(info);
+                notifications.show('Información de sesión en consola', 'info');
             }
             
             function redirectToIndex() {
@@ -1569,72 +2594,41 @@
             }
             
             // ========== INICIALIZACIÓN ==========
-            function hideLoader() {
-                const loader = document.getElementById('page-loader');
-                if (loader) {
-                    // Remover la clase loading del body primero
-                    document.body.classList.remove('loading');
-                    
-                    // Ocultar el loader con transición
-                    loader.classList.add('hidden');
-                    
-                    // Asegurar que el contenido sea visible
-                    document.body.style.opacity = '1';
-                    document.body.style.visibility = 'visible';
-                    document.body.style.overflow = 'visible';
-                    
-                    console.log('✅ Loader ocultado, contenido visible');
-                }
-            }
-            
-            async function initContent() {
-                console.log('🚀 Iniciando sistema de autenticación Caño Salao');
+            function init() {
+                console.log('🚀 Iniciando sistema de autenticación - Backend PythonAnywhere');
+                console.log('🔗 API URL:', API_BASE_URL);
                 
-                // Cargar sesión existente
                 const session = loadSession();
                 
                 if (session.success) {
-                    console.log('✅ Sesión existente cargada:', currentUser.nombre);
+                    console.log('✅ Sesión existente cargada:', session.user.nombre);
+                    updateUserInterface();
+                    updateSessionUI();
                     
-                    // Validar sesión con el servidor
-                    const validation = await validateSession();
-                    
-                    if (validation.valid) {
-                        notifications.show(`Bienvenido de nuevo, ${currentUser.nombre}`, 'success');
-                        
-                        // Si la sesión es válida, sugerir ir al inicio
-                        setTimeout(() => {
-                            if (confirm(`Ya tienes una sesión activa como ${currentUser.nombre}. ¿Quieres ir al inicio?`)) {
-                                redirectToIndex();
-                            }
-                        }, 1000);
-                    } else {
-                        notifications.show('Tu sesión ha expirado. Por favor inicia sesión nuevamente.', 'warning');
-                    }
+                    setTimeout(() => {
+                        if (confirm(`Ya tienes una sesión activa como ${session.user.nombre}. ¿Quieres ir al inicio?`)) {
+                            redirectToIndex();
+                        }
+                    }, 1000);
                 } else {
                     console.log('ℹ️ No hay sesión activa');
                 }
                 
-                // Inicializar formularios
                 initAuthForms();
+                initMobileMenu();
                 
-                // Actualizar UI de sesión
-                updateSessionUI();
+                setTimeout(() => {
+                    loadDemoCredentials();
+                }, 500);
                 
-                // Cargar credenciales demo si no hay sesión
-                if (!session.success) {
-                    setTimeout(() => {
-                        loadDemoCredentials();
-                    }, 500);
-                }
-                
-                // Testear conexión con API
                 setTimeout(() => {
                     testAPIConnection();
                 }, 1000);
                 
-                // Ocultar loader después de que todo esté listo
                 setTimeout(hideLoader, 500);
+                startSessionMonitoring();
+                
+                console.log('✅ Login inicializado');
             }
             
             // ========== ESTILOS ADICIONALES ==========
@@ -1643,68 +2637,48 @@
                 .spin {
                     animation: spin 1s linear infinite;
                 }
-                
                 @keyframes spin {
                     0% { transform: rotate(0deg); }
                     100% { transform: rotate(360deg); }
                 }
-                
-                /* Mejoras para móviles */
-                @media (max-width: 768px) {
-                    .notification-system {
-                        top: 60px;
-                        right: 10px;
-                        left: 10px;
-                        max-width: none;
-                    }
-                    
-                    .notification {
-                        padding: 12px 15px;
-                    }
-                }
-                
-                /* Mejoras para formularios */
                 .form-control:invalid {
                     border-color: #dc3545;
                 }
-                
                 .form-control:valid {
                     border-color: #28a745;
-                }
-                
-                /* Asegurar visibilidad del contenido */
-                main, section, footer, header {
-                    opacity: 1 !important;
-                    visibility: visible !important;
                 }
             `;
             document.head.appendChild(style);
             
-            // ========== EXPORTAR FUNCIONES PARA DEBUG ==========
+            // ========== EXPORTAR FUNCIONES GLOBALES ==========
             window.CanoSalaoAuth = {
                 loginWithAPI,
                 registerWithAPI,
                 saveSession,
                 clearSession,
                 loadSession,
-                validateSession,
+                validateSessionWithServer,
+                refreshTokens,
                 testAPIConnection,
                 testLoginDirectly,
                 showSessionInfo,
                 loadDemoCredentials,
+                logout,
                 getCurrentUser: () => currentUser,
-                isAuthenticated: () => isAuthenticated
+                isAuthenticated: () => isAuthenticated,
+                API_BASE_URL
             };
             
-            // ========== INICIAR APLICACIÓN ==========
-            // Inicializar inmediatamente sin esperar DOMContentLoaded
-            console.log('📄 DOM cargado, iniciando aplicación...');
-            initContent();
+            // Exponer funciones directamente para los botones de debug
+            window.testAPIConnection = testAPIConnection;
+            window.loadDemoCredentials = loadDemoCredentials;
+            window.clearSession = clearSession;
+            window.showSessionInfo = showSessionInfo;
+            window.testLoginDirectly = testLoginDirectly;
+            window.redirectToIndex = redirectToIndex;
+            window.logout = logout;
             
-            // También escuchar DOMContentLoaded por si acaso
-            document.addEventListener('DOMContentLoaded', function() {
-                console.log('✅ DOM completamente cargado');
-            });
+            init();
             
         })();
     </script>
