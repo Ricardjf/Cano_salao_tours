@@ -431,17 +431,6 @@
         }
         
         /* Hero section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            padding: 2rem 1rem;
-            position: relative;
-            background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%);
-        }
         
         .hero .container {
             position: relative;
@@ -494,7 +483,7 @@
         
         /* Secciones no críticas */
         .non-critical {
-            opacity: 0;
+            opacity: 1;
             transition: opacity 0.5s ease;
         }
         
@@ -1112,12 +1101,6 @@
                 // Configurar eventos
                 setupEvents();
                 
-                // Mostrar contenido gradualmente
-                setTimeout(() => {
-                    document.querySelectorAll('.non-critical').forEach(el => {
-                        el.style.opacity = '1';
-                    });
-                }, 200);
             }
             
             // ========== SISTEMA DE USUARIO ==========
