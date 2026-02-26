@@ -22,120 +22,56 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
-    <!-- CSS PRINCIPAL (para el resto de la página) -->
-    <link rel="stylesheet" href="index.css">
-    
     <style>
-        /* ===== ESTILOS CRÍTICOS DEL HERO - NO DEPENDEN DEL CSS EXTERNO ===== */
-        .hero {
-            min-height: 100vh !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            text-align: center !important;
-            color: white !important;
-            padding: 2rem 1rem !important;
-            position: relative !important;
-            overflow: hidden !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-            margin: 0 !important;
-            width: 100% !important;
+        /* ===== VARIABLES CSS ===== */
+        :root {
+            --color-primary: #0d3b66;
+            --color-accent: #e62b7e;
+            --color-light: #f8f9fa;
+            --color-dark: #212529;
+            --color-orange: #FF8C42;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition-fast: all 0.2s ease;
+            --transition-normal: all 0.3s ease;
         }
-        
-        .hero-bg {
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('media/comodo.jpeg') !important;
-            background-size: cover !important;
-            background-position: center !important;
-            background-repeat: no-repeat !important;
-            z-index: 1 !important;
-            opacity: 1 !important; /* FORZADO A 1 */
+
+        /* ===== RESET Y BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .hero .container {
-            position: relative !important;
-            z-index: 2 !important;
-            max-width: 1000px !important;
-            padding: 0 1rem !important;
-            width: 100% !important;
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--color-dark);
+            background-color: #fff;
+            overflow-x: hidden;
         }
-        
-        .hero-title {
-            font-size: clamp(2.5rem, 6vw, 9rem) !important;
-            font-weight: 900 !important;
-            margin-bottom: 1.5rem !important;
-            line-height: 1.1 !important;
-            color: white !important;
-            font-family: 'Times New Roman', Times, serif !important;
-            animation: fadeInDown 0.8s ease-out;
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.5rem) !important;
-            max-width: 800px !important;
-            margin: 0 auto 2.5rem !important;
-            color: white !important;
-            opacity: 1 !important;
-            line-height: 1.5 !important;
-            font-family: 'Times New Roman', Times, serif !important;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
+
+        .times-font {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
         }
-        
-        .hero .btn {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 0.5rem !important;
-            background: #FF8C42 !important;
-            color: white !important;
-            padding: 1rem 2.5rem !important;
-            border-radius: 50px !important;
-            text-decoration: none !important;
-            font-weight: 700 !important;
-            font-size: 1.1rem !important;
-            border: none !important;
-            cursor: pointer !important;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+
+        .text-orange {
+            color: #FF8C42;
         }
-        
-        .hero .btn.outline {
-            background: transparent !important;
-            border: 2px solid white !important;
-        }
-        
-        .hero .btn:hover {
-            transform: translateY(-3px) scale(1.03) !important;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
-        }
-        
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Loader */
+
+        /* ===== LOADER ===== */
         #page-loader {
             position: fixed;
             top: 0;
@@ -149,28 +85,28 @@
             z-index: 9999;
             transition: opacity 0.3s ease;
         }
-        
+
         #page-loader.hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
-        
+
         .loader-spinner {
             width: 40px;
             height: 40px;
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #0d3b66;
+            border-top: 3px solid var(--color-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        /* Header */
+
+        /* ===== HEADER ===== */
         header {
             background: linear-gradient(135deg, #1a7fb8 0%, #0d3b66 100%);
             color: white;
@@ -178,105 +114,73 @@
             top: 0;
             z-index: 1000;
             padding: 0.5rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
         }
-        
+
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 1rem;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
             gap: 0.6rem;
             flex-shrink: 0;
-            z-index: 1002;
         }
-        
+
         .logo-img {
             width: 55px;
             height: 55px;
             object-fit: contain;
             border-radius: 50%;
-            display: block;
-            flex-shrink: 0;
         }
-        
+
         .logo h1 {
             font-size: 1.5rem;
-            font-weight: bold;
             color: white;
-            margin: 0;
             white-space: nowrap;
-            font-family: 'Times New Roman', Times, serif;
         }
-        
-        .text-orange {
-            color: #FF8C42;
-        }
-        
-        .times-font {
-            font-family: 'Times New Roman', Times, serif !important;
-            font-weight: 700;
-        }
-        
+
         /* Navegación desktop */
         .nav-center {
             flex: 1;
             display: flex;
             justify-content: center;
-            align-items: center;
         }
-        
+
         nav ul {
             display: flex;
             list-style: none;
             gap: 0.5rem;
-            align-items: center;
-            margin: 0;
-            padding: 0;
-            justify-content: center;
         }
-        
+
         nav ul li a {
             color: rgba(255,255,255,0.95);
             text-decoration: none;
             font-weight: 500;
             padding: 0.4rem 0.6rem;
-            border-radius: 4px;
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             gap: 0.3rem;
-            transition: all 0.2s ease;
             font-size: 0.9rem;
             white-space: nowrap;
         }
-        
-        nav ul li a:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
+
+        nav ul li a:hover,
         nav ul li a.active {
             background: rgba(255,255,255,0.15);
         }
-        
-        /* Sistema de usuario */
+
+        /* Autenticación */
         .auth-section {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            flex-shrink: 0;
-            z-index: 1002;
         }
-        
-        .user-menu-container {
-            position: relative;
-            z-index: 1002;
-        }
-        
+
         .login-btn {
             display: flex;
             align-items: center;
@@ -284,130 +188,13 @@
             background: rgba(255,255,255,0.15);
             color: white;
             padding: 0.4rem 0.8rem;
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s ease;
             border: 1px solid rgba(255,255,255,0.2);
             font-size: 0.85rem;
-            white-space: nowrap;
             min-height: 44px;
         }
-        
-        .logged-user {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: background-color 0.2s ease;
-            min-height: 44px;
-        }
-        
-        .logged-user:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .user-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3498db, #2c3e50);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 16px;
-            flex-shrink: 0;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        
-        .user-name {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: white;
-            white-space: nowrap;
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .user-role {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1px 6px;
-            border-radius: 10px;
-            display: inline-block;
-        }
-        
-        .user-role.admin {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-        }
-        
-        .user-dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            min-width: 220px;
-            z-index: 1001;
-            overflow: hidden;
-            margin-top: 5px;
-            display: none;
-            border: 1px solid #eee;
-        }
-        
-        .user-dropdown-menu.show {
-            display: block;
-        }
-        
-        .user-dropdown-header {
-            padding: 12px 15px;
-            background: linear-gradient(135deg, #1a7fb8, #0d3b66);
-            color: white;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .user-dropdown-email {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.9);
-            margin-top: 2px;
-        }
-        
-        .user-dropdown-menu a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            color: #333;
-            text-decoration: none;
-            border-bottom: 1px solid #eee;
-            transition: background 0.2s;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        .user-dropdown-menu a:hover {
-            background: #f5f5f5;
-        }
-        
-        .user-dropdown-menu a:last-child {
-            border-bottom: none;
-            color: #e74c3c;
-        }
-        
+
         /* Menú móvil */
         .menu-toggle {
             display: none;
@@ -417,14 +204,10 @@
             font-size: 1.8rem;
             cursor: pointer;
             padding: 0.5rem;
-            flex-shrink: 0;
-            z-index: 1002;
             min-width: 44px;
             min-height: 44px;
-            align-items: center;
-            justify-content: center;
         }
-        
+
         .mobile-menu-overlay {
             display: none;
             position: fixed;
@@ -437,12 +220,12 @@
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        
+
         .mobile-menu-overlay.active {
             display: block;
             opacity: 1;
         }
-        
+
         .mobile-menu-container {
             position: fixed;
             top: 0;
@@ -454,13 +237,12 @@
             z-index: 1000;
             overflow-y: auto;
             transition: right 0.3s ease;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.3);
         }
-        
+
         .mobile-menu-container.active {
             right: 0;
         }
-        
+
         .mobile-menu-header {
             padding: 1rem;
             border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -468,7 +250,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .mobile-menu-close {
             background: none;
             border: none;
@@ -478,28 +260,16 @@
             padding: 0.5rem;
             min-width: 44px;
             min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        
-        .mobile-menu-nav {
-            padding: 1rem 0;
-        }
-        
+
         .mobile-menu-nav ul {
             list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
         }
-        
+
         .mobile-menu-nav li {
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            width: 100%;
         }
-        
+
         .mobile-menu-nav a {
             display: flex;
             align-items: center;
@@ -507,92 +277,664 @@
             padding: 1rem 1.5rem;
             color: white;
             text-decoration: none;
-            font-size: 1.1rem;
-            transition: background 0.2s ease;
-            width: 100%;
         }
-        
+
         .mobile-menu-nav a.active {
             background: rgba(255,255,255,0.15);
-            font-weight: 600;
         }
-        
-        /* Tour details */
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('media/comodo.jpeg');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 9rem);
+            margin-bottom: 1.5rem;
+            color: white;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            color: white;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #FF8C42;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero .btn.outline {
+            background: transparent;
+            border: 2px solid white;
+        }
+
+        .hero .btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== SECCIONES GENERALES ===== */
+        section {
+            padding: 4rem 0;
+        }
+
+        section:nth-child(even) {
+            background: var(--color-light);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* ===== BOTONES ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--color-accent);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-normal);
+            min-height: 44px;
+        }
+
+        .btn:hover {
+            background: #d81b60;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ===== HISTORIA Y EMPRESA ===== */
+        .history-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .history-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .history-image {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .history-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .history-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* ===== FACTIBLE FEATURES ===== */
+        .factible-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .factible-feature {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .factible-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .factible-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+        }
+
+        .factible-feature h3 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* ===== ATRACCIONES GRID ===== */
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .attraction-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .attraction-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .attraction-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .attraction-card:hover .attraction-img img {
+            transform: scale(1.1);
+        }
+
+        .attraction-info {
+            padding: 1.5rem;
+        }
+
+        .attraction-info h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ===== LA RUTA ===== */
+        #la-ruta {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #0d2d44 100%);
+            color: white;
+        }
+
+        #la-ruta h2,
+        #la-ruta .section-title p {
+            color: white;
+        }
+
+        .programas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .carta {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: var(--transition-normal);
+        }
+
+        .carta:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .carta-header {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .carta-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .carta:hover .carta-header img {
+            transform: scale(1.1);
+        }
+
+        .carta-content {
+            padding: 1.5rem;
+        }
+
+        .carta h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .carta p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .carta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: var(--transition-normal);
+        }
+
+        .carta-btn:hover {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+
+        /* ===== CARACTERÍSTICAS ===== */
+        .caracteristicas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .caracteristica-item {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .caracteristica-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .caracteristica-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #2a9d8f, #2196f3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .caracteristica-item h3 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== PREGUNTAS ===== */
+        #preguntas {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #0d2d44 100%);
+            color: white;
+            text-align: center;
+        }
+
+        #preguntas h2 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #preguntas .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-normal);
+        }
+
+        .cta-btn:first-child {
+            background: var(--color-accent);
+            color: white;
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ===== CONTACTO ===== */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .contact-info h3 {
+            color: var(--color-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-details {
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #64B5F6, #42A5F5);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .contact-item h4 {
+            color: var(--color-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(13,59,102,0.1);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, #212529 0%, #121416 100%);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            color: #a8d8ea;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: #a8d8ea;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition-normal);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-icon:hover {
+            background: var(--color-accent);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+
+        /* ===== TOURS LOADING ===== */
+        .tour-loading {
+            text-align: center;
+            padding: 3rem;
+            grid-column: 1 / -1;
+        }
+
+        .tour-loading .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
         .tour-details {
             display: flex;
             gap: 1rem;
-            margin: 10px 0;
-            font-size: 0.9rem;
+            margin: 1rem 0;
             color: #666;
         }
-        
+
         .tour-details span {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 0.3rem;
         }
-        
-        /* Site alert */
-        .site-alert {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 6px;
-            z-index: 9998;
-            max-width: 300px;
-            display: none;
-            animation: slideInRight 0.3s ease;
-        }
-        
-        .site-alert.success {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
-        
-        .site-alert.error {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-        
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0%); opacity: 1; }
-        }
-        
-        /* Responsive */
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .menu-toggle {
-                display: flex !important;
+                display: flex;
             }
             
             .nav-center {
-                display: none !important;
-            }
-            
-            .logo h1 {
-                font-size: 1.4rem;
-            }
-            
-            .user-info {
                 display: none;
             }
             
+            .history-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+            
             .hero-title {
-                font-size: 2.5rem !important;
+                font-size: 2.5rem;
             }
             
             .hero-subtitle {
-                font-size: 1.2rem !important;
+                font-size: 1.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
             }
         }
-        
+
         @media (max-width: 576px) {
             .logo-img {
-                width: 35px;
-                height: 35px;
+                width: 40px;
+                height: 40px;
             }
             
             .logo h1 {
@@ -600,19 +942,22 @@
             }
             
             .hero-title {
-                font-size: 2rem !important;
+                font-size: 2rem;
             }
             
             .hero-subtitle {
-                font-size: 1.1rem !important;
+                font-size: 1.1rem;
+            }
+            
+            .btn,
+            .cta-btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Sistema de alertas -->
-    <div id="site-alert" class="site-alert"></div>
-    
     <!-- Loader -->
     <div id="page-loader">
         <div class="loader-spinner"></div>
@@ -623,22 +968,14 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img 
-                        src="media/Logo_cano_60.png" 
-                        srcset="media/Logo_cano_60.png 1x, media/Logo_cano_120.png 2x" 
-                        alt="Logo Caño Salao" 
-                        class="logo-img"
-                        width="55" 
-                        height="55"
-                        loading="eager"
-                    >
+                    <img src="media/Logo_cano_60.png" alt="Logo Caño Salao" class="logo-img" width="55" height="55">
                     <h1 class="times-font">Caño <span class="text-orange">Salao</span></h1>
                 </div>
 
                 <!-- Navegación desktop -->
                 <div class="nav-center">
                     <nav>
-                        <ul id="main-navigation">
+                        <ul>
                             <li><a href="index.html" class="active"><i class="bi bi-house"></i> Inicio</a></li>
                             <li><a href="Pages/Empresa.html"><i class="bi bi-building"></i> Empresa</a></li>
                             <li><a href="Pages/Historia.html"><i class="bi bi-journal-text"></i> Historia</a></li>
@@ -650,25 +987,15 @@
                     </nav>
                 </div>
 
-                <!-- Sistema de usuario -->
+                <!-- Autenticación -->
                 <div class="auth-section">
-                    <div class="user-menu-container" id="user-menu-container">
-                        <a href="Pages/login.html" class="login-btn" id="login-btn">
-                            <i class="bi bi-person-circle"></i> <span id="login-text">Iniciar Sesión</span>
-                        </a>
-                        
-                        <div class="logged-user" id="logged-user" style="display: none;">
-                            <div class="user-avatar" id="user-avatar" aria-label="Menú de usuario" role="button" tabindex="0">U</div>
-                            <div class="user-info">
-                                <div class="user-name" id="user-name">Usuario</div>
-                                <div class="user-role" id="user-role">user</div>
-                            </div>
-                        </div>
-                    </div>
+                    <a href="Pages/login.html" class="login-btn" id="login-btn">
+                        <i class="bi bi-person-circle"></i> <span>Iniciar Sesión</span>
+                    </a>
                 </div>
 
-                <!-- Botón menú móvil -->
-                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menú">
+                <!-- Botón móvil -->
+                <button class="menu-toggle" id="mobile-menu-toggle">
                     <i class="bi bi-list"></i>
                 </button>
             </div>
@@ -680,10 +1007,10 @@
     <div class="mobile-menu-container" id="mobile-menu-container">
         <div class="mobile-menu-header">
             <div class="logo">
-                <img src="media/Logo_cano_60.png" alt="Logo Caño Salao" class="logo-img" width="35" height="35">
+                <img src="media/Logo_cano_60.png" alt="Logo" class="logo-img" width="35" height="35">
                 <h2 class="times-font">Caño <span class="text-orange">Salao</span></h2>
             </div>
-            <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Cerrar menú">
+            <button class="mobile-menu-close" id="mobile-menu-close">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
@@ -697,17 +1024,13 @@
                 <li><a href="Pages/Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
                 <li><a href="Pages/Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
                 <li><a href="Pages/blog.html"><i class="bi bi-newspaper"></i> Blog</a></li>
-                <li id="mobile-user-menu" style="display: none;">
-                    <a href="Pages/usuario.html"><i class="bi bi-person-circle"></i> Mi Cuenta</a>
-                </li>
-                <li><a href="Pages/login.html" id="mobile-login-link"><i class="bi bi-person-circle"></i> Iniciar Sesión</a></li>
             </ul>
         </nav>
     </div>
 
-    <!-- Hero Section - CON ESTILOS INCRUSTADOS (NO DEPENDE DEL CSS EXTERNO) -->
+    <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-bg" id="heroBackground"></div>
+        <div class="hero-bg"></div>
         <div class="container">
             <h2 class="times-font hero-title">¡Descubre la Belleza Natural de <span class="text-orange">Caño</span> Salao!</h2>
             <p class="times-font hero-subtitle">
@@ -725,8 +1048,8 @@
         </div>
     </section>
     
-    <!-- Resto de secciones... -->
-    <section id="empresa" class="non-critical">
+    <!-- Empresa -->
+    <section id="empresa">
         <div class="container">
             <div class="section-title">
                 <h2 class="times-font"><i class="bi bi-building"></i> Empresa de Producción Social</h2>
@@ -747,30 +1070,22 @@
             
             <div class="factible-features">
                 <div class="factible-feature">
-                    <div class="factible-icon">
-                        <i class="bi bi-tree-fill"></i>
-                    </div>
+                    <div class="factible-icon"><i class="bi bi-tree-fill"></i></div>
                     <h3 class="times-font">Sostenibilidad Ambiental</h3>
                     <p>Comprometidos con la protección del ecosistema único de manglares y especies marinas de Caño Salao.</p>
                 </div>
                 <div class="factible-feature">
-                    <div class="factible-icon">
-                        <i class="bi bi-people-fill"></i>
-                    </div>
+                    <div class="factible-icon"><i class="bi bi-people-fill"></i></div>
                     <h3 class="times-font">Desarrollo Comunitario</h3>
                     <p>Generamos empleo local y reinvertimos utilidades en proyectos que benefician a la comunidad.</p>
                 </div>
                 <div class="factible-feature">
-                    <div class="factible-icon">
-                        <i class="bi bi-globe-americas"></i>
-                    </div>
+                    <div class="factible-icon"><i class="bi bi-globe-americas"></i></div>
                     <h3 class="times-font">Turismo Responsable</h3>
                     <p>Ofrecemos experiencias auténticas que respetan la cultura local y el medio ambiente.</p>
                 </div>
                 <div class="factible-feature">
-                    <div class="factible-icon">
-                        <i class="bi bi-graph-up-arrow"></i>
-                    </div>
+                    <div class="factible-icon"><i class="bi bi-graph-up-arrow"></i></div>
                     <h3 class="times-font">Modelo Económico Sólido</h3>
                     <p>Combinamos viabilidad económica con impacto social positivo para un desarrollo sostenible.</p>
                 </div>
@@ -779,7 +1094,7 @@
     </section>
 
     <!-- Historia -->
-    <section id="historia" class="non-critical">
+    <section id="historia">
         <div class="container">
             <div class="section-title">
                 <h2 class="times-font"><i class="bi bi-journal-text"></i> Historia de Caño Salao</h2>
@@ -800,8 +1115,8 @@
         </div>
     </section>
 
-    <!-- Sección: Tours desde API -->
-    <section id="tours-api" class="non-critical">
+    <!-- Tours API -->
+    <section id="tours-api">
         <div class="container">
             <div class="section-title">
                 <h2 class="times-font"><i class="bi bi-geo-alt"></i> Nuestros Tours Disponibles</h2>
@@ -821,8 +1136,8 @@
         </div>
     </section>
 
-    <!-- Sección: La Ruta -->
-    <section id="la-ruta" class="non-critical">
+    <!-- La Ruta -->
+    <section id="la-ruta">
         <div class="container">
             <div class="section-title">
                 <h2 class="times-font"><i class="bi bi-map"></i> Descubre Nuestra Ruta</h2>
@@ -872,8 +1187,8 @@
         </div>
     </section>
 
-    <!-- Atracciones Turísticas -->
-    <section id="atracciones" class="non-critical">
+    <!-- Atracciones -->
+    <section id="atracciones">
         <div class="container">
             <div class="section-title">
                 <h2 class="times-font"><i class="bi bi-star"></i> Atracciones Turísticas</h2>
@@ -911,8 +1226,8 @@
         </div>
     </section>
 
-    <!-- Sección Características -->
-    <section id="caracteristicas" class="non-critical">
+    <!-- Características -->
+    <section id="caracteristicas">
         <div class="container">
             <div class="section-title">
                 <h2 class="times-font"><i class="bi bi-check-circle"></i> ¿Por Qué Elegirnos?</h2>
@@ -924,19 +1239,16 @@
                     <h3 class="times-font">Turismo Sostenible</h3>
                     <p>Comprometidos con la protección del medio ambiente y el desarrollo de la comunidad local.</p>
                 </div>
-                
                 <div class="caracteristica-item">
                     <span class="caracteristica-icon"><i class="bi bi-person-badge"></i></span>
                     <h3 class="times-font">Guías Expertos</h3>
                     <p>Nuestros guías locales conocen cada rincón de Caño Salao y su fascinante historia.</p>
                 </div>
-                
                 <div class="caracteristica-item">
                     <span class="caracteristica-icon"><i class="bi bi-shield-check"></i></span>
                     <h3 class="times-font">Equipo Seguro</h3>
                     <p>Embarcaciones modernas y equipos de seguridad para garantizar tu tranquilidad.</p>
                 </div>
-                
                 <div class="caracteristica-item">
                     <span class="caracteristica-icon"><i class="bi bi-cash-stack"></i></span>
                     <h3 class="times-font">Precios Accesibles</h3>
@@ -946,8 +1258,8 @@
         </div>
     </section>
 
-    <!-- Sección: Últimos Artículos del Blog (API) -->
-    <section id="blog-preview" class="non-critical" style="display: none;">
+    <!-- Blog Preview -->
+    <section id="blog-preview" style="display: none;">
         <div class="container">
             <div class="section-title">
                 <h2 class="times-font"><i class="bi bi-newspaper"></i> Últimas Noticias</h2>
@@ -960,15 +1272,15 @@
                 </div>
             </div>
             <div style="text-align: center; margin-top: 2rem;">
-                <a href="Pages/blog.html" class="btn outline">
+                <a href="Pages/blog.html" class="btn">
                     <i class="bi bi-newspaper"></i> Ver Todas las Noticias
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Sección Preguntas -->
-    <section id="preguntas" class="non-critical">
+    <!-- Preguntas -->
+    <section id="preguntas">
         <div class="container">
             <h2 class="times-font"><i class="bi bi-question-circle"></i> ¿Listo para la Aventura?</h2>
             <p class="subtitle">Reserva tu experiencia hoy mismo y descubre la magia de Caño Salao</p>
@@ -985,7 +1297,7 @@
     </section>
 
     <!-- Contacto -->
-    <section id="contacto" class="non-critical">
+    <section id="contacto">
         <div class="container">
             <div class="section-title">
                 <h2 class="times-font"><i class="bi bi-chat-dots"></i> Contacto</h2>
@@ -1057,7 +1369,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="non-critical">
+    <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
@@ -1097,9 +1409,7 @@
         (function() {
             "use strict";
             
-            // ========== CONFIGURACIÓN ==========
             const API_BASE_URL = 'https://ricardjf.pythonanywhere.com';
-            
             const STORAGE_KEYS = {
                 TOKEN: 'cano_salao_token',
                 REFRESH_TOKEN: 'cano_salao_refresh_token',
@@ -1107,12 +1417,9 @@
             };
             
             let currentUser = null;
-            
-            // ========== INICIALIZACIÓN ==========
+
+            // Inicialización
             async function init() {
-                console.log('🚀 Iniciando Caño Salao');
-                console.log('🔗 API:', API_BASE_URL);
-                
                 // Ocultar loader
                 const loader = document.getElementById('page-loader');
                 if (loader) loader.classList.add('hidden');
@@ -1129,8 +1436,8 @@
                 // Configurar eventos
                 setupEvents();
             }
-            
-            // ========== SISTEMA DE USUARIO ==========
+
+            // Sistema de usuario
             async function loadUser() {
                 const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
                 const userData = localStorage.getItem(STORAGE_KEYS.USER);
@@ -1138,142 +1445,53 @@
                 if (token && userData) {
                     try {
                         currentUser = JSON.parse(userData);
-                        console.log('✅ Usuario cargado:', currentUser.email);
                         updateUI();
-                        
-                        // Verificar token con servidor
-                        verifyToken();
                     } catch (e) {
                         clearSession();
                     }
                 }
             }
-            
-            async function verifyToken() {
-                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-                if (!token) return;
-                
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.valid && data.user) {
-                            currentUser = data.user;
-                            localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(data.user));
-                            updateUI();
-                        }
-                    } else if (response.status === 401) {
-                        await refreshToken();
-                    }
-                } catch (error) {
-                    console.error('Error verificando token:', error);
-                }
-            }
-            
-            async function refreshToken() {
-                const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
-                if (!refreshToken) {
-                    clearSession();
-                    return;
-                }
-                
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
-                        method: 'POST',
-                        headers: { 'Authorization': `Bearer ${refreshToken}` }
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        localStorage.setItem(STORAGE_KEYS.TOKEN, data.access_token || data.token);
-                        if (data.user) {
-                            localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(data.user));
-                            currentUser = data.user;
-                            updateUI();
-                        }
-                        console.log('✅ Token refrescado');
-                    } else {
-                        clearSession();
-                    }
-                } catch (error) {
-                    console.error('Error refrescando token:', error);
-                    clearSession();
-                }
-            }
-            
+
             function clearSession() {
                 Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
                 currentUser = null;
                 updateUI();
-                console.log('✅ Sesión limpiada');
             }
-            
+
             function updateUI() {
                 const loginBtn = document.getElementById('login-btn');
-                const loggedUser = document.getElementById('logged-user');
-                const userName = document.getElementById('user-name');
-                const userRole = document.getElementById('user-role');
-                const userAvatar = document.getElementById('user-avatar');
-                const mobileUserMenu = document.getElementById('mobile-user-menu');
-                const mobileLoginLink = document.getElementById('mobile-login-link');
-                
-                if (currentUser) {
-                    if (loginBtn) loginBtn.style.display = 'none';
-                    if (loggedUser) loggedUser.style.display = 'flex';
-                    if (mobileUserMenu) mobileUserMenu.style.display = 'block';
-                    if (mobileLoginLink) mobileLoginLink.style.display = 'none';
-                    
-                    if (userName) {
-                        userName.textContent = currentUser.nombre || currentUser.email.split('@')[0];
+                if (loginBtn) {
+                    if (currentUser) {
+                        loginBtn.innerHTML = `<i class="bi bi-person-check"></i> <span>${currentUser.nombre || 'Usuario'}</span>`;
+                        loginBtn.href = "Pages/usuario.html";
+                    } else {
+                        loginBtn.innerHTML = `<i class="bi bi-person-circle"></i> <span>Iniciar Sesión</span>`;
+                        loginBtn.href = "Pages/login.html";
                     }
-                    
-                    if (userRole) {
-                        userRole.textContent = currentUser.rol === 'admin' ? 'Administrador' : 'Usuario';
-                        userRole.className = 'user-role ' + (currentUser.rol === 'admin' ? 'admin' : '');
-                    }
-                    
-                    if (userAvatar) {
-                        const letter = (currentUser.nombre || currentUser.email).charAt(0).toUpperCase();
-                        userAvatar.textContent = letter;
-                        userAvatar.style.background = currentUser.rol === 'admin' 
-                            ? 'linear-gradient(135deg, #e74c3c, #c0392b)'
-                            : 'linear-gradient(135deg, #3498db, #2c3e50)';
-                    }
-                } else {
-                    if (loginBtn) loginBtn.style.display = 'flex';
-                    if (loggedUser) loggedUser.style.display = 'none';
-                    if (mobileUserMenu) mobileUserMenu.style.display = 'none';
-                    if (mobileLoginLink) mobileLoginLink.style.display = 'block';
                 }
             }
-            
-            // ========== CARGAR TOURS ==========
+
+            // Cargar tours
             async function loadTours() {
                 const container = document.getElementById('tours-api-container');
                 if (!container) return;
                 
                 try {
                     const response = await fetch(`${API_BASE_URL}/api/tours`);
-                    
                     if (response.ok) {
                         const tours = await response.json();
                         renderTours(tours, container);
-                        console.log(`✅ ${tours.length} tours cargados`);
                     } else {
                         throw new Error('Error cargando tours');
                     }
                 } catch (error) {
-                    console.error('Error:', error);
                     renderFallbackTours(container);
                 }
             }
-            
+
             function renderTours(tours, container) {
                 if (!tours || tours.length === 0) {
-                    container.innerHTML = '<div class="tour-loading"><p>No hay tours disponibles en este momento.</p></div>';
+                    container.innerHTML = '<div class="tour-loading"><p>No hay tours disponibles</p></div>';
                     return;
                 }
                 
@@ -1284,24 +1502,19 @@
                     const card = document.createElement('div');
                     card.className = 'attraction-card';
                     
-                    const imagen = tour.imagen_url || 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60';
-                    const descripcion = tour.descripcion ? tour.descripcion.substring(0, 80) + '...' : 'Descripción no disponible';
-                    const duracion = tour.duracion || '2 horas';
-                    const precio = tour.precio || '25.00';
-                    
                     card.innerHTML = `
                         <div class="attraction-img">
-                            <img src="${imagen}" alt="${tour.nombre}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'">
+                            <img src="${tour.imagen_url || 'https://images.unsplash.com/photo-1559827260-dc66d52bef19'}" alt="${tour.nombre}" loading="lazy">
                         </div>
                         <div class="attraction-info">
-                            <h3 class="times-font"><i class="bi bi-geo-alt" style="color: #3498db;"></i> ${tour.nombre}</h3>
-                            <p>${descripcion}</p>
+                            <h3 class="times-font">${tour.nombre}</h3>
+                            <p>${tour.descripcion ? tour.descripcion.substring(0, 100) + '...' : ''}</p>
                             <div class="tour-details">
-                                <span><i class="bi bi-clock"></i> ${duracion}</span>
-                                <span><i class="bi bi-currency-dollar"></i> $${precio}</span>
+                                <span><i class="bi bi-clock"></i> ${tour.duracion || '2 horas'}</span>
+                                <span><i class="bi bi-currency-dollar"></i> $${tour.precio || '25'}</span>
                             </div>
-                            <a href="Pages/Contacto.html?tour=${tour.id}" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background: #FF8C42; color: white; text-decoration: none; border-radius: 4px; width: 100%; text-align: center; font-family: 'Roboto', sans-serif;">
-                                <i class="bi bi-calendar-plus"></i> Consultar Disponibilidad
+                            <a href="Pages/Contacto.html?tour=${tour.id}" class="btn" style="width:100%; margin-top:1rem;">
+                                Consultar Disponibilidad
                             </a>
                         </div>
                     `;
@@ -1309,7 +1522,7 @@
                     container.appendChild(card);
                 });
             }
-            
+
             function renderFallbackTours(container) {
                 const fallbackTours = [
                     {
@@ -1317,35 +1530,30 @@
                         nombre: 'Tour Básico por los Manglares',
                         descripcion: 'Recorrido guiado de 2 horas por los manglares, observando la fauna y flora local.',
                         duracion: '2 horas',
-                        precio: '25.00',
-                        imagen_url: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                        precio: '25'
                     },
                     {
                         id: 2,
                         nombre: 'Tour Completo de Aventura',
-                        descripcion: 'Experiencia completa de 4 horas que incluye recorrido por manglares, observación de aves y paseo en bote.',
+                        descripcion: 'Experiencia completa de 4 horas que incluye recorrido por manglares y observación de aves.',
                         duracion: '4 horas',
-                        precio: '45.00',
-                        imagen_url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                        precio: '45'
                     },
                     {
                         id: 3,
                         nombre: 'Tour Fotográfico Nocturno',
                         descripcion: 'Tour especializado para fotografía de la vida nocturna en los manglares.',
                         duracion: '3 horas',
-                        precio: '35.00',
-                        imagen_url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                        precio: '35'
                     }
                 ];
-                
                 renderTours(fallbackTours, container);
             }
-            
-            // ========== CARGAR BLOG ==========
+
+            // Cargar blog
             async function loadBlogPosts() {
                 try {
                     const response = await fetch(`${API_BASE_URL}/api/blog`);
-                    
                     if (response.ok) {
                         const posts = await response.json();
                         if (posts && posts.length > 0) {
@@ -1360,7 +1568,7 @@
                     console.log('Blog no disponible');
                 }
             }
-            
+
             function renderBlogPosts(posts) {
                 const container = document.getElementById('blog-posts-container');
                 if (!container) return;
@@ -1372,39 +1580,24 @@
                     const card = document.createElement('div');
                     card.className = 'attraction-card';
                     
-                    const fecha = post.created_at ? new Date(post.created_at).toLocaleDateString('es-ES', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric'
-                    }) : 'Fecha no disponible';
-                    
                     card.innerHTML = `
                         <div class="attraction-img">
                             ${post.imagen_url ? 
                                 `<img src="${post.imagen_url}" alt="${post.titulo}" loading="lazy">` : 
-                                `<div style="width:100%;height:180px;background:linear-gradient(135deg, #2c3e50, #3498db);display:flex;align-items:center;justify-content:center;">
-                                    <i class="bi bi-newspaper" style="font-size:48px;color:white;"></i>
-                                </div>`
-                            }
+                                '<div style="height:180px;background:linear-gradient(135deg,#2c3e50,#3498db);display:flex;align-items:center;justify-content:center"><i class="bi bi-newspaper" style="font-size:48px;color:white"></i></div>'}
                         </div>
                         <div class="attraction-info">
-                            <h3 style="font-size: 1.1rem; font-family: 'Times New Roman', Times, serif; font-weight: 700;">${post.titulo || 'Sin título'}</h3>
-                            <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0;font-size:12px;color:#666; font-family: 'Roboto', sans-serif;">
-                                <span><i class="bi bi-calendar"></i> ${fecha}</span>
-                                ${post.vistas ? `<span><i class="bi bi-eye"></i> ${post.vistas}</span>` : ''}
-                            </div>
-                            <p style="font-family: 'Roboto', sans-serif;">${post.excerpt || (post.contenido ? post.contenido.substring(0, 80) + '...' : 'Sin contenido disponible')}</p>
-                            <a href="Pages/blog.html?id=${post.id}" style="color:#3498db;text-decoration:none;font-size:14px;display:inline-flex;align-items:center;gap:5px;margin-top:10px; font-family: 'Roboto', sans-serif;">
-                                <i class="bi bi-arrow-right"></i> Leer más
-                            </a>
+                            <h3 class="times-font">${post.titulo || 'Sin título'}</h3>
+                            <p>${post.excerpt || (post.contenido ? post.contenido.substring(0, 80) + '...' : '')}</p>
+                            <a href="Pages/blog.html?id=${post.id}" class="btn" style="width:100%;">Leer más</a>
                         </div>
                     `;
                     
                     container.appendChild(card);
                 });
             }
-            
-            // ========== EVENTOS ==========
+
+            // Eventos
             function setupEvents() {
                 // Menú móvil
                 const menuToggle = document.getElementById('mobile-menu-toggle');
@@ -1420,103 +1613,26 @@
                     });
                 }
                 
-                if (menuClose) {
-                    menuClose.addEventListener('click', closeMobileMenu);
-                }
-                
-                if (menuOverlay) {
-                    menuOverlay.addEventListener('click', closeMobileMenu);
-                }
-                
-                function closeMobileMenu() {
+                const closeMobileMenu = () => {
                     menuContainer?.classList.remove('active');
                     menuOverlay?.classList.remove('active');
                     document.body.style.overflow = '';
-                }
+                };
                 
-                // Dropdown de usuario
-                const avatar = document.getElementById('user-avatar');
-                if (avatar) {
-                    avatar.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        toggleDropdown();
-                    });
-                }
-                
-                function toggleDropdown() {
-                    let dropdown = document.getElementById('user-dropdown-menu');
-                    
-                    if (dropdown) {
-                        dropdown.remove();
-                        return;
-                    }
-                    
-                    if (!currentUser) return;
-                    
-                    dropdown = document.createElement('div');
-                    dropdown.id = 'user-dropdown-menu';
-                    dropdown.className = 'user-dropdown-menu show';
-                    
-                    dropdown.innerHTML = `
-                        <div class="user-dropdown-header">
-                            <div style="font-weight: bold; font-size: 16px; font-family: 'Times New Roman', Times, serif;">${currentUser.nombre || 'Usuario'}</div>
-                            <div class="user-dropdown-email" style="font-family: 'Roboto', sans-serif;">${currentUser.email}</div>
-                            ${currentUser.rol === 'admin' ? '<div style="font-size: 12px; margin-top: 4px; padding: 2px 8px; background: rgba(255,255,255,0.2); border-radius: 4px; display: inline-block; font-family: \'Roboto\', sans-serif;">Administrador</div>' : ''}
-                        </div>
-                        <a href="Pages/usuario.html" style="font-family: 'Roboto', sans-serif;"><i class="bi bi-person"></i> Mi Cuenta</a>
-                        ${currentUser.rol === 'admin' ? 
-                            '<a href="Pages/admin.html" style="font-family: \'Roboto\', sans-serif;"><i class="bi bi-shield-check"></i> Panel de Administración</a>' : ''}
-                        <a href="Pages/reservas.html" style="font-family: 'Roboto', sans-serif;"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
-                        <a href="#" id="logout-link" style="font-family: 'Roboto', sans-serif;"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
-                    `;
-                    
-                    document.getElementById('user-menu-container').appendChild(dropdown);
-                    
-                    document.getElementById('logout-link')?.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        clearSession();
-                        dropdown.remove();
-                    });
-                    
-                    setTimeout(() => {
-                        document.addEventListener('click', function closeDropdown(e) {
-                            if (!dropdown.contains(e.target) && e.target !== avatar) {
-                                dropdown.remove();
-                                document.removeEventListener('click', closeDropdown);
-                            }
-                        });
-                    }, 10);
-                }
+                if (menuClose) menuClose.addEventListener('click', closeMobileMenu);
+                if (menuOverlay) menuOverlay.addEventListener('click', closeMobileMenu);
                 
                 // Formulario de contacto
                 const form = document.getElementById('reservation-form');
                 if (form) {
                     form.addEventListener('submit', function(e) {
                         e.preventDefault();
-                        
-                        const name = document.getElementById('name')?.value.trim();
-                        const email = document.getElementById('email')?.value.trim();
-                        
-                        if (!name || !email) {
-                            alert('Por favor completa los campos requeridos');
-                            return;
-                        }
-                        
-                        const button = e.target.querySelector('button[type="submit"]');
-                        const originalText = button.innerHTML;
-                        button.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Enviando...';
-                        button.disabled = true;
-                        
-                        setTimeout(() => {
-                            alert('¡Gracias! Tu solicitud ha sido enviada. Te contactaremos pronto.');
-                            form.reset();
-                            button.innerHTML = originalText;
-                            button.disabled = false;
-                        }, 1500);
+                        alert('¡Gracias! Te contactaremos pronto.');
+                        form.reset();
                     });
                 }
             }
-            
+
             // Iniciar
             document.addEventListener('DOMContentLoaded', init);
         })();
