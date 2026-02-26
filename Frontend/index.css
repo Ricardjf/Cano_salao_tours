@@ -98,7 +98,7 @@ header {
     z-index: 1002;
 }
 
-/* LOGO IMAGEN - 35px CONSTANTE EN TODOS LOS DISPOSITIVOS */
+/* LOGO IMAGEN - 55px CONSTANTE EN TODOS LOS DISPOSITIVOS */
 .logo-img {
     width: 55px;
     height: 55px;
@@ -328,53 +328,89 @@ nav ul li a.active {
     background: rgba(255,255,255,0.1);
 }
 
-/* ========== HERO ========== */
+/* ========== HERO - CORREGIDO CON !IMPORTANT ========== */
 .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    padding: 2rem 1rem;
-    position: relative;
-    overflow: hidden;
-    margin-top: 0;
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    color: white !important;
+    padding: 2rem 1rem !important;
+    position: relative !important;
+    overflow: hidden !important;
+    margin-top: 0 !important;
 }
 
 .hero-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
     background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%) center/cover no-repeat;
-    z-index: 1;
+    z-index: 1 !important;
     opacity: 0;
     transition: opacity 0.5s ease;
 }
 
 .hero-bg.loaded {
-    opacity: 1;
+    opacity: 1 !important;
 }
 
 .hero .container {
-    position: relative;
-    z-index: 2;
-    max-width: 1000px;
-    padding: 0 1rem;
+    position: relative !important;
+    z-index: 2 !important;
+    max-width: 1000px !important;
+    padding: 0 1rem !important;
+    width: 100% !important;
 }
 
 /* Título del hero */
 .hero-title {
     font-size: clamp(2.5rem, 6vw, 9rem) !important;
     font-weight: 900 !important;
-    margin-bottom: 1.2rem;
-    line-height: 1.1;
-    letter-spacing: 0.5px;
-    color: white;
+    margin-bottom: 1.2rem !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.5px !important;
+    color: white !important;
     animation: fadeInDown 0.8s ease-out;
     will-change: transform, opacity;
+}
+
+/* Subtítulo del hero */
+.hero-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem) !important;
+    max-width: 800px !important;
+    margin: 0 auto 2.5rem !important;
+    opacity: 1 !important;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+    line-height: 1.5 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-weight: 400 !important;
+}
+
+/* Botón del hero optimizado */
+.hero .btn {
+    padding: 1rem 2.5rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+    background: linear-gradient(135deg, var(--color-accent), #ff2b8d) !important;
+    border: none !important;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+    will-change: transform;
+}
+
+.hero .btn:hover {
+    transform: translateY(-3px) scale(1.03) !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+}
+
+.hero .btn.outline {
+    background: transparent !important;
+    border: 2px solid white !important;
 }
 
 @keyframes fadeInDown {
@@ -388,18 +424,6 @@ nav ul li a.active {
     }
 }
 
-/* Subtítulo del hero */
-.hero-subtitle {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem) !important;
-    max-width: 800px;
-    margin: 0 auto 2.5rem;
-    opacity: 0.9;
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.95);
-    font-weight: 400;
-}
-
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -409,24 +433,6 @@ nav ul li a.active {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-/* Botón del hero optimizado */
-.hero .btn {
-    padding: 1rem 2.5rem !important;
-    font-size: 1.1rem !important;
-    font-weight: 700 !important;
-    border-radius: var(--radius-md) !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
-    background: linear-gradient(135deg, var(--color-accent), #ff2b8d) !important;
-    border: none;
-    animation: fadeInUp 0.8s ease-out 0.4s both;
-    will-change: transform;
-}
-
-.hero .btn:hover {
-    transform: translateY(-3px) scale(1.03) !important;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
 }
 
 /* ========== BOTONES ========== */
@@ -960,6 +966,21 @@ textarea.form-control {
     resize: vertical;
 }
 
+/* ========== TOUR DETAILS ========== */
+.tour-details {
+    display: flex;
+    gap: 1rem;
+    margin: 10px 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.tour-details span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 /* ========== FOOTER ========== */
 footer {
     background: linear-gradient(135deg, #212529 0%, #121416 100%);
@@ -1081,8 +1102,8 @@ footer {
     
     /* Logo sigue igual */
     .logo-img {
-        width: 35px;
-        height: 35px;
+        width: 55px;
+        height: 55px;
     }
     
     .logo h1 {
@@ -1121,18 +1142,18 @@ footer {
     
     /* Hero section para móvil */
     .hero {
-        min-height: 90vh;
-        padding: 1.5rem 1rem;
+        min-height: 90vh !important;
+        padding: 1.5rem 1rem !important;
     }
     
     .hero-title {
         font-size: 2.5rem !important;
-        margin-bottom: 1rem;
+        margin-bottom: 1rem !important;
     }
     
     .hero-subtitle {
         font-size: 1.2rem !important;
-        margin-bottom: 2rem;
+        margin-bottom: 2rem !important;
     }
     
     .section-title h2 {
@@ -1192,8 +1213,8 @@ footer {
 @media (max-width: 576px) {
     /* Logo constante */
     .logo-img {
-        width: 35px;
-        height: 35px;
+        width: 55px;
+        height: 55px;
     }
     
     .logo h1 {
@@ -1210,8 +1231,8 @@ footer {
     
     /* Hero para móvil pequeño */
     .hero {
-        min-height: 85vh;
-        padding: 1.2rem 1rem;
+        min-height: 85vh !important;
+        padding: 1.2rem 1rem !important;
     }
     
     .hero-title {
@@ -1220,7 +1241,7 @@ footer {
     
     .hero-subtitle {
         font-size: 1.1rem !important;
-        margin-bottom: 1.8rem;
+        margin-bottom: 1.8rem !important;
     }
     
     .hero .btn {
@@ -1317,7 +1338,7 @@ footer {
 /* ========== CORRECCIONES PARA iOS ========== */
 @supports (-webkit-touch-callout: none) {
     .hero {
-        min-height: -webkit-fill-available;
+        min-height: -webkit-fill-available !important;
     }
     
     input,
@@ -1404,5 +1425,3 @@ footer {
         color: #b0b0b0;
     }
 }
-
-
