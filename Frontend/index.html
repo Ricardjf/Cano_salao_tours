@@ -430,7 +430,37 @@
             font-weight: 600;
         }
         
-        /* Hero section */
+        /* Hero section - CORREGIDO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('media/comodo.jpeg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .hero-bg.loaded {
+            opacity: 1;
+        }
         
         .hero .container {
             position: relative;
@@ -443,6 +473,7 @@
             color: white;
             font-family: 'Times New Roman', Times, serif;
             font-weight: 700;
+            animation: fadeInDown 0.8s ease-out;
         }
         
         .hero-subtitle {
@@ -453,6 +484,29 @@
             opacity: 0.95;
             line-height: 1.5;
             font-family: 'Times New Roman', Times, serif;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .btn {
@@ -469,6 +523,7 @@
             border: none;
             cursor: pointer;
             font-size: 1.1rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
         
         .btn.outline {
@@ -533,6 +588,21 @@
         @keyframes slideInRight {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0%); opacity: 1; }
+        }
+        
+        /* Tour details */
+        .tour-details {
+            display: flex;
+            gap: 1rem;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .tour-details span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         /* Responsive */
@@ -601,8 +671,8 @@
                         srcset="media/Logo_cano_60.png 1x, media/Logo_cano_120.png 2x" 
                         alt="Logo Caño Salao" 
                         class="logo-img"
-                        width="35" 
-                        height="35"
+                        width="55" 
+                        height="55"
                         loading="eager"
                     >
                     <h1 class="times-font">Caño <span class="text-orange">Salao</span></h1>
@@ -678,8 +748,9 @@
         </nav>
     </div>
 
-    <!-- Hero Section -->
+    <!-- Hero Section - CORREGIDO con imagen de fondo -->
     <section class="hero">
+        <div class="hero-bg" id="heroBackground"></div>
         <div class="container">
             <h2 class="times-font hero-title">¡Descubre la Belleza Natural de <span class="text-orange">Caño</span> Salao!</h2>
             <p class="times-font hero-subtitle">
@@ -1085,6 +1156,9 @@
                 console.log('🚀 Iniciando Caño Salao');
                 console.log('🔗 API:', API_BASE_URL);
                 
+                // Cargar imagen de fondo del hero
+                loadHeroImage();
+                
                 // Ocultar loader
                 const loader = document.getElementById('page-loader');
                 if (loader) loader.classList.add('hidden');
@@ -1101,6 +1175,25 @@
                 // Configurar eventos
                 setupEvents();
                 
+            }
+            
+            // ========== FUNCIÓN PARA CARGAR IMAGEN DEL HERO ==========
+            function loadHeroImage() {
+                const heroBg = document.getElementById('heroBackground');
+                if (!heroBg) return;
+                
+                const heroImg = new Image();
+                heroImg.src = 'media/comodo.jpeg';
+                
+                heroImg.onload = function() {
+                    heroBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${this.src}')`;
+                    heroBg.classList.add('loaded');
+                };
+                
+                heroImg.onerror = function() {
+                    heroBg.style.backgroundImage = `linear-gradient(135deg, #0d3b66 0%, #1a5a8c 100%)`;
+                    heroBg.classList.add('loaded');
+                };
             }
             
             // ========== SISTEMA DE USUARIO ==========
