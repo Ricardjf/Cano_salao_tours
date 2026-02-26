@@ -22,30 +22,117 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
-    <!-- CSS PRINCIPAL -->
+    <!-- CSS PRINCIPAL (para el resto de la página) -->
     <link rel="stylesheet" href="index.css">
     
     <style>
-        /* ===== ESTILOS CRÍTICOS MÍNIMOS ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.5;
-            background: #fff;
-            opacity: 1 !important;
+        /* ===== ESTILOS CRÍTICOS DEL HERO - NO DEPENDEN DEL CSS EXTERNO ===== */
+        .hero {
+            min-height: 100vh !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            color: white !important;
+            padding: 2rem 1rem !important;
+            position: relative !important;
+            overflow: hidden !important;
             visibility: visible !important;
+            opacity: 1 !important;
+            margin: 0 !important;
+            width: 100% !important;
         }
         
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .hero-bg {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('media/comodo.jpeg') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            z-index: 1 !important;
+            opacity: 1 !important; /* FORZADO A 1 */
+        }
+        
+        .hero .container {
+            position: relative !important;
+            z-index: 2 !important;
+            max-width: 1000px !important;
+            padding: 0 1rem !important;
+            width: 100% !important;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 9rem) !important;
+            font-weight: 900 !important;
+            margin-bottom: 1.5rem !important;
+            line-height: 1.1 !important;
+            color: white !important;
+            font-family: 'Times New Roman', Times, serif !important;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem) !important;
+            max-width: 800px !important;
+            margin: 0 auto 2.5rem !important;
+            color: white !important;
+            opacity: 1 !important;
+            line-height: 1.5 !important;
+            font-family: 'Times New Roman', Times, serif !important;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        
+        .hero .btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            background: #FF8C42 !important;
+            color: white !important;
+            padding: 1rem 2.5rem !important;
+            border-radius: 50px !important;
+            text-decoration: none !important;
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            border: none !important;
+            cursor: pointer !important;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+        }
+        
+        .hero .btn.outline {
+            background: transparent !important;
+            border: 2px solid white !important;
+        }
+        
+        .hero .btn:hover {
+            transform: translateY(-3px) scale(1.03) !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         /* Loader */
@@ -430,134 +517,19 @@
             font-weight: 600;
         }
         
-        /* Hero section - CORREGIDO */
-        .hero {
-            min-height: 100vh;
+        /* Tour details */
+        .tour-details {
+            display: flex;
+            gap: 1rem;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .tour-details span {
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            padding: 2rem 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('media/comodo.jpeg');
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .hero-bg.loaded {
-            opacity: 1;
-        }
-        
-        .hero .container {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .hero-title {
-            font-size: clamp(2.5rem, 6vw, 9rem);
-            margin-bottom: 1.5rem;
-            color: white;
-            font-family: 'Times New Roman', Times, serif;
-            font-weight: 700;
-            animation: fadeInDown 0.8s ease-out;
-        }
-        
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-            max-width: 800px;
-            margin: 0 auto 2.5rem;
-            color: white;
-            opacity: 0.95;
-            line-height: 1.5;
-            font-family: 'Times New Roman', Times, serif;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-        }
-        
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #FF8C42;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-        }
-        
-        .btn.outline {
-            background: transparent;
-            border: 2px solid white;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        /* Secciones no críticas */
-        .non-critical {
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-        
-        /* Tour loading */
-        .tour-loading {
-            text-align: center;
-            padding: 3rem;
-            color: #666;
-            grid-column: 1 / -1;
-        }
-        
-        .tour-loading .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+            gap: 5px;
         }
         
         /* Site alert */
@@ -590,21 +562,6 @@
             to { transform: translateX(0%); opacity: 1; }
         }
         
-        /* Tour details */
-        .tour-details {
-            display: flex;
-            gap: 1rem;
-            margin: 10px 0;
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .tour-details span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
         /* Responsive */
         @media (max-width: 768px) {
             .menu-toggle {
@@ -624,11 +581,11 @@
             }
             
             .hero-title {
-                font-size: 2.5rem;
+                font-size: 2.5rem !important;
             }
             
             .hero-subtitle {
-                font-size: 1.2rem;
+                font-size: 1.2rem !important;
             }
         }
         
@@ -643,11 +600,11 @@
             }
             
             .hero-title {
-                font-size: 2rem;
+                font-size: 2rem !important;
             }
             
             .hero-subtitle {
-                font-size: 1.1rem;
+                font-size: 1.1rem !important;
             }
         }
     </style>
@@ -748,7 +705,7 @@
         </nav>
     </div>
 
-    <!-- Hero Section - CORREGIDO con imagen de fondo -->
+    <!-- Hero Section - CON ESTILOS INCRUSTADOS (NO DEPENDE DEL CSS EXTERNO) -->
     <section class="hero">
         <div class="hero-bg" id="heroBackground"></div>
         <div class="container">
@@ -768,7 +725,7 @@
         </div>
     </section>
     
-    <!-- Empresa de Producción Social -->
+    <!-- Resto de secciones... -->
     <section id="empresa" class="non-critical">
         <div class="container">
             <div class="section-title">
@@ -1156,9 +1113,6 @@
                 console.log('🚀 Iniciando Caño Salao');
                 console.log('🔗 API:', API_BASE_URL);
                 
-                // Cargar imagen de fondo del hero
-                loadHeroImage();
-                
                 // Ocultar loader
                 const loader = document.getElementById('page-loader');
                 if (loader) loader.classList.add('hidden');
@@ -1174,26 +1128,6 @@
                 
                 // Configurar eventos
                 setupEvents();
-                
-            }
-            
-            // ========== FUNCIÓN PARA CARGAR IMAGEN DEL HERO ==========
-            function loadHeroImage() {
-                const heroBg = document.getElementById('heroBackground');
-                if (!heroBg) return;
-                
-                const heroImg = new Image();
-                heroImg.src = 'media/comodo.jpeg';
-                
-                heroImg.onload = function() {
-                    heroBg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${this.src}')`;
-                    heroBg.classList.add('loaded');
-                };
-                
-                heroImg.onerror = function() {
-                    heroBg.style.backgroundImage = `linear-gradient(135deg, #0d3b66 0%, #1a5a8c 100%)`;
-                    heroBg.classList.add('loaded');
-                };
             }
             
             // ========== SISTEMA DE USUARIO ==========
