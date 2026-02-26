@@ -58,7 +58,6 @@
         }
 
         html {
-            scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
         }
 
@@ -69,7 +68,6 @@
             background-color: #fff;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
             position: relative;
         }
 
@@ -125,7 +123,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* ===== HEADER OPTIMIZADO ===== */
+        /* ===== HEADER ===== */
         header {
             background: linear-gradient(135deg, #1a7fb8 0%, #0d3b66 100%);
             color: white;
@@ -134,10 +132,6 @@
             z-index: 1000;
             box-shadow: var(--shadow-md);
             padding: 0.5rem 0;
-            will-change: transform;
-            transform: translateZ(0);
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
         }
 
         .header-content {
@@ -162,8 +156,6 @@
             border-radius: 50%;
             display: block;
             flex-shrink: 0;
-            -webkit-user-select: none;
-            user-select: none;
         }
 
         .logo h1 {
@@ -422,7 +414,7 @@
             background: linear-gradient(135deg, #1a7fb8 0%, #0d3b66 100%);
             z-index: 1000;
             overflow-y: auto;
-            transition: right 0.3s cubic-bezier(0.4,0,0.2,1);
+            transition: right 0.3s ease;
             box-shadow: -2px 0 10px rgba(0,0,0,0.3);
             -webkit-overflow-scrolling: touch;
         }
@@ -489,7 +481,7 @@
             font-weight: 600;
         }
 
-        /* ===== HERO - CORREGIDO ===== */
+        /* ===== HERO - CON COMODO.JPEG Y SIN ANIMACIONES ===== */
         .page-hero {
             min-height: 60vh;
             display: flex;
@@ -500,9 +492,10 @@
             padding: 4rem 1rem;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../media/comodo.jpeg');
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
         }
 
         .page-hero .container {
@@ -516,7 +509,6 @@
             margin-bottom: 1.5rem;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-            animation: fadeInDown 0.8s ease-out;
         }
 
         .page-hero .hero-subtitle {
@@ -525,20 +517,8 @@
             margin: 0 auto;
             color: white;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-            animation: fadeInUp 0.8s ease-out 0.2s both;
             line-height: 1.5;
             font-weight: 400;
-            opacity: 1;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ===== BREADCRUMB ===== */
@@ -612,7 +592,6 @@
             padding: 3rem;
             margin-bottom: 3rem;
             box-shadow: var(--shadow-md);
-            transition: var(--transition-normal);
         }
 
         .content-block:hover {
@@ -644,7 +623,7 @@
             color: var(--color-accent);
         }
 
-        /* ===== HISTORIA CONTENT (reutilizado) ===== */
+        /* ===== HISTORIA CONTENT ===== */
         .history-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1046,16 +1025,10 @@
             }
         }
 
-        /* ===== ANIMACIONES AL SCROLL ===== */
+        /* ===== SIN ANIMACIONES ===== */
         .content-block {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .content-block.animated {
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
         }
 
         /* ===== CORRECCIONES TÁCTILES ===== */
@@ -1245,14 +1218,14 @@
                         <div class="service-icon">
                             <i class="bi bi-target"></i>
                         </div>
-                        <h3 class="times-font"><i class="bi bi-flag"></i> Misión</h3>
+                        <h3 class="times-font">Misión</h3>
                         <p>Prestar servicios turísticos acuáticos que respeten y preserven el entorno natural único de la región, generando empleo y oportunidades económicas para los habitantes locales, asegurando que los beneficios del turismo se traduzcan en mejoras tangibles para la comunidad.</p>
                     </div>
                     <div class="service-item">
                         <div class="service-icon">
                             <i class="bi bi-eye"></i>
                         </div>
-                        <h3 class="times-font"><i class="bi bi-stars"></i> Visión</h3>
+                        <h3 class="times-font">Visión</h3>
                         <p>Convertirnos en un modelo de turismo sostenible, donde la protección del medio ambiente y el bienestar de la comunidad vayan de la mano, posicionándonos como referente en turismo responsable a nivel regional y nacional.</p>
                     </div>
                 </div>
@@ -1298,19 +1271,19 @@
                 <h2 class="times-font"><i class="bi bi-heart"></i> Nuestros Valores</h2>
                 <div class="content-grid">
                     <div class="service-item">
-                        <h3 class="times-font"><i class="bi bi-recycle" style="color: #4CAF50;"></i> Sostenibilidad</h3>
+                        <h3 class="times-font">Sostenibilidad</h3>
                         <p>Compromiso con la protección del medio ambiente y el uso responsable de los recursos naturales en todas nuestras operaciones.</p>
                     </div>
                     <div class="service-item">
-                        <h3 class="times-font"><i class="bi bi-person-heart" style="color: #E91E63;"></i> Responsabilidad Social</h3>
+                        <h3 class="times-font">Responsabilidad Social</h3>
                         <p>Trabajamos para el beneficio de la comunidad, reinvirtiendo en proyectos que mejoran la calidad de vida local.</p>
                     </div>
                     <div class="service-item">
-                        <h3 class="times-font"><i class="bi bi-award" style="color: #FF9800;"></i> Excelencia</h3>
+                        <h3 class="times-font">Excelencia</h3>
                         <p>Buscamos la más alta calidad en nuestros servicios, garantizando experiencias memorables para nuestros visitantes.</p>
                     </div>
                     <div class="service-item">
-                        <h3 class="times-font"><i class="bi bi-eye-fill" style="color: #2196F3;"></i> Transparencia</h3>
+                        <h3 class="times-font">Transparencia</h3>
                         <p>Gestión clara y abierta de nuestros recursos, rindiendo cuentas a la comunidad que servimos.</p>
                     </div>
                 </div>
@@ -1321,7 +1294,7 @@
                 <h2 class="times-font"><i class="bi bi-graph-up"></i> Impacto Esperado</h2>
                 <div class="content-grid">
                     <div class="service-item">
-                        <h3 class="times-font"><i class="bi bi-cash-stack" style="color: #2ecc71;"></i> Impacto Económico</h3>
+                        <h3 class="times-font">Impacto Económico</h3>
                         <ul>
                             <li>Generación de empleo sostenible</li>
                             <li>Diversificación de fuentes de ingreso para familias</li>
@@ -1331,7 +1304,7 @@
                         </ul>
                     </div>
                     <div class="service-item">
-                        <h3 class="times-font"><i class="bi bi-people-fill" style="color: #e67e22;"></i> Impacto Social</h3>
+                        <h3 class="times-font">Impacto Social</h3>
                         <ul>
                             <li>Fortalecimiento del tejido social comunitario</li>
                             <li>Valorización de conocimientos y tradiciones locales</li>
@@ -1341,7 +1314,7 @@
                         </ul>
                     </div>
                     <div class="service-item">
-                        <h3 class="times-font"><i class="bi bi-tree-fill" style="color: #27ae60;"></i> Impacto Ambiental</h3>
+                        <h3 class="times-font">Impacto Ambiental</h3>
                         <ul>
                             <li>Conservación de ecosistemas de manglar únicos</li>
                             <li>Protección de especies en riesgo y biodiversidad</li>
@@ -1364,7 +1337,7 @@
                         
                         <ul>
                             <li><strong>Capacitación continua:</strong> Programas de formación en turismo, ecología y atención al cliente para miembros de la comunidad.</li>
-                            <li><strong>Reinversión social:</strong> Destino del 100% de las utilidades a proyectos comunitarios previamente aprobados en asamblea.</li>
+                            <li><strong>Reinversión social:</strong> Destino de las utilidades a proyectos comunitarios previamente aprobados en asamblea.</li>
                             <li><strong>Protección ambiental:</strong> Implementación de prácticas sostenibles y programas de conservación del ecosistema local.</li>
                             <li><strong>Transparencia:</strong> Rendición de cuentas periódica a la comunidad sobre la gestión de recursos y proyectos.</li>
                         </ul>
@@ -1438,7 +1411,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript completo -->
+    <!-- JavaScript -->
     <script>
         (function() {
             "use strict";
@@ -1463,18 +1436,11 @@
             function init() {
                 console.log('🚀 Iniciando página Empresa');
                 
-                // Ocultar loader
                 const loader = document.getElementById('page-loader');
                 if (loader) loader.classList.add('hidden');
                 
-                // Inicializar sistema de usuario
                 initializeUserSystem();
-                
-                // Inicializar eventos
                 initializeEvents();
-                
-                // Mostrar contenido gradualmente
-                setTimeout(showContentGradually, 300);
             }
 
             // ========== FUNCIONES DE ALMACENAMIENTO ==========
@@ -1488,45 +1454,6 @@
             
             function removeStorageItem(key) {
                 localStorage.removeItem(key);
-            }
-
-            // ========== UI: LOADER Y CONTENIDO ==========
-            function showContentGradually() {
-                const content = document.querySelector('.page-content');
-                if (content) {
-                    content.style.opacity = '0';
-                    content.style.transition = 'opacity 0.5s ease';
-                    setTimeout(() => {
-                        content.style.opacity = '1';
-                    }, 100);
-                }
-                
-                if ('IntersectionObserver' in window) {
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                entry.target.classList.add('animated');
-                            }
-                        });
-                    }, { threshold: 0.1 });
-                    
-                    document.querySelectorAll('.content-block').forEach(section => {
-                        observer.observe(section);
-                    });
-                }
-            }
-
-            function showAlert(message, type = 'info') {
-                const alertDiv = document.getElementById('site-alert');
-                if (alertDiv) {
-                    alertDiv.textContent = message;
-                    alertDiv.className = `site-alert ${type}`;
-                    alertDiv.style.display = 'block';
-                    
-                    setTimeout(() => {
-                        alertDiv.style.display = 'none';
-                    }, 4000);
-                }
             }
 
             // ========== SISTEMA DE USUARIO ==========
@@ -1570,12 +1497,6 @@
                     const letter = (currentUser.nombre || currentUser.email).charAt(0).toUpperCase();
                     avatar.textContent = letter;
                     avatar.onclick = toggleUserDropdown;
-                    avatar.onkeydown = function(e) {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            toggleUserDropdown();
-                        }
-                    };
                 }
             }
 
@@ -1664,7 +1585,6 @@
                 
                 setTimeout(() => {
                     document.addEventListener('click', closeUserDropdownOnClickOutside);
-                    document.addEventListener('keydown', closeUserDropdownOnEscape);
                 }, 10);
             }
 
@@ -1672,9 +1592,7 @@
                 if (userDropdown) {
                     userDropdown.classList.remove('show');
                     userDropdownOpen = false;
-                    
                     document.removeEventListener('click', closeUserDropdownOnClickOutside);
-                    document.removeEventListener('keydown', closeUserDropdownOnEscape);
                 }
             }
 
@@ -1686,17 +1604,20 @@
                 }
             }
 
-            function closeUserDropdownOnEscape(e) {
-                if (e.key === 'Escape' && userDropdownOpen) {
-                    closeUserDropdown();
-                }
-            }
-
             function logout() {
                 if (confirm('¿Estás seguro de cerrar sesión?')) {
                     clearUserSession();
                     showLoginInterface();
-                    showAlert('Sesión cerrada correctamente', 'success');
+                    
+                    const alertDiv = document.getElementById('site-alert');
+                    if (alertDiv) {
+                        alertDiv.textContent = 'Sesión cerrada correctamente';
+                        alertDiv.className = 'site-alert success';
+                        alertDiv.style.display = 'block';
+                        setTimeout(() => {
+                            alertDiv.style.display = 'none';
+                        }, 4000);
+                    }
                 }
             }
 
@@ -1717,7 +1638,15 @@
                     
                     if (currentUser) {
                         setTimeout(() => {
-                            showAlert(`¡Bienvenido/a ${currentUser.nombre}!`, 'success');
+                            const alertDiv = document.getElementById('site-alert');
+                            if (alertDiv) {
+                                alertDiv.textContent = `¡Bienvenido/a ${currentUser.nombre}!`;
+                                alertDiv.className = 'site-alert success';
+                                alertDiv.style.display = 'block';
+                                setTimeout(() => {
+                                    alertDiv.style.display = 'none';
+                                }, 4000);
+                            }
                         }, 500);
                     }
                 }
