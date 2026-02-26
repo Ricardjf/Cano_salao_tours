@@ -350,7 +350,7 @@ nav ul li a.active {
     bottom: 0 !important;
     background: linear-gradient(135deg, #1a5276 0%, #2c82c9 100%) center/cover no-repeat;
     z-index: 1 !important;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.5s ease;
 }
 
@@ -1425,3 +1425,4 @@ footer {
         color: #b0b0b0;
     }
 }
+
