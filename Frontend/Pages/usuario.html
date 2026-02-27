@@ -557,7 +557,7 @@
             font-weight: 500;
         }
         
-        /* ===== ESTILOS ESPECÍFICOS PARA USUARIO (TU CÓDIGO ORIGINAL COMPLETO) ===== */
+        /* ===== ESTILOS ESPECÍFICOS PARA USUARIO ===== */
         :root {
             --user-primary: #2c82c9;
             --user-secondary: #1a5276;
@@ -1542,7 +1542,7 @@
         <div class="loader-spinner"></div>
     </div>
 
-    <!-- HEADER - EXACTAMENTE IGUAL QUE INDEX.HTML (CORREGIDO) -->
+    <!-- HEADER - EXACTAMENTE IGUAL QUE INDEX.HTML -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -1577,12 +1577,10 @@
                 <!-- Sistema de usuario -->
                 <div class="auth-section">
                     <div class="user-menu-container" id="user-menu-container">
-                        <!-- Botón de login (oculto por defecto cuando hay sesión) -->
                         <a href="../index.html" class="login-btn" id="login-btn" style="display: none;">
                             <i class="bi bi-person-circle"></i> <span id="login-text">Iniciar Sesión</span>
                         </a>
                         
-                        <!-- Usuario logueado (visible por defecto, se ocultará si no hay sesión) -->
                         <div class="logged-user" id="logged-user" style="display: flex;">
                             <div class="user-avatar" id="header-user-avatar" aria-label="Menú de usuario" role="button" tabindex="0">U</div>
                             <div class="user-info">
@@ -1591,7 +1589,7 @@
                             </div>
                         </div>
                         
-                        <!-- Dropdown menu (se llenará dinámicamente) -->
+                        <!-- Dropdown menu (se llena dinámicamente) -->
                         <div class="user-dropdown-menu" id="user-dropdown-menu"></div>
                     </div>
                 </div>
@@ -1626,7 +1624,7 @@
                 <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
                 <li><a href="blog.html"><i class="bi bi-newspaper"></i> Blog</a></li>
                 <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
-                <!-- Nota: "Mi Cuenta" no está aquí, ya que es la página actual -->
+                <li><a href="usuario.html#bookings"><i class="bi bi-calendar-check"></i> Mis Reservas</a></li>
             </ul>
         </nav>
     </div>
@@ -2527,6 +2525,53 @@
                 
                 if (unauthenticatedMsg) unauthenticatedMsg.style.display = 'none';
                 if (authenticatedContent) authenticatedContent.style.display = 'block';
+            }
+            
+            // ========== FUNCIÓN PARA DETECTAR HASH EN URL ==========
+            function checkUrlHash() {
+                const hash = window.location.hash.substring(1); // Quita el # del inicio
+                if (hash) {
+                    console.log('📍 Hash detectado:', hash);
+                    
+                    // Mapeo de hashes a secciones
+                    const sectionMap = {
+                        'bookings': 'bookings',
+                        'reservas': 'bookings',
+                        'dashboard': 'dashboard',
+                        'perfil': 'profile',
+                        'profile': 'profile',
+                        'preferencias': 'preferences',
+                        'ayuda': 'help',
+                        'admin': 'admin-dashboard',
+                        'usuarios': 'admin-users'
+                    };
+                    
+                    const targetSection = sectionMap[hash];
+                    if (targetSection) {
+                        // Esperar a que la UI esté lista
+                        setTimeout(() => {
+                            if (isAdmin && !targetSection.startsWith('admin-') && targetSection !== 'bookings' && targetSection !== 'profile') {
+                                // Si es admin pero quiere ir a sección de usuario normal (excepto reservas/perfil), mostrar admin-dashboard
+                                showSection('admin-dashboard');
+                            } else if (!isAdmin && targetSection.startsWith('admin-')) {
+                                // Si es usuario normal pero quiere ir a sección admin, mostrar dashboard
+                                showSection('dashboard');
+                            } else {
+                                showSection(targetSection);
+                                
+                                // Si es la sección de reservas, actualizar los botones de toggle
+                                if (targetSection === 'bookings') {
+                                    const reservasBtn = document.getElementById('reservas-view-btn');
+                                    const generalBtn = document.getElementById('general-view-btn');
+                                    if (reservasBtn && generalBtn) {
+                                        reservasBtn.classList.add('active');
+                                        generalBtn.classList.remove('active');
+                                    }
+                                }
+                            }
+                        }, 500); // Pequeño retraso para asegurar que todo esté cargado
+                    }
+                }
             }
             
             // ========== MANEJO DE SESIÓN ==========
@@ -3436,7 +3481,7 @@
                             </div>
                             <a href="#" onclick="showSection('dashboard')"><i class="bi bi-speedometer2"></i> Mi Panel</a>
                             <a href="#" onclick="showSection('profile')"><i class="bi bi-person"></i> Mi Perfil</a>
-                            <a href="#" onclick="showSection('bookings')"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
+                            <a href="usuario.html#bookings" onclick="event.preventDefault(); window.location.href='usuario.html#bookings'"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
                             ${isAdmin ? '<a href="admin.html"><i class="bi bi-gear"></i> Panel Admin</a>' : ''}
                             <a href="#" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
                         `;
@@ -3641,8 +3686,14 @@
                         console.log('❌ Usuario no autenticado');
                     } else {
                         console.log('✅ Usuario autenticado correctamente');
+                        
+                        // Después de autenticar, verificar si hay hash en la URL
+                        setTimeout(checkUrlHash, 300);
                     }
                 });
+                
+                // También verificar cuando cambie el hash
+                window.addEventListener('hashchange', checkUrlHash);
                 
                 console.log('✅ Página de usuario inicializada');
             }
