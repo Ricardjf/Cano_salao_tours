@@ -708,7 +708,6 @@
             // ========== CONFIGURACIÓN API - ACTUALIZADO PARA PYTHONANYWHERE ==========
             const API_BASE_URL = 'https://ricardjf.pythonanywhere.com/api';
             
-            // También puedes agregar un backup por si falla
             const API_BACKUP_URL = 'https://ricardjf.pythonanywhere.com/api';
             
             // ========== VARIABLES GLOBALES ==========
@@ -983,32 +982,6 @@
                     
                     const tours = await response.json();
                     
-                    // Verificar que los tours tengan la estructura esperada
-                    if (!Array.isArray(tours)) {
-                        throw new Error('Formato de respuesta inválido');
-                    }
-                    
-                    updateApiStatus('✅ Conectado a PythonAnywhere', 'connected');
-                    renderTours(tours);
-                    
-                    if (errorContainer) {
-                        errorContainer.style.display = 'none';
-                    }
-                    
-                } catch (error) {
-                    console.error('❌ Error cargando tours:', error);
-                    
-                    if (error.name === 'AbortError') {
-                        updateApiStatus('⏱️ Tiempo de espera agotado', 'disconnected');
-                    } else {
-                        updateApiStatus('❌ Error de conexión', 'disconnected');
-                    }
-                    
-                    // Mostrar mensaje de error
-                    if (errorContainer) {
-                        errorContainer.style.display = 'block';
-                    }
-                    
                     // Cargar tours de respaldo después de 1 segundo
                     setTimeout(() => {
                         if (toursContainer && toursContainer.children.length <= 1) {
@@ -1269,5 +1242,6 @@
     </script>
 </body>
 </html>
+
 
 
