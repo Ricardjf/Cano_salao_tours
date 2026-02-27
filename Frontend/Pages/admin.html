@@ -502,6 +502,114 @@
             transform: translateY(-2px);
         }
         
+        /* ===== VALIDACIÓN DE FORMULARIOS ===== */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #0d3b66;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-group label i {
+            color: #FF8C42;
+        }
+        
+        .form-group label .required {
+            color: #dc3545;
+            margin-left: 4px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #1a7fb8;
+            box-shadow: 0 0 0 3px rgba(26,127,184,0.1);
+        }
+        
+        .form-control.error {
+            border-color: #dc3545;
+            background-color: #fff8f8;
+        }
+        
+        .form-control.valid {
+            border-color: #28a745;
+            background-color: #f8fff8;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .error-message i {
+            font-size: 0.9rem;
+        }
+        
+        .form-hint {
+            color: #6c757d;
+            font-size: 0.75rem;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .form-hint i {
+            color: #1a7fb8;
+            font-size: 0.8rem;
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        select.form-control {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230d3b66' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        select.form-control.error {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23dc3545' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
         /* ===== TABLAS ===== */
         .table-responsive {
             overflow-x: auto;
@@ -672,67 +780,6 @@
         @keyframes modalSlideIn {
             from { transform: translateY(-30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
-        }
-        
-        /* ===== FORMULARIOS ===== */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #0d3b66;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .form-group label i {
-            color: #FF8C42;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            font-family: 'Roboto', sans-serif;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: #1a7fb8;
-            box-shadow: 0 0 0 3px rgba(26,127,184,0.1);
-        }
-        
-        textarea.form-control {
-            resize: vertical;
-            min-height: 100px;
-        }
-        
-        select.form-control {
-            cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230d3b66' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            padding-right: 40px;
-        }
-        
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        
-        .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
         }
         
         /* ===== IMAGE UPLOAD ===== */
@@ -1383,6 +1430,198 @@
                 date_format: 'DD/MM/YYYY',
                 items_per_page: 10
             };
+            
+            // ========== FUNCIONES DE VALIDACIÓN ==========
+            const validators = {
+                // Validación de texto requerido
+                required: function(value, fieldName = 'Campo') {
+                    if (!value || value.trim() === '') {
+                        return { valid: false, message: `${fieldName} es requerido` };
+                    }
+                    return { valid: true };
+                },
+                
+                // Validación de email
+                email: function(email) {
+                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!email || email.trim() === '') {
+                        return { valid: false, message: 'El email es requerido' };
+                    }
+                    if (!re.test(email)) {
+                        return { valid: false, message: 'El email no tiene un formato válido' };
+                    }
+                    return { valid: true };
+                },
+                
+                // Validación de teléfono venezolano
+                phone: function(phone) {
+                    if (!phone || phone.trim() === '') {
+                        return { valid: true }; // Teléfono opcional
+                    }
+                    // Formato: +58 412-1234567 o 0412-1234567 o 4121234567
+                    const re = /^(\+58|0)?4\d{2}[-\s]?\d{7}$/;
+                    if (!re.test(phone.replace(/\s/g, ''))) {
+                        return { valid: false, message: 'El teléfono debe ser venezolano (ej: +58 412-1234567)' };
+                    }
+                    return { valid: true };
+                },
+                
+                // Validación de número positivo
+                positiveNumber: function(value, fieldName = 'Número', min = 0, max = null) {
+                    const num = parseFloat(value);
+                    if (isNaN(num)) {
+                        return { valid: false, message: `${fieldName} debe ser un número válido` };
+                    }
+                    if (num < min) {
+                        return { valid: false, message: `${fieldName} debe ser mayor o igual a ${min}` };
+                    }
+                    if (max !== null && num > max) {
+                        return { valid: false, message: `${fieldName} debe ser menor o igual a ${max}` };
+                    }
+                    return { valid: true };
+                },
+                
+                // Validación de entero positivo
+                positiveInteger: function(value, fieldName = 'Número', min = 1, max = null) {
+                    const num = parseInt(value);
+                    if (isNaN(num) || !Number.isInteger(num)) {
+                        return { valid: false, message: `${fieldName} debe ser un número entero` };
+                    }
+                    if (num < min) {
+                        return { valid: false, message: `${fieldName} debe ser mayor o igual a ${min}` };
+                    }
+                    if (max !== null && num > max) {
+                        return { valid: false, message: `${fieldName} debe ser menor o igual a ${max}` };
+                    }
+                    return { valid: true };
+                },
+                
+                // Validación de fecha
+                date: function(date, fieldName = 'Fecha', minDate = null) {
+                    if (!date) {
+                        return { valid: false, message: `${fieldName} es requerida` };
+                    }
+                    const dateObj = new Date(date);
+                    if (isNaN(dateObj.getTime())) {
+                        return { valid: false, message: `${fieldName} no es válida` };
+                    }
+                    if (minDate && dateObj < new Date(minDate)) {
+                        return { valid: false, message: `${fieldName} debe ser posterior a ${new Date(minDate).toLocaleDateString()}` };
+                    }
+                    return { valid: true };
+                },
+                
+                // Validación de URL de imagen
+                image: function(imageUrl, isRequired = false) {
+                    if (!imageUrl && !isRequired) {
+                        return { valid: true };
+                    }
+                    if (!imageUrl && isRequired) {
+                        return { valid: false, message: 'La imagen es requerida' };
+                    }
+                    // Si es base64 o URL
+                    if (imageUrl.startsWith('data:image') || imageUrl.startsWith('http')) {
+                        return { valid: true };
+                    }
+                    return { valid: false, message: 'La imagen no tiene un formato válido' };
+                },
+                
+                // Validación de duración
+                duration: function(duration) {
+                    if (!duration || duration.trim() === '') {
+                        return { valid: false, message: 'La duración es requerida' };
+                    }
+                    // Formatos aceptados: 2 horas, 3h, 90 minutos, 1.5 horas
+                    const re = /^\d+(\.\d+)?\s*(horas?|h|minutos?|días?|d)?$/i;
+                    if (!re.test(duration)) {
+                        return { valid: false, message: 'Formato de duración inválido (ej: 2 horas, 90 minutos)' };
+                    }
+                    return { valid: true };
+                },
+                
+                // Validación de código de reserva
+                bookingCode: function(code) {
+                    if (!code || code.trim() === '') {
+                        return { valid: false, message: 'El código es requerido' };
+                    }
+                    const re = /^CS-\d{8}-[A-Z0-9]{6}$/;
+                    if (!re.test(code)) {
+                        return { valid: false, message: 'El código no tiene el formato correcto (CS-YYYYMMDD-XXXXXX)' };
+                    }
+                    return { valid: true };
+                }
+            };
+            
+            // ========== FUNCIONES DE VALIDACIÓN DE FORMULARIOS ==========
+            function validateField(input, validators, fieldName) {
+                const value = input.value;
+                let isValid = true;
+                let errorMessage = '';
+                
+                // Remover clases de validación previas
+                input.classList.remove('error', 'valid');
+                
+                // Eliminar mensaje de error previo
+                const existingError = input.parentNode.querySelector('.error-message');
+                if (existingError) {
+                    existingError.remove();
+                }
+                
+                // Aplicar validaciones
+                for (let validator of validators) {
+                    const result = validator(value, fieldName);
+                    if (!result.valid) {
+                        isValid = false;
+                        errorMessage = result.message;
+                        break;
+                    }
+                }
+                
+                // Aplicar clases CSS
+                if (!isValid) {
+                    input.classList.add('error');
+                    
+                    // Crear y mostrar mensaje de error
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.innerHTML = `<i class="bi bi-exclamation-circle"></i> ${errorMessage}`;
+                    input.parentNode.appendChild(errorDiv);
+                } else if (value && value.trim() !== '') {
+                    input.classList.add('valid');
+                }
+                
+                return isValid;
+            }
+            
+            function validateForm(formId, validationRules) {
+                let isFormValid = true;
+                const form = document.getElementById(formId);
+                if (!form) return false;
+                
+                for (let [fieldId, rules] of Object.entries(validationRules)) {
+                    const input = document.getElementById(fieldId);
+                    if (input) {
+                        const fieldName = rules.name || input.placeholder || 'Campo';
+                        const isValid = validateField(input, rules.validators, fieldName);
+                        if (!isValid) isFormValid = false;
+                    }
+                }
+                
+                return isFormValid;
+            }
+            
+            function setupLiveValidation(inputId, validators, fieldName) {
+                const input = document.getElementById(inputId);
+                if (!input) return;
+                
+                input.addEventListener('input', function() {
+                    validateField(this, validators, fieldName);
+                });
+                
+                input.addEventListener('blur', function() {
+                    validateField(this, validators, fieldName);
+                });
+            }
             
             // ========== INICIALIZACIÓN ==========
             async function init() {
@@ -2070,23 +2309,25 @@
                 let html = `
                     <form id="create-booking-form">
                         <div class="form-group">
-                            <label><i class="bi bi-tag"></i> Código</label>
+                            <label><i class="bi bi-tag"></i> Código <span class="required">*</span></label>
                             <input type="text" id="booking-codigo" class="form-control" value="${codigo}" readonly>
+                            <div class="form-hint"><i class="bi bi-info-circle"></i> Código autogenerado</div>
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-person"></i> Nombre del Cliente *</label>
+                            <label><i class="bi bi-person"></i> Nombre del Cliente <span class="required">*</span></label>
                             <input type="text" id="booking-cliente" class="form-control" placeholder="Nombre completo" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-envelope"></i> Email del Cliente *</label>
+                            <label><i class="bi bi-envelope"></i> Email del Cliente <span class="required">*</span></label>
                             <input type="email" id="booking-email" class="form-control" placeholder="cliente@email.com" required>
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-telephone"></i> Teléfono</label>
                             <input type="text" id="booking-telefono" class="form-control" placeholder="+58 412-1234567">
+                            <div class="form-hint"><i class="bi bi-info-circle"></i> Formato: +58 412-1234567</div>
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-geo-alt"></i> Tour *</label>
+                            <label><i class="bi bi-geo-alt"></i> Tour <span class="required">*</span></label>
                             <select id="booking-tour" class="form-control" required onchange="calculateTotal()">
                                 <option value="">Seleccionar tour...</option>
                                 ${allTours.filter(t => t.disponible).map(t => 
@@ -2095,11 +2336,11 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-calendar"></i> Fecha del Tour *</label>
+                            <label><i class="bi bi-calendar"></i> Fecha del Tour <span class="required">*</span></label>
                             <input type="date" id="booking-fecha" class="form-control" required min="${new Date().toISOString().split('T')[0]}">
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-people"></i> Número de Personas *</label>
+                            <label><i class="bi bi-people"></i> Número de Personas <span class="required">*</span></label>
                             <input type="number" id="booking-personas" class="form-control" min="1" max="20" value="1" required onchange="calculateTotal()">
                         </div>
                         <div class="form-group">
@@ -2135,6 +2376,18 @@
                 
                 modal.classList.add('active');
                 
+                // Configurar validación en vivo
+                setupLiveValidation('booking-cliente', [validators.required], 'Nombre del cliente');
+                setupLiveValidation('booking-email', [validators.email], 'Email');
+                setupLiveValidation('booking-telefono', [validators.phone], 'Teléfono');
+                setupLiveValidation('booking-tour', [validators.required], 'Tour');
+                setupLiveValidation('booking-fecha', [
+                    (v) => validators.date(v, 'Fecha', new Date().toISOString().split('T')[0])
+                ], 'Fecha');
+                setupLiveValidation('booking-personas', [
+                    (v) => validators.positiveInteger(v, 'Número de personas', 1, 20)
+                ], 'Número de personas');
+                
                 // Agregar función de cálculo de total
                 window.calculateTotal = function() {
                     const select = document.getElementById('booking-tour');
@@ -2155,35 +2408,32 @@
             };
             
             window.createBooking = async function() {
+                // Validar formulario
+                const isValid = validateForm('create-booking-form', {
+                    'booking-cliente': { validators: [validators.required], name: 'Nombre del cliente' },
+                    'booking-email': { validators: [validators.email], name: 'Email' },
+                    'booking-telefono': { validators: [validators.phone], name: 'Teléfono' },
+                    'booking-tour': { validators: [validators.required], name: 'Tour' },
+                    'booking-fecha': { 
+                        validators: [(v) => validators.date(v, 'Fecha', new Date().toISOString().split('T')[0])],
+                        name: 'Fecha'
+                    },
+                    'booking-personas': { 
+                        validators: [(v) => validators.positiveInteger(v, 'Número de personas', 1, 20)],
+                        name: 'Número de personas'
+                    }
+                });
+                
+                if (!isValid) {
+                    showError('Por favor corrige los errores en el formulario');
+                    return;
+                }
+                
                 try {
                     const tourId = document.getElementById('booking-tour').value;
-                    if (!tourId) {
-                        showError('Debes seleccionar un tour');
-                        return;
-                    }
                     
                     const cliente = document.getElementById('booking-cliente').value;
-                    if (!cliente) {
-                        showError('Debes ingresar el nombre del cliente');
-                        return;
-                    }
-                    
                     const email = document.getElementById('booking-email').value;
-                    if (!email) {
-                        showError('Debes ingresar el email del cliente');
-                        return;
-                    }
-                    
-                    if (!validateEmail(email)) {
-                        showError('El email no tiene un formato válido');
-                        return;
-                    }
-                    
-                    const fecha = document.getElementById('booking-fecha').value;
-                    if (!fecha) {
-                        showError('Debes seleccionar una fecha');
-                        return;
-                    }
                     
                     // Buscar o crear usuario
                     let userId = null;
@@ -2215,7 +2465,7 @@
                         user_telefono: document.getElementById('booking-telefono').value,
                         tour_id: parseInt(tourId),
                         tour_nombre: allTours.find(t => t.id == tourId)?.nombre,
-                        fecha: fecha,
+                        fecha: document.getElementById('booking-fecha').value,
                         personas: parseInt(document.getElementById('booking-personas').value),
                         total: parseFloat(document.getElementById('booking-total').value),
                         estado: 'pending',
@@ -2388,32 +2638,32 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-person"></i> Cliente</label>
-                            <input type="text" id="booking-cliente" class="form-control" value="${booking.user_nombre || ''}">
+                            <label><i class="bi bi-person"></i> Cliente <span class="required">*</span></label>
+                            <input type="text" id="booking-cliente" class="form-control" value="${booking.user_nombre || ''}" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-envelope"></i> Email</label>
-                            <input type="email" id="booking-email" class="form-control" value="${booking.user_email || ''}">
+                            <label><i class="bi bi-envelope"></i> Email <span class="required">*</span></label>
+                            <input type="email" id="booking-email" class="form-control" value="${booking.user_email || ''}" required>
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-telephone"></i> Teléfono</label>
                             <input type="text" id="booking-telefono" class="form-control" value="${booking.user_telefono || ''}">
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-geo-alt"></i> Tour</label>
-                            <select id="booking-tour" class="form-control" onchange="editCalculateTotal()">
+                            <label><i class="bi bi-geo-alt"></i> Tour <span class="required">*</span></label>
+                            <select id="booking-tour" class="form-control" required onchange="editCalculateTotal()">
                                 ${allTours.map(t => 
                                     `<option value="${t.id}" data-precio="${t.precio}" ${booking.tour_id === t.id ? 'selected' : ''}>${t.nombre} - $${t.precio.toFixed(2)}</option>`
                                 ).join('')}
                             </select>
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-calendar"></i> Fecha</label>
-                            <input type="date" id="booking-fecha" class="form-control" value="${booking.fecha || ''}">
+                            <label><i class="bi bi-calendar"></i> Fecha <span class="required">*</span></label>
+                            <input type="date" id="booking-fecha" class="form-control" value="${booking.fecha || ''}" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-people"></i> Personas</label>
-                            <input type="number" id="booking-personas" class="form-control" value="${booking.personas || 1}" min="1" onchange="editCalculateTotal()">
+                            <label><i class="bi bi-people"></i> Personas <span class="required">*</span></label>
+                            <input type="number" id="booking-personas" class="form-control" value="${booking.personas || 1}" min="1" max="20" required onchange="editCalculateTotal()">
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-currency-dollar"></i> Total</label>
@@ -2423,10 +2673,10 @@
                             <label><i class="bi bi-credit-card"></i> Método de Pago</label>
                             <select id="booking-payment" class="form-control">
                                 <option value="">Seleccionar...</option>
-                                <option value="tarjeta" ${booking.metodo_pago === 'tarjeta' ? 'selected' : ''}>Tarjeta</option>
+                                <option value="efectivo" ${booking.metodo_pago === 'efectivo' ? 'selected' : ''}>Efectivo</option>
                                 <option value="transferencia" ${booking.metodo_pago === 'transferencia' ? 'selected' : ''}>Transferencia</option>
                                 <option value="movil" ${booking.metodo_pago === 'movil' ? 'selected' : ''}>Pago Móvil</option>
-                                <option value="efectivo" ${booking.metodo_pago === 'efectivo' ? 'selected' : ''}>Efectivo</option>
+                                <option value="tarjeta" ${booking.metodo_pago === 'tarjeta' ? 'selected' : ''}>Tarjeta</option>
                             </select>
                         </div>
                         <div class="checkbox-group">
@@ -2447,6 +2697,16 @@
                 `;
                 
                 modal.classList.add('active');
+                
+                // Configurar validación en vivo
+                setupLiveValidation('booking-cliente', [validators.required], 'Nombre del cliente');
+                setupLiveValidation('booking-email', [validators.email], 'Email');
+                setupLiveValidation('booking-telefono', [validators.phone], 'Teléfono');
+                setupLiveValidation('booking-tour', [validators.required], 'Tour');
+                setupLiveValidation('booking-fecha', [validators.date], 'Fecha');
+                setupLiveValidation('booking-personas', [
+                    (v) => validators.positiveInteger(v, 'Número de personas', 1, 20)
+                ], 'Número de personas');
                 
                 window.editCalculateTotal = function() {
                     const select = document.getElementById('booking-tour');
@@ -2469,6 +2729,24 @@
             };
             
             window.saveBooking = async function(id) {
+                // Validar formulario
+                const isValid = validateForm('edit-booking-form', {
+                    'booking-cliente': { validators: [validators.required], name: 'Nombre del cliente' },
+                    'booking-email': { validators: [validators.email], name: 'Email' },
+                    'booking-telefono': { validators: [validators.phone], name: 'Teléfono' },
+                    'booking-tour': { validators: [validators.required], name: 'Tour' },
+                    'booking-fecha': { validators: [validators.date], name: 'Fecha' },
+                    'booking-personas': { 
+                        validators: [(v) => validators.positiveInteger(v, 'Número de personas', 1, 20)],
+                        name: 'Número de personas'
+                    }
+                });
+                
+                if (!isValid) {
+                    showError('Por favor corrige los errores en el formulario');
+                    return;
+                }
+                
                 try {
                     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
                     
@@ -2667,27 +2945,29 @@
                 let html = `
                     <form id="create-tour-form">
                         <div class="form-group">
-                            <label>Nombre *</label>
+                            <label>Nombre <span class="required">*</span></label>
                             <input type="text" id="tour-name" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label>Descripción *</label>
+                            <label>Descripción <span class="required">*</span></label>
                             <textarea id="tour-description" class="form-control" rows="3" required></textarea>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                             <div class="form-group">
-                                <label>Precio ($) *</label>
+                                <label>Precio ($) <span class="required">*</span></label>
                                 <input type="number" id="tour-price" class="form-control" step="0.01" min="0" required>
+                                <div class="form-hint"><i class="bi bi-info-circle"></i> Precio en dólares</div>
                             </div>
                             <div class="form-group">
-                                <label>Capacidad *</label>
-                                <input type="number" id="tour-capacity" class="form-control" value="15" min="1" required>
+                                <label>Capacidad <span class="required">*</span></label>
+                                <input type="number" id="tour-capacity" class="form-control" value="15" min="1" max="50" required>
                             </div>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                             <div class="form-group">
-                                <label>Duración *</label>
+                                <label>Duración <span class="required">*</span></label>
                                 <input type="text" id="tour-duration" class="form-control" placeholder="2 horas" required>
+                                <div class="form-hint"><i class="bi bi-info-circle"></i> Ej: 2 horas, 90 minutos</div>
                             </div>
                             <div class="form-group">
                                 <label>Imagen</label>
@@ -2719,6 +2999,17 @@
                 
                 modal.classList.add('active');
                 
+                // Configurar validación en vivo
+                setupLiveValidation('tour-name', [validators.required], 'Nombre');
+                setupLiveValidation('tour-description', [validators.required], 'Descripción');
+                setupLiveValidation('tour-price', [
+                    (v) => validators.positiveNumber(v, 'Precio', 0)
+                ], 'Precio');
+                setupLiveValidation('tour-capacity', [
+                    (v) => validators.positiveInteger(v, 'Capacidad', 1, 50)
+                ], 'Capacidad');
+                setupLiveValidation('tour-duration', [validators.duration], 'Duración');
+                
                 // Configurar upload de imagen
                 const fileInput = document.getElementById('tour-image-file');
                 fileInput.addEventListener('change', createImageUploader(
@@ -2749,26 +3040,26 @@
                 let html = `
                     <form id="edit-tour-form">
                         <div class="form-group">
-                            <label>Nombre *</label>
+                            <label>Nombre <span class="required">*</span></label>
                             <input type="text" id="tour-name" class="form-control" value="${tour.nombre || ''}" required>
                         </div>
                         <div class="form-group">
-                            <label>Descripción *</label>
+                            <label>Descripción <span class="required">*</span></label>
                             <textarea id="tour-description" class="form-control" rows="3" required>${tour.descripcion || ''}</textarea>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                             <div class="form-group">
-                                <label>Precio ($) *</label>
+                                <label>Precio ($) <span class="required">*</span></label>
                                 <input type="number" id="tour-price" class="form-control" step="0.01" min="0" value="${tour.precio || 0}" required>
                             </div>
                             <div class="form-group">
-                                <label>Capacidad *</label>
-                                <input type="number" id="tour-capacity" class="form-control" value="${tour.capacidad || 15}" min="1" required>
+                                <label>Capacidad <span class="required">*</span></label>
+                                <input type="number" id="tour-capacity" class="form-control" value="${tour.capacidad || 15}" min="1" max="50" required>
                             </div>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                             <div class="form-group">
-                                <label>Duración *</label>
+                                <label>Duración <span class="required">*</span></label>
                                 <input type="text" id="tour-duration" class="form-control" value="${tour.duracion || ''}" required>
                             </div>
                             <div class="form-group">
@@ -2801,6 +3092,17 @@
                 
                 modal.classList.add('active');
                 
+                // Configurar validación en vivo
+                setupLiveValidation('tour-name', [validators.required], 'Nombre');
+                setupLiveValidation('tour-description', [validators.required], 'Descripción');
+                setupLiveValidation('tour-price', [
+                    (v) => validators.positiveNumber(v, 'Precio', 0)
+                ], 'Precio');
+                setupLiveValidation('tour-capacity', [
+                    (v) => validators.positiveInteger(v, 'Capacidad', 1, 50)
+                ], 'Capacidad');
+                setupLiveValidation('tour-duration', [validators.duration], 'Duración');
+                
                 // Configurar upload de imagen
                 const fileInput = document.getElementById('tour-image-file');
                 fileInput.addEventListener('change', createImageUploader(
@@ -2822,6 +3124,26 @@
             };
             
             window.saveTour = async function(id) {
+                // Validar formulario
+                const isValid = validateForm(id ? 'edit-tour-form' : 'create-tour-form', {
+                    'tour-name': { validators: [validators.required], name: 'Nombre' },
+                    'tour-description': { validators: [validators.required], name: 'Descripción' },
+                    'tour-price': { 
+                        validators: [(v) => validators.positiveNumber(v, 'Precio', 0)],
+                        name: 'Precio'
+                    },
+                    'tour-capacity': { 
+                        validators: [(v) => validators.positiveInteger(v, 'Capacidad', 1, 50)],
+                        name: 'Capacidad'
+                    },
+                    'tour-duration': { validators: [validators.duration], name: 'Duración' }
+                });
+                
+                if (!isValid) {
+                    showError('Por favor corrige los errores en el formulario');
+                    return;
+                }
+                
                 try {
                     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
                     
@@ -3164,16 +3486,17 @@
                 let html = `
                     <form id="edit-user-form">
                         <div class="form-group">
-                            <label><i class="bi bi-person"></i> Nombre</label>
-                            <input type="text" id="user-name" class="form-control" value="${user.nombre || ''}">
+                            <label><i class="bi bi-person"></i> Nombre <span class="required">*</span></label>
+                            <input type="text" id="user-name" class="form-control" value="${user.nombre || ''}" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="bi bi-envelope"></i> Email</label>
-                            <input type="email" id="user-email" class="form-control" value="${user.email || ''}">
+                            <label><i class="bi bi-envelope"></i> Email <span class="required">*</span></label>
+                            <input type="email" id="user-email" class="form-control" value="${user.email || ''}" required>
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-telephone"></i> Teléfono</label>
-                            <input type="text" id="user-phone" class="form-control" value="${user.telefono || ''}">
+                            <input type="text" id="user-phone" class="form-control" value="${user.telefono || ''}" placeholder="+58 412-1234567">
+                            <div class="form-hint"><i class="bi bi-info-circle"></i> Formato: +58 412-1234567</div>
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-geo-alt"></i> Dirección</label>
@@ -3223,9 +3546,26 @@
                 `;
                 
                 modal.classList.add('active');
+                
+                // Configurar validación en vivo
+                setupLiveValidation('user-name', [validators.required], 'Nombre');
+                setupLiveValidation('user-email', [validators.email], 'Email');
+                setupLiveValidation('user-phone', [validators.phone], 'Teléfono');
             };
             
             window.saveUser = function(id) {
+                // Validar formulario
+                const isValid = validateForm('edit-user-form', {
+                    'user-name': { validators: [validators.required], name: 'Nombre' },
+                    'user-email': { validators: [validators.email], name: 'Email' },
+                    'user-phone': { validators: [validators.phone], name: 'Teléfono' }
+                });
+                
+                if (!isValid) {
+                    showError('Por favor corrige los errores en el formulario');
+                    return;
+                }
+                
                 const user = allUsers.find(u => u.id === id);
                 if (!user) return;
                 
@@ -3347,17 +3687,18 @@
                 let html = `
                     <form id="create-post-form">
                         <div class="form-group">
-                            <label>Título *</label>
+                            <label>Título <span class="required">*</span></label>
                             <input type="text" id="post-title" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label>Contenido *</label>
+                            <label>Contenido <span class="required">*</span></label>
                             <textarea id="post-content" class="form-control" rows="6" required></textarea>
-                            <small style="color: #666;">Puedes usar HTML básico (h1, h2, p, strong, em, ul, li)</small>
+                            <div class="form-hint"><i class="bi bi-info-circle"></i> Puedes usar HTML básico (h1, h2, p, strong, em, ul, li)</div>
                         </div>
                         <div class="form-group">
                             <label>Extracto (Resumen)</label>
                             <textarea id="post-excerpt" class="form-control" rows="2"></textarea>
+                            <div class="form-hint"><i class="bi bi-info-circle"></i> Breve resumen del artículo (máx. 160 caracteres)</div>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                             <div class="form-group">
@@ -3404,6 +3745,10 @@
                 
                 modal.classList.add('active');
                 
+                // Configurar validación en vivo
+                setupLiveValidation('post-title', [validators.required], 'Título');
+                setupLiveValidation('post-content', [validators.required], 'Contenido');
+                
                 // Configurar upload de imagen
                 const fileInput = document.getElementById('post-image-file');
                 fileInput.addEventListener('change', createImageUploader(
@@ -3434,11 +3779,11 @@
                 let html = `
                     <form id="edit-post-form">
                         <div class="form-group">
-                            <label>Título *</label>
+                            <label>Título <span class="required">*</span></label>
                             <input type="text" id="post-title" class="form-control" value="${post.titulo || ''}" required>
                         </div>
                         <div class="form-group">
-                            <label>Contenido *</label>
+                            <label>Contenido <span class="required">*</span></label>
                             <textarea id="post-content" class="form-control" rows="6" required>${post.contenido || ''}</textarea>
                         </div>
                         <div class="form-group">
@@ -3490,6 +3835,10 @@
                 
                 modal.classList.add('active');
                 
+                // Configurar validación en vivo
+                setupLiveValidation('post-title', [validators.required], 'Título');
+                setupLiveValidation('post-content', [validators.required], 'Contenido');
+                
                 // Configurar upload de imagen
                 const fileInput = document.getElementById('post-image-file');
                 fileInput.addEventListener('change', createImageUploader(
@@ -3511,6 +3860,17 @@
             };
             
             window.savePost = async function(id) {
+                // Validar formulario
+                const isValid = validateForm(id ? 'edit-post-form' : 'create-post-form', {
+                    'post-title': { validators: [validators.required], name: 'Título' },
+                    'post-content': { validators: [validators.required], name: 'Contenido' }
+                });
+                
+                if (!isValid) {
+                    showError('Por favor corrige los errores en el formulario');
+                    return;
+                }
+                
                 try {
                     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
                     
@@ -4365,8 +4725,25 @@
             
             window.editConfigField = function(key) {
                 const currentValue = siteConfig[key];
-                const newValue = prompt(`Editar ${key.replace(/_/g, ' ')}:`, currentValue);
+                let promptMessage = `Editar ${key.replace(/_/g, ' ')}:`;
+                let newValue = prompt(promptMessage, currentValue);
+                
                 if (newValue !== null && newValue.trim() !== '') {
+                    // Validar según el campo
+                    if (key === 'site_email') {
+                        const emailValid = validators.email(newValue);
+                        if (!emailValid.valid) {
+                            showError(emailValid.message);
+                            return;
+                        }
+                    } else if (key === 'site_phone') {
+                        const phoneValid = validators.phone(newValue);
+                        if (!phoneValid.valid) {
+                            showError(phoneValid.message);
+                            return;
+                        }
+                    }
+                    
                     siteConfig[key] = newValue.trim();
                     showSuccess(`${key.replace(/_/g, ' ')} actualizado`);
                     renderConfiguracion();
