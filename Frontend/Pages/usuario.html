@@ -1542,7 +1542,7 @@
         <div class="loader-spinner"></div>
     </div>
 
-    <!-- HEADER - EXACTAMENTE IGUAL QUE INDEX.HTML -->
+    <!-- HEADER - EXACTAMENTE IGUAL QUE INDEX.HTML (CORREGIDO) -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -1559,7 +1559,7 @@
                     <h1 class="times-font">Caño <span class="text-orange">Salao</span></h1>
                 </div>
 
-                <!-- Navegación desktop - SIN OPCIONES DE USUARIO -->
+                <!-- Navegación desktop -->
                 <div class="nav-center">
                     <nav>
                         <ul id="main-navigation">
@@ -1574,13 +1574,15 @@
                     </nav>
                 </div>
 
-                <!-- Sistema de usuario - IGUAL QUE INDEX -->
+                <!-- Sistema de usuario -->
                 <div class="auth-section">
                     <div class="user-menu-container" id="user-menu-container">
+                        <!-- Botón de login (oculto por defecto cuando hay sesión) -->
                         <a href="../index.html" class="login-btn" id="login-btn" style="display: none;">
                             <i class="bi bi-person-circle"></i> <span id="login-text">Iniciar Sesión</span>
                         </a>
                         
+                        <!-- Usuario logueado (visible por defecto, se ocultará si no hay sesión) -->
                         <div class="logged-user" id="logged-user" style="display: flex;">
                             <div class="user-avatar" id="header-user-avatar" aria-label="Menú de usuario" role="button" tabindex="0">U</div>
                             <div class="user-info">
@@ -1588,6 +1590,9 @@
                                 <div class="user-role" id="header-user-role">user</div>
                             </div>
                         </div>
+                        
+                        <!-- Dropdown menu (se llenará dinámicamente) -->
+                        <div class="user-dropdown-menu" id="user-dropdown-menu"></div>
                     </div>
                 </div>
 
@@ -1599,7 +1604,7 @@
         </div>
     </header>
 
-    <!-- Menú móvil - SIN OPCIONES DE USUARIO -->
+    <!-- Menú móvil -->
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
     <div class="mobile-menu-container" id="mobile-menu-container">
         <div class="mobile-menu-header">
@@ -1621,7 +1626,7 @@
                 <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
                 <li><a href="blog.html"><i class="bi bi-newspaper"></i> Blog</a></li>
                 <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
-                <!-- SIN OPCIÓN MI CUENTA -->
+                <!-- Nota: "Mi Cuenta" no está aquí, ya que es la página actual -->
             </ul>
         </nav>
     </div>
@@ -1645,7 +1650,7 @@
         </div>
     </section>
 
-    <!-- Contenido Principal - TU CÓDIGO ORIGINAL COMPLETO -->
+    <!-- Contenido Principal -->
     <main class="user-container">
         <!-- Mensaje cuando no hay sesión -->
         <div id="unauthenticated-message" class="unauthenticated-message" style="display: none;">
@@ -1705,7 +1710,7 @@
                             </a>
                         </div>
                         
-                        <!-- NUEVO: Toggle entre vista general y reservas -->
+                        <!-- Toggle entre vista general y reservas -->
                         <div id="user-view-toggle" class="user-view-toggle" style="display: block;">
                             <div class="toggle-buttons">
                                 <button class="toggle-btn active" id="general-view-btn">
@@ -2098,28 +2103,28 @@
                         
                         <!-- Estadísticas del Sistema -->
                         <div class="admin-stats">
-                            <div class="admin-stat-card">
+                            <div class="stat-card">
                                 <i class="bi bi-people"></i>
-                                <div class="admin-stat-number" id="admin-total-users">0</div>
-                                <div class="admin-stat-label">Usuarios Registrados</div>
+                                <div class="stat-number" id="admin-total-users">0</div>
+                                <div class="stat-label">Usuarios Registrados</div>
                             </div>
                             
-                            <div class="admin-stat-card">
+                            <div class="stat-card">
                                 <i class="bi bi-calendar-check"></i>
-                                <div class="admin-stat-number" id="admin-total-bookings">0</div>
-                                <div class="admin-stat-label">Reservas Totales</div>
+                                <div class="stat-number" id="admin-total-bookings">0</div>
+                                <div class="stat-label">Reservas Totales</div>
                             </div>
                             
-                            <div class="admin-stat-card">
+                            <div class="stat-card">
                                 <i class="bi bi-currency-dollar"></i>
-                                <div class="admin-stat-number" id="admin-total-revenue">$0</div>
-                                <div class="admin-stat-label">Ingresos Totales</div>
+                                <div class="stat-number" id="admin-total-revenue">$0</div>
+                                <div class="stat-label">Ingresos Totales</div>
                             </div>
                             
-                            <div class="admin-stat-card">
+                            <div class="stat-card">
                                 <i class="bi bi-clock-history"></i>
-                                <div class="admin-stat-number" id="admin-pending-bookings">0</div>
-                                <div class="admin-stat-label">Reservas Pendientes</div>
+                                <div class="stat-number" id="admin-pending-bookings">0</div>
+                                <div class="stat-label">Reservas Pendientes</div>
                             </div>
                         </div>
                         
@@ -2309,7 +2314,7 @@
         </div>
     </main>
 
-    <!-- Footer - SIN OPCIÓN MI CUENTA -->
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -2327,7 +2332,6 @@
                         <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
                         <li><a href="blog.html"><i class="bi bi-newspaper"></i> Blog</a></li>
                         <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
-                        <!-- SIN OPCIÓN MI CUENTA -->
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -2351,7 +2355,7 @@
         </div>
     </footer>
 
-    <!-- TU JAVASCRIPT ORIGINAL COMPLETO -->
+    <!-- Script con la lógica del frontend (conexión al backend) -->
     <script>
         (function() {
             // ========== CONFIGURACIÓN ==========
@@ -2761,32 +2765,30 @@
                 if (!currentUser) return;
                 
                 const headerUserName = document.getElementById('header-user-name');
-                const headerUserRole = document.getElementById('header-user-avatar');
+                const headerUserAvatar = document.getElementById('header-user-avatar');
                 const loggedUser = document.getElementById('logged-user');
                 const loginBtn = document.getElementById('login-btn');
-                const mobileUserMenu = document.getElementById('mobile-user-menu');
                 
                 if (headerUserName) {
                     headerUserName.textContent = currentUser.nombre || currentUser.email.split('@')[0];
                 }
                 
-                if (headerUserRole) {
+                if (headerUserAvatar) {
                     const letter = currentUser.nombre 
                         ? currentUser.nombre.charAt(0).toUpperCase() 
                         : currentUser.email.charAt(0).toUpperCase();
                     
-                    headerUserRole.textContent = letter;
+                    headerUserAvatar.textContent = letter;
                     
                     if (currentUser.rol === 'admin') {
-                        headerUserRole.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                        headerUserAvatar.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
                     } else {
-                        headerUserRole.style.background = 'linear-gradient(135deg, #3498db, #2c3e50)';
+                        headerUserAvatar.style.background = 'linear-gradient(135deg, #3498db, #2c3e50)';
                     }
                 }
                 
                 if (loggedUser) loggedUser.style.display = 'flex';
                 if (loginBtn) loginBtn.style.display = 'none';
-                if (mobileUserMenu) mobileUserMenu.style.display = 'block';
             }
             
             function updateUserUI() {
@@ -3423,7 +3425,7 @@
             // ========== DROPDOWN FUNCTIONS ==========
             function initUserDropdown() {
                 const avatar = document.getElementById('header-user-avatar');
-                const dropdown = document.querySelector('.user-dropdown-menu');
+                const dropdown = document.getElementById('user-dropdown-menu');
                 
                 if (avatar && dropdown) {
                     if (!dropdown.innerHTML.trim()) {
