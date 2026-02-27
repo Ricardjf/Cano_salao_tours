@@ -94,7 +94,7 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* ===== HEADER - EXACTAMENTE COMO EN INDEX.HTML ===== */
+        /* ===== HEADER - EXACTAMENTE IGUAL QUE INDEX.HTML ===== */
         header {
             background: linear-gradient(135deg, #1a7fb8 0%, #0d3b66 100%);
             color: white;
@@ -178,10 +178,17 @@
             background: rgba(255,255,255,0.15);
         }
         
-        /* Sistema de usuario */
+        /* Sistema de usuario en header */
+        .auth-section {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-shrink: 0;
+            z-index: 1002;
+        }
+        
         .user-menu-container {
             position: relative;
-            z-index: 1002;
         }
         
         .logged-user {
@@ -246,6 +253,28 @@
             font-weight: bold;
         }
         
+        .login-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            min-height: 44px;
+        }
+        
+        .login-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        
+        /* Dropdown menu */
         .user-dropdown-menu {
             position: absolute;
             top: 100%;
@@ -310,35 +339,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .auth-section {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            flex-shrink: 0;
-            z-index: 1002;
-        }
-        
-        .login-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(255,255,255,0.15);
-            color: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255,255,255,0.2);
-            font-size: 0.85rem;
-            white-space: nowrap;
-            min-height: 44px;
-        }
-        
-        .login-btn:hover {
-            background: rgba(255,255,255,0.25);
-        }
-        
         /* Botón menú móvil */
         .menu-toggle {
             display: none;
@@ -357,7 +357,7 @@
             justify-content: center;
         }
         
-        /* Menú móvil overlay */
+        /* Menú móvil */
         .mobile-menu-overlay {
             display: none;
             position: fixed;
@@ -1456,6 +1456,7 @@
                         width="55" 
                         height="55"
                         loading="eager"
+                        onerror="this.src='https://via.placeholder.com/55x55?text=CS'"
                     >
                     <h1 class="times-font">Caño <span class="text-orange">Salao</span></h1>
                 </div>
@@ -1478,19 +1479,21 @@
                 <!-- Sistema de usuario -->
                 <div class="auth-section">
                     <div class="user-menu-container" id="user-menu-container">
+                        <!-- Botón de login (oculto por defecto cuando hay sesión) -->
                         <a href="../index.html" class="login-btn" id="login-btn" style="display: none;">
                             <i class="bi bi-person-circle"></i> <span id="login-text">Iniciar Sesión</span>
                         </a>
                         
+                        <!-- Usuario logueado -->
                         <div class="logged-user" id="logged-user" style="display: flex;">
                             <div class="user-avatar" id="header-user-avatar" aria-label="Menú de usuario" role="button" tabindex="0">U</div>
                             <div class="user-info">
-                                <div class="user-name" id="header-user-name">Usuario</div>
-                                <div class="user-role" id="header-user-role">user</div>
+                                <div class="user-name" id="header-user-name">Cargando...</div>
+                                <div class="user-role" id="header-user-role">usuario</div>
                             </div>
                         </div>
                         
-                        <!-- Dropdown menu (se llena dinámicamente) -->
+                        <!-- Dropdown menu -->
                         <div class="user-dropdown-menu" id="user-dropdown-menu"></div>
                     </div>
                 </div>
@@ -2257,6 +2260,8 @@
     <!-- Script con la lógica del frontend (conexión al backend) -->
     <script>
         (function() {
+            "use strict";
+            
             // ========== CONFIGURACIÓN ==========
             const API_BASE_URL = 'https://ricardjf.pythonanywhere.com';
             
@@ -2268,12 +2273,12 @@
                 LAST_ACTIVITY: 'cano_salao_last_activity'
             };
             
-            // Estado global
+            // ========== VARIABLES GLOBALES ==========
             let currentUser = null;
             let isAuthenticated = false;
             let isAdmin = false;
-            let userData = null;
             let isMobileMenuOpen = false;
+            let userBookings = [];
             
             // ========== SISTEMA DE NOTIFICACIONES ==========
             class NotificationSystem {
@@ -2378,7 +2383,6 @@
                 }
             }
             
-            // ========== SISTEMA DE SESIÓN ==========
             function getStorageItem(key) {
                 return localStorage.getItem(key);
             }
@@ -2399,13 +2403,6 @@
                 isAuthenticated = false;
                 isAdmin = false;
                 console.log('✅ Sesión limpiada');
-            }
-            
-            function redirectToHome() {
-                showAlert('No tienes sesión activa. Serás redirigido...', 'warning');
-                setTimeout(() => {
-                    window.location.href = '../index.html';
-                }, 2000);
             }
             
             function showUnauthenticatedMessage() {
@@ -2430,11 +2427,10 @@
             
             // ========== FUNCIÓN PARA DETECTAR HASH EN URL ==========
             function checkUrlHash() {
-                const hash = window.location.hash.substring(1); // Quita el # del inicio
+                const hash = window.location.hash.substring(1);
                 if (hash) {
                     console.log('📍 Hash detectado:', hash);
                     
-                    // Mapeo de hashes a secciones
                     const sectionMap = {
                         'bookings': 'bookings',
                         'reservas': 'bookings',
@@ -2449,18 +2445,14 @@
                     
                     const targetSection = sectionMap[hash];
                     if (targetSection) {
-                        // Esperar a que la UI esté lista
                         setTimeout(() => {
                             if (isAdmin && !targetSection.startsWith('admin-') && targetSection !== 'bookings' && targetSection !== 'profile') {
-                                // Si es admin pero quiere ir a sección de usuario normal (excepto reservas/perfil), mostrar admin-dashboard
                                 showSection('admin-dashboard');
                             } else if (!isAdmin && targetSection.startsWith('admin-')) {
-                                // Si es usuario normal pero quiere ir a sección admin, mostrar dashboard
                                 showSection('dashboard');
                             } else {
                                 showSection(targetSection);
                                 
-                                // Si es la sección de reservas, actualizar los botones de toggle
                                 if (targetSection === 'bookings') {
                                     const reservasBtn = document.getElementById('reservas-view-btn');
                                     const generalBtn = document.getElementById('general-view-btn');
@@ -2498,6 +2490,8 @@
                     showAuthenticatedContent();
                     setupUIByRole();
                     updateUserUI();
+                    
+                    // Validar con el servidor (como en admin.html)
                     await validateSessionWithServer();
                     
                     return true;
@@ -2510,18 +2504,13 @@
             }
             
             async function validateSessionWithServer() {
-                if (!currentUser) return;
-                
                 const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                if (!token) {
-                    console.warn('⚠️ No hay token almacenado');
-                    return;
-                }
+                if (!token || !currentUser) return;
                 
                 try {
                     console.log('🔄 Validando sesión con servidor...');
                     
-                    const response = await fetch(`${API_BASE_URL}/auth/verify`, {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -2531,7 +2520,7 @@
                     
                     if (response.ok) {
                         const data = await response.json();
-                        console.log('✅ Sesión válida en servidor:', data);
+                        console.log('✅ Sesión válida en servidor');
                         
                         if (data.success && data.valid && data.user) {
                             currentUser = { ...currentUser, ...data.user };
@@ -2581,7 +2570,7 @@
                 try {
                     console.log('🔄 Intentando refrescar token...');
                     
-                    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
                         method: 'POST',
                         headers: {
                             'Authorization': `Bearer ${refreshToken}`,
@@ -2712,17 +2701,27 @@
                 
                 const headerUserName = document.getElementById('header-user-name');
                 const headerUserAvatar = document.getElementById('header-user-avatar');
+                const headerUserRole = document.getElementById('header-user-role');
                 const loggedUser = document.getElementById('logged-user');
                 const loginBtn = document.getElementById('login-btn');
                 
                 if (headerUserName) {
-                    headerUserName.textContent = currentUser.nombre || currentUser.email.split('@')[0];
+                    headerUserName.textContent = currentUser.nombre || currentUser.email?.split('@')[0] || 'Usuario';
+                }
+                
+                if (headerUserRole) {
+                    headerUserRole.textContent = currentUser.rol === 'admin' ? 'Administrador' : 'Usuario';
+                    if (currentUser.rol === 'admin') {
+                        headerUserRole.classList.add('admin');
+                    } else {
+                        headerUserRole.classList.remove('admin');
+                    }
                 }
                 
                 if (headerUserAvatar) {
                     const letter = currentUser.nombre 
                         ? currentUser.nombre.charAt(0).toUpperCase() 
-                        : currentUser.email.charAt(0).toUpperCase();
+                        : (currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U');
                     
                     headerUserAvatar.textContent = letter;
                     
@@ -2758,7 +2757,7 @@
                 if (userAvatar) {
                     const letter = currentUser.nombre 
                         ? currentUser.nombre.charAt(0).toUpperCase() 
-                        : currentUser.email.charAt(0).toUpperCase();
+                        : (currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U');
                     
                     userAvatar.textContent = letter;
                     
@@ -2908,7 +2907,7 @@
                         return;
                     }
                     
-                    const statsResponse = await fetch(`${API_BASE_URL}/admin/dashboard`, {
+                    const statsResponse = await fetch(`${API_BASE_URL}/api/admin/dashboard`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
@@ -2925,7 +2924,7 @@
                         if (stats.total_revenue !== undefined) {
                             document.getElementById('admin-total-revenue').textContent = `$${stats.total_revenue.toFixed(2)}`;
                         } else {
-                            const bookingsResponse = await fetch(`${API_BASE_URL}/user/bookings`, {
+                            const bookingsResponse = await fetch(`${API_BASE_URL}/api/user/bookings`, {
                                 headers: {
                                     'Authorization': `Bearer ${token}`,
                                     'Content-Type': 'application/json'
@@ -2961,7 +2960,7 @@
                     const token = getStorageItem(STORAGE_KEYS.TOKEN);
                     if (!token) return;
                     
-                    const response = await fetch(`${API_BASE_URL}/user/bookings?limit=5`, {
+                    const response = await fetch(`${API_BASE_URL}/api/user/bookings?limit=5`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
@@ -3011,7 +3010,7 @@
                     const token = getStorageItem(STORAGE_KEYS.TOKEN);
                     if (!token) return;
                     
-                    const response = await fetch(`${API_BASE_URL}/admin/users`, {
+                    const response = await fetch(`${API_BASE_URL}/api/admin/users`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
@@ -3097,7 +3096,7 @@
                         return;
                     }
                     
-                    const response = await fetch(`${API_BASE_URL}/user/bookings`, {
+                    const response = await fetch(`${API_BASE_URL}/api/user/bookings`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
@@ -3123,6 +3122,12 @@
                             const recentBookings = bookings.slice(0, 5);
                             renderRecentBookings(recentBookings);
                         }
+                    } else if (response.status === 401) {
+                        // Token expirado, intentar refrescar
+                        const refreshed = await tryRefreshToken();
+                        if (refreshed) {
+                            loadUserDashboardData();
+                        }
                     }
                     
                 } catch (error) {
@@ -3139,7 +3144,7 @@
                         return;
                     }
                     
-                    const response = await fetch(`${API_BASE_URL}/user/bookings`, {
+                    const response = await fetch(`${API_BASE_URL}/api/user/bookings`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
@@ -3148,7 +3153,13 @@
                     
                     if (response.ok) {
                         const data = await response.json();
-                        renderUserBookings(data.bookings || []);
+                        userBookings = data.bookings || [];
+                        renderUserBookings(userBookings);
+                    } else if (response.status === 401) {
+                        const refreshed = await tryRefreshToken();
+                        if (refreshed) {
+                            loadUserBookings();
+                        }
                     } else {
                         console.warn('⚠️ No se pudieron cargar las reservas');
                         renderUserBookings([]);
@@ -3269,7 +3280,7 @@
                     const token = getStorageItem(STORAGE_KEYS.TOKEN);
                     if (!token) throw new Error('No hay token de sesión');
                     
-                    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
                         method: 'PUT',
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -3292,6 +3303,11 @@
                             saveUserData(currentUser);
                             updateUserUI();
                             showAlert('✅ Perfil actualizado exitosamente', 'success');
+                        }
+                    } else if (response.status === 401) {
+                        const refreshed = await tryRefreshToken();
+                        if (refreshed) {
+                            await saveProfile();
                         }
                     } else {
                         const error = await response.json();
@@ -3332,7 +3348,7 @@
                     const token = getStorageItem(STORAGE_KEYS.TOKEN);
                     if (!token) throw new Error('No hay token de sesión');
                     
-                    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
                         method: 'PUT',
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -3354,6 +3370,11 @@
                             updateUserUI();
                             showAlert('✅ Perfil de administrador actualizado exitosamente', 'success');
                         }
+                    } else if (response.status === 401) {
+                        const refreshed = await tryRefreshToken();
+                        if (refreshed) {
+                            await saveAdminProfile();
+                        }
                     } else {
                         const error = await response.json();
                         throw new Error(error.message || 'Error actualizando perfil');
@@ -3374,19 +3395,61 @@
                 const dropdown = document.getElementById('user-dropdown-menu');
                 
                 if (avatar && dropdown) {
-                    if (!dropdown.innerHTML.trim()) {
-                        dropdown.innerHTML = `
-                            <div class="user-dropdown-header">
-                                <strong id="dropdown-user-name">${currentUser?.nombre || 'Usuario'}</strong>
-                                <div class="user-dropdown-email" id="dropdown-user-email">${currentUser?.email || ''}</div>
-                            </div>
-                            <a href="#" onclick="showSection('dashboard')"><i class="bi bi-speedometer2"></i> Mi Panel</a>
-                            <a href="#" onclick="showSection('profile')"><i class="bi bi-person"></i> Mi Perfil</a>
-                            <a href="usuario.html#bookings" onclick="event.preventDefault(); window.location.href='usuario.html#bookings'"><i class="bi bi-calendar-check"></i> Mis Reservas</a>
-                            ${isAdmin ? '<a href="admin.html"><i class="bi bi-gear"></i> Panel Admin</a>' : ''}
-                            <a href="#" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
-                        `;
+                    // Limpiar y recrear el dropdown
+                    dropdown.innerHTML = '';
+                    
+                    const header = document.createElement('div');
+                    header.className = 'user-dropdown-header';
+                    header.innerHTML = `
+                        <strong>${currentUser?.nombre || 'Usuario'}</strong>
+                        <div class="user-dropdown-email">${currentUser?.email || ''}</div>
+                    `;
+                    dropdown.appendChild(header);
+                    
+                    const dashboardLink = document.createElement('a');
+                    dashboardLink.href = '#';
+                    dashboardLink.innerHTML = '<i class="bi bi-speedometer2"></i> Mi Panel';
+                    dashboardLink.onclick = (e) => {
+                        e.preventDefault();
+                        showSection('dashboard');
+                        dropdown.classList.remove('show');
+                    };
+                    dropdown.appendChild(dashboardLink);
+                    
+                    const profileLink = document.createElement('a');
+                    profileLink.href = '#';
+                    profileLink.innerHTML = '<i class="bi bi-person"></i> Mi Perfil';
+                    profileLink.onclick = (e) => {
+                        e.preventDefault();
+                        showSection('profile');
+                        dropdown.classList.remove('show');
+                    };
+                    dropdown.appendChild(profileLink);
+                    
+                    const bookingsLink = document.createElement('a');
+                    bookingsLink.href = 'usuario.html#bookings';
+                    bookingsLink.innerHTML = '<i class="bi bi-calendar-check"></i> Mis Reservas';
+                    bookingsLink.onclick = (e) => {
+                        e.preventDefault();
+                        window.location.href = 'usuario.html#bookings';
+                    };
+                    dropdown.appendChild(bookingsLink);
+                    
+                    if (isAdmin) {
+                        const adminLink = document.createElement('a');
+                        adminLink.href = 'admin.html';
+                        adminLink.innerHTML = '<i class="bi bi-gear"></i> Panel Admin';
+                        dropdown.appendChild(adminLink);
                     }
+                    
+                    const logoutLink = document.createElement('a');
+                    logoutLink.href = '#';
+                    logoutLink.innerHTML = '<i class="bi bi-box-arrow-right"></i> Cerrar Sesión';
+                    logoutLink.onclick = (e) => {
+                        e.preventDefault();
+                        logout();
+                    };
+                    dropdown.appendChild(logoutLink);
                     
                     avatar.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -3434,8 +3497,6 @@
                         saveAdminProfile();
                     });
                 }
-                
-                initUserDropdown();
             }
             
             // ========== FUNCIONES DE FILTRO Y BÚSQUEDA ==========
@@ -3587,13 +3648,11 @@
                         console.log('❌ Usuario no autenticado');
                     } else {
                         console.log('✅ Usuario autenticado correctamente');
-                        
-                        // Después de autenticar, verificar si hay hash en la URL
+                        initUserDropdown(); // Inicializar dropdown después de autenticar
                         setTimeout(checkUrlHash, 300);
                     }
                 });
                 
-                // También verificar cuando cambie el hash
                 window.addEventListener('hashchange', checkUrlHash);
                 
                 console.log('✅ Página de usuario inicializada');
