@@ -490,7 +490,7 @@
         /* ========== HERO ========== */
         .page-hero {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('../media/derrame.jpeg');
+                        url('https://images.unsplash.com/photo-1580137189272-c9370b0d12c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             color: white;
@@ -1131,7 +1131,7 @@
     <div id="site-alert" class="site-alert"></div>
     
     <!-- Loader -->
-    <div id="page-loader" class="hidden">
+    <div id="page-loader">
         <div class="loader-spinner"></div>
     </div>
 
@@ -1142,13 +1142,11 @@
                 <a href="../index.html" class="logo">
                     <img 
                         src="../media/Logo_cano_60.png" 
-                        srcset="../media/Logo_cano_60.png 1x, ../media/Logo_cano_120.png 2x" 
                         alt="Logo Caño Salao - Ruta Turística Marítima" 
                         class="logo-img"
                         width="35" 
                         height="35"
                         loading="eager"
-                        aria-hidden="true"
                     >
                     <h1>Caño <span class="text-orange">Salao</span></h1>
                 </a>
@@ -1176,7 +1174,7 @@
                         </a>
                         
                         <div class="logged-user" id="logged-user" style="display: none;">
-                            <div class="user-avatar" id="user-avatar" aria-label="Menú de usuario" role="button" tabindex="0" title="Menú de usuario">U</div>
+                            <div class="user-avatar" id="user-avatar" aria-label="Menú de usuario" role="button" tabindex="0">U</div>
                             <div class="user-info">
                                 <div class="user-name" id="user-name">Usuario</div>
                                 <div class="user-role" id="user-role">user</div>
@@ -1217,6 +1215,9 @@
                 <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
                 <li id="mobile-user-menu" style="display: none;">
                     <a href="usuario.html"><i class="bi bi-person-circle"></i> Mi Cuenta</a>
+                </li>
+                <li id="mobile-admin-menu" style="display: none;">
+                    <a href="admin.html"><i class="bi bi-shield-check"></i> Panel Admin</a>
                 </li>
             </ul>
         </nav>
@@ -1261,10 +1262,10 @@
             <div class="category-filters" id="category-filters">
                 <div class="category-filter active" data-category="all">Todos</div>
                 <div class="category-filter" data-category="noticias">Noticias</div>
-                <div class="category-filter" data-category="viajes">Consejos de Viaje</div>
-                <div class="category-filter" data-category="naturaleza">Naturaleza</div>
-                <div class="category-filter" data-category="comunidad">Comunidad</div>
-                <div class="category-filter" data-category="turismo">Turismo Sostenible</div>
+                <div class="category-filter" data-category="tours">Tours</div>
+                <div class="category-filter" data-category="consejos">Consejos</div>
+                <div class="category-filter" data-category="historias">Historias</div>
+                <div class="category-filter" data-category="eventos">Eventos</div>
             </div>
             
             <!-- Grid de blogs -->
@@ -1333,22 +1334,18 @@
     <!-- Scripts -->
     <script>
         // ========== CONFIGURACIÓN ==========
-        const API_BASE_URL = 'https://cano-salao.onrender.com/api';
+        const API_BASE_URL = 'https://ricardjf.pythonanywhere.com'; // Mismo que admin.html
         const STORAGE_KEYS = {
             TOKEN: 'cano_salao_token',
             REFRESH_TOKEN: 'cano_salao_refresh_token',
-            USER: 'cano_salao_user',
-            SESSION_EXPIRES: 'cano_salao_expires',
-            LAST_ACTIVITY: 'cano_salao_last_activity'
+            USER: 'cano_salao_user'
         };
         
-        // Variables globales del blog
+        // Variables globales
         let currentUser = null;
         let userDropdown = null;
         let userDropdownOpen = false;
         let isMobileMenuOpen = false;
-        let isRefreshingToken = false;
-        let failedRequestsQueue = [];
         let allBlogPosts = [];
         let filteredBlogPosts = [];
         let currentCategory = 'all';
@@ -1358,7 +1355,7 @@
         
         // ========== INICIALIZACIÓN ==========
         (function init() {
-            console.log('🚀 Iniciando sistema de blog Caño Salao...');
+            console.log('🚀 Iniciando blog Caño Salao...');
             
             // Ocultar loader
             hideLoader();
@@ -1369,256 +1366,58 @@
             // Inicializar sistema de blog
             initializeBlogSystem();
             
+            // Inicializar menú móvil
+            initializeMobileMenu();
+            
             console.log('✅ Sistema de blog inicializado');
         })();
         
-        // ========== SISTEMA DE GESTIÓN DE TOKENS ==========
-        
-        function getStorageItem(key) {
-            return localStorage.getItem(key);
-        }
-        
-        function setStorageItem(key, value) {
-            localStorage.setItem(key, value);
-        }
-        
-        function removeStorageItem(key) {
-            localStorage.removeItem(key);
-        }
-        
-        async function fetchWithAuth(url, options = {}) {
-            const accessToken = getStorageItem(STORAGE_KEYS.TOKEN);
-            
-            if (!accessToken) {
-                console.warn('⚠️ No hay token de acceso disponible');
-                return fetch(url, options);
-            }
-            
-            options.headers = {
-                ...options.headers,
-                'Authorization': `Bearer ${accessToken}`
-            };
-            
-            try {
-                const response = await fetch(url, options);
-                
-                if (response.status === 401) {
-                    const responseData = await response.json().catch(() => ({}));
-                    
-                    if (responseData.error === 'token_expired' || responseData.error === 'invalid_token') {
-                        console.log('🔄 Token expirado, intentando refrescar...');
-                        
-                        if (isRefreshingToken) {
-                            return new Promise((resolve, reject) => {
-                                failedRequestsQueue.push({ resolve, reject });
-                            }).then(newToken => {
-                                options.headers = {
-                                    ...options.headers,
-                                    'Authorization': `Bearer ${newToken}`
-                                };
-                                return fetch(url, options);
-                            }).catch(err => {
-                                console.error('Error en cola de refresco:', err);
-                                return response;
-                            });
-                        }
-                        
-                        isRefreshingToken = true;
-                        
-                        try {
-                            const newTokens = await refreshTokens();
-                            
-                            if (newTokens && newTokens.access_token) {
-                                options.headers = {
-                                    ...options.headers,
-                                    'Authorization': `Bearer ${newTokens.access_token}`
-                                };
-                                
-                                processFailedQueue(null, newTokens.access_token);
-                                const retryResponse = await fetch(url, options);
-                                isRefreshingToken = false;
-                                return retryResponse;
-                            } else {
-                                throw new Error('No se pudo refrescar el token');
-                            }
-                        } catch (refreshError) {
-                            console.error('❌ Error refrescando token:', refreshError);
-                            processFailedQueue(refreshError, null);
-                            isRefreshingToken = false;
-                            clearUserSession();
-                            showLoginInterface();
-                            showAlert('Tu sesión ha expirado. Por favor inicia sesión nuevamente.', 'warning');
-                            return response;
-                        }
-                    }
-                }
-                
-                if (response.ok && currentUser) {
-                    updateLastActivity();
-                }
-                
-                return response;
-                
-            } catch (error) {
-                console.error('❌ Error en fetchWithAuth:', error);
-                throw error;
-            }
-        }
-        
-        async function refreshTokens() {
-            const refreshToken = getStorageItem(STORAGE_KEYS.REFRESH_TOKEN);
-            
-            if (!refreshToken) {
-                console.warn('⚠️ No hay refresh token disponible');
-                return null;
-            }
-            
-            try {
-                console.log('🔄 Refrescando tokens...');
-                
-                const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${refreshToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include'
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    saveTokens(data.access_token, data.refresh_token);
-                    
-                    if (data.user) {
-                        saveUserData(data.user);
-                        currentUser = data.user;
-                        updateUserInfo();
-                    }
-                    
-                    updateSessionExpiration();
-                    console.log('✅ Tokens refrescados exitosamente');
-                    return {
-                        access_token: data.access_token,
-                        refresh_token: data.refresh_token
-                    };
-                } else {
-                    console.error('❌ Error en respuesta de refresh:', response.status);
-                    return null;
-                }
-            } catch (error) {
-                console.error('❌ Error en refreshTokens:', error);
-                return null;
-            }
-        }
-        
-        function saveTokens(accessToken, refreshToken) {
-            setStorageItem(STORAGE_KEYS.TOKEN, accessToken);
-            setStorageItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
-        }
-        
-        function saveUserData(user) {
-            setStorageItem(STORAGE_KEYS.USER, JSON.stringify(user));
-        }
-        
-        function updateSessionExpiration() {
-            const expires = new Date();
-            expires.setDate(expires.getDate() + 30);
-            setStorageItem(STORAGE_KEYS.SESSION_EXPIRES, expires.toISOString());
-        }
-        
-        function updateLastActivity() {
-            const now = new Date().toISOString();
-            setStorageItem(STORAGE_KEYS.LAST_ACTIVITY, now);
-        }
-        
-        function processFailedQueue(error, token = null) {
-            failedRequestsQueue.forEach(prom => {
-                if (error) {
-                    prom.reject(error);
-                } else {
-                    prom.resolve(token);
-                }
-            });
-            failedRequestsQueue = [];
-        }
-        
         // ========== SISTEMA DE USUARIO ==========
-        
         function initializeUserSystem() {
-            console.log('🔐 Verificando sesión del usuario...');
+            const userData = localStorage.getItem(STORAGE_KEYS.USER);
+            const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
             
-            const userData = getStorageItem(STORAGE_KEYS.USER);
-            const token = getStorageItem(STORAGE_KEYS.TOKEN);
-            const refreshToken = getStorageItem(STORAGE_KEYS.REFRESH_TOKEN);
-            
-            if (token && userData && refreshToken) {
+            if (token && userData) {
                 try {
                     currentUser = JSON.parse(userData);
-                    console.log('✅ Usuario encontrado:', currentUser.nombre);
                     showUserInterface();
-                    updateLastActivity();
                 } catch (error) {
-                    console.error('❌ Error parseando datos de usuario:', error);
-                    clearUserSession();
+                    console.error('Error parsing user data:', error);
                     showLoginInterface();
                 }
             } else {
-                console.log('ℹ️ No hay sesión activa');
                 showLoginInterface();
             }
-            
-            initializeMobileMenu();
         }
         
         function showUserInterface() {
             const loginBtn = document.getElementById('login-btn');
             const loggedUser = document.getElementById('logged-user');
             const mobileUserMenu = document.getElementById('mobile-user-menu');
+            const mobileAdminMenu = document.getElementById('mobile-admin-menu');
             
             if (loginBtn) loginBtn.style.display = 'none';
             if (loggedUser) loggedUser.style.display = 'flex';
             if (mobileUserMenu) mobileUserMenu.style.display = 'block';
             
-            updateUserInfo();
-            
-            const avatar = document.getElementById('user-avatar');
-            if (avatar && currentUser) {
-                const letter = currentUser.nombre 
-                    ? currentUser.nombre.charAt(0).toUpperCase() 
-                    : currentUser.email.charAt(0).toUpperCase();
-                
-                avatar.textContent = letter;
-                
-                if (currentUser.rol === 'admin') {
-                    avatar.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-                    avatar.title = `Administrador: ${currentUser.nombre}`;
-                } else {
-                    avatar.style.background = 'linear-gradient(135deg, #3498db, #2c3e50)';
-                    avatar.title = `Usuario: ${currentUser.nombre}`;
-                }
-                
-                avatar.onclick = toggleUserDropdown;
-                avatar.onkeydown = function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggleUserDropdown();
-                    }
-                };
+            // Mostrar enlace a admin si es administrador
+            if (mobileAdminMenu && currentUser && currentUser.rol === 'admin') {
+                mobileAdminMenu.style.display = 'block';
             }
+            
+            updateUserInfo();
         }
         
         function showLoginInterface() {
             const loginBtn = document.getElementById('login-btn');
             const loggedUser = document.getElementById('logged-user');
             const mobileUserMenu = document.getElementById('mobile-user-menu');
+            const mobileAdminMenu = document.getElementById('mobile-admin-menu');
             
             if (loginBtn) loginBtn.style.display = 'flex';
             if (loggedUser) loggedUser.style.display = 'none';
             if (mobileUserMenu) mobileUserMenu.style.display = 'none';
-            
-            if (userDropdown && userDropdownOpen) {
-                closeUserDropdown();
-            }
+            if (mobileAdminMenu) mobileAdminMenu.style.display = 'none';
         }
         
         function updateUserInfo() {
@@ -1626,6 +1425,7 @@
             
             const userName = document.getElementById('user-name');
             const userRole = document.getElementById('user-role');
+            const userAvatar = document.getElementById('user-avatar');
             
             if (userName) {
                 userName.textContent = currentUser.nombre || currentUser.email.split('@')[0];
@@ -1634,6 +1434,19 @@
             if (userRole) {
                 userRole.textContent = currentUser.rol || 'user';
                 userRole.className = 'user-role ' + (currentUser.rol === 'admin' ? 'admin' : '');
+            }
+            
+            if (userAvatar) {
+                const letter = currentUser.nombre 
+                    ? currentUser.nombre.charAt(0).toUpperCase() 
+                    : currentUser.email.charAt(0).toUpperCase();
+                userAvatar.textContent = letter;
+                
+                if (currentUser.rol === 'admin') {
+                    userAvatar.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                }
+                
+                userAvatar.onclick = toggleUserDropdown;
             }
         }
         
@@ -1665,11 +1478,9 @@
                 <div class="user-dropdown-header">
                     <div style="font-weight: bold; font-size: 16px;">${currentUser.nombre || 'Usuario'}</div>
                     <div class="user-dropdown-email">${currentUser.email}</div>
-                    ${isAdmin ? '<div style="font-size: 12px; margin-top: 4px; padding: 2px 8px; background: rgba(255,255,255,0.2); border-radius: 4px; display: inline-block;">Administrador</div>' : ''}
                 </div>
-                <a href="usuario.html" class="user-dropdown-link" id="user-account-link">
+                <a href="usuario.html" class="user-dropdown-link">
                     <i class="bi bi-person"></i> Mi Cuenta
-                    ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}
                 </a>
                 ${isAdmin ? `
                 <a href="admin.html" class="user-dropdown-link">
@@ -1686,31 +1497,9 @@
             
             document.getElementById('user-menu-container').appendChild(userDropdown);
             
-            const accountLink = document.getElementById('user-account-link');
-            if (accountLink) {
-                accountLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    sessionStorage.setItem('redirecting_to_user', 'true');
-                    window.location.href = 'usuario.html';
-                });
-            }
-            
-            const logoutLink = document.getElementById('logout-link');
-            if (logoutLink) {
-                logoutLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    logout();
-                });
-            }
-            
-            const links = userDropdown.querySelectorAll('.user-dropdown-link');
-            links.forEach(link => {
-                link.addEventListener('mouseenter', function() {
-                    this.style.background = '#f5f5f5';
-                });
-                link.addEventListener('mouseleave', function() {
-                    this.style.background = '';
-                });
+            document.getElementById('logout-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                logout();
             });
         }
         
@@ -1751,24 +1540,14 @@
         
         function logout() {
             if (confirm('¿Estás seguro de cerrar sesión?')) {
-                clearUserSession();
+                Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
+                currentUser = null;
                 showLoginInterface();
                 showAlert('Sesión cerrada correctamente', 'success');
             }
         }
         
-        function clearUserSession() {
-            Object.values(STORAGE_KEYS).forEach(key => {
-                localStorage.removeItem(key);
-                sessionStorage.removeItem(key);
-            });
-            
-            currentUser = null;
-            console.log('✅ Sesión completamente limpiada');
-        }
-        
         // ========== FUNCIONES DE UI ==========
-        
         function hideLoader() {
             const loader = document.getElementById('page-loader');
             if (loader) {
@@ -1777,14 +1556,7 @@
         }
         
         function showAlert(message, type = 'info') {
-            let alertDiv = document.getElementById('site-alert');
-            if (!alertDiv) {
-                alertDiv = document.createElement('div');
-                alertDiv.id = 'site-alert';
-                alertDiv.className = 'site-alert';
-                document.body.appendChild(alertDiv);
-            }
-            
+            const alertDiv = document.getElementById('site-alert');
             alertDiv.textContent = message;
             alertDiv.className = `site-alert ${type}`;
             alertDiv.style.display = 'block';
@@ -1801,7 +1573,7 @@
             const menuContainer = document.getElementById('mobile-menu-container');
             
             if (menuToggle) {
-                menuToggle.addEventListener('click', function() {
+                menuToggle.addEventListener('click', () => {
                     if (!isMobileMenuOpen) {
                         openMobileMenu();
                     } else {
@@ -1818,12 +1590,11 @@
                 menuOverlay.addEventListener('click', closeMobileMenu);
             }
             
-            const mobileLinks = document.querySelectorAll('.mobile-menu-nav a');
-            mobileLinks.forEach(link => {
+            document.querySelectorAll('.mobile-menu-nav a').forEach(link => {
                 link.addEventListener('click', closeMobileMenu);
             });
             
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && isMobileMenuOpen) {
                     closeMobileMenu();
                 }
@@ -1839,7 +1610,6 @@
                 menuOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
                 isMobileMenuOpen = true;
-                closeUserDropdown();
             }
         }
         
@@ -1856,79 +1626,122 @@
         }
         
         // ========== SISTEMA DE BLOG ==========
-        
         function initializeBlogSystem() {
-            console.log('📝 Inicializando sistema de blog...');
-            
             loadBlogPosts();
             setupEventListeners();
         }
         
         async function loadBlogPosts() {
             try {
-                console.log('🔄 Cargando posts del blog desde API...');
+                console.log('Cargando posts del blog...');
                 
-                const response = await fetchWithAuth(`${API_BASE_URL}/blog`);
+                // Construir headers
+                const headers = {};
+                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+                
+                // Intentar cargar desde la API
+                const response = await fetch(`${API_BASE_URL}/api/blog`, { headers });
                 
                 if (response.ok) {
-                    allBlogPosts = await response.json();
-                    console.log(`✅ ${allBlogPosts.length} posts cargados`);
+                    const data = await response.json();
+                    console.log('Posts recibidos:', data);
                     
-                    // Procesar y mostrar posts
-                    processBlogPosts();
+                    // Manejar diferentes formatos de respuesta
+                    if (Array.isArray(data)) {
+                        allBlogPosts = data;
+                    } else if (data.posts && Array.isArray(data.posts)) {
+                        allBlogPosts = data.posts;
+                    } else if (data.data && Array.isArray(data.data)) {
+                        allBlogPosts = data.data;
+                    } else {
+                        console.warn('Formato de respuesta no reconocido, usando array vacío');
+                        allBlogPosts = [];
+                    }
                 } else {
-                    console.error('❌ Error cargando posts del blog:', response.status);
-                    loadFallbackBlogPosts();
+                    console.warn('Error cargando posts, usando datos de ejemplo');
+                    loadSamplePosts();
                 }
             } catch (error) {
-                console.error('❌ Error de conexión:', error);
-                loadFallbackBlogPosts();
+                console.error('Error de conexión:', error);
+                loadSamplePosts();
             }
-        }
-        
-        function processBlogPosts() {
-            // Aplicar filtros
+            
+            // Procesar y mostrar posts
             filterBlogPosts();
-            
-            // Mostrar posts
             renderBlogPosts();
-            
-            // Actualizar paginación
             updatePagination();
         }
         
+        function loadSamplePosts() {
+            // Datos de ejemplo para cuando la API no está disponible
+            allBlogPosts = [
+                {
+                    id: 1,
+                    titulo: 'La Importancia de los Manglares en Caño Salao',
+                    contenido: '<h2>Los Manglares: Pulmones del Ecosistema Marino</h2><p>Los manglares son uno de los ecosistemas más importantes y productivos del planeta. En Caño Salao, hemos dedicado años a la conservación y protección de estos increíbles bosques costeros.</p><h3>¿Por qué son tan importantes?</h3><p>Los manglares actúan como barreras naturales contra la erosión costera, protegen las comunidades de tormentas y tsunamis, y sirven como criaderos naturales para muchas especies marinas.</p>',
+                    excerpt: 'Descubre por qué los manglares son esenciales para el ecosistema y cómo los protegemos en nuestra ruta turística.',
+                    imagen_url: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                    categoria: 'naturaleza',
+                    autor: 'María González',
+                    fecha_publicacion: '2024-03-15',
+                    publicado: true,
+                    vistas: 342
+                },
+                {
+                    id: 2,
+                    titulo: 'Consejos para Fotografiar la Naturaleza',
+                    contenido: '<h2>Fotografía de Naturaleza</h2><p>La fotografía es una forma maravillosa de conservar los recuerdos de tu visita.</p>',
+                    excerpt: 'Aprende técnicas profesionales para capturar las mejores imágenes durante tu aventura.',
+                    imagen_url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                    categoria: 'consejos',
+                    autor: 'Carlos Rodríguez',
+                    fecha_publicacion: '2024-03-10',
+                    publicado: true,
+                    vistas: 287
+                },
+                {
+                    id: 3,
+                    titulo: 'Nuevo Programa de Turismo Sostenible 2024',
+                    contenido: '<h2>Turismo Sostenible</h2><p>Este 2024, lanzamos nuevas iniciativas que refuerzan nuestro compromiso.</p>',
+                    excerpt: 'Presentamos nuestras nuevas iniciativas para hacer del turismo una fuerza positiva.',
+                    imagen_url: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                    categoria: 'noticias',
+                    autor: 'Ana López',
+                    fecha_publicacion: '2024-03-05',
+                    publicado: true,
+                    vistas: 198
+                }
+            ];
+        }
+        
         function filterBlogPosts() {
-            filteredBlogPosts = allBlogPosts.filter(post => {
-                // Filtrar por categoría
-                if (currentCategory !== 'all') {
-                    // Aquí podrías ajustar según cómo vengan las categorías de la API
-                    const postCategory = post.categoria || post.category || 'noticias';
-                    if (postCategory.toLowerCase() !== currentCategory) {
-                        return false;
-                    }
-                }
-                
-                // Filtrar por búsqueda
-                if (currentSearch) {
-                    const searchLower = currentSearch.toLowerCase();
-                    const title = post.titulo ? post.titulo.toLowerCase() : '';
-                    const excerpt = post.excerpt ? post.excerpt.toLowerCase() : '';
-                    const content = post.contenido ? post.contenido.toLowerCase() : '';
-                    
-                    if (!title.includes(searchLower) && 
-                        !excerpt.includes(searchLower) && 
-                        !content.includes(searchLower)) {
-                        return false;
-                    }
-                }
-                
-                return true;
-            });
+            // Solo mostrar posts publicados
+            filteredBlogPosts = allBlogPosts.filter(post => post.publicado === true || post.publicado === undefined);
+            
+            // Filtrar por categoría
+            if (currentCategory !== 'all') {
+                filteredBlogPosts = filteredBlogPosts.filter(post => 
+                    (post.categoria || '').toLowerCase() === currentCategory.toLowerCase()
+                );
+            }
+            
+            // Filtrar por búsqueda
+            if (currentSearch) {
+                const searchLower = currentSearch.toLowerCase();
+                filteredBlogPosts = filteredBlogPosts.filter(post => 
+                    (post.titulo || '').toLowerCase().includes(searchLower) ||
+                    (post.excerpt || '').toLowerCase().includes(searchLower) ||
+                    (post.contenido || '').toLowerCase().includes(searchLower)
+                );
+            }
             
             // Ordenar por fecha (más reciente primero)
             filteredBlogPosts.sort((a, b) => {
-                const dateA = new Date(a.created_at || a.fecha_publicacion || Date.now());
-                const dateB = new Date(b.created_at || b.fecha_publicacion || Date.now());
+                const dateA = new Date(a.fecha_publicacion || a.created_at || 0);
+                const dateB = new Date(b.fecha_publicacion || b.created_at || 0);
                 return dateB - dateA;
             });
         }
@@ -1937,16 +1750,13 @@
             const container = document.getElementById('blogs-container');
             if (!container) return;
             
-            // Mostrar vista de lista o detalle
+            // Verificar si estamos en vista detallada
             const detailContainer = document.getElementById('blog-detail-container');
-            const listContainer = document.querySelector('.blog-section .container > :not(#blog-detail-container)');
-            
             if (detailContainer.style.display === 'block') {
-                // Ya estamos en vista detallada
                 return;
             }
             
-            // Calcular posts para la página actual
+            // Calcular paginación
             const startIndex = (currentPage - 1) * postsPerPage;
             const endIndex = startIndex + postsPerPage;
             const postsToShow = filteredBlogPosts.slice(startIndex, endIndex);
@@ -1968,17 +1778,17 @@
             container.innerHTML = '';
             
             postsToShow.forEach(post => {
-                const postDate = new Date(post.created_at || post.fecha_publicacion || Date.now());
+                const postDate = new Date(post.fecha_publicacion || post.created_at || Date.now());
                 const formattedDate = postDate.toLocaleDateString('es-ES', {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric'
                 });
                 
-                const category = post.categoria || post.category || 'noticias';
-                const authorName = post.autor || post.author || 'Equipo Caño Salao';
+                const category = post.categoria || 'noticias';
+                const authorName = post.autor || 'Equipo Caño Salao';
                 const authorInitial = authorName.charAt(0).toUpperCase();
-                const views = post.vistas || post.views || Math.floor(Math.random() * 100) + 50;
+                const views = post.vistas || 0;
                 
                 const blogCard = document.createElement('div');
                 blogCard.className = 'blog-card';
@@ -2003,7 +1813,7 @@
                         </div>
                         <h3 class="blog-title">${post.titulo || 'Sin título'}</h3>
                         <p class="blog-excerpt">${post.excerpt || (post.contenido ? 
-                            post.contenido.substring(0, 150) + '...' : 
+                            post.contenido.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : 
                             'Descripción no disponible')}</p>
                         <div class="blog-footer">
                             <div class="blog-author">
@@ -2020,11 +1830,11 @@
                 container.appendChild(blogCard);
             });
             
-            // Añadir event listeners para "Leer más"
+            // Añadir event listeners
             document.querySelectorAll('.read-more').forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const postId = this.dataset.postId;
+                    const postId = link.dataset.postId;
                     showBlogDetail(postId);
                 });
             });
@@ -2033,17 +1843,31 @@
         function getCategoryLabel(category) {
             const categories = {
                 'noticias': 'Noticias',
-                'viajes': 'Consejos de Viaje',
+                'tours': 'Tours',
+                'consejos': 'Consejos',
+                'historias': 'Historias',
+                'eventos': 'Eventos',
                 'naturaleza': 'Naturaleza',
                 'comunidad': 'Comunidad',
-                'turismo': 'Turismo Sostenible'
+                'turismo': 'Turismo'
             };
-            return categories[category] || 'Noticias';
+            return categories[category] || category || 'Noticias';
         }
         
-        function showBlogDetail(postId) {
-            const post = allBlogPosts.find(p => p.id == postId);
+        async function showBlogDetail(postId) {
+            const post = filteredBlogPosts.find(p => p.id == postId);
             if (!post) return;
+            
+            // Incrementar vistas
+            try {
+                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+                await fetch(`${API_BASE_URL}/api/blog/${postId}/view`, {
+                    method: 'POST',
+                    headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+                });
+            } catch (error) {
+                console.log('Error incrementando vistas:', error);
+            }
             
             // Ocultar lista, mostrar detalle
             const detailContainer = document.getElementById('blog-detail-container');
@@ -2054,7 +1878,7 @@
             
             // Renderizar detalle
             const detailContent = document.getElementById('blog-detail-content');
-            const postDate = new Date(post.created_at || post.fecha_publicacion || Date.now());
+            const postDate = new Date(post.fecha_publicacion || post.created_at || Date.now());
             const formattedDate = postDate.toLocaleDateString('es-ES', {
                 weekday: 'long',
                 day: 'numeric',
@@ -2062,10 +1886,10 @@
                 year: 'numeric'
             });
             
-            const category = post.categoria || post.category || 'noticias';
-            const authorName = post.autor || post.author || 'Equipo Caño Salao';
+            const category = post.categoria || 'noticias';
+            const authorName = post.autor || 'Equipo Caño Salao';
             const authorInitial = authorName.charAt(0).toUpperCase();
-            const views = post.vistas || post.views || Math.floor(Math.random() * 100) + 50;
+            const views = (post.vistas || 0) + 1;
             
             detailContent.innerHTML = `
                 <div class="blog-detail">
@@ -2089,35 +1913,12 @@
                     ` : ''}
                     
                     <div class="blog-detail-content">
-                        ${post.contenido ? 
-                            formatBlogContent(post.contenido) : 
-                            '<p>Contenido no disponible.</p>'}
+                        ${post.contenido || '<p>Contenido no disponible.</p>'}
                     </div>
                 </div>
             `;
             
-            // Incrementar vistas (simulado)
-            if (!post.vistas) {
-                post.vistas = views + 1;
-            }
-            
-            // Scroll al inicio
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        
-        function formatBlogContent(content) {
-            // Formatear contenido básico (podrías usar un parser más complejo según tu backend)
-            return content
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/\n/g, '<br>')
-                .replace(/<h2>/g, '</p><h2>')
-                .replace(/<\/h2>/g, '</h2><p>')
-                .replace(/<h3>/g, '</p><h3>')
-                .replace(/<\/h3>/g, '</h3><p>')
-                .replace(/<blockquote>/g, '</p><blockquote>')
-                .replace(/<\/blockquote>/g, '</blockquote><p>')
-                .replace(/^/, '<p>')
-                .replace(/$/, '</p>');
         }
         
         function updatePagination() {
@@ -2129,16 +1930,12 @@
             }
             
             document.getElementById('pagination').style.display = 'flex';
-            
-            // Actualizar botones
             document.getElementById('prev-btn').disabled = currentPage === 1;
             document.getElementById('next-btn').disabled = currentPage === totalPages;
             
-            // Actualizar números de página
             const pageNumbersContainer = document.getElementById('page-numbers');
             pageNumbersContainer.innerHTML = '';
             
-            // Mostrar máximo 5 números de página
             let startPage = Math.max(1, currentPage - 2);
             let endPage = Math.min(totalPages, startPage + 4);
             
@@ -2154,115 +1951,24 @@
                     currentPage = i;
                     renderBlogPosts();
                     updatePagination();
+                    window.scrollTo({ top: document.querySelector('.blog-section').offsetTop - 100, behavior: 'smooth' });
                 });
                 pageNumbersContainer.appendChild(pageNumber);
             }
-        }
-        
-        function loadFallbackBlogPosts() {
-            console.log('📝 Cargando posts de ejemplo...');
-            
-            allBlogPosts = [
-                {
-                    id: 1,
-                    titulo: 'La Importancia de los Manglares en Caño Salao',
-                    excerpt: 'Descubre por qué los manglares son esenciales para el ecosistema y cómo los protegemos en nuestra ruta turística.',
-                    contenido: `<h2>Los Manglares: Pulmones del Ecosistema Marino</h2>
-<p>Los manglares son uno de los ecosistemas más importantes y productivos del planeta. En Caño Salao, hemos dedicado años a la conservación y protección de estos increíbles bosques costeros.</p>
-
-<h3>¿Por qué son tan importantes?</h3>
-<p>Los manglares actúan como barreras naturales contra la erosión costera, protegen las comunidades de tormentas y tsunamis, y sirven como criaderos naturales para muchas especies marinas.</p>
-
-<blockquote>"La protección de los manglares no es solo una responsabilidad ambiental, es una inversión en nuestro futuro" - Guía local de Caño Salao</blockquote>
-
-<p>En nuestros tours, enseñamos a los visitantes sobre la importancia de estos ecosistemas y cómo pueden contribuir a su conservación.</p>`,
-                    imagen_url: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-                    categoria: 'naturaleza',
-                    autor: 'María González',
-                    fecha_publicacion: '2024-03-15',
-                    vistas: 342
-                },
-                {
-                    id: 2,
-                    titulo: 'Consejos para Fotografiar la Naturaleza en Nuestros Tours',
-                    excerpt: 'Aprende técnicas profesionales para capturar las mejores imágenes durante tu aventura en Caño Salao.',
-                    contenido: `<h2>Fotografía de Naturaleza: Capturando la Esencia de Caño Salao</h2>
-<p>La fotografía es una forma maravillosa de conservar los recuerdos de tu visita a Caño Salao. Aquí te damos algunos consejos profesionales.</p>
-
-<h3>Mejores Momentos del Día</h3>
-<p>La "hora dorada" (primeras horas de la mañana y última hora de la tarde) ofrece la mejor luz para fotografiar paisajes y vida silvestre.</p>
-
-<h3>Equipo Recomendado</h3>
-<ul>
-<li>Cámara con lente zoom (70-200mm ideal para aves)</li>
-<li>Trípode para fotos estables</li>
-<li>Protector contra el agua y la humedad</li>
-</ul>
-
-<p>Nuestros guías están entrenados para ayudarte a encontrar los mejores ángulos y momentos para tus fotografías.</p>`,
-                    imagen_url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-                    categoria: 'viajes',
-                    autor: 'Carlos Rodríguez',
-                    fecha_publicacion: '2024-03-10',
-                    vistas: 287
-                },
-                {
-                    id: 3,
-                    titulo: 'Nuevo Programa de Turismo Sostenible 2024',
-                    excerpt: 'Presentamos nuestras nuevas iniciativas para hacer del turismo una fuerza positiva para la comunidad y el medio ambiente.',
-                    contenido: `<h2>Turismo Sostenible: Nuestro Compromiso con el Futuro</h2>
-<p>Este 2024, lanzamos nuevas iniciativas que refuerzan nuestro compromiso con el turismo sostenible en Caño Salao.</p>
-
-<h3>Novedades del Programa</h3>
-<p>1. <strong>Capacitación comunitaria:</strong> Entrenamiento para residentes locales como guías turísticos.<br>
-2. <strong>Fondo de conservación:</strong> 10% de cada reserva se destina a proyectos ambientales.<br>
-3. <strong>Monitoreo ecológico:</strong> Sistema para evaluar el impacto del turismo en el ecosistema.</p>
-
-<p>Estas iniciativas buscan equilibrar el desarrollo económico con la protección ambiental y el bienestar social.</p>`,
-                    imagen_url: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-                    categoria: 'turismo',
-                    autor: 'Ana López',
-                    fecha_publicacion: '2024-03-05',
-                    vistas: 198
-                },
-                {
-                    id: 4,
-                    titulo: 'Historias de la Comunidad: Don Pedro, el Pescador',
-                    excerpt: 'Conoce la inspiradora historia de Don Pedro, pescador local que se convirtió en uno de nuestros guías más queridos.',
-                    contenido: `<h2>De Pescador a Guía: La Historia de Don Pedro</h2>
-<p>Don Pedro ha vivido en Caño Salao toda su vida. Durante 40 años, se ganó la vida como pescador, conociendo cada rincón de los manglares.</p>
-
-<h3>Una Nueva Vocación</h3>
-<p>Cuando comenzamos el proyecto turístico, Don Pedro fue uno de los primeros en unirse. Su conocimiento del área es incomparable.</p>
-
-<blockquote>"Antes pescaba para vivir, ahora ayudo a otros a descubrir la belleza de este lugar que tanto amo" - Don Pedro</blockquote>
-
-<p>Sus historias sobre la vida en el manglar, los cambios que ha visto a lo largo de los años, y su conexión con la naturaleza hacen de sus tours una experiencia única.</p>`,
-                    imagen_url: 'https://images.unsplash.com/photo-1580137189272-c9370b0d12c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-                    categoria: 'comunidad',
-                    autor: 'Luisa Martínez',
-                    fecha_publicacion: '2024-02-28',
-                    vistas: 156
-                }
-            ];
-            
-            processBlogPosts();
         }
         
         function setupEventListeners() {
             // Filtros de categoría
             document.querySelectorAll('.category-filter').forEach(filter => {
                 filter.addEventListener('click', function() {
-                    // Actualizar filtro activo
-                    document.querySelectorAll('.category-filter').forEach(f => {
-                        f.classList.remove('active');
-                    });
+                    document.querySelectorAll('.category-filter').forEach(f => f.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Actualizar categoría y renderizar
                     currentCategory = this.dataset.category;
                     currentPage = 1;
-                    processBlogPosts();
+                    filterBlogPosts();
+                    renderBlogPosts();
+                    updatePagination();
                 });
             });
             
@@ -2274,37 +1980,40 @@
                 searchTimeout = setTimeout(() => {
                     currentSearch = this.value.trim();
                     currentPage = 1;
-                    processBlogPosts();
+                    filterBlogPosts();
+                    renderBlogPosts();
+                    updatePagination();
                 }, 500);
             });
             
-            // Botones de paginación
-            document.getElementById('prev-btn').addEventListener('click', function() {
+            // Paginación
+            document.getElementById('prev-btn').addEventListener('click', () => {
                 if (currentPage > 1) {
                     currentPage--;
                     renderBlogPosts();
                     updatePagination();
+                    window.scrollTo({ top: document.querySelector('.blog-section').offsetTop - 100, behavior: 'smooth' });
                 }
             });
             
-            document.getElementById('next-btn').addEventListener('click', function() {
+            document.getElementById('next-btn').addEventListener('click', () => {
                 const totalPages = Math.ceil(filteredBlogPosts.length / postsPerPage);
                 if (currentPage < totalPages) {
                     currentPage++;
                     renderBlogPosts();
                     updatePagination();
+                    window.scrollTo({ top: document.querySelector('.blog-section').offsetTop - 100, behavior: 'smooth' });
                 }
             });
             
             // Volver al listado
-            document.getElementById('back-to-blogs').addEventListener('click', function() {
+            document.getElementById('back-to-blogs').addEventListener('click', () => {
                 const detailContainer = document.getElementById('blog-detail-container');
                 const listContainer = document.querySelector('.blog-section .container > :not(#blog-detail-container)');
                 
                 detailContainer.style.display = 'none';
                 listContainer.style.display = 'block';
                 
-                // Scroll al inicio del blog
                 document.querySelector('.blog-section').scrollIntoView({ behavior: 'smooth' });
             });
         }
