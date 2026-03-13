@@ -1268,7 +1268,7 @@
                 <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
                 <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
                 <li><a href="blog.html"><i class="bi bi-newspaper"></i> Blog</a></li>
-                <li><a href="manual.html"><i class="bi bi-book"></i> Manual de Usuario</a></li>
+                <li><a href="manual_usuario.pdf" target="_blank"><i class="bi bi-book"></i> Manual de Usuario</a></li>
                 <li id="mobile-user-menu" style="display: none;">
                     <a href="usuario.html" class="active"><i class="bi bi-person-circle"></i> Mi Cuenta</a>
                 </li>
@@ -1299,9 +1299,9 @@
                         Seguridad
                     </div>
                     
-                    <!-- Botón Manual de Usuario -->
-                    <a href="manual.html" class="nav-item manual-link">
-                        <i class="bi bi-book"></i>
+                    <!-- Botón Manual de Usuario - PDF -->
+                    <a href="manual_usuario.pdf" target="_blank" class="nav-item manual-link">
+                        <i class="bi bi-file-pdf"></i>
                         Manual de Usuario
                     </a>
                     
@@ -1787,10 +1787,11 @@
                         const data = await response.json();
                         userBookings = data.reservas || data || [];
                         
-                        // CORRECCIÓN: Convertir total a número si viene como string
+                        // CORRECCIÓN: Convertir total a número y asegurar código
                         userBookings = userBookings.map(booking => ({
                             ...booking,
-                            total: booking.total ? parseFloat(booking.total) : 0
+                            total: booking.total ? parseFloat(booking.total) : 0,
+                            codigo: booking.codigo || `RES-${String(booking.id).padStart(4, '0')}`
                         }));
                         
                         console.log(`✅ Cargadas ${userBookings.length} reservas:`, userBookings);
@@ -1801,10 +1802,11 @@
                         const saved = localStorage.getItem('cano_salao_reservas');
                         if (saved) {
                             userBookings = JSON.parse(saved);
-                            // CORRECCIÓN: Asegurar que total sea número
+                            // CORRECCIÓN: Asegurar que total sea número y código exista
                             userBookings = userBookings.map(booking => ({
                                 ...booking,
-                                total: booking.total ? parseFloat(booking.total) : 0
+                                total: booking.total ? parseFloat(booking.total) : 0,
+                                codigo: booking.codigo || `RES-${String(booking.id).padStart(4, '0')}`
                             }));
                         }
                         return userBookings;
@@ -1814,10 +1816,11 @@
                     const saved = localStorage.getItem('cano_salao_reservas');
                     if (saved) {
                         userBookings = JSON.parse(saved);
-                        // CORRECCIÓN: Asegurar que total sea número
+                        // CORRECCIÓN: Asegurar que total sea número y código exista
                         userBookings = userBookings.map(booking => ({
                             ...booking,
-                            total: booking.total ? parseFloat(booking.total) : 0
+                            total: booking.total ? parseFloat(booking.total) : 0,
+                            codigo: booking.codigo || `RES-${String(booking.id).padStart(4, '0')}`
                         }));
                     }
                     return userBookings;
