@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Mi Cuenta | Ruta Turística Caño Salao</title>
-    <meta name="description" content="Gestiona tu perfil, reservas y preferencias en Caño Salao">
-    <meta name="keywords" content="cuenta usuario, perfil, reservas, historial, preferencias">
+    <meta name="description" content="Gestiona tu perfil y reservas en Caño Salao">
+    <meta name="keywords" content="cuenta usuario, perfil, reservas, historial">
     <meta name="author" content="Estudiantes: Alejandra Paricaguan, Luis Nucete, Ricardo Farías | Tutora: Dulce Paraguan">
 
     <!-- FAVICON -->
@@ -498,6 +498,7 @@
             text-decoration: none;
             transition: all 0.2s ease;
             border-left: 4px solid transparent;
+            cursor: pointer;
         }
 
         .nav-item i {
@@ -608,15 +609,6 @@
 
         .btn-success:hover {
             background: #218838;
-        }
-
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-        }
-
-        .btn-warning:hover {
-            background: #e0a800;
         }
 
         .btn-info {
@@ -1393,43 +1385,31 @@
                     <h2><i class="bi bi-person-circle"></i> Mi Cuenta</h2>
                 </div>
                 <nav class="sidebar-nav">
-                    <a href="#" class="nav-item active" data-section="perfil">
+                    <div class="nav-item active" data-section="perfil">
                         <i class="bi bi-person"></i>
                         Perfil
-                    </a>
-                    <a href="#" class="nav-item" data-section="reservas">
+                    </div>
+                    <div class="nav-item" data-section="reservas">
                         <i class="bi bi-calendar-check"></i>
                         Mis Reservas
-                    </a>
-                    <a href="#" class="nav-item" data-section="historial">
+                    </div>
+                    <div class="nav-item" data-section="historial">
                         <i class="bi bi-clock-history"></i>
                         Historial
-                    </a>
-                    <a href="#" class="nav-item" data-section="favoritos">
-                        <i class="bi bi-star"></i>
-                        Favoritos
-                    </a>
-                    <a href="#" class="nav-item" data-section="seguridad">
+                    </div>
+                    <div class="nav-item" data-section="seguridad">
                         <i class="bi bi-shield-lock"></i>
                         Seguridad
-                    </a>
-                    <a href="#" class="nav-item" data-section="preferencias">
-                        <i class="bi bi-sliders2"></i>
-                        Preferencias
-                    </a>
-                    <a href="#" class="nav-item" data-section="facturacion">
-                        <i class="bi bi-receipt"></i>
-                        Facturación
-                    </a>
+                    </div>
                     <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
-                    <a href="../index.html" class="nav-item">
+                    <a href="../index.html" class="nav-item" style="text-decoration: none;">
                         <i class="bi bi-arrow-left"></i>
                         Volver al Sitio
                     </a>
-                    <a href="#" class="nav-item" id="logout-btn">
+                    <div class="nav-item" id="logout-btn">
                         <i class="bi bi-box-arrow-right"></i>
                         Cerrar Sesión
-                    </a>
+                    </div>
                 </nav>
             </aside>
 
@@ -1563,8 +1543,6 @@
             // ========== VARIABLES GLOBALES ==========
             let currentUser = null;
             let userBookings = [];
-            let userFavorites = [];
-            let userInvoices = [];
             let currentSection = 'perfil';
             let currentPage = 1;
             let itemsPerPage = 10;
@@ -1748,8 +1726,6 @@
                 Object.values(STORAGE_KEYS).forEach(key => removeStorageItem(key));
                 currentUser = null;
                 userBookings = [];
-                userFavorites = [];
-                userInvoices = [];
                 updateUserUI();
             }
 
@@ -1838,9 +1814,6 @@
                             <i class="bi bi-shield-check"></i> Panel Admin
                         </a>
                     ` : ''}
-                    <a href="reservas.html" class="user-dropdown-link">
-                        <i class="bi bi-calendar-check"></i> Reservas
-                    </a>
                     <a href="#" class="user-dropdown-link" id="logout-link">
                         <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
                     </a>
@@ -2068,36 +2041,6 @@
                 }
             }
 
-            async function loadUserFavorites() {
-                try {
-                    const response = await fetchWithAuth(`${API_BASE_URL}/usuarios/favoritos`);
-                    if (response.ok) {
-                        const data = await response.json();
-                        userFavorites = data.favoritos || [];
-                        return userFavorites;
-                    }
-                } catch (error) {
-                    console.warn('Error cargando favoritos:', error);
-                }
-                userFavorites = JSON.parse(localStorage.getItem('cano_salao_favoritos') || '[]');
-                return userFavorites;
-            }
-
-            async function loadUserInvoices() {
-                try {
-                    const response = await fetchWithAuth(`${API_BASE_URL}/facturacion/mis-facturas`);
-                    if (response.ok) {
-                        const data = await response.json();
-                        userInvoices = data.facturas || [];
-                        return userInvoices;
-                    }
-                } catch (error) {
-                    console.warn('Error cargando facturas:', error);
-                }
-                userInvoices = JSON.parse(localStorage.getItem('cano_salao_facturas') || '[]');
-                return userInvoices;
-            }
-
             // ========== ACCIONES DE PERFIL ==========
             async function updateUserProfile(formData) {
                 try {
@@ -2189,52 +2132,6 @@
                 }
             }
 
-            async function addToFavorites(tourId) {
-                try {
-                    const response = await fetchWithAuth(`${API_BASE_URL}/usuarios/favoritos`, {
-                        method: 'POST',
-                        body: JSON.stringify({ tour_id: tourId })
-                    });
-
-                    if (response.ok) {
-                        showSuccess('Añadido a favoritos');
-                        await loadUserFavorites();
-                        return true;
-                    }
-                } catch (error) {
-                    console.warn('Error añadiendo favorito:', error);
-                }
-                
-                if (!userFavorites.includes(tourId)) {
-                    userFavorites.push(tourId);
-                    localStorage.setItem('cano_salao_favoritos', JSON.stringify(userFavorites));
-                    showSuccess('Añadido a favoritos (local)');
-                    return true;
-                }
-                return false;
-            }
-
-            async function removeFromFavorites(tourId) {
-                try {
-                    const response = await fetchWithAuth(`${API_BASE_URL}/usuarios/favoritos/${tourId}`, {
-                        method: 'DELETE'
-                    });
-
-                    if (response.ok) {
-                        showSuccess('Eliminado de favoritos');
-                        await loadUserFavorites();
-                        return true;
-                    }
-                } catch (error) {
-                    console.warn('Error eliminando favorito:', error);
-                }
-                
-                userFavorites = userFavorites.filter(id => id !== tourId);
-                localStorage.setItem('cano_salao_favoritos', JSON.stringify(userFavorites));
-                showSuccess('Eliminado de favoritos (local)');
-                return true;
-            }
-
             // ========== FUNCIONES DE RENDERIZADO ==========
             async function loadSection(section) {
                 currentSection = section;
@@ -2255,25 +2152,14 @@
                             break;
                         case 'reservas':
                             await loadUserBookings();
-                            renderReservas();
+                            renderReservas(true);
                             break;
                         case 'historial':
                             await loadUserBookings();
-                            renderHistorial();
-                            break;
-                        case 'favoritos':
-                            await loadUserFavorites();
-                            renderFavoritos();
+                            renderReservas(false);
                             break;
                         case 'seguridad':
                             renderSeguridad();
-                            break;
-                        case 'preferencias':
-                            renderPreferencias();
-                            break;
-                        case 'facturacion':
-                            await loadUserInvoices();
-                            renderFacturacion();
                             break;
                         default:
                             renderPerfil();
@@ -2294,13 +2180,15 @@
             }
 
             function renderPerfil() {
+                const activeBookings = userBookings.filter(b => 
+                    b.estado === 'pending' || b.estado === 'confirmed'
+                );
+
                 const stats = {
                     reservas: userBookings.length,
+                    activas: activeBookings.length,
                     confirmadas: userBookings.filter(b => b.estado === 'confirmed').length,
-                    pendientes: userBookings.filter(b => b.estado === 'pending').length,
-                    completadas: userBookings.filter(b => b.estado === 'completed').length,
-                    canceladas: userBookings.filter(b => b.estado === 'cancelled').length,
-                    favoritos: userFavorites.length
+                    completadas: userBookings.filter(b => b.estado === 'completed').length
                 };
 
                 const html = `
@@ -2320,8 +2208,8 @@
                             <i class="bi bi-calendar-check stat-icon"></i>
                         </div>
                         <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                            <div class="stat-value">${stats.confirmadas}</div>
-                            <div class="stat-label">Confirmadas</div>
+                            <div class="stat-value">${stats.activas}</div>
+                            <div class="stat-label">Reservas Activas</div>
                             <i class="bi bi-check-circle stat-icon"></i>
                         </div>
                         <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
@@ -2330,9 +2218,9 @@
                             <i class="bi bi-star stat-icon"></i>
                         </div>
                         <div class="stat-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                            <div class="stat-value">${stats.favoritos}</div>
-                            <div class="stat-label">Favoritos</div>
-                            <i class="bi bi-heart stat-icon"></i>
+                            <div class="stat-value">${stats.confirmadas}</div>
+                            <div class="stat-label">Confirmadas</div>
+                            <i class="bi bi-check2-circle stat-icon"></i>
                         </div>
                     </div>
 
@@ -2363,9 +2251,9 @@
                         </div>
                     </div>
 
-                    ${userBookings.length > 0 ? `
+                    ${activeBookings.length > 0 ? `
                         <div style="margin-top: 30px;">
-                            <h3 style="color: #0d3b66; margin-bottom: 15px;">Últimas Reservas</h3>
+                            <h3 style="color: #0d3b66; margin-bottom: 15px;">Próximas Reservas</h3>
                             <div class="table-responsive">
                                 <table>
                                     <thead>
@@ -2378,7 +2266,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        ${userBookings.slice(0, 5).map(b => `
+                                        ${activeBookings.slice(0, 5).map(b => `
                                             <tr>
                                                 <td><strong>${b.codigo || 'N/A'}</strong></td>
                                                 <td>${b.tour_nombre || `Tour #${b.tour_id}`}</td>
@@ -2401,27 +2289,35 @@
                 document.getElementById('main-content').innerHTML = html;
             }
 
-            function renderReservas() {
-                const activeBookings = userBookings.filter(b => 
-                    b.estado === 'pending' || b.estado === 'confirmed'
+            function renderReservas(activas = true) {
+                const bookingsToShow = userBookings.filter(b => 
+                    activas ? (b.estado === 'pending' || b.estado === 'confirmed') : 
+                              (b.estado === 'completed' || b.estado === 'cancelled')
                 ).sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
+
+                const title = activas ? 'Mis Reservas Activas' : 'Historial de Reservas';
+                const emptyIcon = activas ? 'bi-calendar-x' : 'bi-archive';
+                const emptyMessage = activas ? 'No tienes reservas activas' : 'No hay historial de reservas';
+                const emptyDescription = activas ? 'Explora nuestros tours y reserva tu próxima aventura.' : 'Aún no tienes reservas completadas o canceladas.';
 
                 const html = `
                     <div class="section-header">
-                        <h2><i class="bi bi-calendar-check"></i> Mis Reservas Activas</h2>
-                        <div class="section-actions">
-                            <a href="reservas.html" class="btn btn-primary">
-                                <i class="bi bi-plus-lg"></i> Nueva Reserva
-                            </a>
-                        </div>
+                        <h2><i class="bi ${activas ? 'bi-calendar-check' : 'bi-clock-history'}"></i> ${title}</h2>
+                        ${activas ? `
+                            <div class="section-actions">
+                                <a href="reservas.html" class="btn btn-primary">
+                                    <i class="bi bi-plus-lg"></i> Nueva Reserva
+                                </a>
+                            </div>
+                        ` : ''}
                     </div>
 
-                    ${activeBookings.length === 0 ? `
+                    ${bookingsToShow.length === 0 ? `
                         <div class="empty-state">
-                            <i class="bi bi-calendar-x"></i>
-                            <h3>No tienes reservas activas</h3>
-                            <p>Explora nuestros tours y reserva tu próxima aventura.</p>
-                            <a href="reservas.html" class="btn btn-primary">Reservar Ahora</a>
+                            <i class="bi ${emptyIcon}"></i>
+                            <h3>${emptyMessage}</h3>
+                            <p>${emptyDescription}</p>
+                            ${activas ? '<a href="reservas.html" class="btn btn-primary">Reservar Ahora</a>' : ''}
                         </div>
                     ` : `
                         <div class="filters-bar">
@@ -2429,11 +2325,19 @@
                                 <i class="bi bi-search"></i>
                                 <input type="text" id="search-bookings" placeholder="Buscar reservas..." onkeyup="filterBookings()">
                             </div>
-                            <select id="filter-status" class="filter-select" onchange="filterBookings()">
-                                <option value="all">Todos los estados</option>
-                                <option value="pending">Pendientes</option>
-                                <option value="confirmed">Confirmadas</option>
-                            </select>
+                            ${activas ? `
+                                <select id="filter-status" class="filter-select" onchange="filterBookings()">
+                                    <option value="all">Todos los estados</option>
+                                    <option value="pending">Pendientes</option>
+                                    <option value="confirmed">Confirmadas</option>
+                                </select>
+                            ` : `
+                                <select id="filter-status" class="filter-select" onchange="filterBookings()">
+                                    <option value="all">Todos los estados</option>
+                                    <option value="completed">Completadas</option>
+                                    <option value="cancelled">Canceladas</option>
+                                </select>
+                            `}
                         </div>
 
                         <div class="table-responsive">
@@ -2450,7 +2354,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${activeBookings.map(b => `
+                                    ${bookingsToShow.map(b => `
                                         <tr data-status="${b.estado}" data-search="${(b.codigo || '').toLowerCase()} ${(b.tour_nombre || '').toLowerCase()}">
                                             <td><strong>${b.codigo || 'N/A'}</strong></td>
                                             <td>${b.tour_nombre || `Tour #${b.tour_id}`}</td>
@@ -2463,7 +2367,7 @@
                                                     <button onclick="viewBookingDetails(${b.id})" class="action-btn view" title="Ver detalles">
                                                         <i class="bi bi-eye"></i>
                                                     </button>
-                                                    ${b.estado !== 'cancelled' ? `
+                                                    ${activas && b.estado !== 'cancelled' ? `
                                                         <button onclick="cancelUserBooking(${b.id})" class="action-btn cancel" title="Cancelar">
                                                             <i class="bi bi-x"></i>
                                                         </button>
@@ -2481,126 +2385,9 @@
 
                 document.getElementById('main-content').innerHTML = html;
                 
-                if (activeBookings.length > itemsPerPage) {
-                    setupPagination(activeBookings.length);
+                if (bookingsToShow.length > itemsPerPage) {
+                    setupPagination(bookingsToShow.length);
                 }
-            }
-
-            function renderHistorial() {
-                const completedBookings = userBookings.filter(b => 
-                    b.estado === 'completed' || b.estado === 'cancelled'
-                ).sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
-
-                const html = `
-                    <div class="section-header">
-                        <h2><i class="bi bi-clock-history"></i> Historial de Reservas</h2>
-                    </div>
-
-                    ${completedBookings.length === 0 ? `
-                        <div class="empty-state">
-                            <i class="bi bi-archive"></i>
-                            <h3>No hay historial</h3>
-                            <p>Aún no tienes reservas completadas o canceladas.</p>
-                        </div>
-                    ` : `
-                        <div class="filters-bar">
-                            <div class="search-box">
-                                <i class="bi bi-search"></i>
-                                <input type="text" id="search-history" placeholder="Buscar en historial..." onkeyup="filterHistory()">
-                            </div>
-                            <select id="filter-history-status" class="filter-select" onchange="filterHistory()">
-                                <option value="all">Todos</option>
-                                <option value="completed">Completadas</option>
-                                <option value="cancelled">Canceladas</option>
-                            </select>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table id="history-table">
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Tour</th>
-                                        <th>Fecha</th>
-                                        <th>Personas</th>
-                                        <th>Total</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${completedBookings.map(b => `
-                                        <tr data-status="${b.estado}" data-search="${(b.codigo || '').toLowerCase()} ${(b.tour_nombre || '').toLowerCase()}">
-                                            <td><strong>${b.codigo || 'N/A'}</strong></td>
-                                            <td>${b.tour_nombre || `Tour #${b.tour_id}`}</td>
-                                            <td>${b.fecha ? new Date(b.fecha).toLocaleDateString() : 'N/A'}</td>
-                                            <td>${b.personas || 1}</td>
-                                            <td>$${(b.total || 0).toFixed(2)}</td>
-                                            <td><span class="badge ${b.estado || 'pending'}">${getEstadoTexto(b.estado)}</span></td>
-                                            <td>
-                                                <button onclick="viewBookingDetails(${b.id})" class="action-btn view">
-                                                    <i class="bi bi-eye"></i> Ver
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    `}
-                `;
-
-                document.getElementById('main-content').innerHTML = html;
-            }
-
-            async function renderFavoritos() {
-                const tours = await loadTours();
-                const favoriteTours = tours.filter(t => userFavorites.includes(t.id));
-
-                const html = `
-                    <div class="section-header">
-                        <h2><i class="bi bi-star"></i> Mis Favoritos</h2>
-                    </div>
-
-                    ${favoriteTours.length === 0 ? `
-                        <div class="empty-state">
-                            <i class="bi bi-heart"></i>
-                            <h3>No tienes favoritos</h3>
-                            <p>Explora nuestros tours y guarda tus favoritos.</p>
-                            <a href="Servicios.html" class="btn btn-primary">Ver Tours</a>
-                        </div>
-                    ` : `
-                        <div class="tours-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                            ${favoriteTours.map(t => `
-                                <div style="background: #f8f9fa; border-radius: 8px; overflow: hidden; border: 1px solid #eee;">
-                                    ${t.imagen_url ? 
-                                        `<img src="${t.imagen_url}" style="width: 100%; height: 180px; object-fit: cover;">` : 
-                                        `<div style="height: 180px; background: linear-gradient(135deg, #1a7fb8, #0d3b66); display: flex; align-items: center; justify-content: center; color: white;">
-                                            <i class="bi bi-image" style="font-size: 3rem;"></i>
-                                        </div>`
-                                    }
-                                    <div style="padding: 15px;">
-                                        <h3 style="color: #0d3b66; margin-bottom: 8px;">${t.nombre}</h3>
-                                        <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">${t.descripcion?.substring(0, 100)}...</p>
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="font-size: 1.2rem; font-weight: 700; color: #28a745;">$${t.precio?.toFixed(2)}</span>
-                                            <div>
-                                                <a href="reservas.html?tour=${t.id}" class="btn btn-primary" style="padding: 5px 15px;">
-                                                    <i class="bi bi-calendar-check"></i> Reservar
-                                                </a>
-                                                <button onclick="removeFavorite(${t.id})" class="btn btn-danger" style="padding: 5px 15px;">
-                                                    <i class="bi bi-heart-fill"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `}
-                `;
-
-                document.getElementById('main-content').innerHTML = html;
             }
 
             function renderSeguridad() {
@@ -2635,9 +2422,8 @@
 
                         <div style="background: #f8f9fa; padding: 25px; border-radius: 8px;">
                             <h3 style="color: #0d3b66; margin-bottom: 20px;">
-                                <i class="bi bi-shield-check" style="color: #FF8C42;"></i> Sesiones Activas
+                                <i class="bi bi-shield-check" style="color: #FF8C42;"></i> Sesión Actual
                             </h3>
-                            <p style="color: #666; margin-bottom: 15px;">Aquí puedes ver los dispositivos con sesión activa.</p>
                             <div style="border: 1px solid #eee; border-radius: 5px; padding: 15px; margin-bottom: 15px;">
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
                                     <div>
@@ -2649,155 +2435,16 @@
                                 </div>
                             </div>
                             <button class="btn btn-danger" onclick="logoutAllSessions()">
-                                <i class="bi bi-box-arrow-right"></i> Cerrar todas las sesiones
+                                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
                             </button>
                         </div>
                     </div>
-                `;
-
-                document.getElementById('main-content').innerHTML = html;
-            }
-
-            function renderPreferencias() {
-                const html = `
-                    <div class="section-header">
-                        <h2><i class="bi bi-sliders2"></i> Preferencias</h2>
-                    </div>
-
-                    <div style="background: #f8f9fa; padding: 25px; border-radius: 8px;">
-                        <h3 style="color: #0d3b66; margin-bottom: 20px;">Notificaciones</h3>
-                        
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="email-notifications" ${currentUser?.notificaciones_email !== false ? 'checked' : ''}>
-                            <label>Recibir notificaciones por email</label>
-                        </div>
-                        
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="sms-notifications" ${currentUser?.notificaciones_sms ? 'checked' : ''}>
-                            <label>Recibir notificaciones por SMS</label>
-                        </div>
-                        
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="promo-emails" ${currentUser?.promo_emails !== false ? 'checked' : ''}>
-                            <label>Recibir ofertas y promociones</label>
-                        </div>
-
-                        <h3 style="color: #0d3b66; margin: 30px 0 20px;">Idioma y Región</h3>
-                        
-                        <div class="form-group">
-                            <label>Idioma preferido</label>
-                            <select id="preferred-language" class="form-control" style="max-width: 300px;">
-                                <option value="es" ${currentUser?.idioma === 'es' || !currentUser?.idioma ? 'selected' : ''}>Español</option>
-                                <option value="en" ${currentUser?.idioma === 'en' ? 'selected' : ''}>English</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Moneda preferida</label>
-                            <select id="preferred-currency" class="form-control" style="max-width: 300px;">
-                                <option value="USD" ${currentUser?.moneda === 'USD' || !currentUser?.moneda ? 'selected' : ''}>USD</option>
-                                <option value="VES" ${currentUser?.moneda === 'VES' ? 'selected' : ''}>VES</option>
-                            </select>
-                        </div>
-
-                        <button onclick="savePreferences()" class="btn btn-primary" style="margin-top: 20px;">
-                            <i class="bi bi-save"></i> Guardar Preferencias
-                        </button>
-                    </div>
-                `;
-
-                document.getElementById('main-content').innerHTML = html;
-            }
-
-            function renderFacturacion() {
-                const totalGastado = userInvoices.reduce((sum, inv) => sum + (inv.total || 0), 0);
-
-                const html = `
-                    <div class="section-header">
-                        <h2><i class="bi bi-receipt"></i> Facturación</h2>
-                        <div class="section-actions">
-                            <button onclick="exportInvoices()" class="btn btn-success">
-                                <i class="bi bi-download"></i> Exportar
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="stats-grid">
-                        <div class="stat-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-                            <div class="stat-value">${userInvoices.length}</div>
-                            <div class="stat-label">Total Facturas</div>
-                            <i class="bi bi-file-text stat-icon"></i>
-                        </div>
-                        <div class="stat-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                            <div class="stat-value">$${totalGastado.toFixed(2)}</div>
-                            <div class="stat-label">Total Gastado</div>
-                            <i class="bi bi-cash-stack stat-icon"></i>
-                        </div>
-                    </div>
-
-                    ${userInvoices.length === 0 ? `
-                        <div class="empty-state">
-                            <i class="bi bi-receipt"></i>
-                            <h3>No hay facturas</h3>
-                            <p>Aún no tienes facturas generadas.</p>
-                        </div>
-                    ` : `
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>N° Factura</th>
-                                        <th>Fecha</th>
-                                        <th>Descripción</th>
-                                        <th>Monto</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${userInvoices.map(inv => `
-                                        <tr>
-                                            <td><strong>${inv.numero || 'N/A'}</strong></td>
-                                            <td>${inv.fecha ? new Date(inv.fecha).toLocaleDateString() : 'N/A'}</td>
-                                            <td>${inv.descripcion || '-'}</td>
-                                            <td><strong style="color: #28a745;">$${(inv.total || 0).toFixed(2)}</strong></td>
-                                            <td><span class="badge ${inv.estado === 'pagada' ? 'confirmed' : 'pending'}">${inv.estado || 'pendiente'}</span></td>
-                                            <td>
-                                                <button onclick="viewInvoice(${inv.id})" class="action-btn view">
-                                                    <i class="bi bi-eye"></i> Ver
-                                                </button>
-                                                <button onclick="downloadInvoice(${inv.id})" class="action-btn print">
-                                                    <i class="bi bi-download"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    `}
                 `;
 
                 document.getElementById('main-content').innerHTML = html;
             }
 
             // ========== FUNCIONES AUXILIARES ==========
-            async function loadTours() {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/tours`);
-                    if (response.ok) {
-                        return await response.json();
-                    }
-                } catch (error) {
-                    console.warn('Error cargando tours:', error);
-                }
-                return [
-                    { id: 1, nombre: 'Tour Explorador', descripcion: 'Tour básico por los manglares', precio: 25 },
-                    { id: 2, nombre: 'Tour Naturaleza', descripcion: 'Tour completo con avistamiento', precio: 45 },
-                    { id: 3, nombre: 'Tour Premium', descripcion: 'Experiencia exclusiva', precio: 65 }
-                ];
-            }
-
             function getEstadoTexto(estado) {
                 const map = { 
                     pending: 'Pendiente', 
@@ -2824,19 +2471,6 @@
                 const status = document.getElementById('filter-status')?.value || 'all';
                 
                 const rows = document.querySelectorAll('#bookings-table tbody tr');
-                rows.forEach(row => {
-                    const searchText = row.dataset.search || '';
-                    const rowStatus = row.dataset.status;
-                    row.style.display = (search === '' || searchText.includes(search)) && 
-                                       (status === 'all' || rowStatus === status) ? '' : 'none';
-                });
-            };
-
-            window.filterHistory = function() {
-                const search = document.getElementById('search-history')?.value.toLowerCase() || '';
-                const status = document.getElementById('filter-history-status')?.value || 'all';
-                
-                const rows = document.querySelectorAll('#history-table tbody tr');
                 rows.forEach(row => {
                     const searchText = row.dataset.search || '';
                     const rowStatus = row.dataset.status;
@@ -2994,11 +2628,6 @@
                 }
             };
 
-            window.removeFavorite = async function(tourId) {
-                await removeFromFavorites(tourId);
-                loadSection('favoritos');
-            };
-
             window.submitChangePassword = async function() {
                 const current = document.getElementById('current-password').value;
                 const newPass = document.getElementById('new-password').value;
@@ -3021,111 +2650,14 @@
                 document.getElementById('change-password-form').reset();
             };
 
-            window.savePreferences = function() {
-                const preferences = {
-                    notificaciones_email: document.getElementById('email-notifications')?.checked || false,
-                    notificaciones_sms: document.getElementById('sms-notifications')?.checked || false,
-                    promo_emails: document.getElementById('promo-emails')?.checked || false,
-                    idioma: document.getElementById('preferred-language')?.value || 'es',
-                    moneda: document.getElementById('preferred-currency')?.value || 'USD'
-                };
-
-                if (currentUser) {
-                    currentUser = { ...currentUser, ...preferences };
-                    setStorageItem(STORAGE_KEYS.USER, JSON.stringify(currentUser));
-                    showSuccess('Preferencias guardadas');
-                }
-            };
-
             window.logoutAllSessions = function() {
-                showConfirm('Cerrar todas las sesiones', '¿Estás seguro? Se cerrarán todas las sesiones excepto esta.').then(confirmed => {
+                showConfirm('Cerrar sesión', '¿Estás seguro? Se cerrará la sesión actual.').then(confirmed => {
                     if (confirmed) {
                         setStorageItem(STORAGE_KEYS.REFRESH_TOKEN, null);
-                        showSuccess('Sesiones cerradas');
+                        showSuccess('Sesión cerrada');
+                        logout();
                     }
                 });
-            };
-
-            window.viewInvoice = function(id) {
-                const invoice = userInvoices.find(i => i.id === id);
-                if (!invoice) return;
-
-                const modal = document.getElementById('modal');
-                document.getElementById('modal-title').innerHTML = '<i class="bi bi-receipt"></i> Detalle de Factura';
-                document.getElementById('modal-body').innerHTML = `
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <h2 style="color: #0d3b66;">FACTURA</h2>
-                        <p><strong>N° ${invoice.numero || 'N/A'}</strong></p>
-                        <p>Fecha: ${invoice.fecha ? new Date(invoice.fecha).toLocaleDateString() : 'N/A'}</p>
-                    </div>
-                    <table style="width: 100%; margin-bottom: 20px;">
-                        <tr><td style="font-weight: 600;">Cliente:</td><td>${currentUser?.nombre || 'N/A'}</td></tr>
-                        <tr><td style="font-weight: 600;">RIF/CI:</td><td>${currentUser?.documento || 'N/A'}</td></tr>
-                        <tr><td style="font-weight: 600;">Dirección:</td><td>${currentUser?.direccion || 'N/A'}</td></tr>
-                    </table>
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr><th>Descripción</th><th>Cant.</th><th>P.Unit</th><th>Total</th></tr>
-                            </thead>
-                            <tbody>
-                                ${(invoice.items || []).map(item => `
-                                    <tr>
-                                        <td>${item.descripcion}</td>
-                                        <td>${item.cantidad || 1}</td>
-                                        <td>$${(item.precio_unitario || 0).toFixed(2)}</td>
-                                        <td>$${(item.total || 0).toFixed(2)}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div style="margin-top: 20px; text-align: right;">
-                        <p><strong>Subtotal:</strong> $${(invoice.subtotal || 0).toFixed(2)}</p>
-                        <p><strong>IVA (16%):</strong> $${(invoice.iva || 0).toFixed(2)}</p>
-                        <h3 style="color: #0d3b66;">Total: $${(invoice.total || 0).toFixed(2)}</h3>
-                    </div>
-                `;
-                document.getElementById('modal-footer').innerHTML = `
-                    <button class="btn btn-outline" onclick="closeModal()">Cerrar</button>
-                    <button class="btn btn-primary" onclick="window.print()">
-                        <i class="bi bi-printer"></i> Imprimir
-                    </button>
-                `;
-                modal.classList.add('active');
-            };
-
-            window.downloadInvoice = function(id) {
-                const invoice = userInvoices.find(i => i.id === id);
-                if (!invoice) return;
-
-                const content = `FACTURA #${invoice.numero}\nFecha: ${invoice.fecha}\nTotal: $${invoice.total}`;
-                const blob = new Blob([content], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `factura_${invoice.numero}.txt`;
-                a.click();
-                URL.revokeObjectURL(url);
-                showSuccess('Factura descargada');
-            };
-
-            window.exportInvoices = function() {
-                const data = userInvoices.map(i => ({
-                    Numero: i.numero,
-                    Fecha: i.fecha,
-                    Total: i.total,
-                    Estado: i.estado
-                }));
-
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `facturas_${new Date().getTime()}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-                showSuccess('Facturas exportadas');
             };
 
             function setupLiveValidation(inputId, validators, fieldName) {
@@ -3227,11 +2759,7 @@
                 }
 
                 await loadUserData();
-                await Promise.all([
-                    loadUserBookings(),
-                    loadUserFavorites(),
-                    loadUserInvoices()
-                ]);
+                await loadUserBookings();
 
                 document.querySelectorAll('.nav-item[data-section]').forEach(item => {
                     item.addEventListener('click', (e) => {
@@ -3257,15 +2785,9 @@
             window.saveProfile = saveProfile;
             window.viewBookingDetails = viewBookingDetails;
             window.cancelUserBooking = cancelUserBooking;
-            window.removeFavorite = removeFavorite;
             window.submitChangePassword = submitChangePassword;
-            window.savePreferences = savePreferences;
             window.logoutAllSessions = logoutAllSessions;
-            window.viewInvoice = viewInvoice;
-            window.downloadInvoice = downloadInvoice;
-            window.exportInvoices = exportInvoices;
             window.filterBookings = filterBookings;
-            window.filterHistory = filterHistory;
             window.changePage = changePage;
             window.closeModal = closeModal;
             window.closeConfirmModal = closeConfirmModal;
