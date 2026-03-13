@@ -622,15 +622,6 @@
             background: #218838;
         }
 
-        .btn-info {
-            background: #17a2b8;
-            color: white;
-        }
-
-        .btn-info:hover {
-            background: #138496;
-        }
-
         /* ===== FORMULARIOS ===== */
         .form-group {
             margin-bottom: 20px;
@@ -715,13 +706,6 @@
             gap: 20px;
         }
 
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
         /* ===== TABLAS ===== */
         .table-responsive {
             overflow-x: auto;
@@ -767,7 +751,6 @@
         .badge.confirmada, .badge.confirmed { background: #d4edda; color: #155724; }
         .badge.cancelada, .badge.cancelled { background: #f8d7da; color: #721c24; }
         .badge.completada, .badge.completed { background: #cce5ff; color: #004085; }
-        .badge.active { background: #d4edda; color: #155724; }
 
         .action-buttons {
             display: flex;
@@ -1613,7 +1596,6 @@
                         currentUser = user;
                         console.log('Sesión cargada:', currentUser.nombre);
                         updateUserUI();
-                        updateUserDropdown();
                         return { success: true, user };
                     } catch (error) {
                         console.error('Error parseando usuario:', error);
@@ -1622,25 +1604,6 @@
                     }
                 }
                 return { success: false };
-            }
-
-            function saveSession(token, userData, refreshToken = null) {
-                setStorageItem(STORAGE_KEYS.TOKEN, token);
-                setStorageItem(STORAGE_KEYS.USER, JSON.stringify(userData));
-
-                if (refreshToken) {
-                    setStorageItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
-                }
-
-                const expires = new Date();
-                expires.setDate(expires.getDate() + 30);
-                setStorageItem(STORAGE_KEYS.SESSION_EXPIRES, expires.toISOString());
-                setStorageItem(STORAGE_KEYS.LAST_ACTIVITY, new Date().toISOString());
-
-                currentUser = userData;
-                updateUserUI();
-                updateUserDropdown();
-                showSuccess('Sesión iniciada correctamente');
             }
 
             function clearSession() {
@@ -1676,39 +1639,24 @@
                         avatar.style.background = currentUser.rol === 'admin'
                             ? 'linear-gradient(135deg, #e74c3c, #c0392b)'
                             : 'linear-gradient(135deg, #3498db, #2c3e50)';
-                        avatar.onclick = toggleUserDropdown;
-                        avatar.setAttribute('aria-expanded', 'false');
                     }
                 } else {
                     if (loginBtn) loginBtn.style.display = 'flex';
                     if (loggedUser) loggedUser.style.display = 'none';
                     if (mobileUserMenu) mobileUserMenu.style.display = 'none';
                     if (mobileLoginLink) mobileLoginLink.style.display = 'block';
-                    if (avatar) {
-                        avatar.onclick = null;
-                        avatar.setAttribute('aria-expanded', 'false');
-                    }
                 }
             }
 
-            function updateUserDropdown() {
-                const avatar = document.getElementById('user-avatar');
-                if (!avatar || !currentUser) return;
-
-                avatar.onclick = toggleUserDropdown;
-                avatar.onkeydown = function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggleUserDropdown();
-                    }
-                };
-            }
-
+            // ========== MENÚ DESPLEGABLE ==========
             function toggleUserDropdown() {
                 if (!currentUser) return;
-                if (!userDropdown) createUserDropdown();
-                if (userDropdownOpen) closeUserDropdown();
-                else openUserDropdown();
+                
+                if (userDropdownOpen) {
+                    closeUserDropdown();
+                } else {
+                    openUserDropdown();
+                }
             }
 
             function createUserDropdown() {
@@ -1746,18 +1694,12 @@
                     e.preventDefault();
                     logout();
                 });
-
-                userDropdown.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('mouseenter', () => link.style.background = '#f5f5f5');
-                    link.addEventListener('mouseleave', () => link.style.background = '');
-                });
             }
 
             function openUserDropdown() {
-                if (!userDropdown) return;
+                if (!userDropdown) createUserDropdown();
                 userDropdown.classList.add('show');
                 userDropdownOpen = true;
-                document.getElementById('user-avatar')?.setAttribute('aria-expanded', 'true');
                 
                 setTimeout(() => {
                     document.addEventListener('click', closeUserDropdownOnClickOutside);
@@ -1769,7 +1711,6 @@
                 if (userDropdown) {
                     userDropdown.classList.remove('show');
                     userDropdownOpen = false;
-                    document.getElementById('user-avatar')?.setAttribute('aria-expanded', 'false');
                     document.removeEventListener('click', closeUserDropdownOnClickOutside);
                     document.removeEventListener('keydown', closeUserDropdownOnEscape);
                 }
@@ -1797,54 +1738,6 @@
             }
 
             // ========== FETCH CON AUTENTICACIÓN ==========
-            async function refreshTokens() {
-                const refreshToken = getStorageItem(STORAGE_KEYS.REFRESH_TOKEN);
-                if (!refreshToken) return false;
-
-                try {
-                    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
-                        method: 'POST',
-                        headers: { 'Authorization': `Bearer ${refreshToken}` }
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        setStorageItem(STORAGE_KEYS.TOKEN, data.access_token || data.token);
-                        if (data.refresh_token) {
-                            setStorageItem(STORAGE_KEYS.REFRESH_TOKEN, data.refresh_token);
-                        }
-                        if (data.user) {
-                            setStorageItem(STORAGE_KEYS.USER, JSON.stringify(data.user));
-                            currentUser = data.user;
-                        }
-                        updateSessionExpiration();
-                        return true;
-                    }
-                    return false;
-                } catch (error) {
-                    console.error('Error refrescando token:', error);
-                    return false;
-                }
-            }
-
-            function processFailedQueue(error, token = null) {
-                failedRequestsQueue.forEach(prom => {
-                    if (error) prom.reject(error);
-                    else prom.resolve(token);
-                });
-                failedRequestsQueue = [];
-            }
-
-            function updateSessionExpiration() {
-                const expires = new Date();
-                expires.setDate(expires.getDate() + 30);
-                setStorageItem(STORAGE_KEYS.SESSION_EXPIRES, expires.toISOString());
-            }
-
-            function updateLastActivity() {
-                setStorageItem(STORAGE_KEYS.LAST_ACTIVITY, new Date().toISOString());
-            }
-
             async function fetchWithAuth(url, options = {}) {
                 const token = getStorageItem(STORAGE_KEYS.TOKEN);
 
@@ -1863,46 +1756,6 @@
 
                 try {
                     const response = await fetch(url, options);
-
-                    if (response.status === 401) {
-                        if (isRefreshingToken) {
-                            return new Promise((resolve, reject) => {
-                                failedRequestsQueue.push({ resolve, reject });
-                            }).then(newToken => {
-                                options.headers['Authorization'] = `Bearer ${newToken}`;
-                                return fetch(url, options);
-                            }).catch(err => response);
-                        }
-
-                        isRefreshingToken = true;
-
-                        try {
-                            const refreshSuccess = await refreshTokens();
-                            if (refreshSuccess) {
-                                const newToken = getStorageItem(STORAGE_KEYS.TOKEN);
-                                options.headers['Authorization'] = `Bearer ${newToken}`;
-                                processFailedQueue(null, newToken);
-                                isRefreshingToken = false;
-                                return fetch(url, options);
-                            } else {
-                                throw new Error('Refresh failed');
-                            }
-                        } catch (refreshErr) {
-                            processFailedQueue(refreshErr, null);
-                            isRefreshingToken = false;
-                            clearSession();
-                            window.location.href = 'login.html';
-                            throw refreshErr;
-                        }
-                    }
-
-                    if (!response.ok && response.status !== 404) {
-                        const errorData = await response.json().catch(() => ({}));
-                        throw new Error(errorData.error || `Error ${response.status}`);
-                    }
-
-                    if (response.ok && currentUser) updateLastActivity();
-
                     return response;
                 } catch (error) {
                     console.error('Fetch error:', error);
@@ -1920,16 +1773,11 @@
                         setStorageItem(STORAGE_KEYS.USER, JSON.stringify(currentUser));
                         updateUserUI();
                         return currentUser;
-                    } else if (response.status === 404) {
-                        console.warn('Endpoint /auth/me no encontrado, usando datos locales');
-                        return currentUser;
-                    } else {
-                        throw new Error('Error cargando datos');
                     }
                 } catch (error) {
                     console.warn('Error cargando datos del usuario:', error);
-                    return currentUser;
                 }
+                return currentUser;
             }
 
             async function loadUserBookings() {
@@ -1937,37 +1785,46 @@
                     const response = await fetchWithAuth(`${API_BASE_URL}/reservas/mis-reservas`);
                     if (response.ok) {
                         const data = await response.json();
-                        // La API puede devolver {reservas: [...]} o directamente un array
                         userBookings = data.reservas || data || [];
-                        console.log(`✅ Cargadas ${userBookings.length} reservas:`, userBookings);
                         
-                        // Guardar en localStorage como respaldo
+                        // CORRECCIÓN: Convertir total a número si viene como string
+                        userBookings = userBookings.map(booking => ({
+                            ...booking,
+                            total: booking.total ? parseFloat(booking.total) : 0
+                        }));
+                        
+                        console.log(`✅ Cargadas ${userBookings.length} reservas:`, userBookings);
                         localStorage.setItem('cano_salao_reservas', JSON.stringify(userBookings));
                         return userBookings;
-                    } else if (response.status === 404) {
-                        console.warn('Endpoint no encontrado, usando localStorage');
+                    } else {
+                        console.warn('Error cargando reservas, usando localStorage');
                         const saved = localStorage.getItem('cano_salao_reservas');
                         if (saved) {
-                            const all = JSON.parse(saved);
-                            // Filtrar por usuario actual si es necesario
-                            userBookings = all.filter(r => r.usuario_id === currentUser?.id);
+                            userBookings = JSON.parse(saved);
+                            // CORRECCIÓN: Asegurar que total sea número
+                            userBookings = userBookings.map(booking => ({
+                                ...booking,
+                                total: booking.total ? parseFloat(booking.total) : 0
+                            }));
                         }
                         return userBookings;
-                    } else {
-                        throw new Error('Error cargando reservas');
                     }
                 } catch (error) {
-                    console.warn('Error cargando reservas:', error);
+                    console.error('Error cargando reservas:', error);
                     const saved = localStorage.getItem('cano_salao_reservas');
                     if (saved) {
-                        const all = JSON.parse(saved);
-                        userBookings = all.filter(r => r.usuario_id === currentUser?.id);
+                        userBookings = JSON.parse(saved);
+                        // CORRECCIÓN: Asegurar que total sea número
+                        userBookings = userBookings.map(booking => ({
+                            ...booking,
+                            total: booking.total ? parseFloat(booking.total) : 0
+                        }));
                     }
                     return userBookings;
                 }
             }
 
-            // ========== ACCIONES DE PERFIL ==========
+            // ========== ACCIONES ==========
             async function updateUserProfile(formData) {
                 try {
                     const response = await fetchWithAuth(`${API_BASE_URL}/auth/me`, {
@@ -1982,19 +1839,13 @@
                         updateUserUI();
                         showSuccess('Perfil actualizado correctamente');
                         return true;
-                    } else if (response.status === 404) {
-                        const updated = { ...currentUser, ...formData };
-                        setStorageItem(STORAGE_KEYS.USER, JSON.stringify(updated));
-                        currentUser = updated;
-                        updateUserUI();
-                        showSuccess('Perfil actualizado (local)');
-                        return true;
                     } else {
-                        throw new Error('Error actualizando');
+                        showError('Error al actualizar el perfil');
+                        return false;
                     }
                 } catch (error) {
                     console.error('Error actualizando perfil:', error);
-                    showError('Error al actualizar el perfil');
+                    showError('Error de conexión');
                     return false;
                 }
             }
@@ -2011,9 +1862,6 @@
 
                     if (response.ok) {
                         showSuccess('Contraseña cambiada exitosamente');
-                        return true;
-                    } else if (response.status === 404) {
-                        showSuccess('Contraseña cambiada (modo local)');
                         return true;
                     } else {
                         const error = await response.json();
@@ -2039,21 +1887,13 @@
                         await loadUserBookings();
                         loadSection(currentSection);
                         return true;
-                    } else if (response.status === 404) {
-                        const idx = userBookings.findIndex(b => b.id === bookingId);
-                        if (idx !== -1) {
-                            userBookings[idx].estado = 'cancelled';
-                            showSuccess('Reserva cancelada (local)');
-                            loadSection(currentSection);
-                            return true;
-                        }
-                        throw new Error('No encontrada');
                     } else {
-                        throw new Error('Error cancelando');
+                        showError('Error al cancelar la reserva');
+                        return false;
                     }
                 } catch (error) {
                     console.error('Error cancelando:', error);
-                    showError('Error al cancelar la reserva');
+                    showError('Error de conexión');
                     return false;
                 }
             }
@@ -2192,7 +2032,7 @@
             }
 
             function renderReservas() {
-                // Mostrar TODAS las reservas (activas e inactivas) pero en orden
+                // Mostrar TODAS las reservas en orden
                 const bookingsToShow = [...userBookings].sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
 
                 console.log(`Renderizando ${bookingsToShow.length} reservas`);
@@ -2252,6 +2092,8 @@
                                         const estadoTexto = getEstadoTexto(estado);
                                         const esActiva = estado === 'pendiente' || estado === 'pending' || 
                                                          estado === 'confirmada' || estado === 'confirmed';
+                                        // Asegurar que total sea número
+                                        const total = typeof b.total === 'number' ? b.total : parseFloat(b.total) || 0;
                                         
                                         return `
                                             <tr data-status="${estado}" data-search="${(b.codigo || '').toLowerCase()} ${(b.tour_nombre || '').toLowerCase()}">
@@ -2259,7 +2101,7 @@
                                                 <td>${b.tour_nombre || `Tour #${b.tour_id}`}</td>
                                                 <td>${b.fecha ? new Date(b.fecha).toLocaleDateString() : 'N/A'}</td>
                                                 <td>${b.personas || 1}</td>
-                                                <td><strong>$${(b.total || 0).toFixed(2)}</strong></td>
+                                                <td><strong>$${total.toFixed(2)}</strong></td>
                                                 <td><span class="badge ${estadoClass}">${estadoTexto}</span></td>
                                                 <td>
                                                     <div class="action-buttons">
@@ -2475,6 +2317,8 @@
                 const booking = userBookings.find(b => b.id === id);
                 if (!booking) return;
 
+                const total = typeof booking.total === 'number' ? booking.total : parseFloat(booking.total) || 0;
+
                 const modal = document.getElementById('booking-detail-modal');
                 document.getElementById('booking-detail-body').innerHTML = `
                     <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
@@ -2497,10 +2341,10 @@
                         </div>
                         <div>
                             <p><strong>Método de pago:</strong> ${getMetodoPagoTexto(booking.metodo_pago)}</p>
-                            <p><strong>Subtotal:</strong> $${((booking.total || 0) / (booking.incluye_contribucion ? 1.05 : 1)).toFixed(2)}</p>
+                            <p><strong>Subtotal:</strong> $${(total / (booking.incluye_contribucion ? 1.05 : 1)).toFixed(2)}</p>
                             ${booking.incluye_contribucion ? 
-                                `<p><strong>Contribución:</strong> $${((booking.total || 0) * 0.05 / 1.05).toFixed(2)}</p>` : ''}
-                            <p><strong>Total:</strong> <span style="color: #28a745; font-weight: 700;">$${(booking.total || 0).toFixed(2)}</span></p>
+                                `<p><strong>Contribución:</strong> $${(total * 0.05 / 1.05).toFixed(2)}</p>` : ''}
+                            <p><strong>Total:</strong> <span style="color: #28a745; font-weight: 700;">$${total.toFixed(2)}</span></p>
                         </div>
                     </div>
                     
@@ -2544,16 +2388,6 @@
 
                 await changePassword(current, newPass);
                 document.getElementById('change-password-form').reset();
-            };
-
-            window.logoutAllSessions = function() {
-                showConfirm('Cerrar sesión', '¿Estás seguro? Se cerrará la sesión actual.').then(confirmed => {
-                    if (confirmed) {
-                        setStorageItem(STORAGE_KEYS.REFRESH_TOKEN, null);
-                        showSuccess('Sesión cerrada');
-                        logout();
-                    }
-                });
             };
 
             function setupLiveValidation(inputId, validators, fieldName) {
@@ -2688,7 +2522,6 @@
             window.viewBookingDetails = viewBookingDetails;
             window.cancelUserBooking = cancelUserBooking;
             window.submitChangePassword = submitChangePassword;
-            window.logoutAllSessions = logoutAllSessions;
             window.filterBookings = filterBookings;
             window.changePage = changePage;
             window.closeModal = closeModal;
