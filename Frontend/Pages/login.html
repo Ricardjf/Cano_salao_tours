@@ -1363,7 +1363,7 @@
         </div>
     </footer>
 
-    <!-- Script COMPLETO Y CORREGIDO SOLO CON LOS CAMBIOS NECESARIOS -->
+    <!-- Script COMPLETO Y CORREGIDO - SIN NOTIFICACIONES DE DEBUG -->
     <script>
         (function() {
             "use strict";
@@ -1458,7 +1458,10 @@
                 alertDiv.className = `alert alert-${type}`;
                 alertDiv.style.display = 'block';
                 
-                notifications.show(message, type);
+                // Solo mostrar notificaciones para errores y éxito de login/registro, no para debug
+                if (type === 'error' || type === 'success') {
+                    notifications.show(message, type);
+                }
                 
                 if (type !== 'success') {
                     setTimeout(() => {
@@ -1496,12 +1499,6 @@
             // ========== SISTEMA DE SESIÓN PERSISTENTE ==========
             function saveSession(token, userData, refreshToken = null) {
                 try {
-                    console.log('💾 Guardando sesión:', { 
-                        token: token ? token.substring(0, 20) + '...' : 'null',
-                        user: userData.nombre,
-                        refreshToken: refreshToken ? 'presente' : 'ausente'
-                    });
-                    
                     setStorageItem(STORAGE_KEYS.TOKEN, token);
                     setStorageItem(STORAGE_KEYS.USER, JSON.stringify(userData));
                     
@@ -1518,16 +1515,12 @@
                     currentUser = userData;
                     isAuthenticated = true;
                     
-                    console.log('✅ Sesión guardada exitosamente');
-                    notifications.show(`Sesión guardada para ${userData.nombre}`, 'success');
-                    
                     updateSessionUI();
                     updateUserInterface();
                     
                     return true;
                 } catch (error) {
-                    console.error('❌ Error guardando sesión:', error);
-                    notifications.show('Error guardando sesión', 'error');
+                    console.error('Error guardando sesión:', error);
                     return false;
                 }
             }
@@ -1541,7 +1534,6 @@
                     const now = new Date();
                     const expiresDate = new Date(expires);
                     if (now > expiresDate) {
-                        console.log('⚠️ Sesión expirada');
                         clearSession();
                         return { success: false, error: 'Sesión expirada' };
                     }
@@ -1553,10 +1545,8 @@
                         currentUser = user;
                         isAuthenticated = true;
                         
-                        console.log('✅ Sesión cargada:', currentUser.nombre);
                         return { success: true, user };
                     } catch (error) {
-                        console.error('❌ Error parseando datos de usuario:', error);
                         clearSession();
                         return { success: false, error: 'Datos corruptos' };
                     }
@@ -1573,8 +1563,7 @@
                 currentUser = null;
                 isAuthenticated = false;
                 
-                console.log('✅ Sesión completamente limpiada');
-                notifications.show('Sesión limpiada correctamente', 'info');
+                notifications.show('Sesión cerrada correctamente', 'info');
                 
                 updateSessionUI();
                 updateUserInterface();
@@ -1636,7 +1625,6 @@
                     return { valid: false };
                     
                 } catch (error) {
-                    console.error('⚠️ Error validando sesión:', error);
                     return { valid: false, error: 'Error de red' };
                 }
             }
@@ -1645,13 +1633,10 @@
                 const refreshToken = getStorageItem(STORAGE_KEYS.REFRESH_TOKEN);
                 
                 if (!refreshToken) {
-                    console.warn('⚠️ No hay refresh token disponible');
                     return false;
                 }
                 
                 try {
-                    console.log('🔄 Refrescando tokens...');
-                    
                     const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
                         method: 'POST',
                         headers: {
@@ -1674,15 +1659,12 @@
                         }
                         
                         updateSessionExpiration();
-                        console.log('✅ Tokens refrescados');
                         return true;
                     } else {
-                        console.error('❌ Error refrescando token:', response.status);
                         clearSession();
                         return false;
                     }
                 } catch (error) {
-                    console.error('❌ Error en refreshTokens:', error);
                     return false;
                 }
             }
@@ -1697,7 +1679,6 @@
                             const hoursLeft = (expires - now) / (1000 * 60 * 60);
                             
                             if (hoursLeft < 24 && !isRefreshingToken) {
-                                console.log('🔄 Refresco preventivo...');
                                 isRefreshingToken = true;
                                 refreshTokens().finally(() => {
                                     isRefreshingToken = false;
@@ -1917,7 +1898,6 @@
             function logout() {
                 if (confirm('¿Estás seguro de cerrar sesión?')) {
                     clearSession();
-                    notifications.show('Sesión cerrada correctamente', 'success');
                     
                     const currentPath = window.location.pathname;
                     if (currentPath.includes('usuario.html') || 
@@ -1938,17 +1918,12 @@
                     document.body.style.opacity = '1';
                     document.body.style.visibility = 'visible';
                     document.body.style.overflow = 'visible';
-                    console.log('✅ Loader ocultado');
                 }
             }
             
-            // ========== FUNCIONES DE API - SOLO CAMBIOS DE ACCESS_TOKEN ==========
+            // ========== FUNCIONES DE API ==========
             async function loginWithAPI(email, password) {
                 try {
-                    notifications.show('Conectando con el servidor...', 'info');
-                    
-                    console.log('📤 Enviando login a:', `${API_BASE_URL}/auth/login`);
-                    
                     const response = await fetch(`${API_BASE_URL}/auth/login`, {
                         method: 'POST',
                         headers: {
@@ -1958,17 +1933,12 @@
                         body: JSON.stringify({ email, password })
                     });
                     
-                    console.log('📨 Status de respuesta:', response.status);
-                    
                     const responseText = await response.text();
-                    console.log('📋 Texto de respuesta:', responseText);
                     
                     let data;
                     try {
                         data = JSON.parse(responseText);
-                        console.log('✅ JSON parseado:', data);
                     } catch (parseError) {
-                        console.error('❌ Error parseando JSON:', parseError);
                         throw new Error('Respuesta inválida del servidor');
                     }
                     
@@ -1976,37 +1946,24 @@
                         throw new Error(data.error || data.message || `Error ${response.status}`);
                     }
                     
-                    // ===== CORRECCIÓN CRÍTICA: El backend devuelve access_token, no token =====
                     if (!data.access_token || !data.user) {
-                        console.error('❌ Faltan datos en respuesta:', data);
                         throw new Error('Respuesta incompleta: falta access_token o user');
                     }
                     
-                    console.log('🎉 Login exitoso, estructura de datos:', {
-                        hasAccessToken: !!data.access_token,
-                        hasRefreshToken: !!data.refresh_token,
-                        hasUser: !!data.user,
-                        userName: data.user?.nombre
-                    });
-                    
-                    // Convertir access_token a token para compatibilidad con el frontend
                     return {
-                        token: data.access_token,      // <-- CORRECCIÓN: access_token -> token
+                        token: data.access_token,
                         refresh_token: data.refresh_token,
                         user: data.user,
                         message: data.message
                     };
                     
                 } catch (error) {
-                    console.error('❌ Error completo en loginWithAPI:', error);
                     throw error;
                 }
             }
             
             async function registerWithAPI(name, email, password) {
                 try {
-                    notifications.show('Registrando usuario...', 'info');
-                    
                     const response = await fetch(`${API_BASE_URL}/auth/register`, {
                         method: 'POST',
                         headers: {
@@ -2021,13 +1978,11 @@
                     });
                     
                     const responseText = await response.text();
-                    console.log('📋 Respuesta registro:', responseText);
                     
                     let data;
                     try {
                         data = JSON.parse(responseText);
                     } catch (parseError) {
-                        console.error('❌ Error parseando JSON:', parseError);
                         throw new Error('Respuesta inválida del servidor');
                     }
                     
@@ -2035,21 +1990,14 @@
                         throw new Error(data.error || data.message || 'Error en el registro');
                     }
                     
-                    console.log('✅ Registro exitoso:', {
-                        hasAccessToken: !!data.access_token,
-                        hasUser: !!data.user
-                    });
-                    
-                    // ===== CORRECCIÓN CRÍTICA: El backend devuelve access_token, no token =====
                     return {
-                        token: data.access_token,      // <-- CORRECCIÓN: access_token -> token
+                        token: data.access_token,
                         refresh_token: data.refresh_token,
                         user: data.user,
                         message: data.message
                     };
                     
                 } catch (error) {
-                    console.error('❌ Error en registerWithAPI:', error);
                     throw error;
                 }
             }
@@ -2073,8 +2021,6 @@
                         const responseData = await response.json().catch(() => ({}));
                         
                         if (responseData.error === 'token_expired' || responseData.error === 'invalid_token') {
-                            console.log('🔄 Token expirado, intentando refrescar...');
-                            
                             if (isRefreshingToken) {
                                 return new Promise((resolve, reject) => {
                                     failedRequestsQueue.push({ resolve, reject });
@@ -2122,7 +2068,6 @@
                     return response;
                     
                 } catch (error) {
-                    console.error('❌ Error en fetchWithAuth:', error);
                     throw error;
                 }
             }
@@ -2137,67 +2082,6 @@
                 });
                 failedRequestsQueue = [];
             };
-            
-            async function testAPIConnection() {
-                try {
-                    notifications.show('Probando conexión con API...', 'info');
-                    
-                    const response = await fetch(`${API_BASE_URL.replace('/api', '')}/health`);
-                    const data = await response.json();
-                    
-                    if (response.ok) {
-                        notifications.show(`✅ API conectada. Estado: ${data.status}`, 'success');
-                        return true;
-                    } else {
-                        notifications.show(`❌ API error: ${response.status}`, 'error');
-                        return false;
-                    }
-                } catch (error) {
-                    notifications.show(`❌ Error de conexión: ${error.message}`, 'error');
-                    return false;
-                }
-            }
-            
-            async function testLoginDirectly() {
-                try {
-                    notifications.show('Probando login directo...', 'info');
-                    
-                    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            email: 'admin@canosalao.com',
-                            password: 'admin123'
-                        })
-                    });
-                    
-                    console.log('🔍 Respuesta directa:', {
-                        status: response.status,
-                        ok: response.ok
-                    });
-                    
-                    const text = await response.text();
-                    console.log('📄 Texto completo:', text);
-                    
-                    try {
-                        const data = JSON.parse(text);
-                        console.log('✅ JSON parseado:', data);
-                        
-                        notifications.show(`✅ Login test: ${data.access_token ? 'ÉXITO' : 'FALLO'}`, 
-                            data.access_token ? 'success' : 'error');
-                            
-                    } catch (e) {
-                        console.error('❌ No es JSON:', text);
-                        notifications.show('❌ El servidor no devolvió JSON válido', 'error');
-                    }
-                    
-                } catch (error) {
-                    console.error('❌ Error en test directo:', error);
-                    notifications.show(`❌ Error de conexión: ${error.message}`, 'error');
-                }
-            }
             
             // ========== MANEJO DE FORMULARIOS ==========
             function initAuthForms() {
@@ -2260,12 +2144,6 @@
                     try {
                         const loginData = await loginWithAPI(email, password);
                         
-                        console.log('🎉 Login exitoso, datos recibidos:', {
-                            token: loginData.token ? 'PRESENTE' : 'AUSENTE',
-                            user: loginData.user?.nombre,
-                            refreshToken: loginData.refresh_token ? 'PRESENTE' : 'AUSENTE'
-                        });
-                        
                         const saved = saveSession(
                             loginData.token, 
                             loginData.user, 
@@ -2285,11 +2163,9 @@
                         }
                         
                     } catch (error) {
-                        console.error('❌ Error en login:', error);
-                        
                         let errorMessage = error.message;
                         if (errorMessage.includes('401') || errorMessage.includes('Credenciales')) {
-                            errorMessage = 'Credenciales incorrectas. Usa: admin@canosalao.com / admin123';
+                            errorMessage = 'Credenciales incorrectas. Por favor, verifica tu email y contraseña.';
                         } else if (errorMessage.includes('Failed to fetch')) {
                             errorMessage = 'No se puede conectar al servidor. Verifica tu conexión a internet.';
                         }
@@ -2350,11 +2226,6 @@
                     try {
                         const registerData = await registerWithAPI(name, email, password);
                         
-                        console.log('✅ Registro exitoso:', {
-                            token: registerData.token ? 'PRESENTE' : 'AUSENTE',
-                            user: registerData.user?.nombre
-                        });
-                        
                         const saved = saveSession(
                             registerData.token, 
                             registerData.user, 
@@ -2374,8 +2245,6 @@
                         }
                         
                     } catch (error) {
-                        console.error('❌ Error en registro:', error);
-                        
                         let errorMessage = error.message;
                         if (errorMessage.includes('409')) {
                             errorMessage = 'El email ya está registrado. Por favor, inicia sesión.';
@@ -2514,92 +2383,20 @@
                 }
             }
             
-            // ========== FUNCIONES DE DEBUG ==========
-            function loadDemoCredentials() {
-                document.getElementById('login-email').value = 'admin@canosalao.com';
-                document.getElementById('login-password').value = 'admin123';
-                
-                document.getElementById('register-email').value = 'demo@canosalao.com';
-                document.getElementById('register-name').value = 'Usuario Demo';
-                document.getElementById('register-password').value = 'demodemo';
-                document.getElementById('register-confirm').value = 'demodemo';
-                document.getElementById('accept-terms').checked = true;
-                
-                notifications.show('Credenciales demo cargadas', 'info');
-            }
-            
-            function showSessionInfo() {
-                const token = getStorageItem(STORAGE_KEYS.TOKEN);
-                const userData = getStorageItem(STORAGE_KEYS.USER);
-                const refreshToken = getStorageItem(STORAGE_KEYS.REFRESH_TOKEN);
-                const expires = getStorageItem(STORAGE_KEYS.SESSION_EXPIRES);
-                
-                let info = '=== INFORMACIÓN DE SESIÓN ===\n\n';
-                info += `Token: ${token ? 'PRESENTE' : 'AUSENTE'}\n`;
-                info += `Refresh Token: ${refreshToken ? 'PRESENTE' : 'AUSENTE'}\n`;
-                info += `Expira: ${expires ? new Date(expires).toLocaleString() : 'N/A'}\n`;
-                
-                if (token) {
-                    info += `Token (inicio): ${token.substring(0, 30)}...\n`;
-                }
-                
-                if (userData) {
-                    try {
-                        const user = JSON.parse(userData);
-                        info += `\nUsuario:\n`;
-                        info += `  Nombre: ${user.nombre || 'N/A'}\n`;
-                        info += `  Email: ${user.email || 'N/A'}\n`;
-                        info += `  Rol: ${user.rol || 'user'}\n`;
-                    } catch (e) {}
-                }
-                
-                console.log(info);
-                notifications.show('Información de sesión en consola', 'info');
-            }
-            
-            function redirectToIndex() {
-                notifications.show('Redirigiendo al inicio...', 'info');
-                setTimeout(() => {
-                    window.location.href = '../index.html';
-                }, 1000);
-            }
-            
             // ========== INICIALIZACIÓN ==========
             function init() {
-                console.log('🚀 Iniciando sistema de autenticación - Backend PythonAnywhere');
-                console.log('🔗 API URL:', API_BASE_URL);
-                
                 const session = loadSession();
                 
                 if (session.success) {
-                    console.log('✅ Sesión existente cargada:', session.user.nombre);
                     updateUserInterface();
                     updateSessionUI();
-                    
-                    setTimeout(() => {
-                        if (confirm(`Ya tienes una sesión activa como ${session.user.nombre}. ¿Quieres ir al inicio?`)) {
-                            redirectToIndex();
-                        }
-                    }, 1000);
-                } else {
-                    console.log('ℹ️ No hay sesión activa');
                 }
                 
                 initAuthForms();
                 initMobileMenu();
                 
-                setTimeout(() => {
-                    loadDemoCredentials();
-                }, 500);
-                
-                setTimeout(() => {
-                    testAPIConnection();
-                }, 1000);
-                
                 setTimeout(hideLoader, 500);
                 startSessionMonitoring();
-                
-                console.log('✅ Login inicializado');
             }
             
             // ========== ESTILOS ADICIONALES ==========
@@ -2621,32 +2418,7 @@
             `;
             document.head.appendChild(style);
             
-            // ========== EXPORTAR FUNCIONES GLOBALES ==========
-            window.CanoSalaoAuth = {
-                loginWithAPI,
-                registerWithAPI,
-                saveSession,
-                clearSession,
-                loadSession,
-                validateSessionWithServer,
-                refreshTokens,
-                testAPIConnection,
-                testLoginDirectly,
-                showSessionInfo,
-                loadDemoCredentials,
-                logout,
-                getCurrentUser: () => currentUser,
-                isAuthenticated: () => isAuthenticated,
-                API_BASE_URL
-            };
-            
-            // Exponer funciones directamente para los botones de debug
-            window.testAPIConnection = testAPIConnection;
-            window.loadDemoCredentials = loadDemoCredentials;
-            window.clearSession = clearSession;
-            window.showSessionInfo = showSessionInfo;
-            window.testLoginDirectly = testLoginDirectly;
-            window.redirectToIndex = redirectToIndex;
+            // Exponer funciones necesarias globalmente (para compatibilidad)
             window.logout = logout;
             
             init();
@@ -2655,5 +2427,3 @@
     </script>
 </body>
 </html>
-
-
