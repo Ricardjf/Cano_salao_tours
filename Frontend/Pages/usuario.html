@@ -22,7 +22,6 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <!-- Estilos -->
     <style>
         /* ===== RESET Y ESTILOS CRÍTICOS ===== */
         * {
@@ -247,6 +246,7 @@
             font-size: 16px;
             flex-shrink: 0;
             border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
         }
 
         .user-info {
@@ -520,6 +520,17 @@
             font-weight: 500;
         }
 
+        .nav-item.manual-link {
+            background: #e8f0fe;
+            border-left-color: #28a745;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .nav-item.manual-link i {
+            color: #28a745;
+        }
+
         /* ===== CONTENIDO PRINCIPAL ===== */
         .main-content {
             background: white;
@@ -752,12 +763,11 @@
             text-transform: uppercase;
         }
 
-        .badge.pending { background: #fff3cd; color: #856404; }
-        .badge.confirmed { background: #d4edda; color: #155724; }
-        .badge.cancelled { background: #f8d7da; color: #721c24; }
-        .badge.completed { background: #cce5ff; color: #004085; }
+        .badge.pendiente, .badge.pending { background: #fff3cd; color: #856404; }
+        .badge.confirmada, .badge.confirmed { background: #d4edda; color: #155724; }
+        .badge.cancelada, .badge.cancelled { background: #f8d7da; color: #721c24; }
+        .badge.completada, .badge.completed { background: #cce5ff; color: #004085; }
         .badge.active { background: #d4edda; color: #155724; }
-        .badge.inactive { background: #f8f7d7; color: #856404; }
 
         .action-buttons {
             display: flex;
@@ -778,7 +788,6 @@
 
         .action-btn.view { background: #17a2b8; color: white; }
         .action-btn.cancel { background: #dc3545; color: white; }
-        .action-btn.print { background: #6c757d; color: white; }
 
         .action-btn:hover {
             transform: translateY(-2px);
@@ -953,86 +962,6 @@
             margin-top: 15px;
         }
 
-        /* ===== PAGINACIÓN ===== */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 30px;
-        }
-
-        .pagination button {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            min-width: 40px;
-        }
-
-        .pagination button.active {
-            background: #0d3b66;
-            color: white;
-            border-color: #0d3b66;
-        }
-
-        .pagination button:hover:not(:disabled) {
-            background: #f0f0f0;
-        }
-
-        .pagination button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* ===== TARJETAS DE ESTADÍSTICAS ===== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-            padding: 20px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 100px;
-            height: 100px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-        }
-
-        .stat-icon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 2.2rem;
-            opacity: 0.3;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
         /* ===== FILTROS ===== */
         .filters-bar {
             display: flex;
@@ -1146,7 +1075,7 @@
         }
 
         .social-icon:hover {
-            background: var(--accent);
+            background: #e62b7e;
             transform: translateY(-3px);
         }
 
@@ -1167,10 +1096,6 @@
             .sidebar {
                 position: static;
                 margin-bottom: 30px;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             }
         }
 
@@ -1218,14 +1143,6 @@
 
             .filter-select {
                 width: 100%;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stat-value {
-                font-size: 1.8rem;
             }
         }
 
@@ -1368,6 +1285,7 @@
                 <li><a href="Atracciones.html"><i class="bi bi-star"></i> Atracciones</a></li>
                 <li><a href="Contacto.html"><i class="bi bi-telephone"></i> Contacto</a></li>
                 <li><a href="blog.html"><i class="bi bi-newspaper"></i> Blog</a></li>
+                <li><a href="manual.html"><i class="bi bi-book"></i> Manual de Usuario</a></li>
                 <li id="mobile-user-menu" style="display: none;">
                     <a href="usuario.html" class="active"><i class="bi bi-person-circle"></i> Mi Cuenta</a>
                 </li>
@@ -1393,14 +1311,17 @@
                         <i class="bi bi-calendar-check"></i>
                         Mis Reservas
                     </div>
-                    <div class="nav-item" data-section="historial">
-                        <i class="bi bi-clock-history"></i>
-                        Historial
-                    </div>
                     <div class="nav-item" data-section="seguridad">
                         <i class="bi bi-shield-lock"></i>
                         Seguridad
                     </div>
+                    
+                    <!-- Botón Manual de Usuario -->
+                    <a href="manual.html" class="nav-item manual-link">
+                        <i class="bi bi-book"></i>
+                        Manual de Usuario
+                    </a>
+                    
                     <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
                     <a href="../index.html" class="nav-item" style="text-decoration: none;">
                         <i class="bi bi-arrow-left"></i>
@@ -2016,14 +1937,19 @@
                     const response = await fetchWithAuth(`${API_BASE_URL}/reservas/mis-reservas`);
                     if (response.ok) {
                         const data = await response.json();
+                        // La API puede devolver {reservas: [...]} o directamente un array
                         userBookings = data.reservas || data || [];
-                        console.log(`Cargadas ${userBookings.length} reservas`);
+                        console.log(`✅ Cargadas ${userBookings.length} reservas:`, userBookings);
+                        
+                        // Guardar en localStorage como respaldo
+                        localStorage.setItem('cano_salao_reservas', JSON.stringify(userBookings));
                         return userBookings;
                     } else if (response.status === 404) {
                         console.warn('Endpoint no encontrado, usando localStorage');
                         const saved = localStorage.getItem('cano_salao_reservas');
                         if (saved) {
                             const all = JSON.parse(saved);
+                            // Filtrar por usuario actual si es necesario
                             userBookings = all.filter(r => r.usuario_id === currentUser?.id);
                         }
                         return userBookings;
@@ -2152,11 +2078,7 @@
                             break;
                         case 'reservas':
                             await loadUserBookings();
-                            renderReservas(true);
-                            break;
-                        case 'historial':
-                            await loadUserBookings();
-                            renderReservas(false);
+                            renderReservas();
                             break;
                         case 'seguridad':
                             renderSeguridad();
@@ -2181,14 +2103,15 @@
 
             function renderPerfil() {
                 const activeBookings = userBookings.filter(b => 
-                    b.estado === 'pending' || b.estado === 'confirmed'
+                    b.estado === 'pendiente' || b.estado === 'pending' || 
+                    b.estado === 'confirmada' || b.estado === 'confirmed'
                 );
 
                 const stats = {
                     reservas: userBookings.length,
                     activas: activeBookings.length,
-                    confirmadas: userBookings.filter(b => b.estado === 'confirmed').length,
-                    completadas: userBookings.filter(b => b.estado === 'completed').length
+                    confirmadas: userBookings.filter(b => b.estado === 'confirmada' || b.estado === 'confirmed').length,
+                    completadas: userBookings.filter(b => b.estado === 'completada' || b.estado === 'completed').length
                 };
 
                 const html = `
@@ -2198,29 +2121,6 @@
                             <button onclick="openEditProfileModal()" class="btn btn-primary">
                                 <i class="bi bi-pencil"></i> Editar Perfil
                             </button>
-                        </div>
-                    </div>
-
-                    <div class="stats-grid">
-                        <div class="stat-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                            <div class="stat-value">${stats.reservas}</div>
-                            <div class="stat-label">Total Reservas</div>
-                            <i class="bi bi-calendar-check stat-icon"></i>
-                        </div>
-                        <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                            <div class="stat-value">${stats.activas}</div>
-                            <div class="stat-label">Reservas Activas</div>
-                            <i class="bi bi-check-circle stat-icon"></i>
-                        </div>
-                        <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                            <div class="stat-value">${stats.completadas}</div>
-                            <div class="stat-label">Completadas</div>
-                            <i class="bi bi-star stat-icon"></i>
-                        </div>
-                        <div class="stat-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                            <div class="stat-value">${stats.confirmadas}</div>
-                            <div class="stat-label">Confirmadas</div>
-                            <i class="bi bi-check2-circle stat-icon"></i>
                         </div>
                     </div>
 
@@ -2234,7 +2134,7 @@
                                 <tr><td style="font-weight: 600; padding: 8px 0;">Email:</td><td>${currentUser?.email || '-'}</td></tr>
                                 <tr><td style="font-weight: 600; padding: 8px 0;">Teléfono:</td><td>${currentUser?.telefono || 'No especificado'}</td></tr>
                                 <tr><td style="font-weight: 600; padding: 8px 0;">Rol:</td><td><span class="badge ${currentUser?.rol === 'admin' ? 'confirmed' : ''}">${currentUser?.rol === 'admin' ? 'Administrador' : 'Usuario'}</span></td></tr>
-                                <tr><td style="font-weight: 600; padding: 8px 0;">Miembro desde:</td><td>${currentUser?.fecha_registro ? new Date(currentUser.fecha_registro).toLocaleDateString() : '-'}</td></tr>
+                                <tr><td style="font-weight: 600; padding: 8px 0;">Reservas:</td><td>${stats.reservas} total (${stats.activas} activas)</td></tr>
                             </table>
                         </div>
 
@@ -2245,7 +2145,6 @@
                             <table style="width: 100%;">
                                 <tr><td style="font-weight: 600; width: 120px; padding: 8px 0;">Dirección:</td><td>${currentUser?.direccion || 'No especificada'}</td></tr>
                                 <tr><td style="font-weight: 600; padding: 8px 0;">Ciudad:</td><td>${currentUser?.ciudad || 'Barcelona'}</td></tr>
-                                <tr><td style="font-weight: 600; padding: 8px 0;">Estado:</td><td>${currentUser?.estado || 'Anzoátegui'}</td></tr>
                                 <tr><td style="font-weight: 600; padding: 8px 0;">País:</td><td>${currentUser?.pais || 'Venezuela'}</td></tr>
                             </table>
                         </div>
@@ -2266,19 +2165,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        ${activeBookings.slice(0, 5).map(b => `
+                                        ${activeBookings.slice(0, 5).map(b => {
+                                            const estadoClass = b.estado === 'confirmada' || b.estado === 'confirmed' ? 'confirmed' : 
+                                                               (b.estado === 'pendiente' || b.estado === 'pending' ? 'pending' : '');
+                                            return `
                                             <tr>
                                                 <td><strong>${b.codigo || 'N/A'}</strong></td>
                                                 <td>${b.tour_nombre || `Tour #${b.tour_id}`}</td>
                                                 <td>${b.fecha ? new Date(b.fecha).toLocaleDateString() : 'N/A'}</td>
-                                                <td><span class="badge ${b.estado || 'pending'}">${getEstadoTexto(b.estado)}</span></td>
+                                                <td><span class="badge ${estadoClass}">${getEstadoTexto(b.estado)}</span></td>
                                                 <td>
                                                     <button onclick="viewBookingDetails(${b.id})" class="action-btn view">
                                                         <i class="bi bi-eye"></i> Ver
                                                     </button>
                                                 </td>
                                             </tr>
-                                        `).join('')}
+                                        `}).join('')}
                                     </tbody>
                                 </table>
                             </div>
@@ -2289,35 +2191,28 @@
                 document.getElementById('main-content').innerHTML = html;
             }
 
-            function renderReservas(activas = true) {
-                const bookingsToShow = userBookings.filter(b => 
-                    activas ? (b.estado === 'pending' || b.estado === 'confirmed') : 
-                              (b.estado === 'completed' || b.estado === 'cancelled')
-                ).sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
+            function renderReservas() {
+                // Mostrar TODAS las reservas (activas e inactivas) pero en orden
+                const bookingsToShow = [...userBookings].sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
 
-                const title = activas ? 'Mis Reservas Activas' : 'Historial de Reservas';
-                const emptyIcon = activas ? 'bi-calendar-x' : 'bi-archive';
-                const emptyMessage = activas ? 'No tienes reservas activas' : 'No hay historial de reservas';
-                const emptyDescription = activas ? 'Explora nuestros tours y reserva tu próxima aventura.' : 'Aún no tienes reservas completadas o canceladas.';
+                console.log(`Renderizando ${bookingsToShow.length} reservas`);
 
                 const html = `
                     <div class="section-header">
-                        <h2><i class="bi ${activas ? 'bi-calendar-check' : 'bi-clock-history'}"></i> ${title}</h2>
-                        ${activas ? `
-                            <div class="section-actions">
-                                <a href="reservas.html" class="btn btn-primary">
-                                    <i class="bi bi-plus-lg"></i> Nueva Reserva
-                                </a>
-                            </div>
-                        ` : ''}
+                        <h2><i class="bi bi-calendar-check"></i> Mis Reservas</h2>
+                        <div class="section-actions">
+                            <a href="reservas.html" class="btn btn-primary">
+                                <i class="bi bi-plus-lg"></i> Nueva Reserva
+                            </a>
+                        </div>
                     </div>
 
                     ${bookingsToShow.length === 0 ? `
                         <div class="empty-state">
-                            <i class="bi ${emptyIcon}"></i>
-                            <h3>${emptyMessage}</h3>
-                            <p>${emptyDescription}</p>
-                            ${activas ? '<a href="reservas.html" class="btn btn-primary">Reservar Ahora</a>' : ''}
+                            <i class="bi bi-calendar-x"></i>
+                            <h3>No tienes reservas</h3>
+                            <p>Explora nuestros tours y reserva tu próxima aventura.</p>
+                            <a href="reservas.html" class="btn btn-primary">Reservar Ahora</a>
                         </div>
                     ` : `
                         <div class="filters-bar">
@@ -2325,19 +2220,13 @@
                                 <i class="bi bi-search"></i>
                                 <input type="text" id="search-bookings" placeholder="Buscar reservas..." onkeyup="filterBookings()">
                             </div>
-                            ${activas ? `
-                                <select id="filter-status" class="filter-select" onchange="filterBookings()">
-                                    <option value="all">Todos los estados</option>
-                                    <option value="pending">Pendientes</option>
-                                    <option value="confirmed">Confirmadas</option>
-                                </select>
-                            ` : `
-                                <select id="filter-status" class="filter-select" onchange="filterBookings()">
-                                    <option value="all">Todos los estados</option>
-                                    <option value="completed">Completadas</option>
-                                    <option value="cancelled">Canceladas</option>
-                                </select>
-                            `}
+                            <select id="filter-status" class="filter-select" onchange="filterBookings()">
+                                <option value="all">Todos los estados</option>
+                                <option value="pending">Pendientes</option>
+                                <option value="confirmed">Confirmadas</option>
+                                <option value="completed">Completadas</option>
+                                <option value="cancelled">Canceladas</option>
+                            </select>
                         </div>
 
                         <div class="table-responsive">
@@ -2354,28 +2243,39 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${bookingsToShow.map(b => `
-                                        <tr data-status="${b.estado}" data-search="${(b.codigo || '').toLowerCase()} ${(b.tour_nombre || '').toLowerCase()}">
-                                            <td><strong>${b.codigo || 'N/A'}</strong></td>
-                                            <td>${b.tour_nombre || `Tour #${b.tour_id}`}</td>
-                                            <td>${b.fecha ? new Date(b.fecha).toLocaleDateString() : 'N/A'}</td>
-                                            <td>${b.personas || 1}</td>
-                                            <td><strong>$${(b.total || 0).toFixed(2)}</strong></td>
-                                            <td><span class="badge ${b.estado || 'pending'}">${getEstadoTexto(b.estado)}</span></td>
-                                            <td>
-                                                <div class="action-buttons">
-                                                    <button onclick="viewBookingDetails(${b.id})" class="action-btn view" title="Ver detalles">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    ${activas && b.estado !== 'cancelled' ? `
-                                                        <button onclick="cancelUserBooking(${b.id})" class="action-btn cancel" title="Cancelar">
-                                                            <i class="bi bi-x"></i>
+                                    ${bookingsToShow.map(b => {
+                                        const estado = b.estado || 'pending';
+                                        const estadoClass = estado === 'confirmada' || estado === 'confirmed' ? 'confirmed' :
+                                                            estado === 'pendiente' || estado === 'pending' ? 'pending' :
+                                                            estado === 'cancelada' || estado === 'cancelled' ? 'cancelled' :
+                                                            estado === 'completada' || estado === 'completed' ? 'completed' : 'pending';
+                                        const estadoTexto = getEstadoTexto(estado);
+                                        const esActiva = estado === 'pendiente' || estado === 'pending' || 
+                                                         estado === 'confirmada' || estado === 'confirmed';
+                                        
+                                        return `
+                                            <tr data-status="${estado}" data-search="${(b.codigo || '').toLowerCase()} ${(b.tour_nombre || '').toLowerCase()}">
+                                                <td><strong>${b.codigo || 'N/A'}</strong></td>
+                                                <td>${b.tour_nombre || `Tour #${b.tour_id}`}</td>
+                                                <td>${b.fecha ? new Date(b.fecha).toLocaleDateString() : 'N/A'}</td>
+                                                <td>${b.personas || 1}</td>
+                                                <td><strong>$${(b.total || 0).toFixed(2)}</strong></td>
+                                                <td><span class="badge ${estadoClass}">${estadoTexto}</span></td>
+                                                <td>
+                                                    <div class="action-buttons">
+                                                        <button onclick="viewBookingDetails(${b.id})" class="action-btn view" title="Ver detalles">
+                                                            <i class="bi bi-eye"></i>
                                                         </button>
-                                                    ` : ''}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
+                                                        ${esActiva ? `
+                                                            <button onclick="cancelUserBooking(${b.id})" class="action-btn cancel" title="Cancelar">
+                                                                <i class="bi bi-x"></i>
+                                                            </button>
+                                                        ` : ''}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
                                 </tbody>
                             </table>
                         </div>
@@ -2396,48 +2296,27 @@
                         <h2><i class="bi bi-shield-lock"></i> Seguridad</h2>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
-                        <div style="background: #f8f9fa; padding: 25px; border-radius: 8px;">
-                            <h3 style="color: #0d3b66; margin-bottom: 20px;">
-                                <i class="bi bi-key" style="color: #FF8C42;"></i> Cambiar Contraseña
-                            </h3>
-                            <form id="change-password-form">
-                                <div class="form-group">
-                                    <label>Contraseña Actual</label>
-                                    <input type="password" id="current-password" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Nueva Contraseña</label>
-                                    <input type="password" id="new-password" class="form-control" minlength="6" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Confirmar Nueva Contraseña</label>
-                                    <input type="password" id="confirm-password" class="form-control" required>
-                                </div>
-                                <button type="button" onclick="submitChangePassword()" class="btn btn-primary">
-                                    <i class="bi bi-check-lg"></i> Cambiar Contraseña
-                                </button>
-                            </form>
-                        </div>
-
-                        <div style="background: #f8f9fa; padding: 25px; border-radius: 8px;">
-                            <h3 style="color: #0d3b66; margin-bottom: 20px;">
-                                <i class="bi bi-shield-check" style="color: #FF8C42;"></i> Sesión Actual
-                            </h3>
-                            <div style="border: 1px solid #eee; border-radius: 5px; padding: 15px; margin-bottom: 15px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <div>
-                                        <i class="bi bi-laptop" style="color: #0d3b66; font-size: 1.2rem; margin-right: 10px;"></i>
-                                        <strong>Este dispositivo</strong>
-                                        <div style="font-size: 0.8rem; color: #666;">${new Date().toLocaleString()}</div>
-                                    </div>
-                                    <span class="badge active">Activa</span>
-                                </div>
+                    <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; max-width: 500px;">
+                        <h3 style="color: #0d3b66; margin-bottom: 20px;">
+                            <i class="bi bi-key" style="color: #FF8C42;"></i> Cambiar Contraseña
+                        </h3>
+                        <form id="change-password-form">
+                            <div class="form-group">
+                                <label>Contraseña Actual</label>
+                                <input type="password" id="current-password" class="form-control" required>
                             </div>
-                            <button class="btn btn-danger" onclick="logoutAllSessions()">
-                                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                            <div class="form-group">
+                                <label>Nueva Contraseña</label>
+                                <input type="password" id="new-password" class="form-control" minlength="6" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirmar Nueva Contraseña</label>
+                                <input type="password" id="confirm-password" class="form-control" required>
+                            </div>
+                            <button type="button" onclick="submitChangePassword()" class="btn btn-primary">
+                                <i class="bi bi-check-lg"></i> Cambiar Contraseña
                             </button>
-                        </div>
+                        </form>
                     </div>
                 `;
 
@@ -2447,10 +2326,14 @@
             // ========== FUNCIONES AUXILIARES ==========
             function getEstadoTexto(estado) {
                 const map = { 
-                    pending: 'Pendiente', 
-                    confirmed: 'Confirmada', 
-                    cancelled: 'Cancelada', 
-                    completed: 'Completada' 
+                    pending: 'Pendiente',
+                    pendiente: 'Pendiente',
+                    confirmed: 'Confirmada',
+                    confirmada: 'Confirmada',
+                    cancelled: 'Cancelada',
+                    cancelada: 'Cancelada',
+                    completed: 'Completada',
+                    completada: 'Completada'
                 };
                 return map[estado] || estado || 'Pendiente';
             }
@@ -2474,8 +2357,17 @@
                 rows.forEach(row => {
                     const searchText = row.dataset.search || '';
                     const rowStatus = row.dataset.status;
-                    row.style.display = (search === '' || searchText.includes(search)) && 
-                                       (status === 'all' || rowStatus === status) ? '' : 'none';
+                    
+                    let showByStatus = status === 'all';
+                    if (!showByStatus) {
+                        if (status === 'pending') showByStatus = rowStatus === 'pending' || rowStatus === 'pendiente';
+                        else if (status === 'confirmed') showByStatus = rowStatus === 'confirmed' || rowStatus === 'confirmada';
+                        else if (status === 'completed') showByStatus = rowStatus === 'completed' || rowStatus === 'completada';
+                        else if (status === 'cancelled') showByStatus = rowStatus === 'cancelled' || rowStatus === 'cancelada';
+                        else showByStatus = rowStatus === status;
+                    }
+                    
+                    row.style.display = (search === '' || searchText.includes(search)) && showByStatus ? '' : 'none';
                 });
             };
 
@@ -2526,7 +2418,6 @@
                         <div class="form-group">
                             <label><i class="bi bi-telephone"></i> Teléfono</label>
                             <input type="text" id="edit-telefono" class="form-control" value="${currentUser?.telefono || ''}" placeholder="+58 412-1234567">
-                            <div class="form-hint"><i class="bi bi-info-circle"></i> Formato: +58 412-1234567</div>
                         </div>
                         <div class="form-group">
                             <label><i class="bi bi-geo-alt"></i> Dirección</label>
@@ -2589,7 +2480,12 @@
                     <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <h4 style="color: #0d3b66;">${booking.codigo || 'N/A'}</h4>
-                            <span class="badge ${booking.estado || 'pending'}">${getEstadoTexto(booking.estado)}</span>
+                            <span class="badge ${booking.estado === 'confirmada' || booking.estado === 'confirmed' ? 'confirmed' : 
+                                               booking.estado === 'pendiente' || booking.estado === 'pending' ? 'pending' :
+                                               booking.estado === 'cancelada' || booking.estado === 'cancelled' ? 'cancelled' :
+                                               booking.estado === 'completada' || booking.estado === 'completed' ? 'completed' : 'pending'}">
+                                ${getEstadoTexto(booking.estado)}
+                            </span>
                         </div>
                     </div>
                     
@@ -2746,7 +2642,7 @@
 
             // ========== INICIALIZACIÓN ==========
             async function init() {
-                console.log('🚀 Iniciando Mi Cuenta - Backend PythonAnywhere');
+                console.log('🚀 Iniciando Mi Cuenta');
 
                 const loader = document.getElementById('page-loader');
                 if (loader) setTimeout(() => loader.classList.add('hidden'), 300);
@@ -2756,6 +2652,12 @@
                     showWarning('Debes iniciar sesión para acceder a esta página');
                     setTimeout(() => window.location.href = 'login.html?redirect=usuario.html', 2000);
                     return;
+                }
+
+                // Asignar evento al avatar para el menú desplegable
+                const avatar = document.getElementById('user-avatar');
+                if (avatar) {
+                    avatar.addEventListener('click', toggleUserDropdown);
                 }
 
                 await loadUserData();
